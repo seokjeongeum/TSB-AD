@@ -29,10 +29,10 @@ if __name__ == '__main__':
 
     ## ArgumentParser
     parser = argparse.ArgumentParser(description='Running TSB-AD')
-    parser.add_argument('--filename', type=str, default='057_SMD_id_1_Facility_tr_4529_1st_4629.csv')
+    parser.add_argument('--filename', type=str, default='002_MSL_id_1_Sensor_tr_500_1st_900.csv')
     parser.add_argument('--data_direc', type=str, default='Datasets/TSB-AD-M/')
     parser.add_argument('--save', type=bool, default=False)
-    parser.add_argument('--AD_Name', type=str, default='PCA')
+    parser.add_argument('--AD_Name', type=str, default='OmniAnomaly')
     args = parser.parse_args()
 
     df = pd.read_csv(args.data_direc + args.filename).dropna()
@@ -57,4 +57,3 @@ if __name__ == '__main__':
         print('Evaluation Result: ', evaluation_result)
     else:
         print(f'At {args.filename}: '+output)
-

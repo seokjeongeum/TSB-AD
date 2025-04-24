@@ -1,6 +1,6 @@
 // .devcontainer/devcontainer.json
 {
-    "name": "CUDA Python Dev Container",
+    "name": "TSB-AD",
 
     // Use an official NVIDIA CUDA image.
     // Find suitable tags here: https://hub.docker.com/r/nvidia/cuda/tags
