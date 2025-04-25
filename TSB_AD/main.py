@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     ## ArgumentParser
     parser = argparse.ArgumentParser(description='Running TSB-AD')
-    parser.add_argument('--filename', type=str, default='002_MSL_id_1_Sensor_tr_500_1st_900.csv')
+    parser.add_argument('--filename', type=str, default='001_Genesis_id_1_Sensor_tr_4055_1st_15538.csv')
     parser.add_argument('--data_direc', type=str, default='Datasets/TSB-AD-M/')
     parser.add_argument('--save', type=bool, default=False)
     parser.add_argument('--AD_Name', type=str, default='OmniAnomaly')
@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     if isinstance(output, np.ndarray):
         output = MinMaxScaler(feature_range=(0,1)).fit_transform(output.reshape(-1,1)).ravel()
-        evaluation_result = get_metrics(output, label, slidingWindow=slidingWindow, pred=output > (np.mean(output)+3*np.std(output)))
+        evaluation_result = get_metrics(output, label, slidingWindow=slidingWindow)
         print('Evaluation Result: ', evaluation_result)
     else:
         print(f'At {args.filename}: '+output)
