@@ -64,8 +64,9 @@ google_api_exceptions = GoogleApiExceptions()
 genai.configure = lambda _: None
 
 
-# Helper function (no changes)
+# Helper function to strip markdown code fences
 def strip_markdown_code_fences(code_string):
+    """Removes markdown code fences (```python ... ``` or ``` ... ```)"""
     pattern_python = r"^\s*```python\n(.*?)\n```\s*$"
     match_python = re.match(pattern_python, code_string, re.DOTALL | re.IGNORECASE)
     if match_python:
@@ -88,27 +89,24 @@ class D_April_30(BaseDetector):
         self.current_api_key_index = 0
         self.client = self._initialize_client()
         self.decision_scores_ = None
-        self.identified_ranges_ = []
+        # self.identified_ranges_ = [] # Removed - ranges not needed outside fit
         self.generated_code_ = None
-        self.generated_code_dir = "Generated_Code"  # Define code dir here
+        self.generated_code_dir = "D_April_30_Generated_Code"  # Match class name
         os.makedirs(self.generated_code_dir, exist_ok=True)
 
     def _initialize_client(self):
+        """Initializes or re-initializes the GenAI client with the current key."""
         if self.current_api_key_index >= len(self.api_keys):
             print("Error: Ran out of API keys.")
             return None
         current_key = self.api_keys[self.current_api_key_index]
-        os.environ["GOOGLE_API_KEY"] = current_key
         print(
             f"Initializing GenAI Client with key index {self.current_api_key_index}..."
         )
         try:
             # Use genai.configure before creating client for clarity
-            # FOLLOWING CODE DOES NOT WORK SO IT IS COMMENTED OUT
-            # genai.configure(api_key=current_key)
-            client = genai.Client(api_key=current_key)
-            # Optional: Test client validity here if needed
-            # client.list_models()
+            # genai.configure(api_key=current_key) # This might interfere if called multiple times
+            client = genai.Client(api_key=current_key)  # Pass key directly
             print(
                 f"Client initialized successfully with key index {self.current_api_key_index}."
             )
@@ -120,7 +118,6 @@ class D_April_30(BaseDetector):
             self.current_api_key_index += 1
             return self._initialize_client()
 
-    # --- *** MODIFIED _make_api_call *** ---
     def _make_api_call(self, model_name, plot_path, prompt_text, config):
         """
         Uploads plot, makes API call with error handling and key rotation,
@@ -133,15 +130,12 @@ class D_April_30(BaseDetector):
 
         initial_key_index = self.current_api_key_index
         max_retries = len(self.api_keys)
-
         for attempt in range(max_retries):
-            image_file = None  # Reset image_file for each attempt
+            image_file = None
             try:
                 print(
                     f"Attempt {attempt + 1}/{max_retries} using key index {self.current_api_key_index}..."
                 )
-
-                # 1. Upload file using the current client
                 print(f"  Uploading plot: {plot_path}")
                 upload_start_time = time.time()
                 image_file = self.client.files.upload(file=plot_path)
@@ -150,7 +144,6 @@ class D_April_30(BaseDetector):
                     f"  Uploaded file '{image_file.display_name}' as: {image_file.uri} (took {upload_end_time - upload_start_time:.2f}s)"
                 )
 
-                # 2. Construct contents with the new file URI
                 contents = [
                     genai_types.Content(
                         role="user",
@@ -165,28 +158,22 @@ class D_April_30(BaseDetector):
                         ],
                     )
                 ]
-
-                # 3. Make the API call
                 print(f"  Sending request to model: {model_name}")
                 api_call_start_time = time.time()
                 response = self.client.models.generate_content(
-                    model=model_name,
-                    contents=contents,
-                    config=config,
+                    model=model_name, contents=contents, config=config
                 )
                 api_call_end_time = time.time()
                 print(
                     f"  API call successful (took {api_call_end_time - api_call_start_time:.2f}s)."
                 )
-                return response  # Success
-
+                return response
             except (
                 google_api_exceptions.PermissionDenied,
                 google_api_exceptions.Unauthenticated,
                 google_api_exceptions.ResourceExhausted,
-                # Add other potentially recoverable errors here if needed
                 Exception,
-            ) as e:  # Catch broader exceptions too
+            ) as e:
                 print(
                     f"  API call/upload failed with key index {self.current_api_key_index}: {type(e).__name__} - {e}"
                 )
@@ -197,7 +184,6 @@ class D_April_30(BaseDetector):
                         google_api_exceptions.Unauthenticated,
                     ),
                 )
-
                 if is_key_issue or attempt < max_retries - 1:
                     self.current_api_key_index = (self.current_api_key_index + 1) % len(
                         self.api_keys
@@ -222,7 +208,6 @@ class D_April_30(BaseDetector):
                     )
                     raise e
             finally:
-                # 4. Clean up the *uploaded* file for this attempt, regardless of success/failure
                 if image_file and hasattr(self.client, "files"):
                     try:
                         print(
@@ -235,29 +220,24 @@ class D_April_30(BaseDetector):
                             f"  Deletion successful (took {delete_end_time - delete_start_time:.2f}s)."
                         )
                     except Exception as del_e:
-                        # Log error but don't stop the process for a deletion failure
                         print(
                             f"  Warning: Could not delete uploaded file {image_file.name} during cleanup: {del_e}"
                         )
-
         raise RuntimeError("API call failed after exhausting all keys and retries.")
 
-    # --- *** END MODIFIED _make_api_call *** ---
-
-    def fit(self, X, y=None):
+    def fit(self, X, y=None, filename="unknown_dataset"):  # Add filename parameter
         """Fit detector using a two-step visual analysis approach."""
         if self.client is None:
             print("Error: GenAI Client could not be initialized.")
             self.decision_scores_ = np.zeros(X.shape[0])
-            self.identified_ranges_ = []
             return self
-        print("Generating plot from input data X...")
+        print(f"Generating plot for {filename}...")
         temp_plot_path = None
-        fig = None  # image_file is now handled in _make_api_call
+        fig = None
         n_samples, n_features = X.shape
 
         try:
-            # --- Plotting Logic (remains the same) ---
+            # --- Plotting Logic ---
             print("  Initiating plotting logic...")
             nrows = n_features
             ncols = 1
@@ -283,8 +263,10 @@ class D_April_30(BaseDetector):
                 if i == n_features - 1:
                     ax.set_xlabel("Time Step")
             fig.suptitle(
-                f"Time Series Data ({n_features} Features)", fontsize=16, y=0.99
-            )
+                f"Time Series Data ({n_features} Features) - {filename}",
+                fontsize=16,
+                y=0.99,
+            )  # Add filename to title
             fig.tight_layout(rect=[0.02, 0.03, 0.98, 0.97])
             with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as temp_file:
                 temp_plot_path = temp_file.name
@@ -294,12 +276,10 @@ class D_April_30(BaseDetector):
             fig = None
             # --- End Plotting ---
 
-            # --- *** REMOVED initial file upload *** ---
-
             # === STEP 1: Ask Model to Identify Interesting Index Ranges ===
             print("\n--- Step 1: Asking model to identify interesting ranges ---")
             prompt_text_step1 = f"""
-            Analyze the provided time series plot image, which shows {n_features} features over {n_samples} time steps.
+            Analyze the provided time series plot image ({filename}), which shows {n_features} features over {n_samples} time steps.
             Based *only* on visual inspection of the plot, identify the time step index ranges (start_index, end_index) that appear most anomalous or interesting for closer inspection.
             Focus on significant spikes, shifts, or pattern deviations.
             **Use the visible x-axis ticks (e.g., ..., 15000, 15500, 16000, ...) as reference points to estimate the start and end indices for the ranges you identify.**
@@ -319,18 +299,12 @@ class D_April_30(BaseDetector):
                 ),
                 temperature=0,
             )
-
-            # --- Use API call wrapper (pass plot path and prompt) ---
             response_step1 = self._make_api_call(
-                model_name=model_name,
-                plot_path=temp_plot_path,  # Pass local path
-                prompt_text=prompt_text_step1,
-                config=generation_config_step1,
+                model_name, temp_plot_path, prompt_text_step1, generation_config_step1
             )
-            # -------------------------------------------------------
 
             # --- Parse Step 1 Response ---
-            index_ranges = []
+            index_ranges = []  # Local variable, not stored in self anymore
             try:
                 if (
                     hasattr(response_step1, "parsed")
@@ -401,16 +375,16 @@ class D_April_30(BaseDetector):
                 traceback.print_exc()
             if hasattr(response_step1, "text"):
                 print("Response text was:", response_step1.text)
-            self.identified_ranges_ = index_ranges
+            # self.identified_ranges_ = index_ranges # Don't store globally if only used for numerical data step
 
             # === STEP 2: Provide Numerical Data for Ranges & Ask for Final Code ===
             print(
                 "\n--- Step 2: Providing numerical details and asking for final scoring code ---"
             )
             numerical_data_extracts = {}
-            if self.identified_ranges_:
+            if index_ranges:  # Use local variable
                 print("Extracting numerical data for identified ranges...")
-                for start, end in self.identified_ranges_:
+                for start, end in index_ranges:
                     safe_start = max(0, start)
                     safe_end = min(n_samples, end)
                     if safe_start < safe_end:
@@ -434,9 +408,10 @@ class D_April_30(BaseDetector):
                     print(f"Error creating JSON string for numerical data: {json_e}")
                     data_string_step2 = "{}"
 
+            # --- Step 2 Prompt (Function takes NO arguments) ---
             prompt_text_step2 = f"""
             You are an expert time series anomaly detection programmer.
-            You previously analyzed the time series plot provided in the image (showing {n_features} features over {n_samples} time steps).
+            You previously analyzed the time series plot provided in the image ({filename}), showing {n_features} features over {n_samples} time steps.
             Based on that visual analysis, you identified specific index ranges as potentially interesting.
 
             Now, you are provided with the detailed numerical data for those specific ranges in the following JSON object string:
@@ -466,16 +441,9 @@ class D_April_30(BaseDetector):
                 response_mime_type="text/plain",
                 temperature=0,
             )
-
-            # --- Use API call wrapper (pass plot path and prompt) ---
-            print(f"Sending Step 2 request to Gemini model: {model_name}...")
             response_step2 = self._make_api_call(
-                model_name=model_name,
-                plot_path=temp_plot_path,  # Pass same local path again
-                prompt_text=prompt_text_step2,
-                config=generation_config_step2,
+                model_name, temp_plot_path, prompt_text_step2, generation_config_step2
             )
-            # -------------------------------------------------------
 
             # --- Execute Generated Code (from Step 2) ---
             generated_code_step2 = ""
@@ -492,26 +460,22 @@ class D_April_30(BaseDetector):
                     )
                     self.generated_code_ = generated_code_step2  # Store code
                     try:
-                        # --- *** Use filename in saved code name *** ---
-                        base_fname_code = os.path.splitext(
-                            os.path.basename(temp_plot_path)
-                        )[
+                        # --- *** Use dataset filename for saved code *** ---
+                        base_fname_code = os.path.splitext(filename)[
                             0
-                        ]  # Get base name from plot path
+                        ]  # Use original filename base
                         code_filename = f"{base_fname_code}_generated_code.py"
                         code_save_path = os.path.join(
                             self.generated_code_dir, code_filename
                         )
-                        # --- *************************************** ---
+                        # --- ******************************************* ---
                         with open(code_save_path, "w") as f_code:
                             f_code.write(
-                                "# Generated by D_April_30.fit\n"
-                            )  # Use class name
-                            f_code.write(
-                                "# Identified ranges: "
-                                + str(self.identified_ranges_)
-                                + "\n\n"
+                                f"# Generated by D_April_30.fit for {filename}\n"
                             )
+                            f_code.write(
+                                f"# Identified ranges (for context): {index_ranges}\n\n"
+                            )  # Use local index_ranges
                             f_code.write(generated_code_step2)
                         print(f"  Generated code saved to: {code_save_path}")
                     except Exception as save_code_e:
@@ -535,7 +499,7 @@ class D_April_30(BaseDetector):
                         )
                         anomaly_scores_from_code = execution_locals[
                             "calculate_anomaly_scores"
-                        ]()
+                        ]()  # Call without args
                         if isinstance(anomaly_scores_from_code, (list, np.ndarray)):
                             self.decision_scores_ = np.array(
                                 anomaly_scores_from_code, dtype=float
@@ -589,23 +553,30 @@ class D_April_30(BaseDetector):
                 f"API Key related error encountered: {api_key_e}. This might have been handled by rotation if other keys are available."
             )
             if self.decision_scores_ is None:
-                self.decision_scores_ = np.zeros(n_samples)
-                self.identified_ranges_ = []
+                self.decision_scores_ = np.zeros(n_samples)  # Removed range reset
         except AttributeError as ae:
             print(f"AttributeError during API interaction: {ae}")
             traceback.print_exc()
             if self.decision_scores_ is None:
-                self.decision_scores_ = np.zeros(n_samples)
-                self.identified_ranges_ = []
+                self.decision_scores_ = np.zeros(n_samples)  # Removed range reset
         except Exception as e:
             print(f"An error occurred during the fit process: {e}")
             traceback.print_exc()
             if self.decision_scores_ is None:
                 print("Assigning default scores (zeros) due to an error during fit.")
-                self.decision_scores_ = np.zeros(n_samples)
-                self.identified_ranges_ = []
+                self.decision_scores_ = np.zeros(n_samples)  # Removed range reset
 
         finally:
+            # Clean up local temp plot file
+            if temp_plot_path and os.path.exists(temp_plot_path):
+                print(f"Deleting temporary plot file: {temp_plot_path}")
+                try:
+                    os.remove(temp_plot_path)
+                except Exception as e_rem:
+                    print(
+                        f"Warning: Failed to remove temp file {temp_plot_path}: {e_rem}"
+                    )
+            # Ensure plot figure is closed
             if fig is not None and plt.fignum_exists(fig.number):
                 plt.close(fig)
 
@@ -636,32 +607,32 @@ class D_April_30(BaseDetector):
         return self.decision_scores_
 
 
-def run_D_April_30_Unsupervised(data, HP):  # Renamed function
-    clf = D_April_30(HP=HP)  # Use renamed class
-    clf.fit(data)
+def run_D_April_30_Unsupervised(data, HP, filename):  # Pass filename
+    clf = D_April_30(HP=HP)
+    clf.fit(data, filename=filename)  # Pass filename to fit
     score = clf.decision_scores_
-    identified_ranges = (
-        clf.identified_ranges_ if hasattr(clf, "identified_ranges_") else []
-    )
+    # identified_ranges = clf.identified_ranges_ if hasattr(clf, 'identified_ranges_') else [] # No longer needed here
     if score is None or score.size == 0:
         print("Warning: No valid scores generated by fit. Returning empty score array.")
-        return np.zeros(data.shape[0]), identified_ranges
+        return np.zeros(data.shape[0])  # Just return scores
     score = (
         MinMaxScaler(feature_range=(0, 1)).fit_transform(score.reshape(-1, 1)).ravel()
     )
-    return score, identified_ranges
+    return score  # Just return scores
 
 
 # Renamed function
-def run_D_April_30_Semisupervised(data_train, data_test, HP):
-    clf = D_April_30(HP=HP)  # Use renamed class
-    clf.fit(data_train)
+def run_D_April_30_Semisupervised(
+    data_train, data_test, HP, filename_train
+):  # Pass filename
+    clf = D_April_30(HP=HP)
+    clf.fit(data_train, filename=filename_train)  # Pass filename to fit
     score = clf.decision_function(data_test)
-    # identified_ranges = clf.identified_ranges_ if hasattr(clf, 'identified_ranges_') else [] # Get ranges if needed
+    # identified_ranges = clf.identified_ranges_ if hasattr(clf, 'identified_ranges_') else []
     score = (
         MinMaxScaler(feature_range=(0, 1)).fit_transform(score.reshape(-1, 1)).ravel()
     )
-    # return score, identified_ranges # Return ranges if needed
+    # return score, identified_ranges
     return score
 
 
@@ -684,21 +655,20 @@ def _find_clusters(indices):
     return list(zip(start_indices, end_indices))
 
 
-# --- MODIFIED visualize_errors function ---
+# --- *** MODIFIED visualize_errors function *** ---
 def visualize_errors(
     original_label,
     score,
-    model_identified_ranges,  # New parameter for ranges identified by model
+    # model_identified_ranges, # REMOVED - No longer needed
     base_plot_filename,
     plot_dir,
     model_prefix="",
-    chunk_size=1500,
-    chunk_indices_to_plot=None,
+    # chunk_size=1500, # REMOVED
+    # chunk_indices_to_plot=None, # REMOVED
 ):
     """
-    Visualizes calculated anomaly score against the ground truth label for specified chunks.
-    Adds shaded regions for ranges identified by the model.
-    Plots only chunks containing true anomalies.
+    Visualizes calculated anomaly score against the ground truth label for the ENTIRE timeseries.
+    Adds shaded regions for TRUE anomaly ranges (label=1).
     """
     try:
         plt.style.use("seaborn-v0_8-whitegrid")
@@ -723,138 +693,124 @@ def visualize_errors(
         print(
             f"Vis Error: label length ({original_label.shape[0]}) vs expected ({n_samples})"
         )
-    if not isinstance(model_identified_ranges, list):
-        print(
-            f"Vis Warning: model_identified_ranges is not a list (type: {type(model_identified_ranges)}). Annotations might fail."
-        )
 
     if not valid_input:
         print(f"Error ({model_prefix}): Invalid input for score/label visualization.")
         return
-    if not chunk_indices_to_plot:
-        if np.any(original_label == 1):
-            print(
-                f"Info ({model_prefix}): No specific anomaly chunks requested for plotting, although anomalies exist."
-            )
-        else:
-            print(
-                f"Info ({model_prefix}): No true anomalies in label, skipping chunk plotting."
-            )
+
+    # --- Determine True Anomaly Ranges ---
+    true_anomaly_indices = np.where(original_label == 1)[0]
+    true_anomaly_ranges = _find_clusters(true_anomaly_indices)
+    if not true_anomaly_ranges:
+        print(
+            f"Info ({model_prefix}): No true anomalies in label for {base_plot_filename}. Skipping visualization."
+        )
         return
+    # ------------------------------------
 
     os.makedirs(plot_dir, exist_ok=True)
-    fig_height = 5
-    fig_width = 14
-    chunks_to_iterate = sorted(list(set(chunk_indices_to_plot)))
-    print(
-        f"Generating Score vs Label plot(s) for anomaly chunk(s): {chunks_to_iterate}..."
-    )
+    # Define figure size for the single plot
+    fig_height = 6
+    fig_width = 20  # Make it wide to see details
+    time_range = np.arange(n_samples)
 
-    for i_chunk in chunks_to_iterate:
-        chunk_start = i_chunk * chunk_size
-        chunk_end = min(n_samples, (i_chunk + 1) * chunk_size)
-        time_range_chunk = np.arange(chunk_start, chunk_end)
-        if len(time_range_chunk) == 0:
-            continue
+    print(f"Generating FULL Score vs Label plot for {base_plot_filename}...")
 
-        score_chunk = score[chunk_start:chunk_end]
-        original_label_chunk = original_label[chunk_start:chunk_end]
-        if len(score_chunk) != len(time_range_chunk) or len(
-            original_label_chunk
-        ) != len(time_range_chunk):
-            print(f"Vis Error (Chunk {i_chunk}): Score/Label length mismatch.")
-            continue
-
-        fig_ts = None
-        try:
-            fig_ts, ax = plt.subplots(1, 1, figsize=(fig_width, fig_height))
-        except Exception as e:
-            print(f"Error creating subplot for chunk {i_chunk}: {e}")
-            if fig_ts:
-                plt.close(fig_ts)
-                continue
-
-        try:
-            ln_score = ax.plot(
-                time_range_chunk,
-                score_chunk,
-                label=f"Anomaly Score ({model_prefix})",
-                color="darkorange",
-                linestyle="-",
-                alpha=0.9,
-                linewidth=1.5,
-            )
-            ln_label = ax.step(
-                time_range_chunk,
-                original_label_chunk,
-                label="True Anomaly Label",
-                color="red",
-                linestyle="--",
-                alpha=0.8,
-                linewidth=1.2,
-                where="post",
-            )
-
-            model_range_label_added = False
-            if isinstance(model_identified_ranges, list):
-                for start, end in model_identified_ranges:
-                    overlap_start = max(chunk_start, start)
-                    overlap_end = min(chunk_end, end)
-                    if overlap_start < overlap_end:
-                        local_start = overlap_start
-                        local_end = overlap_end
-                        span_label = (
-                            "Model Identified Range"
-                            if not model_range_label_added
-                            else "_nolegend_"
-                        )
-                        ax.axvspan(
-                            local_start,
-                            local_end,
-                            color="yellow",
-                            alpha=0.3,
-                            zorder=-1,
-                            label=span_label,
-                        )
-                        model_range_label_added = True
-
-            ax.set_ylabel("Score / Label")
-            ax.tick_params(axis="y")
-            ax.grid(True, linestyle=":", alpha=0.5)
-            ax.set_ylim(-0.05, 1.05)
-            ax.set_xlim(chunk_start, chunk_end - 1)
-            ax.legend(loc="upper left", fontsize="medium")
-
-        except Exception as e:
-            print(f"Error plotting data for chunk {i_chunk}: {e}")
-            traceback.print_exc()
+    fig_ts = None
+    try:
+        fig_ts, ax = plt.subplots(1, 1, figsize=(fig_width, fig_height))
+    except Exception as e:
+        print(f"Error creating plot for {base_plot_filename}: {e}")
+        if fig_ts:
             plt.close(fig_ts)
-            continue
+        return  # Cannot proceed
 
-        try:
-            ax.set_xlabel("Time Index")
-            title = f"{model_prefix} - {base_plot_filename}\nChunk Index {i_chunk} (Indices {chunk_start}-{chunk_end-1}) - Score vs Label (Model Ranges Highlighted)"
-            fig_ts.suptitle(title, fontsize=12)
-            fig_ts.tight_layout(rect=[0.02, 0.03, 0.98, 0.93])
-            plot_filename_ts = os.path.join(
-                plot_dir,
-                f"{base_plot_filename}_{model_prefix}_ChunkIdx_{i_chunk}_{chunk_start}-{chunk_end-1}_Score_vs_Label_ModelRanges.png",
-            )
-            plt.savefig(plot_filename_ts, bbox_inches="tight", dpi=200)
-            print(f"  Score vs Label plot saved: {os.path.basename(plot_filename_ts)}")
-        except Exception as e:
-            print(f"Error adjusting/saving plot chunk {i_chunk}: {e}")
-            traceback.print_exc()
-        finally:
-            if fig_ts is not None:
-                plt.close(fig_ts)
+    # Plot Score and Label
+    try:
+        ln_score = ax.plot(
+            time_range,
+            score,
+            label=f"Anomaly Score ({model_prefix})",
+            color="darkorange",
+            linestyle="-",
+            alpha=0.9,
+            linewidth=1.0,
+        )
+        # Use step plot for label for better visibility of exact ranges
+        ln_label = ax.step(
+            time_range,
+            original_label,
+            label="True Anomaly Label",
+            color="red",
+            linestyle="--",
+            alpha=0.7,
+            linewidth=1.0,
+            where="post",
+        )
+
+        # --- *** Add axvspan for TRUE anomaly ranges *** ---
+        true_range_label_added = False
+        for start, end in true_anomaly_ranges:
+            # Use exclusive end for span width
+            safe_start = max(0, start)
+            safe_end = min(n_samples, end + 1)  # end is inclusive, span needs exclusive
+            if safe_start < safe_end:
+                span_label = (
+                    "True Anomaly Range" if not true_range_label_added else "_nolegend_"
+                )
+                ax.axvspan(
+                    safe_start,
+                    safe_end,
+                    color="red",
+                    alpha=0.15,
+                    zorder=-1,
+                    label=span_label,
+                )
+                true_range_label_added = True
+        # --- ****************************************** ---
+
+        ax.set_ylabel("Score / Label")
+        ax.tick_params(axis="y", labelsize="small")
+        ax.grid(True, linestyle=":", alpha=0.5)
+        ax.set_ylim(-0.05, 1.05)
+        ax.set_xlim(0, n_samples - 1)  # Show full range
+
+        # Add legend
+        ax.legend(loc="upper right", fontsize="medium")  # Place legend appropriately
+
+    except Exception as e:
+        print(f"Error plotting data for {base_plot_filename}: {e}")
+        traceback.print_exc()
+        plt.close(fig_ts)
+        return
+
+    # Final Figure Adjustments
+    try:
+        ax.set_xlabel("Time Index")
+        title = f"{model_prefix} - {base_plot_filename}\nAnomaly Score vs True Label (True Anomaly Ranges Highlighted)"
+        fig_ts.suptitle(title, fontsize=12)
+        fig_ts.tight_layout(
+            rect=[0.03, 0.03, 0.98, 0.94]
+        )  # Adjust top/bottom for labels/title
+
+        # Updated filename
+        plot_filename_ts = os.path.join(
+            plot_dir,
+            f"{base_plot_filename}_{model_prefix}_Full_Score_vs_Label_TrueAnomRanges.png",
+        )
+
+        plt.savefig(plot_filename_ts, bbox_inches="tight", dpi=200)
+        print(f"  Full Score vs Label plot saved: {os.path.basename(plot_filename_ts)}")
+    except Exception as e:
+        print(f"Error adjusting/saving plot {base_plot_filename}: {e}")
+        traceback.print_exc()
+    finally:
+        if fig_ts is not None:
+            plt.close(fig_ts)
 
     print(
-        f"Score vs Label chunk plotting complete for {base_plot_filename} ({model_prefix})."
+        f"Full Score vs Label plotting complete for {base_plot_filename} ({model_prefix})."
     )
-
-
-# --- End of visualize_errors function ---
 
 
 # --- End of visualize_errors function ---
@@ -927,15 +883,14 @@ if __name__ == "__main__":
     # Configuration
     FILE_LIST_PATH = os.path.join("Datasets", "File_List", "TSB-AD-M-Eva.csv")
     DATA_DIR = os.path.join("Datasets", "TSB-AD-M")
-    RESULTS_CSV_PATH = "D_April_30_detailed_results.csv"  # Updated CSV name
-    MODEL_NAMES = ["D_April_30"]  # Updated Model Name
-    VISUALIZE_ANOMALIES = True
-    PLOT_DIR_BASE = "D_April_30_Anomaly_Highlights"  # Updated Plot Dir
-    CHUNK_SIZE_VIS = 1500
-    # --- *** Define directory for saving generated code *** ---
-    GENERATED_CODE_DIR = "D_April_30_Generated_Code"  # Updated Code Dir
+    RESULTS_CSV_PATH = "D_April_30_detailed_results.csv"
+    MODEL_NAMES = ["D_April_30"]
+    VISUALIZE_ANOMALIES = True  # Now controls the full score/label plot generation
+    PLOT_DIR_BASE = "D_April_30_ScoreLabel_Plots"  # Changed plot dir name
+    # CHUNK_SIZE_VIS = 1500 # No longer needed
+    GENERATED_CODE_DIR = "D_April_30_Generated_Code"
     os.makedirs(GENERATED_CODE_DIR, exist_ok=True)
-    # --- ************************************************ ---
+    os.makedirs(PLOT_DIR_BASE, exist_ok=True)  # Create base plot dir
 
     metricor = basic_metricor() if basic_metricor else None
 
@@ -1029,11 +984,11 @@ if __name__ == "__main__":
 
             # --- Run Model ---
             run_start_time = time.time()
-            # --- *** Use correct function name *** ---
-            output, model_ranges = run_D_April_30_Unsupervised(
-                data, {}
-            )  # Use renamed function
-            # --- ******************************* ---
+            # --- *** Pass filename to run function *** ---
+            output = run_D_April_30_Unsupervised(
+                data, {}, filename=filename
+            )  # Pass filename
+            # --- *********************************** ---
             run_end_time = time.time()
             current_file_results[f"{model_prefix}_runtime"] = (
                 run_end_time - run_start_time
@@ -1071,7 +1026,9 @@ if __name__ == "__main__":
                 if VISUALIZE_ANOMALIES:
                     base_fname_vis = os.path.splitext(os.path.basename(filename))[0]
                     model_name_vis = model_prefix
-                    print(f"  Generating visualizations for {model_name_vis}...")
+                    print(
+                        f"  Generating score vs label visualization for {model_name_vis}..."
+                    )
                     score_for_vis = output_scaled
                     original_label_for_vis = label
 
@@ -1094,49 +1051,26 @@ if __name__ == "__main__":
                         )
 
                     if vis_data_valid:
-                        chunk_indices_to_plot = set()
-                        if np.any(original_label_for_vis == 1):
-                            anomaly_clusters = _find_clusters(
-                                np.where(original_label_for_vis == 1)[0]
+                        # --- *** MODIFIED CALL to visualize_errors *** ---
+                        model_plot_dir = os.path.join(PLOT_DIR_BASE, model_name_vis)
+                        try:
+                            visualize_errors(
+                                original_label=original_label_for_vis,
+                                score=score_for_vis,
+                                base_plot_filename=base_fname_vis,
+                                plot_dir=model_plot_dir,
+                                model_prefix=model_name_vis,
+                                # Removed chunk arguments
                             )
-                            for start, end in anomaly_clusters:
-                                start_chunk = start // CHUNK_SIZE_VIS
-                                end_chunk = end // CHUNK_SIZE_VIS
-                                chunk_indices_to_plot.update(
-                                    range(start_chunk, end_chunk + 1)
-                                )
-                        else:
+                        except Exception as vis_e:
                             print(
-                                "    No true anomalies found in label. Skipping anomaly chunk visualization."
+                                f"    Error during visualize_errors call for {model_name_vis}: {vis_e}"
                             )
-
-                        chunk_indices_list = sorted(list(chunk_indices_to_plot))
-                        if chunk_indices_list:
-                            print(f"    Plotting anomaly chunks: {chunk_indices_list}")
-                            model_plot_dir = os.path.join(PLOT_DIR_BASE, model_name_vis)
-                            try:
-                                visualize_errors(
-                                    original_label=original_label_for_vis,
-                                    score=score_for_vis,
-                                    model_identified_ranges=model_ranges,
-                                    base_plot_filename=base_fname_vis,
-                                    plot_dir=model_plot_dir,
-                                    model_prefix=model_name_vis,
-                                    chunk_size=CHUNK_SIZE_VIS,
-                                    chunk_indices_to_plot=chunk_indices_list,
-                                )
-                            except Exception as vis_e:
-                                print(
-                                    f"    Error during visualize_errors call for {model_name_vis}: {vis_e}"
-                                )
-                                current_file_results[
-                                    f"{model_prefix}_Visualization_Error"
-                                ] = f"Visualize Error: {vis_e}"
-                                traceback.print_exc()
-                        elif np.any(original_label_for_vis == 1):
-                            print(
-                                "    Anomalies present, but no chunks identified for plotting."
-                            )
+                            current_file_results[
+                                f"{model_prefix}_Visualization_Error"
+                            ] = f"Visualize Error: {vis_e}"
+                            traceback.print_exc()
+                        # --- ***************************************** ---
 
             file_success = True
 
@@ -1180,7 +1114,6 @@ if __name__ == "__main__":
         else:
             all_results.append(current_file_results)
 
-        # Mark file as processed in memory set for this run's count
         processed_files.add(filename)
         if file_success:
             processed_files_count_this_run += 1
@@ -1188,7 +1121,6 @@ if __name__ == "__main__":
         else:
             print(f"  File processing marked as unsuccessful/skipped.")
 
-        # Save intermediate CSV (this now IS the progress tracking)
         try:
             if all_results:
                 temp_df = pd.DataFrame(all_results)
