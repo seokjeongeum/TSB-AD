@@ -28,7 +28,7 @@
     // Commands to run after the container is created.
     // Use this to install project dependencies or other tools.
     // Added '&& pip install jupyterlab'
-    "postCreateCommand": "bash ./.devcontainer/post-create.sh && pip install isort && pip install datawrangler && pip install jupyterlab",
+    "postCreateCommand": "bash ./.devcontainer/post-create.sh",
     // Configure VS Code settings and extensions inside the container.
     "customizations": {
         "vscode": {
@@ -51,7 +51,8 @@
             "extensions": [
                 "ms-python.python", // Python language support
                 "ms-python.debugpy", // Python debugger
-                "ms-toolsai.jupyter", // Jupyter Notebook support <--- Added
+                "ms-toolsai.jupyter", // Jupyter Notebook support
+                "ms-toolsai.datawrangler", // <--- ADDED Data Wrangler
                 "ms-vscode.cpptools", // C/C++ tools (useful for CUDA kernels)
                 "nvidia.nsight-vscode-edition", // NVIDIA Nsight (CUDA debugger, profiler)
                 "njpwerner.autodocstring", // Example: Useful Python extension

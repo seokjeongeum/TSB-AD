@@ -21,3 +21,7 @@ gluonts[torch]<=0.14.4
 plotly
 seaborn
 scikit_posthocs
+google-genai
+isort
+datawrangler
+jupyterlab

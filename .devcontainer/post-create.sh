@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e # Exit immediately if a command exits with a non-zero status.
 
+# --- Install Python Requirements ---
+# Check if requirements.txt exists before trying to install
+if [ -f "requirements.txt" ]; then
+    echo ">>> Installing Python requirements..."
+    pip install -r requirements.txt
+else
+    echo ">>> Warning: requirements.txt not found. Skipping pip install."
+fi
+
 echo ">>> Updating package list..."
 apt-get update
 
@@ -28,14 +37,5 @@ echo ">>> Unzipping TSB-AD-M dataset..."
 unzip -o TSB-AD-M.zip -d Datasets
 echo ">>> Removing TSB-AD-M.zip..."
 rm TSB-AD-M.zip # Remove the zip file after successful unzip
-
-# --- Install Python Requirements ---
-# Check if requirements.txt exists before trying to install
-if [ -f "requirements.txt" ]; then
-    echo ">>> Installing Python requirements..."
-    pip install -r requirements.txt
-else
-    echo ">>> Warning: requirements.txt not found. Skipping pip install."
-fi
 
 echo ">>> Setup script finished."
