@@ -5,7 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: Current File",
+            "name": "Run_MAD",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "MAD.Run_MAD",
+            "console": "integratedTerminal",
+        },
+        {
+            "name": "main",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "TSB_AD.main",
+            "console": "integratedTerminal",
+        },
+        {
+            "name": "Run_Custom_Detector",
             "type": "debugpy",
             "request": "launch",
             "module": "benchmark_exp.Run_Custom_Detector",

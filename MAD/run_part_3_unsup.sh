@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PYTHON_EXE="python3"
-MAIN_SCRIPT="benchmark_exp/Run_Custom_Detector.py"
+PYTHON_EXE="python3 -m"
+MAIN_SCRIPT="benchmark_exp.Run_Custom_Detector"
 MAIN_FILE_LIST="Datasets/File_List/TSB-AD-M-Eva.csv"
 TEMP_FILE_LIST_DIR="temp_file_lists"
 SUPERVISION_MODE="unsupervised"
@@ -43,8 +43,8 @@ TEMP_COUNT=$(tail -n +2 "${TEMP_FILE_LIST}" | wc -l)
 echo "Temporary file list ${TEMP_FILE_LIST} created with ${TEMP_COUNT} files."
 
 # Run the Python script
-echo "Running: ${PYTHON_EXE} ${MAIN_SCRIPT} --supervision_mode ${SUPERVISION_MODE} --file_list_path ${TEMP_FILE_LIST}"
-"${PYTHON_EXE}" "${MAIN_SCRIPT}" --supervision_mode "${SUPERVISION_MODE}" --file_list_path "${TEMP_FILE_LIST}"
+echo "Running: ${PYTHON_EXE} ${MAIN_SCRIPT} --file_list_path ${TEMP_FILE_LIST}"
+"${PYTHON_EXE}" "${MAIN_SCRIPT}" --file_list_path "${TEMP_FILE_LIST}" --unsupervised
 
 # Clean up
 echo "Cleaning up temporary file list: ${TEMP_FILE_LIST}"
