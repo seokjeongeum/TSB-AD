@@ -8,7 +8,7 @@
             "name": "Run_MAD",
             "type": "debugpy",
             "request": "launch",
-            "module": "MAD.Run_MAD",
+            "module": "MAD.evaluation.Run_MAD",
             "console": "integratedTerminal",
         },
         {

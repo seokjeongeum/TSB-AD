@@ -1,8 +1,8 @@
-import argparse  # Added import
+import argparse
+import json
 import os
 import random
 import re
-import shutil
 import time
 
 import matplotlib
@@ -13,32 +13,28 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import torch
-from matplotlib.ticker import MaxNLocator  # Added import
+from matplotlib.ticker import FuncFormatter, MaxNLocator
 from sklearn.preprocessing import MinMaxScaler
+from tqdm import tqdm
 
-from MAD.MAD import E_May_14
+from MAD.core.constants import PLOT_FIG_WIDTH, PLOT_NBINS
+from MAD.core.MAD import F_May_22
+from MAD.core.mad_utils import _find_clusters, thousands_formatter
 from TSB_AD.evaluation.basic_metrics import basic_metricor
 from TSB_AD.evaluation.metrics import get_metrics
 from TSB_AD.utils.slidingWindows import find_length_rank
 
-from .mad_utils import PLOT_FIG_WIDTH, PLOT_NBINS, _find_clusters
 
-
-def _find_clusters(indices):
-    """Groups consecutive or near-consecutive integer indices into start-end ranges."""
-    if not isinstance(indices, (list, np.ndarray)) or len(indices) == 0:
-        return []
-    indices = np.unique(np.asarray(indices, dtype=int))
-    if len(indices) == 0:
-        return []
-    if len(indices) == 1:
-        return [(indices[0], indices[0])]
-
-    diffs = np.diff(indices)
-    split_points = np.where(diffs > 1)[0]
-    starts = np.insert(indices[split_points + 1], 0, indices[0])
-    ends = np.append(indices[split_points], indices[-1])
-    return list(zip(starts, ends))
+# Custom JSON encoder to handle NumPy types
+class NpEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super(NpEncoder, self).default(obj)
 
 
 def extract_train_index_from_filename(filename):
@@ -54,20 +50,22 @@ def extract_train_index_from_filename(filename):
 
 
 # --- Model Runner Functions ---
-def run_E_May_14(data_train, data_full_for_decision, y_train_for_fit, HP):
-    """Runs E_May_14.
+def run_F_May_22(data_train, data_full_for_decision, y_train_for_fit, HP):
+    """Runs F_May_22.
     Fit is called with training data (and optional training labels for hints).
     Decision_function is called with the full data (train + test context).
     Returns scaled scores for the full data, plus other artifacts.
     """
-    clf = E_May_14(HP=HP)
+    clf = F_May_22(HP=HP)
 
     clf.fit(X_train=data_train, y_train=y_train_for_fit)
 
-    score_full = clf.decision_function(X_test=data_full_for_decision) # Changed X to X_test
+    score_full = clf.decision_function(
+        X_test=data_full_for_decision
+    )  # Changed X to X_test
 
     # Aggregate S1 identified ranges and S2 JSON input segments from per-feature artifacts
-    all_s1_ranges_agg = set() # Use set to store unique tuples
+    all_s1_ranges_agg = set()  # Use set to store unique tuples
     all_s2_segments_agg = set()
 
     if clf.per_feature_artifacts_:
@@ -81,12 +79,8 @@ def run_E_May_14(data_train, data_full_for_decision, y_train_for_fit, HP):
                             all_s1_ranges_agg.add(tuple(r))
                 if s2_segments:
                     for s in s2_segments:
-                         if isinstance(s, list) and len(s) == 2:
+                        if isinstance(s, list) and len(s) == 2:
                             all_s2_segments_agg.add(tuple(s))
-
-    # Convert sets of tuples back to lists of lists for visualization function
-    aggregated_s1_ranges_list = sorted([list(r) for r in all_s1_ranges_agg], key=lambda x: x[0])
-    aggregated_s2_segments_list = sorted([list(s) for s in all_s2_segments_agg], key=lambda x: x[0])
 
     if (
         score_full is None
@@ -97,7 +91,7 @@ def run_E_May_14(data_train, data_full_for_decision, y_train_for_fit, HP):
         # Return zeros for the expected full length if scoring failed
         return (
             np.zeros(data_full_for_decision.shape[0]),
-            {}, # Return empty dict for artifacts if scoring failed
+            {},  # Return empty dict for artifacts if scoring failed
             clf,
         )
 
@@ -126,7 +120,7 @@ def run_E_May_14(data_train, data_full_for_decision, y_train_for_fit, HP):
 
     return (
         scaled_score_full,
-        clf.per_feature_artifacts_, # Return the full dictionary
+        clf.per_feature_artifacts_,  # Return the full dictionary
         clf,
     )
 
@@ -136,10 +130,10 @@ def visualize_errors(
     data,  # New: (n_samples, n_features) NumPy array of raw data
     original_label,  # (n_samples,) NumPy array of true labels
     score,  # (n_samples,) NumPy array of anomaly scores (0-1 normalized)
-    per_feature_artifacts, # Dict: {feat_idx: {plot_path, json_path, identified_ranges, anomalous_indices, s2_json_input_segments, error}}
+    per_feature_artifacts,  # Dict: {feat_idx: {plot_path, json_path, identified_ranges, anomalous_indices, s2_json_input_segments, error}}
     base_plot_filename,  # String: base name for the plot file
     plot_dir,  # String: directory to save the plot
-    train_idx_val=None, # New: index to distinguish training data
+    train_idx_val=None,  # New: index to distinguish training data
     model_prefix="",  # String: prefix for titles/filenames (e.g., model name)
 ):
     """Generates a multi-feature plot showing raw data, anomaly scores, true labels, and model-identified ranges."""
@@ -168,7 +162,11 @@ def visualize_errors(
     os.makedirs(plot_dir, exist_ok=True)
 
     # Determine plot dimensions
-    fig_width_viz, fig_height_per_feature_viz, dpi_val_viz = PLOT_FIG_WIDTH, 3, 150 # Width = 320
+    fig_width_viz, fig_height_per_feature_viz, dpi_val_viz = (
+        PLOT_FIG_WIDTH,
+        3,
+        150,
+    )  # Width = 320
     fig_height_viz = max(6, n_features * fig_height_per_feature_viz)
 
     fig, axes = plt.subplots(
@@ -182,39 +180,30 @@ def visualize_errors(
     time_range = np.arange(n_samples)
 
     true_anomaly_indices = np.where(original_label == 1)[0]
-    # true_anomaly_ranges_viz = _find_clusters(true_anomaly_indices) # Original way
+    true_anomaly_label_added = False  # ADD: For true anomalies plotted in red
+    score_label_added = False  # ADD: For the score plot on secondary axis
 
-    # New: Determine TP, FP, FN based on scores thresholded at 0.5
-    predicted_anomalies = score > 0.5
-    true_positives_indices = np.where((original_label == 1) & (predicted_anomalies == 1))[0]
-    false_positives_indices = np.where((original_label == 0) & (predicted_anomalies == 1))[0]
-    false_negatives_indices = np.where((original_label == 1) & (predicted_anomalies == 0))[0]
-
-    tp_ranges_viz = _find_clusters(true_positives_indices)
-    fp_ranges_viz = _find_clusters(false_positives_indices)
-    fn_ranges_viz = _find_clusters(false_negatives_indices)
-
-    # To ensure labels are added only once in the legend
-    # true_anomaly_label_added = False # Replaced by TP, FP, FN labels
-    tp_label_added = False
-    fp_label_added = False
-    fn_label_added = False
     s1_range_label_added = False
-    s2_segment_label_added = False  # New label flag
-    score_label_added = False # This was for the aggregated score, not used in per-feature section
+    s2_segment_label_added = False
     data_label_added = False  # For raw data
-    train_data_label_added = False # For train data
-    test_data_label_added = False # For test data
-    # s2_indices_label_added = False # Label for S2 identified indices # REMOVED
-    s2_high_score_label_added = False # ADDED: Label for S2 high scores
+    train_data_label_added = False  # For train data
+    test_data_label_added = False
+    per_feature_s2_anomaly_label_added = {}
 
     for i_feat in range(n_features):
         ax = axes_flat[i_feat]
 
-        # 1. Plot raw data for the feature
-        current_data_label = None # Reset for each feature if needed, or manage globally
+        # Increase tick font size
+        ax.tick_params(axis="both", which="major", labelsize=12)
 
-        show_train_test_split_viz = train_idx_val is not None and 0 < train_idx_val < n_samples
+        # 1. Plot raw data for the feature
+        current_data_label = (
+            None  # Reset for each feature if needed, or manage globally
+        )
+
+        show_train_test_split_viz = (
+            train_idx_val is not None and 0 < train_idx_val < n_samples
+        )
 
         if show_train_test_split_viz:
             # Plot training data part
@@ -236,22 +225,43 @@ def visualize_errors(
                 test_label_viz = "Test Data"
                 test_data_label_added = True
             ax.plot(
-                time_range[train_idx_val - 1 :],
-                data[train_idx_val - 1 :, i_feat],
-                color="mediumblue", # Was mediumblue for all data
+                time_range[train_idx_val:],
+                data[train_idx_val:, i_feat],
+                color="darkblue",
                 linestyle="-",
                 lw=1.0,
                 label=test_label_viz,
             )
+
+            # Add vertical lines for training data start and end
+            ax.axvline(
+                x=0,
+                color="gray",
+                linestyle="--",
+                linewidth=0.8,
+                label="Train Start" if i_feat == 0 else "",
+            )  # Label only once
+            ax.axvline(
+                x=train_idx_val - 1,
+                color="gray",
+                linestyle="--",
+                linewidth=0.8,
+                label="Train End" if i_feat == 0 else "",
+            )  # Label only once
+
+            # Add ticks for training data start and end
+            existing_ticks = list(ax.get_xticks())
+            new_ticks = sorted(list(set(existing_ticks + [0, train_idx_val - 1])))
+            ax.set_xticks(new_ticks)
         else:
             # Default: plot all data as one series
-            if not data_label_added: # If not split, use the general data label
+            if not data_label_added:  # If not split, use the general data label
                 current_data_label = f"Feature Data"
                 data_label_added = True
             ax.plot(
                 time_range,
                 data[:, i_feat],
-                color="mediumblue",
+                color="dimgray",
                 lw=1.0,
                 label=current_data_label,
             )
@@ -262,41 +272,184 @@ def visualize_errors(
         ax.xaxis.set_major_locator(
             MaxNLocator(nbins=PLOT_NBINS, integer=True, prune="both")
         )
+        ax.xaxis.set_major_formatter(FuncFormatter(thousands_formatter))  # ADDED
 
-        # 2. New: Plot TP, FP, FN segments (Based on final aggregated score)
+        # 2. New: Plot TP, FP, FN segments (Based on final aggregated score) # REMOVE THIS SECTION
         # True Positives (Red)
-        if tp_ranges_viz:
-            for start_tp, end_tp in tp_ranges_viz:
-                plot_start, plot_end = max(0, start_tp), min(n_samples, end_tp + 1)
-                if plot_start < plot_end:
-                    label_text_tp = "True Positive" if not tp_label_added else None
-                    ax.plot(time_range[plot_start:plot_end], data[plot_start:plot_end, i_feat], color="red", lw=1.3, label=label_text_tp, zorder=5)
-                    if label_text_tp: tp_label_added = True
+        # if tp_ranges_viz:
+        #     for start_tp, end_tp in tp_ranges_viz:
+        #         plot_start, plot_end = max(0, start_tp), min(n_samples, end_tp + 1)
+        #         if plot_start < plot_end:
+        #             label_text_tp = "True Positive" if not tp_label_added else None
+        #             # --- Apply new plotting style for TP ---
+        #             segment_indices_tp = time_range[plot_start:plot_end]
+        #             segment_data_tp = data[plot_start:plot_end, i_feat]
+        #
+        #             plot_time_segment_tp = segment_indices_tp.copy()
+        #             plot_data_segment_tp = segment_data_tp.copy()
+
+        #             if plot_start > 0:
+        #                 plot_time_segment_tp = np.insert(plot_time_segment_tp, 0, time_range[plot_start - 1])
+        #                 plot_data_segment_tp = np.insert(plot_data_segment_tp, 0, data[plot_start - 1, i_feat])
+        #             if end_tp +1 < n_samples: # Use end_tp from loop, plot_end might be n_samples
+        #                 plot_time_segment_tp = np.append(plot_time_segment_tp, time_range[end_tp + 1])
+        #                 plot_data_segment_tp = np.append(plot_data_segment_tp, data[end_tp + 1, i_feat])
+        #             # --- End new plotting style for TP ---
+
+        #             ax.plot(
+        #                 plot_time_segment_tp, # Use modified time
+        #                 plot_data_segment_tp, # Use modified data
+        #                 color="darkred",
+        #                 lw=1.3,
+        #                 label=label_text_tp,
+        #                 zorder=5,
+        #             )
+        #             if label_text_tp:
+        #                 tp_label_added = True
 
         # False Positives (Magenta)
-        if fp_ranges_viz:
-            for start_fp, end_fp in fp_ranges_viz:
-                plot_start, plot_end = max(0, start_fp), min(n_samples, end_fp + 1)
-                if plot_start < plot_end:
-                    label_text_fp = "False Positive" if not fp_label_added else None
-                    ax.plot(time_range[plot_start:plot_end], data[plot_start:plot_end, i_feat], color="magenta", lw=1.3, label=label_text_fp, linestyle='-', zorder=4)
-                    if label_text_fp: fp_label_added = True
+        # if fp_ranges_viz:
+        #     for start_fp, end_fp in fp_ranges_viz:
+        #         plot_start, plot_end = max(0, start_fp), min(n_samples, end_fp + 1)
+        #         if plot_start < plot_end:
+        #             label_text_fp = "False Positive" if not fp_label_added else None
+        #             # --- Apply new plotting style for FP ---
+        #             segment_indices_fp = time_range[plot_start:plot_end]
+        #             segment_data_fp = data[plot_start:plot_end, i_feat]
+
+        #             plot_time_segment_fp = segment_indices_fp.copy()
+        #             plot_data_segment_fp = segment_data_fp.copy()
+
+        #             if plot_start > 0:
+        #                 plot_time_segment_fp = np.insert(plot_time_segment_fp, 0, time_range[plot_start - 1])
+        #                 plot_data_segment_fp = np.insert(plot_data_segment_fp, 0, data[plot_start - 1, i_feat])
+        #             if end_fp + 1 < n_samples: # Use end_fp from loop
+        #                 plot_time_segment_fp = np.append(plot_time_segment_fp, time_range[end_fp + 1])
+        #                 plot_data_segment_fp = np.append(plot_data_segment_fp, data[end_fp + 1, i_feat])
+        #             # --- End new plotting style for FP ---
+        #
+        #             ax.plot(
+        #                 plot_time_segment_fp, # Use modified time
+        #                 plot_data_segment_fp, # Use modified data
+        #                 color="darkmagenta",
+        #                 lw=1.3,
+        #                 label=label_text_fp,
+        #                 linestyle="-",
+        #                 zorder=4,
+        #             )
+        #             if label_text_fp:
+        #                 fp_label_added = True
 
         # False Negatives (Cyan)
-        if fn_ranges_viz:
-            for start_fn, end_fn in fn_ranges_viz:
-                plot_start, plot_end = max(0, start_fn), min(n_samples, end_fn + 1)
+        # if fn_ranges_viz:
+        #     for start_fn, end_fn in fn_ranges_viz:
+        #         plot_start, plot_end = max(0, start_fn), min(n_samples, end_fn + 1)
+        #         if plot_start < plot_end:
+        #             label_text_fn = "False Negative" if not fn_label_added else None
+        #             # --- Apply new plotting style for FN ---
+        #             segment_indices_fn = time_range[plot_start:plot_end]
+        #             segment_data_fn = data[plot_start:plot_end, i_feat]
+
+        #             plot_time_segment_fn = segment_indices_fn.copy()
+        #             plot_data_segment_fn = segment_data_fn.copy()
+
+        #             if plot_start > 0:
+        #                 plot_time_segment_fn = np.insert(plot_time_segment_fn, 0, time_range[plot_start - 1])
+        #                 plot_data_segment_fn = np.insert(plot_data_segment_fn, 0, data[plot_start - 1, i_feat])
+        #             if end_fn + 1 < n_samples: # Use end_fn from loop
+        #                 plot_time_segment_fn = np.append(plot_time_segment_fn, time_range[end_fn + 1])
+        #                 plot_data_segment_fn = np.append(plot_data_segment_fn, data[end_fn + 1, i_feat])
+        #             # --- End new plotting style for FN ---
+
+        #             ax.plot(
+        #                 plot_time_segment_fn, # Use modified time
+        #                 plot_data_segment_fn, # Use modified data
+        #                 color="darkcyan",
+        #                 lw=1.3,
+        #                 label=label_text_fn,
+        #                 linestyle="-",
+        #                 zorder=4,
+        #             )
+        #             if label_text_fn:
+        #                 fn_label_added = True
+        # --- END REMOVE THIS SECTION ---
+
+        # --- ADD: Plot True Anomalies (from original_label) ---
+        true_anomaly_ranges = _find_clusters(true_anomaly_indices)
+        if true_anomaly_ranges:
+            for start_true, end_true in true_anomaly_ranges:
+                plot_start, plot_end = max(0, start_true), min(n_samples, end_true + 1)
                 if plot_start < plot_end:
-                    label_text_fn = "False Negative" if not fn_label_added else None
-                    ax.plot(time_range[plot_start:plot_end], data[plot_start:plot_end, i_feat], color="cyan", lw=1.3, label=label_text_fn, linestyle='-', zorder=4)
-                    if label_text_fn: fn_label_added = True
+                    label_text_true = (
+                        "True Anomaly" if not true_anomaly_label_added else None
+                    )
+                    segment_indices_true = time_range[plot_start:plot_end]
+                    segment_data_true = data[plot_start:plot_end, i_feat]
+
+                    plot_time_segment_true = segment_indices_true.copy()
+                    plot_data_segment_true = segment_data_true.copy()
+
+                    if plot_start > 0:
+                        plot_time_segment_true = np.insert(
+                            plot_time_segment_true, 0, time_range[plot_start - 1]
+                        )
+                        plot_data_segment_true = np.insert(
+                            plot_data_segment_true, 0, data[plot_start - 1, i_feat]
+                        )
+                    if end_true + 1 < n_samples:
+                        plot_time_segment_true = np.append(
+                            plot_time_segment_true, time_range[end_true + 1]
+                        )
+                        plot_data_segment_true = np.append(
+                            plot_data_segment_true, data[end_true + 1, i_feat]
+                        )
+
+                    ax.plot(
+                        plot_time_segment_true,
+                        plot_data_segment_true,
+                        color="darkred",
+                        lw=1.3,
+                        label=label_text_true,
+                        zorder=5,
+                    )
+                    if label_text_true:
+                        true_anomaly_label_added = True
+        # --- END ADD: Plot True Anomalies ---
+
+        # --- ADD: Secondary Y-axis for Anomaly Scores ---
+        # Create a secondary y-axis for the score, only if not already added for this subplot
+        # Check if ax has an attribute that indicates a twinx has been made (not straightforward)
+        # For now, assume we create it once per feature plot (i_feat)
+        if not hasattr(ax, "_score_axis_added_visualize_errors"):
+            ax_score = ax.twinx()
+            score_plot_label = "Anomaly Score" if not score_label_added else None
+            ax_score.plot(
+                time_range,
+                score,  # This is the (n_samples,) normalized score from the model
+                color="red",
+                linestyle="-",
+                lw=1.0,
+                label=score_plot_label,
+                alpha=0.6,
+            )
+            ax_score.set_ylabel("Anomaly Score", color="red", fontsize="small")
+            ax_score.tick_params(axis="y", labelcolor="red", labelsize="x-small")
+            ax_score.set_ylim(-0.1, 1.1)  # Scores are 0-1 normalized
+            ax._score_axis_added_visualize_errors = (
+                True  # Mark that score axis is added
+            )
+            if score_plot_label:
+                score_label_added = (
+                    True  # Ensure legend item is added only once globally
+                )
+        # --- END ADD: Secondary Y-axis for Anomaly Scores ---
 
         # --- Per-Feature Artifacts Visualization ---
         feature_artifacts = per_feature_artifacts.get(i_feat, {})
         if feature_artifacts and not feature_artifacts.get("error"):
 
             # 4. Highlight S1 identified ranges for THIS feature (gray shaded regions)
-            s1_ranges_feat = feature_artifacts.get("identified_ranges", [])
+            s1_ranges_feat = feature_artifacts.get("identified_ranges_s1", [])
             valid_s1_ranges = [
                 item
                 for item in s1_ranges_feat
@@ -306,24 +459,50 @@ def visualize_errors(
             ]
             if valid_s1_ranges:
                 for start_s1, end_s1 in valid_s1_ranges:
-                    safe_start_s1, safe_end_s1 = max(0, start_s1), min(n_samples - 1, end_s1)
+                    safe_start_s1, safe_end_s1 = max(0, start_s1), min(
+                        n_samples - 1, end_s1
+                    )
                     if safe_start_s1 <= safe_end_s1:
                         label_text_s1 = None
                         if not s1_range_label_added:
-                            label_text_s1 = "LLM S1 Range (Feat.)"
+                            label_text_s1 = "S1 Identified Ranges (Feat.)"
                             s1_range_label_added = True
-                        ax.axvspan(
-                            safe_start_s1,
-                            safe_end_s1 + 1,
-                            color="gray",
-                            alpha=0.35,
-                            zorder=-1,
-                            lw=0,
-                            label=label_text_s1,
-                        )
+                        # --- Apply new plotting style for S1 ranges ---
+                        plot_time_segment_s1 = time_range[
+                            safe_start_s1 : safe_end_s1 + 1
+                        ].copy()
+                        plot_data_segment_s1 = data[
+                            safe_start_s1 : safe_end_s1 + 1, i_feat
+                        ].copy()
+
+                        if safe_start_s1 > 0:
+                            plot_time_segment_s1 = np.insert(
+                                plot_time_segment_s1, 0, time_range[safe_start_s1 - 1]
+                            )
+                            plot_data_segment_s1 = np.insert(
+                                plot_data_segment_s1, 0, data[safe_start_s1 - 1, i_feat]
+                            )
+                        if safe_end_s1 < n_samples - 1:
+                            plot_time_segment_s1 = np.append(
+                                plot_time_segment_s1, time_range[safe_end_s1 + 1]
+                            )
+                            plot_data_segment_s1 = np.append(
+                                plot_data_segment_s1, data[safe_end_s1 + 1, i_feat]
+                            )
+
+                        if len(plot_time_segment_s1) > 0:
+                            ax.plot(
+                                plot_time_segment_s1,
+                                plot_data_segment_s1,
+                                color="darkslategray",  # Changed from darkgray for plot()
+                                lw=1.8,  # Slightly thicker than base data line
+                                label=label_text_s1,
+                                zorder=3,  # Ensure visible but behind anomalies
+                            )
+                        # --- End new plotting style ---
 
             # 5. Highlight S2 JSON input segments for THIS feature (light sky blue shaded regions)
-            s2_segments_feat = feature_artifacts.get("s2_json_input_segments", [])
+            s2_segments_feat = feature_artifacts.get("s2_included_snippet_ranges", [])
             valid_step2_ranges = [
                 item
                 for item in s2_segments_feat
@@ -339,47 +518,81 @@ def visualize_errors(
                     if safe_start_s2 <= safe_end_s2:
                         label_text_s2 = None
                         if not s2_segment_label_added:
-                            label_text_s2 = "LLM S2 JSON Seg (Feat.)"
+                            label_text_s2 = "S2 Snippet Ranges (Feat.)"
                             s2_segment_label_added = True
-                        ax.axvspan(
-                            safe_start_s2,
-                            safe_end_s2 + 1,
-                            color="lightskyblue",
-                            alpha=0.4,
-                            zorder=-0.5,
-                            lw=0,
-                            label=label_text_s2,
-                        )
+                        # --- Apply new plotting style for S2 segments ---
+                        plot_time_segment_s2 = time_range[
+                            safe_start_s2 : safe_end_s2 + 1
+                        ].copy()
+                        plot_data_segment_s2 = data[
+                            safe_start_s2 : safe_end_s2 + 1, i_feat
+                        ].copy()
+
+                        if safe_start_s2 > 0:
+                            plot_time_segment_s2 = np.insert(
+                                plot_time_segment_s2, 0, time_range[safe_start_s2 - 1]
+                            )
+                            plot_data_segment_s2 = np.insert(
+                                plot_data_segment_s2, 0, data[safe_start_s2 - 1, i_feat]
+                            )
+                        if safe_end_s2 < n_samples - 1:
+                            plot_time_segment_s2 = np.append(
+                                plot_time_segment_s2, time_range[safe_end_s2 + 1]
+                            )
+                            plot_data_segment_s2 = np.append(
+                                plot_data_segment_s2, data[safe_end_s2 + 1, i_feat]
+                            )
+
+                        if len(plot_time_segment_s2) > 0:
+                            ax.plot(
+                                plot_time_segment_s2,
+                                plot_data_segment_s2,
+                                color="steelblue",  # Changed from deepskyblue
+                                lw=1.8,
+                                linestyle="--",  # Dashed to differentiate from S1
+                                label=label_text_s2,
+                                zorder=3.1,  # Slightly above S1
+                            )
+                        # --- End new plotting style ---
 
             # 6. Plot S2 identified anomalous indices for THIS feature (e.g., green 'x' markers)
             # MODIFIED to use anomaly_scores
-            s2_anomaly_scores_feat = feature_artifacts.get("anomaly_scores", [])
-            if isinstance(s2_anomaly_scores_feat, list) and len(s2_anomaly_scores_feat) == n_samples:
+            s2_anomaly_scores_feat = feature_artifacts.get(
+                "feature_scores_s2", []
+            )  # Changed key to feature_scores_s2
+            if (
+                isinstance(s2_anomaly_scores_feat, list)
+                and len(s2_anomaly_scores_feat) == n_samples
+            ):
                 s2_scores_np = np.array(s2_anomaly_scores_feat)
-                # Define a threshold for what constitutes a "high score" worth marking
-                HIGH_SCORE_THRESHOLD = 0.75 
-                high_score_s2_indices = np.where(s2_scores_np > HIGH_SCORE_THRESHOLD)[0]
+                # Define a threshold for what constitutes a "high score" worth marking - S2 scores are binary (0 or 1)
+                # HIGH_SCORE_THRESHOLD = 0.75
+                s2_anomalous_indices_for_feat = np.where(s2_scores_np == 1)[0]
 
-                if high_score_s2_indices.size > 0:
-                    y_min, y_max = ax.get_ylim() # Get y-limits of the feature plot
+                if s2_anomalous_indices_for_feat.size > 0:
+                    y_min, y_max = ax.get_ylim()  # Get y-limits of the feature plot
                     # Plot markers slightly above the minimum y-value
                     marker_y_position = y_min + 0.05 * (y_max - y_min)
-                    label_text_s2_high_score = None
-                    if not s2_high_score_label_added:
-                        label_text_s2_high_score = f"LLM S2 High Score (>{HIGH_SCORE_THRESHOLD:.2f} Feat.)" # UPDATED Label
-                        s2_high_score_label_added = True
+
+                    current_s2_label_text = None
+                    if not per_feature_s2_anomaly_label_added.get(i_feat, False):
+                        current_s2_label_text = (
+                            f"S2 Anomaly (F{i_feat})"  # More direct label
+                        )
+                        per_feature_s2_anomaly_label_added[i_feat] = True
+
                     ax.plot(
-                        high_score_s2_indices,
-                        [marker_y_position] * len(high_score_s2_indices),
-                        marker='x', # Use 'x' marker
-                        markersize=5,
-                        linestyle='None', # No line connecting markers
-                        color='darkviolet', # Changed color to distinguish from S2 indices if they were green
-                        alpha=0.8,
-                        label=label_text_s2_high_score,
-                        zorder=6 # Ensure markers are visible
+                        s2_anomalous_indices_for_feat,
+                        [marker_y_position] * len(s2_anomalous_indices_for_feat),
+                        marker="o",  # Changed marker to 'o' for differentiation
+                        markersize=4,  # Slightly smaller markers
+                        linestyle="None",  # No line connecting markers
+                        color="darkorange",  # Changed color to orange
+                        alpha=0.9,
+                        label=current_s2_label_text,
+                        zorder=7,  # Ensure markers are very visible
                     )
-        # --- End Per-Feature Artifacts --- 
+        # --- End Per-Feature Artifacts ---
 
         ax.tick_params(axis="y", labelsize="x-small")  # Primary Y for feature data
         ax.tick_params(axis="x", labelsize="small")
@@ -411,27 +624,23 @@ def visualize_errors(
             labels,
             loc="upper center",
             bbox_to_anchor=(0.5, 0.025),
-            ncol=min(len(handles), 8), # Increased ncol for legend further
+            ncol=min(len(handles), 8),  # Increased ncol for legend further
             fontsize="small",
         )  # Increased ncol for legend
 
-    title = f"{model_prefix} - {base_plot_filename}\nRaw Data, TP(Red), FP(Mag), FN(Cyan), S1(Gray), S2 Seg(SkyBlue) - Per Feature"  # Updated title: Removed Score, S2 Idx
+    title = f"{model_prefix} - {base_plot_filename}\nRaw Data, True Anomaly(Red), Score(Red Line), S1(Gray), S2 Seg(SkyBlue) - Per Feature"  # Updated title
     fig.suptitle(title, fontsize="large", y=0.99)
 
-    # Adjust tight_layout to reduce whitespace, especially for the legend
-    # Try adjusting the bottom parameter in the rect for more space if legend is cramped
-    fig.tight_layout(
-        rect=[0.02, 0.05, 0.98, 0.97]
-    )  # Increased bottom from 0.02, legend from 0.025 to 0.05
-
-    plt.subplots_adjust(bottom=0.08)  # Adjust bottom margin further
+    plt.tight_layout(
+        rect=[0, 0.03, 1, 0.95]
+    )  # ADDED to minimize whitespace, rect adjusted for suptitle
 
     # Save the figure
     plot_filename_new = os.path.join(
         plot_dir, f"{base_plot_filename}_{model_prefix}_RawData_Score_Labels_Ranges.png"
     )
     try:
-        plt.savefig(plot_filename_new, dpi=dpi_val_viz, bbox_inches="tight")
+        plt.savefig(plot_filename_new, dpi=dpi_val_viz)
     except Exception as e_save_plot:
         pass
     finally:
@@ -461,7 +670,7 @@ BASE_METRIC_ORDER = [
     "PA-F1",
     "Standard-F1",
 ]
-MODEL_NAMES = ["E_May_14"]
+MODEL_NAMES = ["F_May_22"]
 
 
 def get_ordered_columns(current_columns):
@@ -483,8 +692,8 @@ def get_ordered_columns(current_columns):
     # Add Benchmark Comparison Columns (VUS-PR Diffs) earlier
     for prefix in model_prefixes.values():
         benchmark_diff_cols = [
-            f"{prefix}_E_May_14_vs_Avg_VUS-PR_Diff",
-            f"{prefix}_E_May_14_vs_Max_VUS-PR_Diff",
+            f"{prefix}_F_May_22_vs_Avg_VUS-PR_Diff",
+            f"{prefix}_F_May_22_vs_Max_VUS-PR_Diff",
         ]
         for col in benchmark_diff_cols:
             if col in current_columns and col not in processed_columns:
@@ -526,6 +735,15 @@ def get_ordered_columns(current_columns):
                 final_order.append(col)
                 processed_columns.add(col)
 
+    # Add per_feature_artifacts_path if it exists
+    per_feat_artifact_path_col = f"{prefix}_per_feature_artifacts_path"
+    if (
+        per_feat_artifact_path_col in current_columns
+        and per_feat_artifact_path_col not in processed_columns
+    ):
+        final_order.append(per_feat_artifact_path_col)
+        processed_columns.add(per_feat_artifact_path_col)
+
     remaining = sorted(list(set(current_columns) - processed_columns))
     final_order.extend(remaining)
     return final_order
@@ -533,23 +751,23 @@ def get_ordered_columns(current_columns):
 
 # --- Main Execution Block ---
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run E_May_14 Anomaly Detector.")
+    parser = argparse.ArgumentParser(description="Run F_May_22 Anomaly Detector.")
     parser.add_argument(
         "--file_list_path",
         type=str,
-        default=os.path.join("Datasets", "File_List", "TSB-AD-M-Eva-Debug.csv"),
+        default=os.path.join("Datasets", "File_List", "TSB-AD-U-Eva-Debug.csv"),
         help="Path to the CSV file containing the list of datasets to process.",
     )
     parser.add_argument(
         "--unsupervised",
-        action="store_true",  
+        action="store_true",
     )
     args = parser.parse_args()
 
     overall_start_time = time.time()
-    RESULTS_CSV_PATH = os.path.join("MAD", "E_May_14_detailed_results.csv")
-    PLOT_DIR_BASE = os.path.join("MAD", "E_May_14_ScoreLabel_Plots")
-    DATA_DIR = os.path.join("Datasets", "TSB-AD-M")
+    RESULTS_CSV_PATH = os.path.join("MAD", "F_May_22_detailed_results.csv")
+    PLOT_DIR_BASE = os.path.join("MAD", "F_May_22_ScoreLabel_Plots")
+    DATA_DIR = os.path.join("Datasets", "TSB-AD-U")
 
     VISUALIZE_ANOMALIES = True
     FILE_LIST_PATH = args.file_list_path
@@ -596,7 +814,7 @@ if __name__ == "__main__":
     # --- Load and Process Benchmark Data ---
     benchmark_metrics = {}
     BENCHMARK_CSV_PATH = os.path.join(
-        "benchmark_exp", "benchmark_eval_results", "multi_mergedTable_VUS-PR.csv"
+        "benchmark_exp", "benchmark_eval_results", "uni_mergedTable_VUS-PR.csv"
     )
     if os.path.exists(BENCHMARK_CSV_PATH):
         try:
@@ -657,12 +875,12 @@ if __name__ == "__main__":
     if (
         all_results and benchmark_metrics
     ):  # Only backfill if there are existing results and benchmark data
-        model_prefix_backfill = MODEL_NAMES[0]  # Should be "E_May_14"
-        E_May_14_vus_pr_col_bf = f"{model_prefix_backfill}_VUS-PR"
+        model_prefix_backfill = MODEL_NAMES[0]  # Should be "F_May_22"
+        F_May_22_vus_pr_col_bf = f"{model_prefix_backfill}_VUS-PR"
         bench_avg_col_bf = f"{model_prefix_backfill}_Benchmark_Avg_VUS-PR"
         bench_max_col_bf = f"{model_prefix_backfill}_Benchmark_Max_VUS-PR"
-        diff_avg_col_bf = f"{model_prefix_backfill}_E_May_14_vs_Avg_VUS-PR_Diff"
-        diff_max_col_bf = f"{model_prefix_backfill}_E_May_14_vs_Max_VUS-PR_Diff"
+        diff_avg_col_bf = f"{model_prefix_backfill}_F_May_22_vs_Avg_VUS-PR_Diff"
+        diff_max_col_bf = f"{model_prefix_backfill}_F_May_22_vs_Max_VUS-PR_Diff"
         benchmark_cols_to_check = [
             bench_avg_col_bf,
             bench_max_col_bf,
@@ -687,11 +905,11 @@ if __name__ == "__main__":
                     break
 
             if is_any_col_missing:
-                E_May_14_score_bf = pd.to_numeric(
-                    row_dict_bf.get(E_May_14_vus_pr_col_bf), errors="coerce"
+                F_May_22_score_bf = pd.to_numeric(
+                    row_dict_bf.get(F_May_22_vus_pr_col_bf), errors="coerce"
                 )
 
-                if not pd.isna(E_May_14_score_bf):
+                if not pd.isna(F_May_22_score_bf):
                     bench_data_for_file_bf = benchmark_metrics.get(filename_bf)
                     if bench_data_for_file_bf:
                         avg_bench_score_bf = bench_data_for_file_bf.get("avg", np.nan)
@@ -700,12 +918,12 @@ if __name__ == "__main__":
                         row_dict_bf[bench_avg_col_bf] = avg_bench_score_bf
                         row_dict_bf[bench_max_col_bf] = max_bench_score_bf
                         row_dict_bf[diff_avg_col_bf] = (
-                            E_May_14_score_bf - avg_bench_score_bf
+                            F_May_22_score_bf - avg_bench_score_bf
                             if not pd.isna(avg_bench_score_bf)
                             else np.nan
                         )
                         row_dict_bf[diff_max_col_bf] = (
-                            E_May_14_score_bf - max_bench_score_bf
+                            F_May_22_score_bf - max_bench_score_bf
                             if not pd.isna(max_bench_score_bf)
                             else np.nan
                         )
@@ -718,7 +936,7 @@ if __name__ == "__main__":
                             1  # Count as updated because we filled placeholders
                         )
                 else:
-                    # E_May_14 score itself is missing, so can't compare
+                    # F_May_22 score itself is missing, so can't compare
                     for col_bf_fill in benchmark_cols_to_check:
                         row_dict_bf[col_bf_fill] = "N/A_SelfNoScore_Filled"
                     updated_count_backfill += 1  # Count as updated
@@ -730,11 +948,10 @@ if __name__ == "__main__":
         pass
     # --- End Backfill ---
 
-    for i_main_loop_final, filename_main_final in enumerate(files_to_run_now_main, 1):
+    pbar_files = tqdm(files_to_run_now_main, desc="Processing files", unit="file")
+    for filename_main_final in pbar_files:
+        pbar_files.set_postfix_str(f"Current file: {filename_main_final}", refresh=True)
         loop_start_time_final = time.time()
-        print(
-            f"\n[{i_main_loop_final}/{len(files_to_run_now_main)}] Processing: {filename_main_final}"
-        )
         file_path_final = os.path.join(DATA_DIR, filename_main_final)
         current_results_final = {"filename": filename_main_final}
         model_prefix_final = MODEL_NAMES[0]
@@ -821,20 +1038,23 @@ if __name__ == "__main__":
             continue
 
         data_train_for_run = data_full_for_run[:train_idx_val]
-        # data_test_for_run = data_full_for_run[train_idx_val:] # Not explicitly needed for run_E_May_14 call structure now
+        # data_test_for_run = data_full_for_run[train_idx_val:] # Not explicitly needed for run_F_May_22 call structure now
         y_train_for_fit = labels_for_eval[:train_idx_val]
         # labels_test_for_eval_metrics = labels_for_eval[train_idx_val:] # Not needed if evaluating on full scores
 
         model_start_time_final_run = time.time()
+
+        base_dataset_name_for_hp = os.path.splitext(filename_main_final)[0]
         run_hp_config_final = {
-            "use_training_labels_for_step1_plot": not args.unsupervised
+            "use_training_labels_for_step1_plot": not args.unsupervised,
+            "dataset_name_for_artifacts": base_dataset_name_for_hp,  # Added dataset name for artifact folder naming
         }
 
         (
             output_scaled_full,
             per_feature_artifacts_final,
             clf_instance_final,
-        ) = run_E_May_14(
+        ) = run_F_May_22(
             data_train=data_train_for_run,
             data_full_for_decision=data_full_for_run,
             y_train_for_fit=y_train_for_fit,
@@ -851,7 +1071,7 @@ if __name__ == "__main__":
             or output_scaled_full.shape[0] != data_full_for_run.shape[0]
         ):
             current_results_final[f"{model_prefix_final}_Error"] = (
-                "Invalid scores from run_E_May_14"
+                "Invalid scores from run_F_May_22"
             )
         else:
             # output_scaled_full is already scaled and covers the full dataset
@@ -887,38 +1107,64 @@ if __name__ == "__main__":
                         data=data_full_for_run,  # Pass the full data for visualization
                         original_label=labels_for_eval,  # Pass full labels
                         score=output_scaled_full,  # Pass full scores
-                        per_feature_artifacts=per_feature_artifacts_final, # Pass the full dictionary
+                        per_feature_artifacts=per_feature_artifacts_final,  # Pass the full dictionary
                         base_plot_filename=base_name_vis_final_run + "_full_data_plot",
                         plot_dir=plot_subdir_final_run,
-                        train_idx_val=train_idx_val, # Pass train_idx_val
+                        train_idx_val=train_idx_val,  # Pass train_idx_val
                         model_prefix=model_prefix_final,
                     )
             if f"{model_prefix_final}_Error" not in current_results_final:
                 processed_count_this_run_final += 1
 
-            # --- Rename Temporary Artifact Directories (Plots and JSON Inputs) ---
-            if clf_instance_final and hasattr(clf_instance_final, 'last_run_timestamp') and clf_instance_final.last_run_timestamp:
-                timestamp_str = clf_instance_final.last_run_timestamp
-                base_dataset_name = os.path.splitext(filename_main_final)[0] # Get filename base w/o extension
-
-                # Rename Plot Directory
-                temp_plot_dir = os.path.join(clf_instance_final.plot_save_dir, f"temp_{timestamp_str}")
-                final_plot_dir = os.path.join(clf_instance_final.plot_save_dir, base_dataset_name)
-                try:
-                    if os.path.exists(temp_plot_dir):
-                        if os.path.exists(final_plot_dir):
-                            shutil.rmtree(final_plot_dir) # Remove existing final dir
-                        os.rename(temp_plot_dir, final_plot_dir)
-                except OSError as e_rename_plot:
-                    pass
-            # --- End Renaming Logic ---
+            # Store path to per_feature_artifacts JSON if saved
+            # This assumes clf_instance_final.current_run_artifact_folder_name is correctly set
+            if (
+                clf_instance_final
+                and hasattr(clf_instance_final, "current_run_artifact_folder_name")
+                and clf_instance_final.current_run_artifact_folder_name
+            ):
+                if per_feature_artifacts_final:  # Check if artifacts exist
+                    artifacts_json_filename = (
+                        f"{model_prefix_final}_per_feature_artifacts_details.json"
+                    )
+                    artifacts_json_path = os.path.join(
+                        clf_instance_final.plot_save_dir,
+                        clf_instance_final.current_run_artifact_folder_name,
+                        artifacts_json_filename,
+                    )
+                    try:
+                        with open(artifacts_json_path, "w") as f_json:
+                            json.dump(
+                                per_feature_artifacts_final,
+                                f_json,
+                                indent=2,
+                                cls=NpEncoder,
+                            )  # Added NpEncoder
+                        current_results_final[
+                            f"{model_prefix_final}_per_feature_artifacts_path"
+                        ] = artifacts_json_path
+                    except Exception as e_json_save:
+                        print(
+                            f"  Error saving per_feature_artifacts to JSON: {e_json_save}"
+                        )
+                        current_results_final[
+                            f"{model_prefix_final}_per_feature_artifacts_path"
+                        ] = "Error saving"
+                else:
+                    current_results_final[
+                        f"{model_prefix_final}_per_feature_artifacts_path"
+                    ] = "No artifacts generated"
+            else:
+                current_results_final[
+                    f"{model_prefix_final}_per_feature_artifacts_path"
+                ] = "Artifact folder name not set"
 
             # Add Benchmark Comparison
-            E_May_14_vus_pr_key = f"{model_prefix_final}_VUS-PR"
-            if E_May_14_vus_pr_key in current_results_final:
-                E_May_14_score = current_results_final[E_May_14_vus_pr_key]
-                if isinstance(E_May_14_score, (float, int)) and not pd.isna(
-                    E_May_14_score
+            F_May_22_vus_pr_key = f"{model_prefix_final}_VUS-PR"
+            if F_May_22_vus_pr_key in current_results_final:
+                F_May_22_score = current_results_final[F_May_22_vus_pr_key]
+                if isinstance(F_May_22_score, (float, int)) and not pd.isna(
+                    F_May_22_score
                 ):
                     bench_data_for_file = benchmark_metrics.get(filename_main_final)
                     if bench_data_for_file:
@@ -934,20 +1180,20 @@ if __name__ == "__main__":
 
                         if not pd.isna(avg_bench_score):
                             current_results_final[
-                                f"{model_prefix_final}_E_May_14_vs_Avg_VUS-PR_Diff"
-                            ] = (E_May_14_score - avg_bench_score)
+                                f"{model_prefix_final}_F_May_22_vs_Avg_VUS-PR_Diff"
+                            ] = (F_May_22_score - avg_bench_score)
                         else:
                             current_results_final[
-                                f"{model_prefix_final}_E_May_14_vs_Avg_VUS-PR_Diff"
+                                f"{model_prefix_final}_F_May_22_vs_Avg_VUS-PR_Diff"
                             ] = np.nan
 
                         if not pd.isna(max_bench_score):
                             current_results_final[
-                                f"{model_prefix_final}_E_May_14_vs_Max_VUS-PR_Diff"
-                            ] = (E_May_14_score - max_bench_score)
+                                f"{model_prefix_final}_F_May_22_vs_Max_VUS-PR_Diff"
+                            ] = (F_May_22_score - max_bench_score)
                         else:
                             current_results_final[
-                                f"{model_prefix_final}_E_May_14_vs_Max_VUS-PR_Diff"
+                                f"{model_prefix_final}_F_May_22_vs_Max_VUS-PR_Diff"
                             ] = np.nan
                     else:
                         current_results_final[
@@ -957,13 +1203,13 @@ if __name__ == "__main__":
                             f"{model_prefix_final}_Benchmark_Max_VUS-PR"
                         ] = "N/A_Benchmark"
                         current_results_final[
-                            f"{model_prefix_final}_E_May_14_vs_Avg_VUS-PR_Diff"
+                            f"{model_prefix_final}_F_May_22_vs_Avg_VUS-PR_Diff"
                         ] = "N/A_Benchmark"
                         current_results_final[
-                            f"{model_prefix_final}_E_May_14_vs_Max_VUS-PR_Diff"
+                            f"{model_prefix_final}_F_May_22_vs_Max_VUS-PR_Diff"
                         ] = "N/A_Benchmark"
                 else:
-                    # E_May_14 VUS-PR score is not numeric or is NaN
+                    # F_May_22 VUS-PR score is not numeric or is NaN
                     current_results_final[
                         f"{model_prefix_final}_Benchmark_Avg_VUS-PR"
                     ] = "N/A_SelfNoScore"
@@ -971,10 +1217,10 @@ if __name__ == "__main__":
                         f"{model_prefix_final}_Benchmark_Max_VUS-PR"
                     ] = "N/A_SelfNoScore"
                     current_results_final[
-                        f"{model_prefix_final}_E_May_14_vs_Avg_VUS-PR_Diff"
+                        f"{model_prefix_final}_F_May_22_vs_Avg_VUS-PR_Diff"
                     ] = "N/A_SelfNoScore"
                     current_results_final[
-                        f"{model_prefix_final}_E_May_14_vs_Max_VUS-PR_Diff"
+                        f"{model_prefix_final}_F_May_22_vs_Max_VUS-PR_Diff"
                     ] = "N/A_SelfNoScore"
 
             print(f"  Metrics for {filename_main_final}:")
@@ -982,10 +1228,10 @@ if __name__ == "__main__":
                 f"{model_prefix_final}_VUS-PR", "N/A"
             )
             diff_avg = current_results_final.get(
-                f"{model_prefix_final}_E_May_14_vs_Avg_VUS-PR_Diff", "N/A"
+                f"{model_prefix_final}_F_May_22_vs_Avg_VUS-PR_Diff", "N/A"
             )
             diff_max = current_results_final.get(
-                f"{model_prefix_final}_E_May_14_vs_Max_VUS-PR_Diff", "N/A"
+                f"{model_prefix_final}_F_May_22_vs_Max_VUS-PR_Diff", "N/A"
             )
 
             print(f"    - VUS-PR: {vus_pr_score}")
@@ -1111,12 +1357,12 @@ if __name__ == "__main__":
                 )
                 print_average_metric_final_val(
                     ok_df_end_avg,
-                    f"{model_iter_end_avg}_E_May_14_vs_Avg_VUS-PR_Diff",
+                    f"{model_iter_end_avg}_F_May_22_vs_Avg_VUS-PR_Diff",
                     "Diff vs Avg VUS-PR",
                 )
                 print_average_metric_final_val(
                     ok_df_end_avg,
-                    f"{model_iter_end_avg}_E_May_14_vs_Max_VUS-PR_Diff",
+                    f"{model_iter_end_avg}_F_May_22_vs_Max_VUS-PR_Diff",
                     "Diff vs Max VUS-PR",
                 )
 
