@@ -13,13 +13,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import torch
-from matplotlib.ticker import FuncFormatter, MaxNLocator
+from matplotlib.ticker import MaxNLocator
 from sklearn.preprocessing import MinMaxScaler
 from tqdm import tqdm
 
-from MAD.core.constants import PLOT_FIG_WIDTH, PLOT_NBINS
-from MAD.core.MAD import F_May_22
-from MAD.core.mad_utils import _find_clusters, thousands_formatter
+from MAD.MAD_0530.constants_0530 import PLOT_FIG_WIDTH, PLOT_NBINS
+from MAD.MAD_0530.MAD_0530 import MAD_0530
+from MAD.MAD_0530.mad_utils_0530 import _find_clusters
 from TSB_AD.evaluation.basic_metrics import basic_metricor
 from TSB_AD.evaluation.metrics import get_metrics
 from TSB_AD.utils.slidingWindows import find_length_rank
@@ -50,13 +50,13 @@ def extract_train_index_from_filename(filename):
 
 
 # --- Model Runner Functions ---
-def run_F_May_22(data_train, data_full_for_decision, y_train_for_fit, HP):
-    """Runs F_May_22.
+def run_MAD_0530(data_train, data_full_for_decision, y_train_for_fit, HP):
+    """Runs MAD_0530.
     Fit is called with training data (and optional training labels for hints).
     Decision_function is called with the full data (train + test context).
     Returns scaled scores for the full data, plus other artifacts.
     """
-    clf = F_May_22(HP=HP)
+    clf = MAD_0530(HP=HP)
 
     clf.fit(X_train=data_train, y_train=y_train_for_fit)
 
@@ -69,7 +69,7 @@ def run_F_May_22(data_train, data_full_for_decision, y_train_for_fit, HP):
     all_s2_segments_agg = set()
 
     if clf.per_feature_artifacts_:
-        for feat_idx, artifacts in clf.per_feature_artifacts_.items():
+        for _, artifacts in clf.per_feature_artifacts_.items():
             if artifacts and artifacts.get("error") is None:
                 s1_ranges = artifacts.get("identified_ranges", [])
                 s2_segments = artifacts.get("s2_json_input_segments", [])
@@ -272,109 +272,6 @@ def visualize_errors(
         ax.xaxis.set_major_locator(
             MaxNLocator(nbins=PLOT_NBINS, integer=True, prune="both")
         )
-        ax.xaxis.set_major_formatter(FuncFormatter(thousands_formatter))  # ADDED
-
-        # 2. New: Plot TP, FP, FN segments (Based on final aggregated score) # REMOVE THIS SECTION
-        # True Positives (Red)
-        # if tp_ranges_viz:
-        #     for start_tp, end_tp in tp_ranges_viz:
-        #         plot_start, plot_end = max(0, start_tp), min(n_samples, end_tp + 1)
-        #         if plot_start < plot_end:
-        #             label_text_tp = "True Positive" if not tp_label_added else None
-        #             # --- Apply new plotting style for TP ---
-        #             segment_indices_tp = time_range[plot_start:plot_end]
-        #             segment_data_tp = data[plot_start:plot_end, i_feat]
-        #
-        #             plot_time_segment_tp = segment_indices_tp.copy()
-        #             plot_data_segment_tp = segment_data_tp.copy()
-
-        #             if plot_start > 0:
-        #                 plot_time_segment_tp = np.insert(plot_time_segment_tp, 0, time_range[plot_start - 1])
-        #                 plot_data_segment_tp = np.insert(plot_data_segment_tp, 0, data[plot_start - 1, i_feat])
-        #             if end_tp +1 < n_samples: # Use end_tp from loop, plot_end might be n_samples
-        #                 plot_time_segment_tp = np.append(plot_time_segment_tp, time_range[end_tp + 1])
-        #                 plot_data_segment_tp = np.append(plot_data_segment_tp, data[end_tp + 1, i_feat])
-        #             # --- End new plotting style for TP ---
-
-        #             ax.plot(
-        #                 plot_time_segment_tp, # Use modified time
-        #                 plot_data_segment_tp, # Use modified data
-        #                 color="darkred",
-        #                 lw=1.3,
-        #                 label=label_text_tp,
-        #                 zorder=5,
-        #             )
-        #             if label_text_tp:
-        #                 tp_label_added = True
-
-        # False Positives (Magenta)
-        # if fp_ranges_viz:
-        #     for start_fp, end_fp in fp_ranges_viz:
-        #         plot_start, plot_end = max(0, start_fp), min(n_samples, end_fp + 1)
-        #         if plot_start < plot_end:
-        #             label_text_fp = "False Positive" if not fp_label_added else None
-        #             # --- Apply new plotting style for FP ---
-        #             segment_indices_fp = time_range[plot_start:plot_end]
-        #             segment_data_fp = data[plot_start:plot_end, i_feat]
-
-        #             plot_time_segment_fp = segment_indices_fp.copy()
-        #             plot_data_segment_fp = segment_data_fp.copy()
-
-        #             if plot_start > 0:
-        #                 plot_time_segment_fp = np.insert(plot_time_segment_fp, 0, time_range[plot_start - 1])
-        #                 plot_data_segment_fp = np.insert(plot_data_segment_fp, 0, data[plot_start - 1, i_feat])
-        #             if end_fp + 1 < n_samples: # Use end_fp from loop
-        #                 plot_time_segment_fp = np.append(plot_time_segment_fp, time_range[end_fp + 1])
-        #                 plot_data_segment_fp = np.append(plot_data_segment_fp, data[end_fp + 1, i_feat])
-        #             # --- End new plotting style for FP ---
-        #
-        #             ax.plot(
-        #                 plot_time_segment_fp, # Use modified time
-        #                 plot_data_segment_fp, # Use modified data
-        #                 color="darkmagenta",
-        #                 lw=1.3,
-        #                 label=label_text_fp,
-        #                 linestyle="-",
-        #                 zorder=4,
-        #             )
-        #             if label_text_fp:
-        #                 fp_label_added = True
-
-        # False Negatives (Cyan)
-        # if fn_ranges_viz:
-        #     for start_fn, end_fn in fn_ranges_viz:
-        #         plot_start, plot_end = max(0, start_fn), min(n_samples, end_fn + 1)
-        #         if plot_start < plot_end:
-        #             label_text_fn = "False Negative" if not fn_label_added else None
-        #             # --- Apply new plotting style for FN ---
-        #             segment_indices_fn = time_range[plot_start:plot_end]
-        #             segment_data_fn = data[plot_start:plot_end, i_feat]
-
-        #             plot_time_segment_fn = segment_indices_fn.copy()
-        #             plot_data_segment_fn = segment_data_fn.copy()
-
-        #             if plot_start > 0:
-        #                 plot_time_segment_fn = np.insert(plot_time_segment_fn, 0, time_range[plot_start - 1])
-        #                 plot_data_segment_fn = np.insert(plot_data_segment_fn, 0, data[plot_start - 1, i_feat])
-        #             if end_fn + 1 < n_samples: # Use end_fn from loop
-        #                 plot_time_segment_fn = np.append(plot_time_segment_fn, time_range[end_fn + 1])
-        #                 plot_data_segment_fn = np.append(plot_data_segment_fn, data[end_fn + 1, i_feat])
-        #             # --- End new plotting style for FN ---
-
-        #             ax.plot(
-        #                 plot_time_segment_fn, # Use modified time
-        #                 plot_data_segment_fn, # Use modified data
-        #                 color="darkcyan",
-        #                 lw=1.3,
-        #                 label=label_text_fn,
-        #                 linestyle="-",
-        #                 zorder=4,
-        #             )
-        #             if label_text_fn:
-        #                 fn_label_added = True
-        # --- END REMOVE THIS SECTION ---
-
-        # --- ADD: Plot True Anomalies (from original_label) ---
         true_anomaly_ranges = _find_clusters(true_anomaly_indices)
         if true_anomaly_ranges:
             for start_true, end_true in true_anomaly_ranges:
@@ -641,7 +538,7 @@ def visualize_errors(
     )
     try:
         plt.savefig(plot_filename_new, dpi=dpi_val_viz)
-    except Exception as e_save_plot:
+    except Exception:
         pass
     finally:
         if plt.fignum_exists(fig.number):
@@ -670,73 +567,60 @@ BASE_METRIC_ORDER = [
     "PA-F1",
     "Standard-F1",
 ]
-MODEL_NAMES = ["F_May_22"]
+MODEL_NAMES = ["MAD_0530"]
 
 
 def get_ordered_columns(current_columns):
-    """Orders columns for the results DataFrame for better readability."""
-    model_prefixes = {name: name for name in MODEL_NAMES}
     final_order = []
     processed_columns = set()
 
     if "filename" in current_columns:
         final_order.append("filename")
         processed_columns.add("filename")
-
-    for prefix in model_prefixes.values():
-        for col in [f"{prefix}_VUS-PR", f"{prefix}_VUS-ROC"]:
-            if col in current_columns and col not in processed_columns:
-                final_order.append(col)
-                processed_columns.add(col)
-
-    # Add Benchmark Comparison Columns (VUS-PR Diffs) earlier
-    for prefix in model_prefixes.values():
-        benchmark_diff_cols = [
-            f"{prefix}_F_May_22_vs_Avg_VUS-PR_Diff",
-            f"{prefix}_F_May_22_vs_Max_VUS-PR_Diff",
-        ]
-        for col in benchmark_diff_cols:
-            if col in current_columns and col not in processed_columns:
-                final_order.append(col)
-                processed_columns.add(col)
-        # Add the other benchmark scores
-        benchmark_score_cols = [
-            f"{prefix}_Benchmark_Avg_VUS-PR",
-            f"{prefix}_Benchmark_Max_VUS-PR",
-        ]
-        for col in benchmark_score_cols:
-            if col in current_columns and col not in processed_columns:
-                final_order.append(col)
-                processed_columns.add(col)
-
-    for prefix in model_prefixes.values():
-        cols = [
-            f"{prefix}_{m}" for m in BASE_METRIC_ORDER if m not in ["VUS-PR", "VUS-ROC"]
-        ]
-        for col in cols:
-            if col in current_columns and col not in processed_columns:
-                final_order.append(col)
-                processed_columns.add(col)
-
-    for prefix in model_prefixes.values():
-        other_info_cols = [
-            f"{prefix}_runtime",
-            f"{prefix}_FP_count_ext",
-            f"{prefix}_FN_count_ext",
-        ]
-        error_cols = [
-            f"{prefix}_{e}"
-            for e in ["Error", "Scaling_Error", "Metrics_Error", "Visualization_Error"]
-        ]
-        result_cols = [f"{prefix}_Metrics_Result"]
-        cols_to_add = other_info_cols + error_cols + result_cols
-        for col in cols_to_add:
-            if col in current_columns and col not in processed_columns:
-                final_order.append(col)
-                processed_columns.add(col)
+    for col in [f"VUS-PR", f"VUS-ROC"]:
+        if col in current_columns and col not in processed_columns:
+            final_order.append(col)
+            processed_columns.add(col)
+    benchmark_diff_cols = [
+        f"vs_Avg_VUS-PR_Diff",
+        f"vs_Max_VUS-PR_Diff",
+    ]
+    for col in benchmark_diff_cols:
+        if col in current_columns and col not in processed_columns:
+            final_order.append(col)
+            processed_columns.add(col)
+    # Add the other benchmark scores
+    benchmark_score_cols = [
+        f"Benchmark_Avg_VUS-PR",
+        f"Benchmark_Max_VUS-PR",
+    ]
+    for col in benchmark_score_cols:
+        if col in current_columns and col not in processed_columns:
+            final_order.append(col)
+            processed_columns.add(col)
+    cols = [f"{m}" for m in BASE_METRIC_ORDER if m not in ["VUS-PR", "VUS-ROC"]]
+    for col in cols:
+        if col in current_columns and col not in processed_columns:
+            final_order.append(col)
+            processed_columns.add(col)
+    other_info_cols = [
+        f"runtime",
+        f"FP_count_ext",
+        f"FN_count_ext",
+    ]
+    error_cols = [
+        f"{e}"
+        for e in ["Error", "Scaling_Error", "Metrics_Error", "Visualization_Error"]
+    ]
+    result_cols = [f"Metrics_Result"]
+    cols_to_add = other_info_cols + error_cols + result_cols
+    for col in cols_to_add:
+        if col in current_columns and col not in processed_columns:
+            final_order.append(col)
+            processed_columns.add(col)
 
     # Add per_feature_artifacts_path if it exists
-    per_feat_artifact_path_col = f"{prefix}_per_feature_artifacts_path"
+    per_feat_artifact_path_col = f"per_feature_artifacts_path"
     if (
         per_feat_artifact_path_col in current_columns
         and per_feat_artifact_path_col not in processed_columns
@@ -751,7 +635,7 @@ def get_ordered_columns(current_columns):
 
 # --- Main Execution Block ---
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run F_May_22 Anomaly Detector.")
+    parser = argparse.ArgumentParser(description="Run MAD_0530 Anomaly Detector.")
     parser.add_argument(
         "--file_list_path",
         type=str,
@@ -765,8 +649,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     overall_start_time = time.time()
-    RESULTS_CSV_PATH = os.path.join("MAD", "F_May_22_detailed_results.csv")
-    PLOT_DIR_BASE = os.path.join("MAD", "F_May_22_ScoreLabel_Plots")
+    RESULTS_CSV_PATH = os.path.join("MAD", "MAD_0530_detailed_results.csv")
+    PLOT_DIR_BASE = os.path.join("MAD", "ScoreLabel_Plots")
     DATA_DIR = os.path.join("Datasets", "TSB-AD-U")
 
     VISUALIZE_ANOMALIES = True
@@ -813,6 +697,7 @@ if __name__ == "__main__":
 
     # --- Load and Process Benchmark Data ---
     benchmark_metrics = {}
+    algo_columns = []
     BENCHMARK_CSV_PATH = os.path.join(
         "benchmark_exp", "benchmark_eval_results", "uni_mergedTable_VUS-PR.csv"
     )
@@ -823,7 +708,6 @@ if __name__ == "__main__":
                 pass
             else:
                 # Identify algorithm columns (assuming they are between 'file' and 'ts_len')
-                # This is a heuristic, might need adjustment if CSV structure changes.
                 file_col_idx = benchmark_df.columns.get_loc("file")
                 ts_len_col_idx = (
                     benchmark_df.columns.get_loc("ts_len")
@@ -835,6 +719,47 @@ if __name__ == "__main__":
                     algo_columns = benchmark_df.columns[
                         file_col_idx + 1 : ts_len_col_idx
                     ].tolist()
+
+                    # --- NEW: Calculate best overall average algorithm ---
+                    if algo_columns:
+                        algo_average_scores = {algo: [] for algo in algo_columns}
+                        for _, row_scan in benchmark_df.iterrows():
+                            for algo_col_scan in algo_columns:
+                                score_val_scan = pd.to_numeric(
+                                    row_scan.get(algo_col_scan), errors="coerce"
+                                )
+                                if not pd.isna(score_val_scan):
+                                    algo_average_scores[algo_col_scan].append(
+                                        score_val_scan
+                                    )
+
+                        calculated_algo_means = {}
+                        for (
+                            algo_name_scan,
+                            scores_list_scan,
+                        ) in algo_average_scores.items():
+                            if scores_list_scan:
+                                calculated_algo_means[algo_name_scan] = np.nanmean(
+                                    scores_list_scan
+                                )
+
+                        best_overall_average_algo_name = None
+                        best_overall_average_algo_score = -np.inf
+                        if calculated_algo_means:
+                            best_overall_average_algo_name = max(
+                                calculated_algo_means, key=calculated_algo_means.get
+                            )
+                            best_overall_average_algo_score = calculated_algo_means[
+                                best_overall_average_algo_name
+                            ]
+                            print(
+                                f"--- Best Overall Average Benchmark Algorithm (VUS-PR): {best_overall_average_algo_name} (Avg Score: {best_overall_average_algo_score:.4f}) ---"
+                            )
+                        else:
+                            print(
+                                "--- Could not determine best overall average benchmark algorithm. ---"
+                            )
+                    # --- END NEW ---
 
                     for _, row in benchmark_df.iterrows():
                         filename_bench = row["file"]
@@ -875,18 +800,30 @@ if __name__ == "__main__":
     if (
         all_results and benchmark_metrics
     ):  # Only backfill if there are existing results and benchmark data
-        model_prefix_backfill = MODEL_NAMES[0]  # Should be "F_May_22"
-        F_May_22_vus_pr_col_bf = f"{model_prefix_backfill}_VUS-PR"
-        bench_avg_col_bf = f"{model_prefix_backfill}_Benchmark_Avg_VUS-PR"
-        bench_max_col_bf = f"{model_prefix_backfill}_Benchmark_Max_VUS-PR"
-        diff_avg_col_bf = f"{model_prefix_backfill}_F_May_22_vs_Avg_VUS-PR_Diff"
-        diff_max_col_bf = f"{model_prefix_backfill}_F_May_22_vs_Max_VUS-PR_Diff"
-        benchmark_cols_to_check = [
+        model_prefix_backfill = MODEL_NAMES[0]
+        # Column names for existing benchmark comparison (vs. per-file avg/max)
+        MAD_0530_vus_pr_col_bf = f"VUS-PR"
+        bench_avg_col_bf = f"Benchmark_Avg_VUS-PR"
+        bench_max_col_bf = f"Benchmark_Max_VUS-PR"
+        diff_avg_col_bf = f"vs_Avg_VUS-PR_Diff"
+        diff_max_col_bf = f"vs_Max_VUS-PR_Diff"
+
+        # Column names for NEW benchmark comparison (vs. best overall average algorithm)
+        best_algo_name_col_bf = f"BestOverallAvgAlgo_Name"
+        best_algo_score_for_file_col_bf = f"BestOverallAvgAlgo_Score_ForFile"
+        diff_vs_best_algo_col_bf = f"vs_BestOverallAvgAlgo_VUS-PR_Diff"
+        new_benchmark_cols_bf = [
+            best_algo_name_col_bf,
+            best_algo_score_for_file_col_bf,
+            diff_vs_best_algo_col_bf,
+        ]
+        all_benchmark_cols_to_check_bf = [
             bench_avg_col_bf,
             bench_max_col_bf,
             diff_avg_col_bf,
             diff_max_col_bf,
-        ]
+        ] + new_benchmark_cols_bf
+
         updated_count_backfill = 0
 
         for row_dict_bf in all_results:
@@ -894,52 +831,112 @@ if __name__ == "__main__":
             if not filename_bf:
                 continue
 
-            # Check if any of the benchmark columns are missing
-            is_any_col_missing = False
-            for col_bf in benchmark_cols_to_check:
+            # Check if any of the benchmark columns are missing or need update
+            is_any_col_missing_or_needs_update_bf = False
+            for col_bf in all_benchmark_cols_to_check_bf:
                 val_bf = row_dict_bf.get(col_bf)
                 if pd.isna(val_bf) or (
                     isinstance(val_bf, str) and val_bf.startswith("N/A")
                 ):
-                    is_any_col_missing = True
+                    is_any_col_missing_or_needs_update_bf = True
                     break
 
-            if is_any_col_missing:
-                F_May_22_score_bf = pd.to_numeric(
-                    row_dict_bf.get(F_May_22_vus_pr_col_bf), errors="coerce"
+            if is_any_col_missing_or_needs_update_bf:
+                MAD_0530_score_bf = pd.to_numeric(
+                    row_dict_bf.get(MAD_0530_vus_pr_col_bf), errors="coerce"
                 )
 
-                if not pd.isna(F_May_22_score_bf):
-                    bench_data_for_file_bf = benchmark_metrics.get(filename_bf)
-                    if bench_data_for_file_bf:
-                        avg_bench_score_bf = bench_data_for_file_bf.get("avg", np.nan)
-                        max_bench_score_bf = bench_data_for_file_bf.get("max", np.nan)
-
-                        row_dict_bf[bench_avg_col_bf] = avg_bench_score_bf
-                        row_dict_bf[bench_max_col_bf] = max_bench_score_bf
+                # Fill existing benchmark comparison (vs. per-file avg/max)
+                bench_data_for_file_existing_bf = benchmark_metrics.get(filename_bf)
+                if bench_data_for_file_existing_bf:
+                    avg_bench_score_existing_bf = bench_data_for_file_existing_bf.get(
+                        "avg", np.nan
+                    )
+                    max_bench_score_existing_bf = bench_data_for_file_existing_bf.get(
+                        "max", np.nan
+                    )
+                    row_dict_bf[bench_avg_col_bf] = avg_bench_score_existing_bf
+                    row_dict_bf[bench_max_col_bf] = max_bench_score_existing_bf
+                    if not pd.isna(MAD_0530_score_bf):
                         row_dict_bf[diff_avg_col_bf] = (
-                            F_May_22_score_bf - avg_bench_score_bf
-                            if not pd.isna(avg_bench_score_bf)
+                            MAD_0530_score_bf - avg_bench_score_existing_bf
+                            if not pd.isna(avg_bench_score_existing_bf)
                             else np.nan
                         )
                         row_dict_bf[diff_max_col_bf] = (
-                            F_May_22_score_bf - max_bench_score_bf
-                            if not pd.isna(max_bench_score_bf)
+                            MAD_0530_score_bf - max_bench_score_existing_bf
+                            if not pd.isna(max_bench_score_existing_bf)
                             else np.nan
                         )
-                        updated_count_backfill += 1
                     else:
-                        # No benchmark data for this specific file
-                        for col_bf_fill in benchmark_cols_to_check:
-                            row_dict_bf[col_bf_fill] = "N/A_Benchmark_Filled"
-                        updated_count_backfill += (
-                            1  # Count as updated because we filled placeholders
-                        )
+                        row_dict_bf[diff_avg_col_bf] = "N/A_SelfNoScore"
+                        row_dict_bf[diff_max_col_bf] = "N/A_SelfNoScore"
                 else:
-                    # F_May_22 score itself is missing, so can't compare
-                    for col_bf_fill in benchmark_cols_to_check:
-                        row_dict_bf[col_bf_fill] = "N/A_SelfNoScore_Filled"
-                    updated_count_backfill += 1  # Count as updated
+                    row_dict_bf[bench_avg_col_bf] = "N/A_BenchmarkData"
+                    row_dict_bf[bench_max_col_bf] = "N/A_BenchmarkData"
+                    row_dict_bf[diff_avg_col_bf] = "N/A_BenchmarkData"
+                    row_dict_bf[diff_max_col_bf] = "N/A_BenchmarkData"
+
+                # Fill NEW benchmark comparison (vs. best overall average algorithm)
+                if (
+                    best_overall_average_algo_name
+                    and "benchmark_df" in locals()
+                    and not benchmark_df.empty
+                ):
+                    row_dict_bf[best_algo_name_col_bf] = best_overall_average_algo_name
+                    # Find the score of the best_overall_average_algo_name for the current file_bf
+                    file_specific_row_bf = benchmark_df[
+                        benchmark_df["file"] == filename_bf
+                    ]
+                    if not file_specific_row_bf.empty:
+                        # Check if best_overall_average_algo_name is a valid column in file_specific_row
+                        if (
+                            best_overall_average_algo_name
+                            in file_specific_row_bf.columns
+                        ):
+                            best_algo_score_this_file_bf = pd.to_numeric(
+                                file_specific_row_bf.iloc[0].get(
+                                    best_overall_average_algo_name
+                                ),
+                                errors="coerce",
+                            )
+                            row_dict_bf[best_algo_score_for_file_col_bf] = (
+                                best_algo_score_this_file_bf
+                            )
+                            if not pd.isna(MAD_0530_score_bf) and not pd.isna(
+                                best_algo_score_this_file_bf
+                            ):
+                                row_dict_bf[diff_vs_best_algo_col_bf] = (
+                                    MAD_0530_score_bf - best_algo_score_this_file_bf
+                                )
+                            elif pd.isna(MAD_0530_score_bf):
+                                row_dict_bf[diff_vs_best_algo_col_bf] = (
+                                    "N/A_SelfNoScore"
+                                )
+                            else:  # best_algo_score_this_file_bf is NaN
+                                row_dict_bf[diff_vs_best_algo_col_bf] = (
+                                    "N/A_BestAlgoNoScoreForFile"
+                                )
+                        else:
+                            row_dict_bf[best_algo_score_for_file_col_bf] = (
+                                "N/A_BestAlgoColMissing"
+                            )
+                            row_dict_bf[diff_vs_best_algo_col_bf] = (
+                                "N/A_BestAlgoColMissing"
+                            )
+                    else:  # File not found in benchmark_df for some reason
+                        row_dict_bf[best_algo_score_for_file_col_bf] = (
+                            "N/A_FileNotInBenchmark"
+                        )
+                        row_dict_bf[diff_vs_best_algo_col_bf] = "N/A_FileNotInBenchmark"
+                else:  # Best algo not determined or benchmark_df not available
+                    row_dict_bf[best_algo_name_col_bf] = "N/A_BestAlgoUndetermined"
+                    row_dict_bf[best_algo_score_for_file_col_bf] = (
+                        "N/A_BestAlgoUndetermined"
+                    )
+                    row_dict_bf[diff_vs_best_algo_col_bf] = "N/A_BestAlgoUndetermined"
+
+                updated_count_backfill += 1
         if updated_count_backfill > 0:
             pass
         else:
@@ -1038,7 +1035,7 @@ if __name__ == "__main__":
             continue
 
         data_train_for_run = data_full_for_run[:train_idx_val]
-        # data_test_for_run = data_full_for_run[train_idx_val:] # Not explicitly needed for run_F_May_22 call structure now
+        # data_test_for_run = data_full_for_run[train_idx_val:] # Not explicitly needed for run_MAD_0530 call structure now
         y_train_for_fit = labels_for_eval[:train_idx_val]
         # labels_test_for_eval_metrics = labels_for_eval[train_idx_val:] # Not needed if evaluating on full scores
 
@@ -1054,7 +1051,7 @@ if __name__ == "__main__":
             output_scaled_full,
             per_feature_artifacts_final,
             clf_instance_final,
-        ) = run_F_May_22(
+        ) = run_MAD_0530(
             data_train=data_train_for_run,
             data_full_for_decision=data_full_for_run,
             y_train_for_fit=y_train_for_fit,
@@ -1062,7 +1059,7 @@ if __name__ == "__main__":
         )
 
         duration_final_run = time.time() - model_start_time_final_run
-        current_results_final[f"{model_prefix_final}_runtime"] = duration_final_run
+        current_results_final[f"runtime"] = duration_final_run
 
         if (
             output_scaled_full is None
@@ -1071,7 +1068,7 @@ if __name__ == "__main__":
             or output_scaled_full.shape[0] != data_full_for_run.shape[0]
         ):
             current_results_final[f"{model_prefix_final}_Error"] = (
-                "Invalid scores from run_F_May_22"
+                "Invalid scores from run_MAD_0530"
             )
         else:
             # output_scaled_full is already scaled and covers the full dataset
@@ -1083,7 +1080,7 @@ if __name__ == "__main__":
                 )
                 if isinstance(eval_result_final_run, dict):
                     for k_result_final, v_result_final in eval_result_final_run.items():
-                        key_final_result = f"{model_prefix_final}_{k_result_final}"
+                        key_final_result = f"{k_result_final}"
                         if isinstance(v_result_final, np.number):
                             current_results_final[key_final_result] = (
                                 v_result_final.item()
@@ -1124,9 +1121,7 @@ if __name__ == "__main__":
                 and clf_instance_final.current_run_artifact_folder_name
             ):
                 if per_feature_artifacts_final:  # Check if artifacts exist
-                    artifacts_json_filename = (
-                        f"{model_prefix_final}_per_feature_artifacts_details.json"
-                    )
+                    artifacts_json_filename = f"per_feature_artifacts_details.json"
                     artifacts_json_path = os.path.join(
                         clf_instance_final.plot_save_dir,
                         clf_instance_final.current_run_artifact_folder_name,
@@ -1140,103 +1135,178 @@ if __name__ == "__main__":
                                 indent=2,
                                 cls=NpEncoder,
                             )  # Added NpEncoder
-                        current_results_final[
-                            f"{model_prefix_final}_per_feature_artifacts_path"
-                        ] = artifacts_json_path
+                        current_results_final[f"per_feature_artifacts_path"] = (
+                            artifacts_json_path
+                        )
                     except Exception as e_json_save:
                         print(
                             f"  Error saving per_feature_artifacts to JSON: {e_json_save}"
                         )
-                        current_results_final[
-                            f"{model_prefix_final}_per_feature_artifacts_path"
-                        ] = "Error saving"
+                        current_results_final[f"per_feature_artifacts_path"] = (
+                            "Error saving"
+                        )
                 else:
-                    current_results_final[
-                        f"{model_prefix_final}_per_feature_artifacts_path"
-                    ] = "No artifacts generated"
+                    current_results_final[f"per_feature_artifacts_path"] = (
+                        "No artifacts generated"
+                    )
             else:
-                current_results_final[
-                    f"{model_prefix_final}_per_feature_artifacts_path"
-                ] = "Artifact folder name not set"
+                current_results_final[f"per_feature_artifacts_path"] = (
+                    "Artifact folder name not set"
+                )
 
             # Add Benchmark Comparison
-            F_May_22_vus_pr_key = f"{model_prefix_final}_VUS-PR"
-            if F_May_22_vus_pr_key in current_results_final:
-                F_May_22_score = current_results_final[F_May_22_vus_pr_key]
-                if isinstance(F_May_22_score, (float, int)) and not pd.isna(
-                    F_May_22_score
-                ):
+            MAD_0530_vus_pr_key = f"VUS-PR"
+            if MAD_0530_vus_pr_key in current_results_final:
+                MAD_0530_score = pd.to_numeric(
+                    current_results_final[MAD_0530_vus_pr_key], errors="coerce"
+                )
+                if not pd.isna(MAD_0530_score):
+                    # Existing comparison (vs. per-file avg/max of all algos)
                     bench_data_for_file = benchmark_metrics.get(filename_main_final)
                     if bench_data_for_file:
                         avg_bench_score = bench_data_for_file.get("avg", np.nan)
                         max_bench_score = bench_data_for_file.get("max", np.nan)
 
-                        current_results_final[
-                            f"{model_prefix_final}_Benchmark_Avg_VUS-PR"
-                        ] = avg_bench_score
-                        current_results_final[
-                            f"{model_prefix_final}_Benchmark_Max_VUS-PR"
-                        ] = max_bench_score
+                        current_results_final[f"Benchmark_Avg_VUS-PR"] = avg_bench_score
+                        current_results_final[f"Benchmark_Max_VUS-PR"] = max_bench_score
 
                         if not pd.isna(avg_bench_score):
-                            current_results_final[
-                                f"{model_prefix_final}_F_May_22_vs_Avg_VUS-PR_Diff"
-                            ] = (F_May_22_score - avg_bench_score)
+                            current_results_final[f"vs_Avg_VUS-PR_Diff"] = (
+                                MAD_0530_score - avg_bench_score
+                            )
                         else:
-                            current_results_final[
-                                f"{model_prefix_final}_F_May_22_vs_Avg_VUS-PR_Diff"
-                            ] = np.nan
+                            current_results_final[f"vs_Avg_VUS-PR_Diff"] = np.nan
 
                         if not pd.isna(max_bench_score):
-                            current_results_final[
-                                f"{model_prefix_final}_F_May_22_vs_Max_VUS-PR_Diff"
-                            ] = (F_May_22_score - max_bench_score)
+                            current_results_final[f"vs_Max_VUS-PR_Diff"] = (
+                                MAD_0530_score - max_bench_score
+                            )
                         else:
-                            current_results_final[
-                                f"{model_prefix_final}_F_May_22_vs_Max_VUS-PR_Diff"
-                            ] = np.nan
+                            current_results_final[f"vs_Max_VUS-PR_Diff"] = np.nan
                     else:
-                        current_results_final[
-                            f"{model_prefix_final}_Benchmark_Avg_VUS-PR"
-                        ] = "N/A_Benchmark"
-                        current_results_final[
-                            f"{model_prefix_final}_Benchmark_Max_VUS-PR"
-                        ] = "N/A_Benchmark"
-                        current_results_final[
-                            f"{model_prefix_final}_F_May_22_vs_Avg_VUS-PR_Diff"
-                        ] = "N/A_Benchmark"
-                        current_results_final[
-                            f"{model_prefix_final}_F_May_22_vs_Max_VUS-PR_Diff"
-                        ] = "N/A_Benchmark"
+                        current_results_final[f"Benchmark_Avg_VUS-PR"] = "N/A_Benchmark"
+                        current_results_final[f"Benchmark_Max_VUS-PR"] = "N/A_Benchmark"
+                        current_results_final[f"vs_Avg_VUS-PR_Diff"] = "N/A_Benchmark"
+                        current_results_final[f"vs_Max_VUS-PR_Diff"] = "N/A_Benchmark"
+
+                    # NEW comparison (vs. best overall average algorithm)
+                    # Ensure algo_columns is defined from the benchmark loading part, or handle its absence
+                    if (
+                        best_overall_average_algo_name
+                        and "benchmark_df" in locals()
+                        and not benchmark_df.empty
+                        and algo_columns
+                    ):
+                        current_results_final[f"BestOverallAvgAlgo_Name"] = (
+                            best_overall_average_algo_name
+                        )
+                        file_specific_row = benchmark_df[
+                            benchmark_df["file"] == filename_main_final
+                        ]
+                        if not file_specific_row.empty:
+                            # Check if best_overall_average_algo_name is a valid column in file_specific_row
+                            if (
+                                best_overall_average_algo_name
+                                in file_specific_row.columns
+                            ):
+                                best_algo_score_for_this_file = pd.to_numeric(
+                                    file_specific_row.iloc[0].get(
+                                        best_overall_average_algo_name
+                                    ),
+                                    errors="coerce",
+                                )
+                                current_results_final[
+                                    f"BestOverallAvgAlgo_Score_ForFile"
+                                ] = best_algo_score_for_this_file
+                                if not pd.isna(best_algo_score_for_this_file):
+                                    current_results_final[
+                                        f"vs_BestOverallAvgAlgo_VUS-PR_Diff"
+                                    ] = (MAD_0530_score - best_algo_score_for_this_file)
+                                else:
+                                    current_results_final[
+                                        f"vs_BestOverallAvgAlgo_VUS-PR_Diff"
+                                    ] = "N/A_BestAlgoNoScoreForFile"
+                            else:
+                                current_results_final[
+                                    f"BestOverallAvgAlgo_Score_ForFile"
+                                ] = "N/A_BestAlgoColMissing"
+                                current_results_final[
+                                    f"vs_BestOverallAvgAlgo_VUS-PR_Diff"
+                                ] = "N/A_BestAlgoColMissing"
+                        else:  # File not found in benchmark_df
+                            current_results_final[
+                                f"BestOverallAvgAlgo_Score_ForFile"
+                            ] = "N/A_FileNotInBenchmark"
+                            current_results_final[
+                                f"vs_BestOverallAvgAlgo_VUS-PR_Diff"
+                            ] = "N/A_FileNotInBenchmark"
+                    elif (
+                        not algo_columns
+                    ):  # Handle case where algo_columns might not have been populated
+                        current_results_final[f"BestOverallAvgAlgo_Name"] = (
+                            "N/A_NoAlgoColsInBenchmark"
+                        )
+                        current_results_final[f"BestOverallAvgAlgo_Score_ForFile"] = (
+                            "N/A_NoAlgoColsInBenchmark"
+                        )
+                        current_results_final[f"vs_BestOverallAvgAlgo_VUS-PR_Diff"] = (
+                            "N/A_NoAlgoColsInBenchmark"
+                        )
+                    else:  # Best algo not determined or benchmark_df not loaded
+                        current_results_final[f"BestOverallAvgAlgo_Name"] = (
+                            "N/A_BestAlgoUndetermined"
+                        )
+                        current_results_final[f"BestOverallAvgAlgo_Score_ForFile"] = (
+                            "N/A_BestAlgoUndetermined"
+                        )
+                        current_results_final[f"vs_BestOverallAvgAlgo_VUS-PR_Diff"] = (
+                            "N/A_BestAlgoUndetermined"
+                        )
+
                 else:
-                    # F_May_22 VUS-PR score is not numeric or is NaN
-                    current_results_final[
-                        f"{model_prefix_final}_Benchmark_Avg_VUS-PR"
-                    ] = "N/A_SelfNoScore"
-                    current_results_final[
-                        f"{model_prefix_final}_Benchmark_Max_VUS-PR"
-                    ] = "N/A_SelfNoScore"
-                    current_results_final[
-                        f"{model_prefix_final}_F_May_22_vs_Avg_VUS-PR_Diff"
-                    ] = "N/A_SelfNoScore"
-                    current_results_final[
-                        f"{model_prefix_final}_F_May_22_vs_Max_VUS-PR_Diff"
-                    ] = "N/A_SelfNoScore"
+                    # MAD_0530 VUS-PR score is not numeric or is NaN
+                    current_results_final[f"Benchmark_Avg_VUS-PR"] = "N/A_SelfNoScore"
+                    current_results_final[f"Benchmark_Max_VUS-PR"] = "N/A_SelfNoScore"
+                    current_results_final[f"vs_Avg_VUS-PR_Diff"] = "N/A_SelfNoScore"
+                    current_results_final[f"vs_Max_VUS-PR_Diff"] = "N/A_SelfNoScore"
+                    # Also for new comparison
+                    current_results_final[f"BestOverallAvgAlgo_Name"] = (
+                        "N/A_SelfNoScore"
+                    )
+                    current_results_final[f"BestOverallAvgAlgo_Score_ForFile"] = (
+                        "N/A_SelfNoScore"
+                    )
+                    current_results_final[f"vs_BestOverallAvgAlgo_VUS-PR_Diff"] = (
+                        "N/A_SelfNoScore"
+                    )
 
             print(f"  Metrics for {filename_main_final}:")
-            vus_pr_score = current_results_final.get(
-                f"{model_prefix_final}_VUS-PR", "N/A"
+            vus_pr_score = current_results_final.get(f"VUS-PR", "N/A")
+            diff_avg = current_results_final.get(f"vs_Avg_VUS-PR_Diff", "N/A")
+            diff_max = current_results_final.get(f"vs_Max_VUS-PR_Diff", "N/A")
+            # New print for comparison against best overall average algorithm
+            best_algo_name_print = current_results_final.get(
+                f"BestOverallAvgAlgo_Name", "N/A"
             )
-            diff_avg = current_results_final.get(
-                f"{model_prefix_final}_F_May_22_vs_Avg_VUS-PR_Diff", "N/A"
+            best_algo_score_print = current_results_final.get(
+                f"BestOverallAvgAlgo_Score_ForFile", "N/A"
             )
-            diff_max = current_results_final.get(
-                f"{model_prefix_final}_F_May_22_vs_Max_VUS-PR_Diff", "N/A"
+            diff_vs_best_algo_print = current_results_final.get(
+                f"vs_BestOverallAvgAlgo_VUS-PR_Diff", "N/A"
             )
 
             print(f"    - VUS-PR: {vus_pr_score}")
-            print(f"    - Diff vs Avg VUS-PR: {diff_avg}")
-            print(f"    - Diff vs Max VUS-PR: {diff_max}")
+            print(f"    - Diff vs Avg VUS-PR (all algos, this file): {diff_avg}")
+            print(f"    - Diff vs Max VUS-PR (all algos, this file): {diff_max}")
+            print(
+                f"    - Best Overall Avg Algo (across all files): {best_algo_name_print}"
+            )  # Clarified label
+            print(
+                f"    - {best_algo_name_print}'s VUS-PR (this file): {best_algo_score_print}"
+            )  # Clarified label
+            print(
+                f"    - MAD VUS-PR vs {best_algo_name_print}'s VUS-PR (this file): {diff_vs_best_algo_print}"
+            )  # Clarified label
 
         existing_index_final_res = next(
             (
@@ -1303,15 +1373,13 @@ if __name__ == "__main__":
                 return False
 
             for model_iter_end_avg in MODEL_NAMES:
-                print(
-                    f"\n  --- Model: {model_iter_end_avg} ({num_ok_end_avg} successful files) ---"
-                )
+                print(f"\n  --- {num_ok_end_avg} successful files ---")
                 print(f"    -- Key Performance Metrics --")
                 vus_pr_fnd_end = print_average_metric_final_val(
-                    ok_df_end_avg, f"{model_iter_end_avg}_VUS-PR", "VUS-PR"
+                    ok_df_end_avg, f"VUS-PR", "VUS-PR"
                 )
                 vus_roc_fnd_end = print_average_metric_final_val(
-                    ok_df_end_avg, f"{model_iter_end_avg}_VUS-ROC", "VUS-ROC"
+                    ok_df_end_avg, f"VUS-ROC", "VUS-ROC"
                 )
                 if not vus_pr_fnd_end and not vus_roc_fnd_end:
                     print("      - VUS-PR / VUS-ROC: N/A")
@@ -1321,7 +1389,7 @@ if __name__ == "__main__":
                     if met_iter_end_run not in ["VUS-PR", "VUS-ROC"]:
                         if print_average_metric_final_val(
                             ok_df_end_avg,
-                            f"{model_iter_end_avg}_{met_iter_end_run}",
+                            f"{met_iter_end_run}",
                             met_iter_end_run,
                         ):
                             other_mets_fnd_count_end += 1
@@ -1330,41 +1398,62 @@ if __name__ == "__main__":
                 print(f"\n    -- Other Information --")
                 print_average_metric_final_val(
                     ok_df_end_avg,
-                    f"{model_iter_end_avg}_runtime",
+                    f"runtime",
                     "Avg Runtime (s)",
                 )
                 print_average_metric_final_val(
                     ok_df_end_avg,
-                    f"{model_iter_end_avg}_FP_count_ext",
+                    f"FP_count_ext",
                     "Avg FP Count (Extended)",
                 )
                 print_average_metric_final_val(
                     ok_df_end_avg,
-                    f"{model_iter_end_avg}_FN_count_ext",
+                    f"FN_count_ext",
                     "Avg FN Count (Extended)",
                 )
                 # Print averages for new benchmark comparison columns
-                print(f"\n    -- Benchmark VUS-PR Comparison --")
+                print(
+                    f"\n    -- Benchmark VUS-PR Comparison (vs. Per-File Avg/Max of All Algos) --"
+                )
                 print_average_metric_final_val(
                     ok_df_end_avg,
-                    f"{model_iter_end_avg}_Benchmark_Avg_VUS-PR",
+                    f"Benchmark_Avg_VUS-PR",
                     "Benchmark Avg VUS-PR",
                 )
                 print_average_metric_final_val(
                     ok_df_end_avg,
-                    f"{model_iter_end_avg}_Benchmark_Max_VUS-PR",
+                    f"Benchmark_Max_VUS-PR",
                     "Benchmark Max VUS-PR",
                 )
+
                 print_average_metric_final_val(
                     ok_df_end_avg,
-                    f"{model_iter_end_avg}_F_May_22_vs_Avg_VUS-PR_Diff",
+                    f"vs_Avg_VUS-PR_Diff",
                     "Diff vs Avg VUS-PR",
                 )
                 print_average_metric_final_val(
                     ok_df_end_avg,
-                    f"{model_iter_end_avg}_F_May_22_vs_Max_VUS-PR_Diff",
+                    f"vs_Max_VUS-PR_Diff",
                     "Diff vs Max VUS-PR",
                 )
+
+                # NEW: Print averages for comparison against the single best overall average algorithm
+                if (
+                    best_overall_average_algo_name
+                ):  # Only print if a best algo was found
+                    print(
+                        f"\n    -- Benchmark VUS-PR Comparison (vs. Best Overall Avg Algo: {best_overall_average_algo_name}) --"
+                    )
+                    print_average_metric_final_val(
+                        ok_df_end_avg,
+                        f"BestOverallAvgAlgo_Score_ForFile",
+                        f"Avg Score of {best_overall_average_algo_name} (on these files)",
+                    )
+                    print_average_metric_final_val(
+                        ok_df_end_avg,
+                        f"vs_BestOverallAvgAlgo_VUS-PR_Diff",
+                        f"Avg Diff vs {best_overall_average_algo_name} VUS-PR",  # Clarified this is an average of diffs
+                    )
 
             print("\n  ------------------------------------")
         else:

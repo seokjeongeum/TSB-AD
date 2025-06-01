@@ -1,9 +1,11 @@
 from google import genai
 
-from MAD.core.constants import (DEFAULT_FALLBACK_TOKEN_LIMIT,
-                                FIXED_MODEL_NAME_GEMINI_FLASH)
+from MAD.MAD_0530.constants_0530 import (
+    DEFAULT_FALLBACK_TOKEN_LIMIT,
+    FIXED_MODEL_NAME_GEMINI_FLASH,
+)
 
-from .mad_utils import _format_exception_for_logging
+from .mad_utils_0530 import _format_exception_for_logging
 
 
 def initialize_gemini_client(api_key_value: str, logger):
@@ -64,7 +66,11 @@ def get_gemini_model_info(
         if FIXED_MODEL_NAME_GEMINI_FLASH.startswith("")
         else f"{FIXED_MODEL_NAME_GEMINI_FLASH}"
     )
-    input_limit = input_token_limit_override if input_token_limit_override is not None else DEFAULT_FALLBACK_TOKEN_LIMIT
+    input_limit = (
+        input_token_limit_override
+        if input_token_limit_override is not None
+        else DEFAULT_FALLBACK_TOKEN_LIMIT
+    )
     using_override_for_input = input_token_limit_override is not None
     output_limit = default_output_token_limit
 
@@ -82,12 +88,16 @@ def get_gemini_model_info(
 
         if not using_override_for_input and fetched_input_limit is not None:
             input_limit = fetched_input_limit
-        
+
         if fetched_output_limit is not None:
             output_limit = fetched_output_limit
 
         if logger:
-            log_input_limit_source = "override" if using_override_for_input else ("fetched" if fetched_input_limit is not None else "default")
+            log_input_limit_source = (
+                "override"
+                if using_override_for_input
+                else ("fetched" if fetched_input_limit is not None else "default")
+            )
             logger.debug(
                 f"Model {qualified_model_name}: Input Limit={input_limit} (source: {log_input_limit_source}), Output Limit={output_limit} (fetched: {fetched_output_limit is not None})."
             )

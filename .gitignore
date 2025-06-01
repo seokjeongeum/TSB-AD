@@ -7,6 +7,6 @@ TSB_AD/models/NormA.py
 TSB_AD/models/Series2Graph.py
 Datasets/TSB-AD-M
 Datasets/TSB-AD-U
-*Feature_Plots
-*ScoreLabel_Plots
+Feature_Plots
+ScoreLabel_Plots
 *Raw_Data_Plots_AllDims_AnomAnnotated

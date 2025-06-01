@@ -5,8 +5,8 @@ import numpy as np
 from google.genai import types
 from google.genai.types import FinishReason
 
-from . import gemini_api_utils, mad_utils, plotting_utils, prompt_utils
-from .constants import DEFAULT_FALLBACK_TOKEN_LIMIT, FIXED_MODEL_NAME_GEMINI_FLASH, THINKING_BUDGET_MAIN_LLM
+from . import gemini_api_utils_0522, mad_utils_0522, plotting_utils_0522, prompt_utils_0522
+from .constants_0522 import DEFAULT_FALLBACK_TOKEN_LIMIT, FIXED_MODEL_NAME_GEMINI_FLASH, THINKING_BUDGET_MAIN_LLM
 
 
 def process_single_batch_with_llm(
@@ -60,7 +60,7 @@ def process_single_batch_with_llm(
     generated_plot_file_for_llm = None  # Stores the File object from Gemini API
     image_uri_for_prompt = None
 
-    plotting_utils.generate_batch_llm_input_plot(
+    plotting_utils_0522.generate_batch_llm_input_plot(
         X_data_col=X_data_col,
         i_feat=i_feat,
         batch_num=batch_num,
@@ -83,7 +83,7 @@ def process_single_batch_with_llm(
             logger.info(
                 f"Batch {batch_num}: Uploading initial plot: {plot_local_path_this_batch}"
             )
-            uploaded_file_response = gemini_api_utils.upload_file_to_gemini(
+            uploaded_file_response = gemini_api_utils_0522.upload_file_to_gemini(
                 client=current_attempt_client,
                 file_path=plot_local_path_this_batch,
                 logger=logger,
@@ -96,7 +96,7 @@ def process_single_batch_with_llm(
             break
         except Exception as e_upload:
             logger.warning(
-                f"Batch {batch_num}, Initial Plot Upload Attempt {upload_attempt + 1} failed: {mad_utils._format_exception_for_logging(e_upload)}"
+                f"Batch {batch_num}, Initial Plot Upload Attempt {upload_attempt + 1} failed: {mad_utils_0522._format_exception_for_logging(e_upload)}"
             )
             if upload_attempt < max_retries_with_delay_per_key - 1:
                 time.sleep(default_retry_delay_seconds)
@@ -124,9 +124,9 @@ def process_single_batch_with_llm(
     # Variables to store artifacts of the *successful* attempt, or the *last* failed one
     pass_name_of_final_code = "N/A"
 
-    # Fetch model info once for the batch, respecting any override passed from F_May_22
+    # Fetch model info once for the batch, respecting any override passed from MAD_May_22
     # This `batch_input_token_limit` will be used for budgeting analysis snippets *within* this batch processing.
-    batch_model_info = gemini_api_utils.get_gemini_model_info(
+    batch_model_info = gemini_api_utils_0522.get_gemini_model_info(
         current_attempt_client,
         default_output_token_limit=65536, # Example, consider if this needs to be more dynamic
         input_token_limit_override=input_token_limit_override,
@@ -177,7 +177,7 @@ def process_single_batch_with_llm(
             # halving snippets and re-plotting/uploading if MAX_TOKENS occurs.
             # This loop does not consume same_key_retry_num for MAX_TOKENS retries.
             while True:
-                prompt_for_current_api_call = prompt_utils.construct_llm_batch_prompt(
+                prompt_for_current_api_call = prompt_utils_0522.construct_llm_batch_prompt(
                     i_feat=i_feat,
                     n_samples=n_samples,
                     current_batch_training_snippets_map=current_batch_training_snippets_final_dict,
@@ -212,7 +212,7 @@ def process_single_batch_with_llm(
 
                 # Log the prompt that will be sent for this specific API call attempt
                 # Uses current_pass_name, so will overwrite if MAX_TOKENS causes iterative prompt regen for the same pass.
-                temp_prompt_log_path = mad_utils.log_prompt_text_to_file(
+                temp_prompt_log_path = mad_utils_0522.log_prompt_text_to_file(
                     prompt_for_current_api_call,
                     batch_extras_save_dir,
                     f"main_prompt_F{i_feat}_B{batch_num}.txt",  # Filename based on user diff
@@ -231,7 +231,7 @@ def process_single_batch_with_llm(
                         current_analysis_snippets_for_this_pass
                     )  # Track for this specific call
 
-                    response = gemini_api_utils.execute_gemini_api_call(
+                    response = gemini_api_utils_0522.execute_gemini_api_call(
                         api_call_func=current_attempt_client.models.generate_content,
                         contents=current_api_call_contents,
                         config=types.GenerateContentConfig(
@@ -275,7 +275,7 @@ def process_single_batch_with_llm(
                                     thought_log_paths_batch.append(thought_filename)
                                 except Exception as e_save_thought_batch:
                                     logger.warning(
-                                        f"Failed to save Main LLM Batch thought: {mad_utils._format_exception_for_logging(e_save_thought_batch)}"
+                                        f"Failed to save Main LLM Batch thought: {mad_utils_0522._format_exception_for_logging(e_save_thought_batch)}"
                                     )
                         if thought_log_paths_batch:
                             # Add to batch_output_artifact_data, perhaps under a specific key for this attempt
@@ -335,7 +335,7 @@ def process_single_batch_with_llm(
                             ]
                         )
                         current_analysis_snippets_map_for_this_pass = (
-                            mad_utils.convert_snippet_list_to_final_json(
+                            mad_utils_0522.convert_snippet_list_to_final_json(
                                 current_analysis_snippets_for_this_pass, False, logger
                             )
                         )
@@ -345,7 +345,7 @@ def process_single_batch_with_llm(
                             batch_extras_save_dir,
                             f"plot_LLM_Input_F{i_feat}_B{batch_num}.png",  # Filename based on user diff (one per pass)
                         )
-                        plotting_utils.generate_batch_llm_input_plot(
+                        plotting_utils_0522.generate_batch_llm_input_plot(
                             X_data_col=X_data_col,
                             i_feat=i_feat,
                             batch_num=batch_num,
@@ -372,7 +372,7 @@ def process_single_batch_with_llm(
                                 f"Batch {batch_num}, MAX_TOKENS Halving Iter {halving_iteration_this_pass} for pass {current_pass_name}: Uploading new plot: {new_plot_local_path_after_halving}"
                             )
                             uploaded_halved_plot_response = (
-                                gemini_api_utils.upload_file_to_gemini(
+                                gemini_api_utils_0522.upload_file_to_gemini(
                                     client=current_attempt_client,
                                     file_path=new_plot_local_path_after_halving,
                                     logger=logger,
@@ -391,7 +391,7 @@ def process_single_batch_with_llm(
                                 )
                         except Exception as e_reupload:
                             logger.warning(
-                                f"Batch {batch_num}, MAX_TOKENS Halving Iter {halving_iteration_this_pass} for pass {current_pass_name}: Failed to re-upload plot. Error: {mad_utils._format_exception_for_logging(e_reupload)}. Using previous or no plot URI."
+                                f"Batch {batch_num}, MAX_TOKENS Halving Iter {halving_iteration_this_pass} for pass {current_pass_name}: Failed to re-upload plot. Error: {mad_utils_0522._format_exception_for_logging(e_reupload)}. Using previous or no plot URI."
                             )
 
                         logger.info(
@@ -428,16 +428,16 @@ def process_single_batch_with_llm(
                 ) as e_llm_call:  # Catch other API errors (network, etc.)
                     last_exception_for_batch = e_llm_call
                     logger.warning(
-                        f"Batch {batch_num}, Code Gen {current_pass_name}, API Call Attempt {same_key_retry_num + 1} FAILED. Error: {mad_utils._format_exception_for_logging(e_llm_call)}"
+                        f"Batch {batch_num}, Code Gen {current_pass_name}, API Call Attempt {same_key_retry_num + 1} FAILED. Error: {mad_utils_0522._format_exception_for_logging(e_llm_call)}"
                     )
                     # --- Robust Key Fatal Error Check ---
                     key_is_truly_fatal = False
                     error_lower_str = str(e_llm_call).lower() if e_llm_call else ""
-                    parsed_retry_delay_seconds = mad_utils.extract_retry_delay_from_error_details_json(error_lower_str)
+                    parsed_retry_delay_seconds = mad_utils_0522.extract_retry_delay_from_error_details_json(error_lower_str)
                     # Attempt to extract quota info, assuming mad_utils.extract_quota_info_from_error_details_json is available
                     quota_info = None
                     try:
-                        quota_info = mad_utils.extract_quota_info_from_error_details_json(error_lower_str)
+                        quota_info = mad_utils_0522.extract_quota_info_from_error_details_json(error_lower_str)
                     except AttributeError: # If the function isn't there yet, log a warning but continue
                         logger.warning("mad_utils.extract_quota_info_from_error_details_json not found. Quota info will be unavailable for this error.")
 
@@ -572,10 +572,10 @@ def process_single_batch_with_llm(
             attempt_num += 1
             continue  # To next attempt_num (refinement pass for the code generation itself)
 
-        generated_code_str = mad_utils.strip_markdown_code_fences(
+        generated_code_str = mad_utils_0522.strip_markdown_code_fences(
             llm_response_text_current_attempt
         )
-        current_code_log_path = mad_utils.log_code_to_file(
+        current_code_log_path = mad_utils_0522.log_code_to_file(
             generated_code_str,
             batch_extras_save_dir,
             f"generated_code_F{i_feat}_B{batch_num}_{current_pass_name}.py",
@@ -623,7 +623,7 @@ def process_single_batch_with_llm(
                 logger.error(f"Batch {batch_num}: {err_msg_exec}")
                 execution_error_details_for_refinement = err_msg_exec
         except Exception as e_exec:
-            formatted_exec_error = mad_utils._format_exception_for_logging(e_exec)
+            formatted_exec_error = mad_utils_0522._format_exception_for_logging(e_exec)
             logger.error(
                 f"Batch {batch_num}, Code Gen {current_pass_name}: Code execution FAILED: {formatted_exec_error}"
             )
@@ -643,7 +643,7 @@ def process_single_batch_with_llm(
                 f"llm_anomalies_F{i_feat}_B{batch_num}_{current_pass_name}_scores_FAILED.png",
             )
             plot_success_failed_scores, _ = (
-                plotting_utils.generate_llm_identified_anomalies_plot(
+                plotting_utils_0522.generate_llm_identified_anomalies_plot(
                     X_data_col=X_data_col,
                     llm_anomaly_scores=temp_scores_this_attempt,
                     i_feat=i_feat,
@@ -660,7 +660,7 @@ def process_single_batch_with_llm(
             if plot_success_failed_scores:
                 for upload_retry in range(max_retries_with_delay_per_key):
                     try:
-                        uploaded_failed_plot = gemini_api_utils.upload_file_to_gemini(
+                        uploaded_failed_plot = gemini_api_utils_0522.upload_file_to_gemini(
                             current_attempt_client,
                             plot_path_failed_attempt_scores,
                             logger,
@@ -674,7 +674,7 @@ def process_single_batch_with_llm(
                             break
                     except Exception as e_upload_fail_plot:
                         logger.warning(
-                            f"Batch {batch_num}, Upload of failed scores plot (for refinement) attempt {upload_retry+1} failed: {mad_utils._format_exception_for_logging(e_upload_fail_plot)}"
+                            f"Batch {batch_num}, Upload of failed scores plot (for refinement) attempt {upload_retry+1} failed: {mad_utils_0522._format_exception_for_logging(e_upload_fail_plot)}"
                         )
                         if upload_retry < max_retries_with_delay_per_key - 1:
                             time.sleep(default_retry_delay_seconds)
@@ -710,7 +710,7 @@ def process_single_batch_with_llm(
         batch_extras_save_dir,
         f"llm_anomalies_F{i_feat}_B{batch_num}_{final_plot_filename_suffix}.png",
     )
-    plotting_utils.generate_llm_identified_anomalies_plot(
+    plotting_utils_0522.generate_llm_identified_anomalies_plot(
         X_data_col=X_data_col,
         llm_anomaly_scores=current_batch_scores_from_llm,  # Scores from successful or last failed attempt
         i_feat=i_feat,

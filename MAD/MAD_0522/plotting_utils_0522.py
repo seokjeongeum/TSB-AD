@@ -7,7 +7,7 @@ import numpy as np
 
 from MAD.core.constants import PLOT_FIG_WIDTH
 
-from .mad_utils import _find_clusters, _format_exception_for_logging
+from .mad_utils_0522 import _find_clusters, _format_exception_for_logging
 
 # _find_clusters_func will be passed from mad_utils (e.g., from MAD.mad_utils import _find_clusters)
 # _format_exception_func will be passed from mad_utils (e.g., from MAD.mad_utils import _format_exception_for_logging)

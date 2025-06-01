@@ -56,11 +56,23 @@
                 // Add other extensions your project uses
             ]
         }
-    }
-    // Optional: Mount your local SSH keys if needed for git cloning private repos
-    // "mounts": [
-    //  "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
-    // ],
+    },
+    // Mounts: Define how local directories are mapped into the container.
+    "mounts": [
+        // Mount your local MAD/Feature_Plots directory to /mnt/sdg/jeseok/Feature_Plots in the container.
+        // - 'source': Path on your host machine.
+        //   `${localWorkspaceFolder}` refers to the root of your opened project.
+        //   If MAD/Feature_Plots is NOT in your project root, you'll need to provide an absolute path
+        //   e.g., "source": "/path/on/your/host/MAD/Feature_Plots"
+        // - 'target': Path inside the container.
+        // - 'type': 'bind' for directory mounting.
+        // - 'consistency': 'cached' can improve performance on macOS/Windows.
+        {
+            "source": "/mnt/sdg/jeseok/Feature_Plots", 
+            "target": "/workspaces/TSB-AD/MAD/Feature_Plots", // ABSOLUTE path INSIDE the container
+            "type": "bind"
+        }
+    ]
     // Run container commands as root (common for NVIDIA images, simplifies package installs)
     // If your base image creates a non-root user like 'vscode', you might need
     // to adjust permissions or use 'sudo' in postCreateCommand.

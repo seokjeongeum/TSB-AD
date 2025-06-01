@@ -16,12 +16,12 @@ from MAD.core.constants import (
 )
 from TSB_AD.models.base import BaseDetector
 
-from . import gemini_api_utils, mad_utils, plotting_utils, prompt_utils
-from .interest_identifier import perform_interest_identification_step
-from .llm_batch_processor import process_single_batch_with_llm
+from . import gemini_api_utils_0522, mad_utils_0522, plotting_utils_0522, prompt_utils_0522
+from .interest_identifier_0522 import perform_interest_identification_step
+from .llm_batch_processor_0522 import process_single_batch_with_llm
 
 
-class F_May_22(BaseDetector):
+class MAD_May_22(BaseDetector):
     """
     Anomaly detector using Google Genai (Gemini). Employs a single-step process *per feature*:
     1. Anomaly Index Identification: Identifies specific anomalous indices for a feature based on
@@ -55,7 +55,7 @@ class F_May_22(BaseDetector):
         # This HP controls if training anomalies are shown on the input plot to the LLM
         self.use_training_labels_for_plot_hint_on_main_plot = True
 
-        self.plot_save_dir = "MAD/F_May_22_Feature_Plots"  # Main directory for all runs
+        self.plot_save_dir = "MAD/MAD_May_22_Feature_Plots"  # Main directory for all runs
         os.makedirs(self.plot_save_dir, exist_ok=True)
 
         self.decision_scores_ = None
@@ -95,7 +95,7 @@ class F_May_22(BaseDetector):
 
         self.X_train_fit_data = None
         self.y_train_fit_labels = None
-        self.logger.debug("""F_May_22 Initialized with HPs: %s""", HP)
+        self.logger.debug("""MAD_May_22 Initialized with HPs: %s""", HP)
         # train_data_len_for_hint is now implicitly self.X_train_fit_data.shape[0] if it exists
         self.per_feature_interest_ranges_ = (
             {}
@@ -114,7 +114,7 @@ class F_May_22(BaseDetector):
             return None
 
         key_to_use = self.api_keys[api_key_index_to_use]
-        client = gemini_api_utils.initialize_gemini_client(key_to_use, self.logger)
+        client = gemini_api_utils_0522.initialize_gemini_client(key_to_use, self.logger)
         self.logger.debug(
             f"Client initialized with key index {api_key_index_to_use}: {'Success' if client else 'Failed'}"
         )
@@ -242,11 +242,11 @@ class F_May_22(BaseDetector):
                             # It was a large block, ensure it's correctly summarized or fully included if critical
                             # For this refactor, we assume it correctly sets `calculated_target_range_size`
                             empty_snippets_dict = (
-                                mad_utils.convert_snippet_list_to_final_json(
+                                mad_utils_0522.convert_snippet_list_to_final_json(
                                     [], True, self.logger
                                 )
                             )
-                            _temp_base_prompt_main_step = prompt_utils.construct_llm_batch_prompt(
+                            _temp_base_prompt_main_step = prompt_utils_0522.construct_llm_batch_prompt(
                                 i_feat=i_feat,
                                 n_samples=n_samples,
                                 current_batch_training_snippets_map=empty_snippets_dict,
@@ -258,7 +258,7 @@ class F_May_22(BaseDetector):
                                 y_train_fit_labels_param=self.y_train_fit_labels,
                             )
                             base_prompt_tokens_main_step = (
-                                gemini_api_utils.count_gemini_tokens(
+                                gemini_api_utils_0522.count_gemini_tokens(
                                     current_attempt_client,
                                     FIXED_MODEL_NAME_GEMINI_FLASH,
                                     [_temp_base_prompt_main_step],
@@ -266,7 +266,7 @@ class F_May_22(BaseDetector):
                                 ).total_tokens
                             )
 
-                            input_limit_main_step = gemini_api_utils.get_gemini_model_info(
+                            input_limit_main_step = gemini_api_utils_0522.get_gemini_model_info(
                                 current_attempt_client,
                                 65536,
                                 self.dynamic_token_limit_overrides.get(self.current_api_key_index), # Pass override
@@ -316,7 +316,7 @@ class F_May_22(BaseDetector):
                                     if s.get("label") != 1
                                 ]
                                 centered_normal_tr_calc = (
-                                    mad_utils.prepare_centered_list(
+                                    mad_utils_0522.prepare_centered_list(
                                         normal_tr_calc, self.logger
                                     )
                                 )
@@ -324,14 +324,14 @@ class F_May_22(BaseDetector):
                                     anomalous_tr_calc + centered_normal_tr_calc
                                 )
                                 calculated_target_range_size = len(
-                                    mad_utils.fill_snippets_by_token_budget(
+                                    mad_utils_0522.fill_snippets_by_token_budget(
                                         client=current_attempt_client,
                                         model_name_for_counting=FIXED_MODEL_NAME_GEMINI_FLASH,
                                         prioritized_snippets_list=prioritized_for_calc,
                                         available_tokens_for_snippets_content=budget_for_training_snippets_main
                                         / 2,  # Example division, adjust as needed
                                         json_wrapper_template_func=lambda sl: json.dumps(
-                                            mad_utils.convert_snippet_list_to_final_json(
+                                            mad_utils_0522.convert_snippet_list_to_final_json(
                                                 sl, True, self.logger
                                             )
                                         ),
@@ -365,7 +365,7 @@ class F_May_22(BaseDetector):
                             )
                         except Exception as e_calc_range:
                             self.logger.error(
-                                f"Feature {i_feat} (KeyIdx {self.current_api_key_index}): Error calculating target_range_size: {mad_utils._format_exception_for_logging(e_calc_range)}. Using default: {calculated_target_range_size}."
+                                f"Feature {i_feat} (KeyIdx {self.current_api_key_index}): Error calculating target_range_size: {mad_utils_0522._format_exception_for_logging(e_calc_range)}. Using default: {calculated_target_range_size}."
                             )
 
                     identified_train_interest_range = None
@@ -443,7 +443,7 @@ class F_May_22(BaseDetector):
                             ]["error_due_to_key_exhaustion_or_fatal"] = True
                         continue  # Skip to the next api_key_attempt_num for this feature
 
-                    all_training_example_snippets = mad_utils.prepare_training_snippets_for_main_step(
+                    all_training_example_snippets = mad_utils_0522.prepare_training_snippets_for_main_step(
                         X_train_fit_data=self.X_train_fit_data,
                         y_train_fit_labels=self.y_train_fit_labels,
                         i_feat=i_feat,
@@ -478,7 +478,7 @@ class F_May_22(BaseDetector):
                             break
 
                         try:
-                            model_info = gemini_api_utils.get_gemini_model_info(
+                            model_info = gemini_api_utils_0522.get_gemini_model_info(
                                 current_attempt_client,
                                 65536,
                                 self.dynamic_token_limit_overrides.get(self.current_api_key_index), # Pass override
@@ -494,7 +494,7 @@ class F_May_22(BaseDetector):
 
                             # --- Token Budgeting (Simplified) ---
                             _base_prompt_for_struct_count = (
-                                prompt_utils.construct_llm_batch_prompt(
+                                prompt_utils_0522.construct_llm_batch_prompt(
                                     i_feat,
                                     n_samples,
                                     {},
@@ -507,7 +507,7 @@ class F_May_22(BaseDetector):
                                     None,
                                 )
                             )
-                            base_prompt_tokens = gemini_api_utils.count_gemini_tokens(
+                            base_prompt_tokens = gemini_api_utils_0522.count_gemini_tokens(
                                 current_attempt_client,
                                 qualified_model_name,
                                 [_base_prompt_for_struct_count],
@@ -526,20 +526,20 @@ class F_May_22(BaseDetector):
                                 all_training_example_snippets
                                 and tokens_for_train_budget > 10
                             ):
-                                current_batch_collected_training_snippets_list = mad_utils.fill_snippets_by_token_budget(
+                                current_batch_collected_training_snippets_list = mad_utils_0522.fill_snippets_by_token_budget(
                                     current_attempt_client,
                                     qualified_model_name,
                                     all_training_example_snippets,
                                     tokens_for_train_budget,
                                     lambda snips: json.dumps(
-                                        mad_utils.convert_snippet_list_to_final_json(
+                                        mad_utils_0522.convert_snippet_list_to_final_json(
                                             snips, True, self.logger
                                         )
                                     ),
                                     self.logger,
                                 )
                             current_batch_training_snippets_final_dict = (
-                                mad_utils.convert_snippet_list_to_final_json(
+                                mad_utils_0522.convert_snippet_list_to_final_json(
                                     current_batch_collected_training_snippets_list,
                                     True,
                                     self.logger,
@@ -548,7 +548,7 @@ class F_May_22(BaseDetector):
 
                             actual_train_tokens = 0
                             if current_batch_collected_training_snippets_list:
-                                actual_train_tokens = gemini_api_utils.count_gemini_tokens(
+                                actual_train_tokens = gemini_api_utils_0522.count_gemini_tokens(
                                     current_attempt_client,
                                     qualified_model_name,
                                     [
@@ -566,7 +566,7 @@ class F_May_22(BaseDetector):
                             # --- End Token Budgeting ---
 
                             current_batch_collected_analysis_snippets_list = (
-                                mad_utils.prepare_analysis_snippets_for_batch(
+                                mad_utils_0522.prepare_analysis_snippets_for_batch(
                                     candidate_analysis_snippets_for_this_batch_call,
                                     current_attempt_client,
                                     qualified_model_name,
@@ -575,7 +575,7 @@ class F_May_22(BaseDetector):
                                 )
                             )
                             current_batch_analysis_snippets_final_dict = (
-                                mad_utils.convert_snippet_list_to_final_json(
+                                mad_utils_0522.convert_snippet_list_to_final_json(
                                     current_batch_collected_analysis_snippets_list,
                                     False,
                                     self.logger,
@@ -662,7 +662,7 @@ class F_May_22(BaseDetector):
                                     break  # Break from while loop (batches for this key)
                             else:  # Batch failed
                                 self.logger.error(
-                                    f"Ft {i_feat}, B{batch_num} (Offset {current_offset_for_analysis_snippets} from {initial_offset_for_this_key_attempt}) FAILED via processor for Key {self.current_api_key_index}. Last batch error: {mad_utils._format_exception_for_logging(batch_exception)}"
+                                    f"Ft {i_feat}, B{batch_num} (Offset {current_offset_for_analysis_snippets} from {initial_offset_for_this_key_attempt}) FAILED via processor for Key {self.current_api_key_index}. Last batch error: {mad_utils_0522._format_exception_for_logging(batch_exception)}"
                                 )
                                 if learned_quota_from_batch is not None: # A quota was learned even on failure
                                     self.logger.info(f"Feature {i_feat}, Key {self.current_api_key_index}: Updating dynamic token limit from failed Batch {batch_num} to {learned_quota_from_batch}.")
@@ -672,7 +672,7 @@ class F_May_22(BaseDetector):
 
                         except Exception as e_batch_outer_refactored:
                             self.logger.error(
-                                f"Ft {i_feat}, B{batch_num}, Key {self.current_api_key_index}: Outer exception in batch loop: {mad_utils._format_exception_for_logging(e_batch_outer_refactored)}"
+                                f"Ft {i_feat}, B{batch_num}, Key {self.current_api_key_index}: Outer exception in batch loop: {mad_utils_0522._format_exception_for_logging(e_batch_outer_refactored)}"
                             )
                             last_llm_exception_for_feature = e_batch_outer_refactored
                             current_offset_for_analysis_snippets = (
@@ -699,7 +699,7 @@ class F_May_22(BaseDetector):
                 # After API key loop
                 if not llm_step_succeeded_for_feature:
                     self.logger.error(
-                        f"LLM processing FAILED for feature {i_feat} after all keys. Offset at {current_offset_for_analysis_snippets}/{len(all_analysis_data_snippets_for_this_feature)}. Last error: {mad_utils._format_exception_for_logging(last_llm_exception_for_feature)}"
+                        f"LLM processing FAILED for feature {i_feat} after all keys. Offset at {current_offset_for_analysis_snippets}/{len(all_analysis_data_snippets_for_this_feature)}. Last error: {mad_utils_0522._format_exception_for_logging(last_llm_exception_for_feature)}"
                     )
                 else:
                     final_scores_all_features = np.maximum(
@@ -716,7 +716,7 @@ class F_May_22(BaseDetector):
                         f"feature_{i_feat}_final_aggregated_anomalies.png",
                     )
                     try:
-                        plotting_utils.generate_feature_final_anomalies_plot(
+                        plotting_utils_0522.generate_feature_final_anomalies_plot(
                             X_data[:, i_feat],
                             feature_anomaly_scores_from_llm,
                             i_feat,
@@ -731,7 +731,7 @@ class F_May_22(BaseDetector):
                             ] = final_feature_plot_path
                     except Exception as e_plot_final:
                         self.logger.error(
-                            f"Feature {i_feat}: Failed to generate final plot: {mad_utils._format_exception_for_logging(e_plot_final)}"
+                            f"Feature {i_feat}: Failed to generate final plot: {mad_utils_0522._format_exception_for_logging(e_plot_final)}"
                         )
 
                 self.per_feature_artifacts_[i_feat].update(
@@ -740,7 +740,7 @@ class F_May_22(BaseDetector):
                         "llm_step_success_overall": llm_step_succeeded_for_feature,
                         "feature_scores_llm_aggregated": feature_anomaly_scores_from_llm.tolist(),
                         "error_llm_step_last_recorded": (
-                            mad_utils._format_exception_for_logging(
+                            mad_utils_0522._format_exception_for_logging(
                                 last_llm_exception_for_feature
                             )
                             if last_llm_exception_for_feature
@@ -762,7 +762,7 @@ class F_May_22(BaseDetector):
                     os.rename(temp_artifact_base_dir, final_artifact_dir_target)
             except OSError as e_rename:
                 self.logger.error(
-                    f"Error renaming temp artifact dir: {mad_utils._format_exception_for_logging(e_rename)}."
+                    f"Error renaming temp artifact dir: {mad_utils_0522._format_exception_for_logging(e_rename)}."
                 )
 
             self.logger.info(
@@ -772,7 +772,7 @@ class F_May_22(BaseDetector):
 
     def fit(self, X_train, y_train=None):
         self.logger.info(
-            f"Starting F_May_22 fit. X_train shape: {X_train.shape if hasattr(X_train, 'shape') else 'N/A'}"
+            f"Starting MAD_May_22 fit. X_train shape: {X_train.shape if hasattr(X_train, 'shape') else 'N/A'}"
         )
         self.logger.debug(f"y_train is provided: {y_train is not None}")
 
@@ -793,14 +793,14 @@ class F_May_22(BaseDetector):
 
     def decision_function(self, X_test):
         self.logger.info(
-            f"Starting F_May_22 decision_function. X_test shape: {X_test.shape if hasattr(X_test, 'shape') else 'N/A'}"
+            f"Starting MAD_May_22 decision_function. X_test shape: {X_test.shape if hasattr(X_test, 'shape') else 'N/A'}"
         )
         self.logger.debug(
             f"Using X_train_fit_data (shape: {self.X_train_fit_data.shape if self.X_train_fit_data is not None else 'None'}) and y_train_fit_labels (len: {len(self.y_train_fit_labels) if self.y_train_fit_labels is not None else 'None'}) for LLM examples."
         )
         decision_scores = self._run_llm_pipeline(X_test)
         self.logger.info(
-            f"F_May_22 decision_function completed. Scores shape: {decision_scores.shape if decision_scores is not None else 'N/A'}"
+            f"MAD_May_22 decision_function completed. Scores shape: {decision_scores.shape if decision_scores is not None else 'N/A'}"
         )
         return decision_scores
 

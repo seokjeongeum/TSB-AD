@@ -16,7 +16,7 @@ from MAD.core.constants import (
     TOKEN_LIMIT_SAFETY_FACTOR,
 )
 
-from . import gemini_api_utils, prompt_utils
+from . import gemini_api_utils_0522, prompt_utils_0522
 
 
 def thousands_formatter(x, pos):
@@ -187,7 +187,7 @@ def fill_snippets_by_token_budget(
     base_tokens_for_empty_structure = 0
     try:
         empty_json_str = json_wrapper_template_func([])
-        count_response_empty = gemini_api_utils.execute_gemini_api_call(
+        count_response_empty = gemini_api_utils_0522.execute_gemini_api_call(
             client.models.count_tokens,
             logger,
             model=model_name_for_counting,
@@ -223,7 +223,7 @@ def fill_snippets_by_token_budget(
         full_json_str_to_count = json_wrapper_template_func(temp_selection_for_counting)
 
         try:
-            tokens_for_current_selection = gemini_api_utils.execute_gemini_api_call(
+            tokens_for_current_selection = gemini_api_utils_0522.execute_gemini_api_call(
                 client.models.count_tokens,
                 logger,
                 model=model_name_for_counting,
@@ -248,7 +248,7 @@ def fill_snippets_by_token_budget(
     if selected_snippets:
         try:
             final_json_str = json_wrapper_template_func(selected_snippets)
-            final_tokens_for_selected = gemini_api_utils.execute_gemini_api_call(
+            final_tokens_for_selected = gemini_api_utils_0522.execute_gemini_api_call(
                 client.models.count_tokens,
                 logger,
                 model=model_name_for_counting,
@@ -596,7 +596,7 @@ def prepare_training_snippets_for_interest_id(
             )
 
     base_prompt_token_count_id_step = 250
-    model_input_token_limit_id = gemini_api_utils.get_gemini_model_info(
+    model_input_token_limit_id = gemini_api_utils_0522.get_gemini_model_info(
         client,
         65536,
         input_token_limit_override=input_token_limit_override,
@@ -628,7 +628,7 @@ def prepare_training_snippets_for_interest_id(
                 error_detail,
             )
 
-        model_info_dict = gemini_api_utils.get_gemini_model_info(
+        model_info_dict = gemini_api_utils_0522.get_gemini_model_info(
             client=client,
             default_output_token_limit=2048,
             input_token_limit_override=input_token_limit_override,
@@ -648,14 +648,14 @@ def prepare_training_snippets_for_interest_id(
             empty_snippets_map_for_estimation
         )
 
-        _temp_prompt_for_token_est = prompt_utils.construct_interest_id_prompt(
+        _temp_prompt_for_token_est = prompt_utils_0522.construct_interest_id_prompt(
             i_feat=i_feat,
             num_train_samples=n_train_samples,
             training_snippets_json_str_for_id_step=empty_snippets_json_for_estimation,
             target_range_size=effective_target_range_size_for_llm_prompt,
         )
 
-        count_response_base_prompt = gemini_api_utils.count_gemini_tokens(
+        count_response_base_prompt = gemini_api_utils_0522.count_gemini_tokens(
             client=client,
             model_name=FIXED_MODEL_NAME_GEMINI_FLASH,
             contents=[_temp_prompt_for_token_est],

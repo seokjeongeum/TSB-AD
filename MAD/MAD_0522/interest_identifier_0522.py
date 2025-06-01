@@ -5,8 +5,8 @@ import time
 
 from google.genai import types
 
-from . import gemini_api_utils, mad_utils, plotting_utils, prompt_utils
-from .constants import (FIXED_MODEL_NAME_GEMINI_FLASH,
+from . import gemini_api_utils_0522, mad_utils_0522, plotting_utils_0522, prompt_utils_0522
+from .constants_0522 import (FIXED_MODEL_NAME_GEMINI_FLASH,
                         THINKING_BUDGET_INTEREST_ID)
 
 
@@ -31,7 +31,7 @@ def perform_interest_identification_step(
     last_exception_for_step = None
     parsed_range_final = None
     current_snippets_json_for_prompt = json.dumps(
-        mad_utils.convert_snippet_list_to_final_json(
+        mad_utils_0522.convert_snippet_list_to_final_json(
             [], include_labels=True, logger=logger
         ),
         indent=2,
@@ -51,7 +51,7 @@ def perform_interest_identification_step(
     plot_path = os.path.join(temp_artifact_base_dir_for_step, plot_filename)
     plot_generated_successfully = False
 
-    plot_generated, plot_error_info = plotting_utils.generate_interest_id_plot(
+    plot_generated, plot_error_info = plotting_utils_0522.generate_interest_id_plot(
         feature_data_train=feature_data_train,
         feature_labels_train=feature_labels_train,
         i_feat=i_feat,
@@ -85,7 +85,7 @@ def perform_interest_identification_step(
             f"Feature {i_feat}: Preparing training snippets for Interest ID step."
         )
         selected_snippets_list_for_id_step, _, prep_error = (
-            mad_utils.prepare_training_snippets_for_interest_id(
+            mad_utils_0522.prepare_training_snippets_for_interest_id(
                 feature_data_train=feature_data_train,
                 feature_labels_train=feature_labels_train,
                 i_feat=i_feat,
@@ -108,7 +108,7 @@ def perform_interest_identification_step(
             )
 
             current_snippets_json_for_prompt = json.dumps(
-                mad_utils.convert_snippet_list_to_final_json(
+                mad_utils_0522.convert_snippet_list_to_final_json(
                     selected_snippets_list_for_id_step,
                     include_labels=True,
                     logger=logger,
@@ -120,7 +120,7 @@ def perform_interest_identification_step(
             )
         elif not selected_snippets_list_for_id_step and not prep_error:
             current_snippets_json_for_prompt = json.dumps(
-                mad_utils.convert_snippet_list_to_final_json(
+                mad_utils_0522.convert_snippet_list_to_final_json(
                     [], include_labels=True, logger=logger
                 ),
                 indent=2,
@@ -146,7 +146,7 @@ def perform_interest_identification_step(
         logger.info(
             f"Ft {i_feat} Interest ID, LLM Call Attempt with Key Index {attempt_key_cycle_idx}"
         )
-        client_handle_for_key_attempt = gemini_api_utils.initialize_gemini_client(
+        client_handle_for_key_attempt = gemini_api_utils_0522.initialize_gemini_client(
             current_api_key_value, logger
         )
 
@@ -172,7 +172,7 @@ def perform_interest_identification_step(
                 if plot_generated_successfully and not uploaded_plot_file_obj_id:
                     try:
                         uploaded_plot_file_obj_id = (
-                            gemini_api_utils.upload_file_to_gemini(
+                            gemini_api_utils_0522.upload_file_to_gemini(
                                 client=client_handle_for_key_attempt,
                                 file_path=plot_path,
                                 logger=logger,
@@ -191,7 +191,7 @@ def perform_interest_identification_step(
                             uploaded_plot_file_obj_id = None
                     except Exception as e_upload_plot_id:
                         logger.warning(
-                            f"Ft {i_feat} Interest ID: Plot upload (Key Idx {attempt_key_cycle_idx}) failed for {plot_filename} on same-key attempt {same_key_retry_num + 1}. Error: {mad_utils._format_exception_for_logging(e_upload_plot_id)}. Proceeding without plot for this API call attempt."
+                            f"Ft {i_feat} Interest ID: Plot upload (Key Idx {attempt_key_cycle_idx}) failed for {plot_filename} on same-key attempt {same_key_retry_num + 1}. Error: {mad_utils_0522._format_exception_for_logging(e_upload_plot_id)}. Proceeding without plot for this API call attempt."
                         )
                         uploaded_plot_file_obj_id = None
 
@@ -203,7 +203,7 @@ def perform_interest_identification_step(
                         file_uri=uploaded_plot_file_obj_id.uri,
                     )
                     uploaded_plot_uri_for_prompt_update = uploaded_plot_file_obj_id.uri
-                current_prompt_text_for_api_call = prompt_utils.construct_interest_id_prompt(
+                current_prompt_text_for_api_call = prompt_utils_0522.construct_interest_id_prompt(
                     i_feat=i_feat,
                     num_train_samples=n_train_samples,
                     training_snippets_json_str_for_id_step=current_snippets_json_for_prompt,
@@ -254,7 +254,7 @@ def perform_interest_identification_step(
                 )
                 api_call_to_run = client_handle_for_key_attempt.models.generate_content
 
-                response_id_step = gemini_api_utils.execute_gemini_api_call(
+                response_id_step = gemini_api_utils_0522.execute_gemini_api_call(
                     api_call_func=api_call_to_run,
                     config=generation_config_id,
                     contents=llm_contents_for_api_call,
@@ -277,7 +277,7 @@ def perform_interest_identification_step(
                                 logger.debug(f"Saved Interest ID thought to {thought_log_path}")
                                 thought_log_paths.append(thought_filename)
                             except Exception as e_save_thought:
-                                logger.warning(f"Failed to save Interest ID thought: {mad_utils._format_exception_for_logging(e_save_thought)}")
+                                logger.warning(f"Failed to save Interest ID thought: {mad_utils_0522._format_exception_for_logging(e_save_thought)}")
                     if thought_log_paths:
                         step_artifacts[f"thoughts_log_paths_key{attempt_key_cycle_idx}_retry{same_key_retry_num}"] = thought_log_paths
 
@@ -328,14 +328,14 @@ def perform_interest_identification_step(
             except Exception as e_other_id_call:
                 last_exception_for_step = e_other_id_call
                 logger.warning(
-                    f"Ft {i_feat} Interest ID call (Google API Error {type(e_other_id_call).__name__}), Key {attempt_key_cycle_idx}, Attempt {same_key_retry_num+1}. Error: {mad_utils._format_exception_for_logging(e_other_id_call)}"
+                    f"Ft {i_feat} Interest ID call (Google API Error {type(e_other_id_call).__name__}), Key {attempt_key_cycle_idx}, Attempt {same_key_retry_num+1}. Error: {mad_utils_0522._format_exception_for_logging(e_other_id_call)}"
                 )
                 error_lower_str_id = str(e_other_id_call).lower() if e_other_id_call else ""
-                parsed_retry_delay_seconds_id = mad_utils.extract_retry_delay_from_error_details_json(error_lower_str_id)
+                parsed_retry_delay_seconds_id = mad_utils_0522.extract_retry_delay_from_error_details_json(error_lower_str_id)
                 # Attempt to extract quota info, assuming mad_utils.extract_quota_info_from_error_details_json is available
                 quota_info_id = None
                 try:
-                    quota_info_id = mad_utils.extract_quota_info_from_error_details_json(error_lower_str_id)
+                    quota_info_id = mad_utils_0522.extract_quota_info_from_error_details_json(error_lower_str_id)
                 except AttributeError: # If the function isn't there yet, log a warning but continue
                     logger.warning("mad_utils.extract_quota_info_from_error_details_json not found. Quota info will be unavailable for this error in Interest ID.")
 
@@ -381,7 +381,7 @@ def perform_interest_identification_step(
                 
                 if key_fatal_error_occurred:
                     logger.error(
-                        f"Ft {i_feat} Interest ID: API Key {attempt_key_cycle_idx} is invalid/exhausted. Error: {mad_utils._format_exception_for_logging(e_other_id_call)}. Marking as fatal."
+                        f"Ft {i_feat} Interest ID: API Key {attempt_key_cycle_idx} is invalid/exhausted. Error: {mad_utils_0522._format_exception_for_logging(e_other_id_call)}. Marking as fatal."
                     )
                     break
                 if same_key_retry_num < MAX_RETRIES_WITH_DELAY_PER_KEY_const - 1:
@@ -404,15 +404,15 @@ def perform_interest_identification_step(
         if llm_call_succeeded_for_interest_id: # If successful with this key
             break # Break from the outer `for attempt_key_cycle_idx` loop (which iterates api_keys_list)
         if key_fatal_error_occurred: # If this key was marked fatal
-            # The function will return, and F_May_22 will handle skipping to the next key from its main list.
+            # The function will return, and MAD_May_22 will handle skipping to the next key from its main list.
             # No explicit break here needed from `for attempt_key_cycle_idx` as this loop is only one iteration
-            # in the context of how perform_interest_identification_step is called by F_May_22.py
+            # in the context of how perform_interest_identification_step is called by MAD_May_22.py
             # The important thing is that `key_fatal_error_occurred` is true upon return.
             pass 
 
     if not llm_call_succeeded_for_interest_id: # Covers all failure reasons for the (single) key attempt
         error_msg_log = (
-            mad_utils._format_exception_for_logging(last_exception_for_step)
+            mad_utils_0522._format_exception_for_logging(last_exception_for_step)
             if last_exception_for_step
             else "LLM call failed for interest ID after all retries for the provided key."
         )
@@ -446,7 +446,7 @@ def perform_interest_identification_step(
         )
     except Exception as e_save_summary:
         logger.error(
-            f"Feature {i_feat}: Failed to save Interest ID step summary artifacts: {mad_utils._format_exception_for_logging(e_save_summary)}"
+            f"Feature {i_feat}: Failed to save Interest ID step summary artifacts: {mad_utils_0522._format_exception_for_logging(e_save_summary)}"
         )
 
     return (
