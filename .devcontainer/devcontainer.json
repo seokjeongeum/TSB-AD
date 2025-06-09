@@ -67,14 +67,14 @@
         // - 'target': Path inside the container.
         // - 'type': 'bind' for directory mounting.
         // - 'consistency': 'cached' can improve performance on macOS/Windows.
-        {
-            "source": "/mnt/sdg/jeseok/Feature_Plots", 
-            "target": "/workspaces/TSB-AD/MAD/Feature_Plots", // ABSOLUTE path INSIDE the container
-            "type": "bind"
-        }
-    ]
+        // {
+        //     "source": "/mnt/sdg/jeseok/Feature_Plots", 
+        //     "target": "/workspaces/TSB-AD/MAD/Feature_Plots", // ABSOLUTE path INSIDE the container
+        //     "type": "bind"
+        // }
+    ],
     // Run container commands as root (common for NVIDIA images, simplifies package installs)
     // If your base image creates a non-root user like 'vscode', you might need
     // to adjust permissions or use 'sudo' in postCreateCommand.
-    // "remoteUser": "root" // Or "vscode" if the image uses it
+    "remoteUser": "vscode" // Or "vscode" if the image uses it
 }
