@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e # Exit immediately if a command exits with a non-zero status.
-
+git submodule update --init --recursive
+# --recursive is for submodules that themselves have submodules
 # --- Install Python Requirements ---
 # Check if requirements.txt exists before trying to install
 if [ -f "requirements.txt" ]; then
