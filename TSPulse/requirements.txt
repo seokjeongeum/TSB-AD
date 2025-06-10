@@ -1,0 +1,11 @@
+torch
+transformers
+pandas
+datasets
+scikit-learn
+accelerate
+plotly
+IPython
+tensorboard
+sktime
+pyarrow

@@ -1,21 +1,32 @@
 #!/bin/bash
 set -e # Exit immediately if a command exits with a non-zero status.
+
+# This command runs as the 'vscode' user and modifies files in the workspace,
+# so it does not need sudo.
 git submodule update --init --recursive
 # --recursive is for submodules that themselves have submodules
+
 # --- Install Python Requirements ---
 # Check if requirements.txt exists before trying to install
 if [ -f "requirements.txt" ]; then
-    echo ">>> Installing Python requirements..."
-    pip install -r requirements.txt
+    echo ">>> Installing Python requirements for the user..."
+    # Use '--user' to install packages into the user's home directory.
+    # This is the recommended practice for non-root users and avoids permission issues.
+    pip install --user -r requirements.txt
 else
     echo ">>> Warning: requirements.txt not found. Skipping pip install."
 fi
 
 echo ">>> Updating package list..."
-apt-get update
+# apt-get requires root privileges, so we add 'sudo'.
+# The 'vscode' user has passwordless sudo access thanks to the common-utils feature.
+sudo apt-get update
 
 echo ">>> Installing system prerequisites (wget, unzip)..."
-apt-get install -y wget unzip
+# Installing system-wide packages also requires sudo.
+sudo apt-get install -y wget unzip
+
+# --- The following commands operate within the workspace, so they do not need sudo ---
 
 # Ensure the target directory exists
 echo ">>> Ensuring Datasets directory exists..."

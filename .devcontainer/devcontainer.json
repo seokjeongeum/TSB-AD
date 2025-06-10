@@ -16,6 +16,12 @@
     ],
     // Add features for common tools like Python and Git.
     "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "username": "vscode",
+            "uid": "automatic",
+            "gid": "automatic",
+            "installSudo": true
+        },
         // Install Python using the official feature
         "ghcr.io/devcontainers/features/python:1": {
             "version": "3.11" // Specify your desired Python version
@@ -76,5 +82,5 @@
     // Run container commands as root (common for NVIDIA images, simplifies package installs)
     // If your base image creates a non-root user like 'vscode', you might need
     // to adjust permissions or use 'sudo' in postCreateCommand.
-    "remoteUser": "vscode" // Or "vscode" if the image uses it
+    "remoteUser": "vscode"
 }
