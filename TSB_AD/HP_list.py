@@ -112,7 +112,11 @@ Optimal_Multi_algo_HP_dict = {
     'Donut': {'win_size': 60, 'lr': 0.001},  
     'TimesNet': {'win_size': 96, 'lr': 0.0001},
     'FITS': {'win_size': 100, 'lr': 0.001},
-    'OFA': {'win_size': 50}
+    'OFA': {'win_size': 50},
+    'TSPulse_ZS_ensemble': {},
+    'TSPulse_ZS_time': {},
+    'TSPulse_ZS_fft': {},
+    'TSPulse_ZS_future': {},
 }
 
 
@@ -271,5 +275,9 @@ Optimal_Uni_algo_HP_dict = {
     'TimesFM': {'win_size': 96},
     'MOMENT_ZS': {'win_size': 64},
     'MOMENT_FT': {'win_size': 64},
-    'M2N2': {}
+    'M2N2': {},
+    'TSPulse_ZS_ensemble': {},
+    'TSPulse_ZS_time': {},
+    'TSPulse_ZS_fft': {},
+    'TSPulse_ZS_future': {},
 }

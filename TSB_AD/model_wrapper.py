@@ -1,11 +1,23 @@
 import numpy as np
 import math
+import shutil
+import tempfile
+
+from transformers import Trainer, TrainingArguments, EarlyStoppingCallback
+from tsfm_public.models.tspulse.configuration_tspulse import TSPulseConfig
+from tsfm_public.toolkit.dataset import ForecastDFDataset
+
+
+from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
+from tsfm_public.toolkit.time_series_anomaly_detection_pipeline import TimeSeriesAnomalyDetectionPipeline, AnomalyScoreMethods
 from .utils.slidingWindows import find_length_rank
 
 Unsupervise_AD_Pool = ['FFT', 'SR', 'NORMA', 'Series2Graph', 'Sub_IForest', 'IForest', 'LOF', 'Sub_LOF', 'POLY', 'MatrixProfile', 'Sub_PCA', 'PCA', 'HBOS', 
-                        'Sub_HBOS', 'KNN', 'Sub_KNN','KMeansAD', 'KMeansAD_U', 'KShapeAD', 'COPOD', 'CBLOF', 'COF', 'EIF', 'RobustPCA', 'Lag_Llama', 'TimesFM', 'Chronos', 'MOMENT_ZS']
+                        'Sub_HBOS', 'KNN', 'Sub_KNN','KMeansAD', 'KMeansAD_U', 'KShapeAD', 'COPOD', 'CBLOF', 'COF', 'EIF', 'RobustPCA', 'Lag_Llama', 'TimesFM', 'Chronos', 'MOMENT_ZS',
+                        'TSPulse_ZS_ensemble', 'TSPulse_ZS_time', 'TSPulse_ZS_fft', 'TSPulse_ZS_future']
 Semisupervise_AD_Pool = ['Left_STAMPi', 'SAND', 'MCD', 'Sub_MCD', 'OCSVM', 'Sub_OCSVM', 'AutoEncoder', 'CNN', 'LSTMAD', 'TranAD', 'USAD', 'OmniAnomaly', 
-                        'AnomalyTransformer', 'TimesNet', 'FITS', 'Donut', 'OFA', 'MOMENT_FT', 'M2N2']
+                        'AnomalyTransformer', 'TimesNet', 'FITS', 'Donut', 'OFA', 'MOMENT_FT', 'M2N2',
+                        'TSPulse_FT_ensemble', 'TSPulse_FT_time', 'TSPulse_FT_fft', 'TSPulse_FT_future']
 
 def run_Unsupervise_AD(model_name, data, **kwargs):
     try:
@@ -404,3 +416,214 @@ def run_M2N2(
     clf.fit(data_train)
     score = clf.decision_function(data_test)
     return score.ravel()
+
+def run_TSPulse_ZS_ensemble(data):
+    zeroshot_model = TSPulseForReconstruction.from_pretrained(
+    "/Users/sumanta/Documents/External/model/tspulse_consistent_masking_var_hybrid_e20_scaled",
+    num_input_channels=1,
+    scaling="revin",
+    mask_type="user",
+)
+    pipeline = TimeSeriesAnomalyDetectionPipeline(
+    zeroshot_model,
+    timestamp_column="timestamp",
+    target_columns=["x"],
+    prediction_mode=[
+            AnomalyScoreMethods.PREDICTIVE.value,
+            AnomalyScoreMethods.TIME_IMPUTATION.value,
+            AnomalyScoreMethods.FREQUENCY_IMPUTATION.value,
+        ],
+    aggregation_length=96,
+    aggr_function="max",
+    smoothing_length=16,
+    least_significant_scale=0.25,
+    least_significant_score=0.1,
+)
+    result = pipeline(data, batch_size=256, expand_score=True, report_mode=True, predictive_score_smoothing=True)
+    return result["anomaly_score"]
+
+def run_TSPulse_ZS_time(data):
+    zeroshot_model = TSPulseForReconstruction.from_pretrained(
+    "/Users/sumanta/Documents/External/model/tspulse_consistent_masking_var_hybrid_e20_scaled",
+    num_input_channels=1,
+    scaling="revin",
+    mask_type="user",
+)
+    pipeline = TimeSeriesAnomalyDetectionPipeline(
+    zeroshot_model,
+    timestamp_column="timestamp",
+    target_columns=["x"],
+    prediction_mode=AnomalyScoreMethods.TIME_IMPUTATION.value,
+    aggregation_length=96,
+    aggr_function="max",
+    smoothing_length=16,
+    least_significant_scale=0.25,
+    least_significant_score=0.1,
+)
+    result = pipeline(data, batch_size=256, expand_score=True, report_mode=True, predictive_score_smoothing=True)
+    return result["anomaly_score"]
+
+def run_TSPulse_ZS_fft(data):
+    zeroshot_model = TSPulseForReconstruction.from_pretrained(
+    "/Users/sumanta/Documents/External/model/tspulse_consistent_masking_var_hybrid_e20_scaled",
+    num_input_channels=1,
+    scaling="revin",
+    mask_type="user",
+)
+    pipeline = TimeSeriesAnomalyDetectionPipeline(
+    zeroshot_model,
+    timestamp_column="timestamp",
+    target_columns=["x"],
+    prediction_mode=AnomalyScoreMethods.FREQUENCY_IMPUTATION.value,
+    aggregation_length=96,
+    aggr_function="max",
+    smoothing_length=16,
+    least_significant_scale=0.25,
+    least_significant_score=0.1,
+)
+    result = pipeline(data, batch_size=256, expand_score=True, report_mode=True, predictive_score_smoothing=True)
+    return result["anomaly_score"]
+
+def run_TSPulse_ZS_future(data):
+    zeroshot_model = TSPulseForReconstruction.from_pretrained(
+    "/Users/sumanta/Documents/External/model/tspulse_consistent_masking_var_hybrid_e20_scaled",
+    num_input_channels=1,
+    scaling="revin",
+    mask_type="user",
+)
+    pipeline = TimeSeriesAnomalyDetectionPipeline(
+    zeroshot_model,
+    timestamp_column="timestamp",
+    target_columns=["x"],
+    prediction_mode=AnomalyScoreMethods.PREDICTIVE.value,
+    aggregation_length=96,
+    aggr_function="max",
+    smoothing_length=16,
+    least_significant_scale=0.25,
+    least_significant_score=0.1,
+)
+    result = pipeline(data, batch_size=256, expand_score=True, report_mode=True, predictive_score_smoothing=True)
+    return result["anomaly_score"]
+
+def _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs):
+    """Helper function to fine-tune and evaluate TSPulse."""
+    # 1. Load model and config
+    model_path = "/Users/sumanta/Documents/External/model/tspulse_consistent_masking_var_hybrid_e20_scaled"
+    target_columns = kwargs.get("target_columns", ["x"])
+    num_channels = len(target_columns)
+
+    config = TSPulseConfig.from_pretrained(model_path)
+
+    # 2. Modify config for fine-tuning
+    config.decoder_mode = "mix_channel"
+    config.free_channel_flow = True  # For identity initialization of channel mixers
+    if config.num_input_channels != num_channels:
+        config.num_input_channels = num_channels
+        config.num_channels_layerwise = [num_channels] * config.num_layers
+        config.decoder_num_channels_layerwise = [num_channels] * config.decoder_num_layers
+    
+    model = TSPulseForReconstruction.from_pretrained(
+        model_path,
+        config=config,
+        ignore_mismatched_sizes=True,
+    )
+
+    # 3. Freeze encoder weights, keep decoder and head trainable
+    for name, param in model.named_parameters():
+        if name.startswith("backbone."):
+            param.requires_grad = False
+        else:
+            param.requires_grad = True
+
+    # 4. Prepare data for training
+    # Use 20% of training data for validation for early stopping
+    val_split_point = int(len(data_train) * 0.8)
+    train_df = data_train.iloc[:val_split_point]
+    val_df = data_train.iloc[val_split_point:]
+
+    # Create datasets
+    context_length = model.config.context_length
+    train_dataset = ForecastDFDataset(
+        train_df,
+        id_columns=[],
+        target_columns=target_columns,
+        timestamp_column="timestamp",
+        context_length=context_length,
+        prediction_length=1, # Not used for reconstruction
+        stride=1,
+    )
+    eval_dataset = ForecastDFDataset(
+        val_df,
+        id_columns=[],
+        target_columns=target_columns,
+        timestamp_column="timestamp",
+        context_length=context_length,
+        prediction_length=1, # Not used for reconstruction
+        stride=1,
+    )
+
+    # 5. Set up and run Trainer
+    output_dir = tempfile.mkdtemp()
+    training_args = TrainingArguments(
+        output_dir=output_dir,
+        num_train_epochs=kwargs.get("num_train_epochs", 10),
+        per_device_train_batch_size=kwargs.get("per_device_train_batch_size", 32),
+        per_device_eval_batch_size=kwargs.get("per_device_eval_batch_size", 32),
+        learning_rate=kwargs.get("learning_rate", 1e-4),
+        evaluation_strategy="epoch",
+        save_strategy="epoch",
+        load_best_model_at_end=True,
+        metric_for_best_model="eval_loss",
+        greater_is_better=False,
+        report_to="none",
+        disable_tqdm=True,
+    )
+
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_dataset,
+        eval_dataset=eval_dataset,
+        callbacks=[EarlyStoppingCallback(early_stopping_patience=kwargs.get("early_stopping_patience", 3))],
+    )
+    
+    trainer.train()
+    finetuned_model = trainer.model
+
+    # 6. Run inference
+    pipeline = TimeSeriesAnomalyDetectionPipeline(
+        finetuned_model,
+        timestamp_column="timestamp",
+        target_columns=target_columns,
+        prediction_mode=prediction_mode,
+        aggregation_length=kwargs.get("aggregation_length", 96),
+        aggr_function=kwargs.get("aggr_function", "max"),
+        smoothing_length=kwargs.get("smoothing_length", 16),
+    )
+    result = pipeline(data_test, batch_size=256, expand_score=True, report_mode=True, predictive_score_smoothing=True)
+
+    # 7. Clean up
+    shutil.rmtree(output_dir)
+
+    return result["anomaly_score"]
+
+
+def run_TSPulse_FT_ensemble(data_train,data_test, **kwargs):
+    prediction_mode = [
+            AnomalyScoreMethods.PREDICTIVE.value,
+            AnomalyScoreMethods.TIME_IMPUTATION.value,
+            AnomalyScoreMethods.FREQUENCY_IMPUTATION.value,
+        ]
+    return _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs)
+
+def run_TSPulse_FT_time(data_train,data_test, **kwargs):
+    prediction_mode = AnomalyScoreMethods.TIME_IMPUTATION.value
+    return _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs)
+
+def run_TSPulse_FT_fft(data_train,data_test, **kwargs):
+    prediction_mode = AnomalyScoreMethods.FREQUENCY_IMPUTATION.value
+    return _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs)
+
+def run_TSPulse_FT_future(data_train,data_test, **kwargs):
+    prediction_mode = AnomalyScoreMethods.PREDICTIVE.value
+    return _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs)

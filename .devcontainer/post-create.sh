@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e # Exit immediately if a command exits with a non-zero status.
-
+git config --global user.email "jeseok@dblab.postech.ac.kr"
+git config --global user.name "jeseok"
 # This command runs as the 'vscode' user and modifies files in the workspace,
 # so it does not need sudo.
 git submodule update --init --recursive
