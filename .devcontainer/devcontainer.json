@@ -12,9 +12,7 @@
     // This adds "--gpus=all" to the docker run command.
     "runArgs": [
         "--gpus=all",
-        "--shm-size=1g",
-		"--sysctl",
-		"fs.inotify.max_user_watches=524288"
+        "--shm-size=1g"
     ],
     // Add features for common tools like Python and Git.
     "features": {
