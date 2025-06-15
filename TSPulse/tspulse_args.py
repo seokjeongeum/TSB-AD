@@ -13,8 +13,8 @@ import torch
 logger = logging.getLogger(__name__)
 
 
-def get_tspulse_args():  # pragma: no cover
-    parser = argparse.ArgumentParser(description="TSPulse pretrain arguments.")
+def get_tspulse_args(parser):  # pragma: no cover
+    # parser = argparse.ArgumentParser(description="TSPulse pretrain arguments.")
 
     # Core Architecture
     parser.add_argument(
@@ -160,6 +160,12 @@ def get_tspulse_args():  # pragma: no cover
         type=str,
         default="datasets/",
         help="Root path for datasets",
+    )
+
+    parser.add_argument(
+        "--use_cache",
+        action="store_false",
+        help="If set, caches the pre-processed data to avoid re-loading from source files on subsequent runs.",
     )
 
     args = parser.parse_args()

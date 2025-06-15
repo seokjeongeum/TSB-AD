@@ -1,3 +1,4 @@
+--extra-index-url=https://pypi.nvidia.com
 tqdm
 torchinfo
 h5py
@@ -19,5 +20,6 @@ accelerate
 plotly
 IPython
 tensorboard
-sktime
 pyarrow
+rich
+polars
