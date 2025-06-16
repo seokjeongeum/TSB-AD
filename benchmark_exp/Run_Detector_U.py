@@ -40,6 +40,7 @@ if __name__ == '__main__':
 
     target_dir = os.path.join(args.score_dir, args.AD_Name)
     os.makedirs(target_dir, exist_ok = True)
+    os.makedirs(args.save_dir, exist_ok = True)
     logging.basicConfig(filename=f'{target_dir}/000_run_{args.AD_Name}.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
     file_list = pd.read_csv(args.file_lsit)['file_name'].values
@@ -84,7 +85,7 @@ if __name__ == '__main__':
         ### whether to save the evaluation result
         if args.save:
             try:
-                evaluation_result = get_metrics(output, label, metric='all', slidingWindow=slidingWindow)
+                evaluation_result = get_metrics(output, label, slidingWindow=slidingWindow)
                 print('evaluation_result: ', evaluation_result)
                 list_w = list(evaluation_result.values())
             except:
