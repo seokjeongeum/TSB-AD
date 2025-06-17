@@ -100,7 +100,7 @@ def evaluate_scores():
 
     # Ensure the save directory exists
     os.makedirs(SAVE_DIR, exist_ok=True)
-    save_path = os.path.join(SAVE_DIR, f"{AD_NAME}_metrics.csv")
+    save_path = os.path.join(SAVE_DIR, f"{AD_NAME}.csv")
 
     results_df.to_csv(save_path, index=False)
 

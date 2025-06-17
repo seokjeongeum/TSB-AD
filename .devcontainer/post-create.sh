@@ -1,5 +1,7 @@
 #!/bin/bash
 set -e # Exit immediately if a command exits with a non-zero status.
+sudo chown -R $(whoami) .
+git config --global --add safe.directory /workspaces/TSB-AD
 git config --global user.email "jeseok@dblab.postech.ac.kr"
 git config --global user.name "jeseok"
 # This command runs as the 'vscode' user and modifies files in the workspace,

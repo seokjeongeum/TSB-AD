@@ -1,5 +1,8 @@
 {
     "python.analysis.extraPaths": [
         "./granite-tsfm"
+    ],
+    "cursorpyright.analysis.extraPaths": [
+        "./granite-tsfm"
     ]
 }

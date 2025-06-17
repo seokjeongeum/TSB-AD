@@ -463,7 +463,7 @@ def _run_ts_pulse_zs(data, prediction_mode, **kwargs):
         least_significant_scale=kwargs.get("least_significant_scale", 0.01),
         least_significant_score=kwargs.get("least_significant_score", 0.1),
     )
-    result = pipeline(df, batch_size=256, expand_score=True, report_mode=True, predictive_score_smoothing=True)
+    result = pipeline(df, batch_size=256, report_mode=True, predictive_score_smoothing=True)
     return result["anomaly_score"].values
 
 def run_TSPulse_ZS_ensemble(data, **kwargs):
