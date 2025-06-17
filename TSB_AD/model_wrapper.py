@@ -457,7 +457,7 @@ def _run_ts_pulse_zs(data, prediction_mode, **kwargs):
         timestamp_column="timestamp",
         target_columns=target_columns,
         prediction_mode=prediction_mode,
-        aggregation_length=kwargs.get("aggregation_length", 64),
+        aggregation_length=kwargs.get("aggregation_length", 96),
         aggr_function=kwargs.get("aggr_function", "max"),
         smoothing_length=kwargs.get("smoothing_length", 16),
         least_significant_scale=kwargs.get("least_significant_scale", 0.01),
@@ -552,7 +552,7 @@ def _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs):
         timestamp_column="timestamp",
         target_columns=target_columns,
         prediction_mode=prediction_mode,
-        aggregation_length=kwargs.get("aggregation_length", 64),
+        aggregation_length=kwargs.get("aggregation_length", 96),
         aggr_function=kwargs.get("aggr_function", "max"),
         smoothing_length=kwargs.get("smoothing_length", 16),
     )
