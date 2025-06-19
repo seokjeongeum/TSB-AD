@@ -13,7 +13,9 @@ sys.path.insert(
 
 from tsfm_public.toolkit.ad_helpers import AnomalyScoreMethods
 from tsfm_public.toolkit.time_series_anomaly_detection_pipeline import (
-    TimeSeriesAnomalyDetectionPipeline, score_smoothing)
+    TimeSeriesAnomalyDetectionPipeline,
+    score_smoothing,
+)
 
 
 class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
@@ -134,6 +136,7 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
             if mode_selected is not None:
                 for i, col_name in enumerate(target_columns):
                     model_outputs[f"{col_name}_selected_mode"] = mode_selected[..., i]
+            model_outputs.update(anomaly_score=score.mean(axis=1))
         else:
             model_outputs.update(anomaly_score=score.ravel())
             if mode_selected is not None:

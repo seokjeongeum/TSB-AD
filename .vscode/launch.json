@@ -11,8 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}",
-                "CUDA_VISIBLE_DEVICES": "4"
+                "PYTHONPATH": "${workspaceFolder}"
             },
         }
     ]

@@ -5,3 +5,14 @@
 2025-06-19 03:21:24,577 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
 2025-06-19 03:50:19,738 - INFO - Success at 045_GHL_id_14_Sensor_tr_50000_1st_85076.csv using TSPulse_ZS_fft | Time cost: 1735.773s at length 200001
 2025-06-19 03:51:17,813 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 04:20:01,713 - INFO - Success at 046_GHL_id_15_Sensor_tr_50000_1st_156462.csv using TSPulse_ZS_fft | Time cost: 1729.568s at length 200001
+2025-06-19 04:20:50,490 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 04:38:16,375 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 05:07:04,706 - INFO - Success at 047_GHL_id_16_Sensor_tr_50000_1st_77001.csv using TSPulse_ZS_fft | Time cost: 1729.123s at length 200001
+2025-06-19 05:08:00,238 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 05:36:46,387 - INFO - Success at 048_GHL_id_17_Sensor_tr_50000_1st_154001.csv using TSPulse_ZS_fft | Time cost: 1731.830s at length 200001
+2025-06-19 05:37:43,920 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 06:02:53,648 - INFO - Success at 050_GHL_id_19_Sensor_tr_43750_1st_55001.csv using TSPulse_ZS_fft | Time cost: 1510.362s at length 175001
+2025-06-19 06:03:43,539 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 06:32:30,691 - INFO - Success at 051_GHL_id_20_Sensor_tr_50000_1st_75110.csv using TSPulse_ZS_fft | Time cost: 1732.842s at length 200001
+2025-06-19 06:33:31,728 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).

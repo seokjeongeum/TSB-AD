@@ -52,7 +52,7 @@ if __name__ == '__main__':
 
     write_csv = []
     for filename in tqdm(file_list):
-        if os.path.exists(target_dir+'/'+filename.split('.')[0]+'.npy'): continue
+        # if os.path.exists(target_dir+'/'+filename.split('.')[0]+'.npy'): continue
         print('Processing:{} by {}'.format(filename, args.AD_Name))
 
         file_path = os.path.join(args.dataset_dir, filename)

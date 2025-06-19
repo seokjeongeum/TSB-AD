@@ -5,3 +5,14 @@
 2025-06-19 03:19:47,515 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
 2025-06-19 03:48:38,935 - INFO - Success at 043_GHL_id_12_Sensor_tr_39938_1st_40038.csv using TSPulse_ZS_time | Time cost: 1732.059s at length 200001
 2025-06-19 03:49:30,610 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 04:18:06,272 - INFO - Success at 044_GHL_id_13_Sensor_tr_50000_1st_145001.csv using TSPulse_ZS_time | Time cost: 1716.271s at length 200001
+2025-06-19 04:19:01,811 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 04:38:23,908 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 05:06:58,202 - INFO - Success at 045_GHL_id_14_Sensor_tr_50000_1st_85076.csv using TSPulse_ZS_time | Time cost: 1715.138s at length 200001
+2025-06-19 05:08:04,913 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 05:36:37,543 - INFO - Success at 046_GHL_id_15_Sensor_tr_50000_1st_156462.csv using TSPulse_ZS_time | Time cost: 1723.295s at length 200001
+2025-06-19 05:37:29,665 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 06:06:02,712 - INFO - Success at 047_GHL_id_16_Sensor_tr_50000_1st_77001.csv using TSPulse_ZS_time | Time cost: 1713.730s at length 200001
+2025-06-19 06:07:04,075 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 06:35:38,434 - INFO - Success at 048_GHL_id_17_Sensor_tr_50000_1st_154001.csv using TSPulse_ZS_time | Time cost: 1723.256s at length 200001
+2025-06-19 06:36:53,997 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).

@@ -426,7 +426,7 @@ def run_M2N2(
     return score.ravel()
 
 path_to_tspulse_model = "ibm-granite/granite-timeseries-tspulse-r1"
-tspulse_batch_size = 1
+tspulse_batch_size = 256
 
 def _prepare_df_for_tspulse(data_np):
     """
@@ -563,7 +563,7 @@ def _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs):
         aggr_function=kwargs.get("aggr_function", "max"),
         smoothing_length=kwargs.get("smoothing_length", 16),
     )
-    result = pipeline(test_df, batch_size=tspulse_batch_size, expand_score=True, report_mode=True, predictive_score_smoothing=True)
+    result = pipeline(test_df, batch_size=tspulse_batch_size, report_mode=True, predictive_score_smoothing=True)
     shutil.rmtree(output_dir)
     return result["anomaly_score"].values
 
@@ -597,7 +597,7 @@ def run_TSPulse2(data, **kwargs):
             num_input_channels=num_channels,
             revision="main",
             mask_type="user",
-            device_map="auto",
+            # device_map="auto",
             ignore_mismatched_sizes=True, # Recommended for patched models
         )
 
@@ -617,7 +617,7 @@ def run_TSPulse2(data, **kwargs):
             least_significant_score=kwargs.get("least_significant_score", 0.1),
             head_min_max_scale=kwargs.get("head_min_max_scale", True),
         )
-        result = pipeline(df, batch_size=tspulse_batch_size, report_mode=True, predictive_score_smoothing=True)
+        result = pipeline(df, batch_size=tspulse_batch_size, report_mode=True, predictive_score_smoothing=True,expand_score=True)
         return result["anomaly_score"].values
     except Exception as e:
         # Log the full traceback for better debugging
