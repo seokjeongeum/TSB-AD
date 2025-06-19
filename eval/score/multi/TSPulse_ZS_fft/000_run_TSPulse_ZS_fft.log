@@ -16,3 +16,102 @@
 2025-06-19 06:03:43,539 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
 2025-06-19 06:32:30,691 - INFO - Success at 051_GHL_id_20_Sensor_tr_50000_1st_75110.csv using TSPulse_ZS_fft | Time cost: 1732.842s at length 200001
 2025-06-19 06:33:31,728 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 10:45:48,897 - INFO - Success at 077_SMD_id_21_Facility_tr_3026_1st_3126.csv using TSPulse_ZS_fft | Time cost: 852.638s at length 21207
+2025-06-19 11:02:58,961 - INFO - Success at 078_SMD_id_22_Facility_tr_500_1st_326.csv using TSPulse_ZS_fft | Time cost: 978.452s at length 23693
+2025-06-19 11:10:03,783 - INFO - Success at 079_LTDB_id_1_Medical_tr_3618_1st_3718.csv using TSPulse_ZS_fft | Time cost: 357.454s at length 100000
+2025-06-19 11:26:53,253 - INFO - Success at 080_LTDB_id_2_Medical_tr_500_1st_266.csv using TSPulse_ZS_fft | Time cost: 430.928s at length 100000
+2025-06-19 11:39:34,104 - INFO - Success at 081_LTDB_id_3_Medical_tr_500_1st_26.csv using TSPulse_ZS_fft | Time cost: 266.528s at length 100000
+2025-06-19 11:51:36,529 - INFO - Success at 083_LTDB_id_5_Medical_tr_15502_1st_15602.csv using TSPulse_ZS_fft | Time cost: 239.373s at length 100000
+2025-06-19 12:01:31,565 - INFO - Success at 084_SVDB_id_1_Medical_tr_12973_1st_13073.csv using TSPulse_ZS_fft | Time cost: 550.897s at length 230400
+2025-06-19 12:12:28,729 - INFO - Success at 085_SVDB_id_2_Medical_tr_50000_1st_54982.csv using TSPulse_ZS_fft | Time cost: 550.412s at length 230400
+2025-06-19 12:24:52,262 - INFO - Success at 086_SVDB_id_3_Medical_tr_533_1st_633.csv using TSPulse_ZS_fft | Time cost: 550.755s at length 230400
+2025-06-19 12:38:44,085 - INFO - Success at 087_SVDB_id_4_Medical_tr_5421_1st_5521.csv using TSPulse_ZS_fft | Time cost: 550.381s at length 230400
+2025-06-19 12:52:04,747 - INFO - Success at 088_SVDB_id_5_Medical_tr_500_1st_168.csv using TSPulse_ZS_fft | Time cost: 550.885s at length 230400
+2025-06-19 13:06:37,240 - INFO - Success at 089_SVDB_id_6_Medical_tr_50000_1st_83083.csv using TSPulse_ZS_fft | Time cost: 550.709s at length 230400
+2025-06-19 13:18:15,906 - INFO - Success at 091_SVDB_id_8_Medical_tr_500_1st_126.csv using TSPulse_ZS_fft | Time cost: 559.901s at length 230400
+2025-06-19 13:30:57,427 - INFO - Success at 092_SVDB_id_9_Medical_tr_2674_1st_2774.csv using TSPulse_ZS_fft | Time cost: 550.632s at length 230400
+2025-06-19 13:42:29,061 - INFO - Success at 093_SVDB_id_10_Medical_tr_500_1st_37.csv using TSPulse_ZS_fft | Time cost: 550.016s at length 230400
+2025-06-19 13:51:03,284 - INFO - Success at 094_SVDB_id_11_Medical_tr_20100_1st_23611.csv using TSPulse_ZS_fft | Time cost: 191.692s at length 80400
+2025-06-19 14:00:49,852 - INFO - Success at 095_SVDB_id_12_Medical_tr_6264_1st_6364.csv using TSPulse_ZS_fft | Time cost: 554.296s at length 230400
+2025-06-19 14:12:26,691 - INFO - Success at 096_SVDB_id_13_Medical_tr_500_1st_444.csv using TSPulse_ZS_fft | Time cost: 548.936s at length 230400
+2025-06-19 14:14:43,617 - INFO - Success at 101_SVDB_id_18_Medical_tr_1851_1st_1951.csv using TSPulse_ZS_fft | Time cost: 550.041s at length 230400
+2025-06-19 14:23:57,155 - INFO - Success at 097_SVDB_id_14_Medical_tr_1031_1st_1131.csv using TSPulse_ZS_fft | Time cost: 548.977s at length 230400
+2025-06-19 14:27:37,541 - INFO - Success at 102_SVDB_id_19_Medical_tr_50000_1st_107354.csv using TSPulse_ZS_fft | Time cost: 549.340s at length 230400
+2025-06-19 14:34:03,333 - INFO - Success at 128_TAO_id_13_Environment_tr_500_1st_7.csv using TSPulse_ZS_fft | Time cost: 34.115s at length 10000
+2025-06-19 14:35:14,273 - ERROR - At 129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901.csv: An error occurred while running the model 'run_TSPulse_ZS_fft': CUDA out of memory. Tried to allocate 4.70 GiB. GPU 0 has a total capacity of 22.37 GiB of which 1.54 GiB is free. Process 1783340 has 20.82 GiB memory in use. Of the allocated memory 19.12 GiB is allocated by PyTorch, and 1.52 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+2025-06-19 14:35:16,480 - ERROR - At 130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145.csv: An error occurred while running the model 'run_TSPulse_ZS_fft': CUDA out of memory. Tried to allocate 4.70 GiB. GPU 0 has a total capacity of 22.37 GiB of which 4.45 GiB is free. Process 1783340 has 17.92 GiB memory in use. Of the allocated memory 14.08 GiB is allocated by PyTorch, and 3.65 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+2025-06-19 14:35:18,454 - ERROR - At 132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995.csv: An error occurred while running the model 'run_TSPulse_ZS_fft': CUDA out of memory. Tried to allocate 4.70 GiB. GPU 0 has a total capacity of 22.37 GiB of which 837.81 MiB is free. Process 1783340 has 21.55 GiB memory in use. Of the allocated memory 14.08 GiB is allocated by PyTorch, and 7.29 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+2025-06-19 14:35:19,934 - ERROR - At 133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500.csv: An error occurred while running the model 'run_TSPulse_ZS_fft': CUDA out of memory. Tried to allocate 4.70 GiB. GPU 0 has a total capacity of 22.37 GiB of which 837.81 MiB is free. Process 1783340 has 21.55 GiB memory in use. Of the allocated memory 14.08 GiB is allocated by PyTorch, and 7.29 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+2025-06-19 14:35:21,769 - ERROR - At 134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577.csv: An error occurred while running the model 'run_TSPulse_ZS_fft': CUDA out of memory. Tried to allocate 4.70 GiB. GPU 0 has a total capacity of 22.37 GiB of which 837.81 MiB is free. Process 1783340 has 21.55 GiB memory in use. Of the allocated memory 14.08 GiB is allocated by PyTorch, and 7.29 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+2025-06-19 14:35:24,074 - ERROR - At 135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185.csv: An error occurred while running the model 'run_TSPulse_ZS_fft': CUDA out of memory. Tried to allocate 4.70 GiB. GPU 0 has a total capacity of 22.37 GiB of which 837.81 MiB is free. Process 1783340 has 21.55 GiB memory in use. Of the allocated memory 14.08 GiB is allocated by PyTorch, and 7.29 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+2025-06-19 14:35:26,502 - ERROR - At 136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595.csv: An error occurred while running the model 'run_TSPulse_ZS_fft': CUDA out of memory. Tried to allocate 4.70 GiB. GPU 0 has a total capacity of 22.37 GiB of which 837.81 MiB is free. Process 1783340 has 21.55 GiB memory in use. Of the allocated memory 14.08 GiB is allocated by PyTorch, and 7.29 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+2025-06-19 14:39:43,811 - INFO - Success at 098_SVDB_id_15_Medical_tr_500_1st_303.csv using TSPulse_ZS_fft | Time cost: 549.573s at length 230400
+2025-06-19 14:39:54,577 - INFO - Success at 103_SVDB_id_20_Medical_tr_12167_1st_12267.csv using TSPulse_ZS_fft | Time cost: 549.978s at length 230400
+2025-06-19 14:51:48,492 - INFO - Success at 099_SVDB_id_16_Medical_tr_1115_1st_1215.csv using TSPulse_ZS_fft | Time cost: 549.666s at length 230400
+2025-06-19 14:52:05,078 - INFO - Success at 104_SVDB_id_21_Medical_tr_50000_1st_106634.csv using TSPulse_ZS_fft | Time cost: 549.914s at length 230400
+2025-06-19 14:59:24,309 - INFO - Success at 105_SVDB_id_22_Medical_tr_500_1st_417.csv using TSPulse_ZS_fft | Time cost: 357.801s at length 150000
+2025-06-19 15:00:03,631 - INFO - Success at 100_SVDB_id_17_Medical_tr_17803_1st_17903.csv using TSPulse_ZS_fft | Time cost: 310.424s at length 130400
+2025-06-19 15:07:46,586 - INFO - Success at 106_SVDB_id_23_Medical_tr_37500_1st_121963.csv using TSPulse_ZS_fft | Time cost: 357.058s at length 150000
+2025-06-19 15:17:37,251 - INFO - Success at 108_SVDB_id_25_Medical_tr_1238_1st_1338.csv using TSPulse_ZS_fft | Time cost: 548.886s at length 230400
+2025-06-19 15:27:59,500 - INFO - Success at 109_SVDB_id_26_Medical_tr_1038_1st_1138.csv using TSPulse_ZS_fft | Time cost: 548.371s at length 230400
+2025-06-19 15:43:18,465 - INFO - Success at 110_SVDB_id_27_Medical_tr_30824_1st_30924.csv using TSPulse_ZS_fft | Time cost: 571.036s at length 230400
+2025-06-19 15:57:39,852 - INFO - Success at 111_SVDB_id_28_Medical_tr_1791_1st_1891.csv using TSPulse_ZS_fft | Time cost: 549.709s at length 230400
+2025-06-19 16:12:50,390 - INFO - Success at 112_SVDB_id_29_Medical_tr_8226_1st_8326.csv using TSPulse_ZS_fft | Time cost: 549.364s at length 230400
+2025-06-19 16:19:09,307 - INFO - Success at 114_SVDB_id_31_Medical_tr_25000_1st_63090.csv using TSPulse_ZS_fft | Time cost: 238.042s at length 100000
+2025-06-19 17:01:09,020 - INFO - Success at 137_CreditCard_id_1_Finance_tr_500_1st_541.csv using TSPulse_ZS_fft | Time cost: 8740.885s at length 284807
+2025-06-19 17:33:43,338 - INFO - Success at 138_CATSv2_id_1_Sensor_tr_16568_1st_16668.csv using TSPulse_ZS_fft | Time cost: 1803.665s at length 100000
+2025-06-19 17:56:01,519 - INFO - Success at 115_PSM_id_1_Facility_tr_50000_1st_129872.csv using TSPulse_ZS_fft | Time cost: 5754.794s at length 217624
+2025-06-19 17:58:27,227 - INFO - Success at 116_TAO_id_1_Environment_tr_500_1st_3.csv using TSPulse_ZS_fft | Time cost: 33.288s at length 10000
+2025-06-19 17:59:59,740 - INFO - Success at 117_TAO_id_2_Environment_tr_500_1st_1.csv using TSPulse_ZS_fft | Time cost: 33.839s at length 10000
+2025-06-19 18:01:33,984 - INFO - Success at 118_TAO_id_3_Environment_tr_500_1st_7.csv using TSPulse_ZS_fft | Time cost: 33.216s at length 10000
+2025-06-19 18:02:48,606 - INFO - Success at 119_TAO_id_4_Environment_tr_500_1st_1.csv using TSPulse_ZS_fft | Time cost: 33.317s at length 10000
+2025-06-19 18:04:46,740 - INFO - Success at 121_TAO_id_6_Environment_tr_500_1st_7.csv using TSPulse_ZS_fft | Time cost: 33.465s at length 10000
+2025-06-19 18:06:28,215 - INFO - Success at 122_TAO_id_7_Environment_tr_500_1st_19.csv using TSPulse_ZS_fft | Time cost: 33.172s at length 10000
+2025-06-19 18:07:57,826 - INFO - Success at 123_TAO_id_8_Environment_tr_500_1st_62.csv using TSPulse_ZS_fft | Time cost: 33.562s at length 10000
+2025-06-19 18:09:30,982 - INFO - Success at 124_TAO_id_9_Environment_tr_500_1st_1.csv using TSPulse_ZS_fft | Time cost: 33.164s at length 10000
+2025-06-19 18:11:02,119 - INFO - Success at 125_TAO_id_10_Environment_tr_500_1st_9.csv using TSPulse_ZS_fft | Time cost: 33.204s at length 10000
+2025-06-19 18:13:44,189 - INFO - Success at 127_TAO_id_12_Environment_tr_500_1st_24.csv using TSPulse_ZS_fft | Time cost: 33.300s at length 10000
+2025-06-19 18:33:14,955 - INFO - Success at 139_CATSv2_id_2_Sensor_tr_5592_1st_5692.csv using TSPulse_ZS_fft | Time cost: 3524.818s at length 195000
+2025-06-19 18:49:55,261 - INFO - Success at 177_Exathlon_id_4_Facility_tr_11665_1st_13484.csv using TSPulse_ZS_fft | Time cost: 887.065s at length 46660
+2025-06-19 19:15:21,722 - INFO - Success at 179_Exathlon_id_6_Facility_tr_11665_1st_13484.csv using TSPulse_ZS_fft | Time cost: 1514.843s at length 46660
+2025-06-19 19:34:41,206 - INFO - Success at 141_CATSv2_id_4_Sensor_tr_41727_1st_41827.csv using TSPulse_ZS_fft | Time cost: 3524.928s at length 195000
+2025-06-19 19:35:44,218 - INFO - Success at 153_SMAP_id_10_Sensor_tr_1840_1st_4030.csv using TSPulse_ZS_fft | Time cost: 183.624s at length 7361
+2025-06-19 19:39:00,803 - INFO - Success at 180_Exathlon_id_7_Facility_tr_10766_1st_12590.csv using TSPulse_ZS_fft | Time cost: 1397.107s at length 43066
+2025-06-19 19:39:21,058 - INFO - Success at 154_SMAP_id_11_Sensor_tr_2117_1st_4770.csv using TSPulse_ZS_fft | Time cost: 211.992s at length 8469
+2025-06-19 19:42:36,212 - INFO - Success at 155_SMAP_id_12_Sensor_tr_1907_1st_4800.csv using TSPulse_ZS_fft | Time cost: 189.969s at length 7628
+2025-06-19 19:44:34,458 - INFO - Success at 156_SMAP_id_13_Sensor_tr_1173_1st_2750.csv using TSPulse_ZS_fft | Time cost: 113.371s at length 4693
+2025-06-19 19:48:09,722 - INFO - Success at 157_SMAP_id_14_Sensor_tr_2126_1st_5000.csv using TSPulse_ZS_fft | Time cost: 212.743s at length 8505
+2025-06-19 19:49:19,182 - INFO - Success at 181_Exathlon_id_8_Facility_tr_11663_1st_13482.csv using TSPulse_ZS_fft | Time cost: 597.487s at length 46655
+2025-06-19 19:51:42,327 - INFO - Success at 158_SMAP_id_15_Sensor_tr_2075_1st_5610.csv using TSPulse_ZS_fft | Time cost: 207.488s at length 8300
+2025-06-19 19:54:39,695 - INFO - Success at 159_SMAP_id_16_Sensor_tr_1757_1st_2650.csv using TSPulse_ZS_fft | Time cost: 173.813s at length 7029
+2025-06-19 19:57:43,599 - INFO - Success at 160_SMAP_id_17_Sensor_tr_1832_1st_5300.csv using TSPulse_ZS_fft | Time cost: 181.770s at length 7331
+2025-06-19 20:01:15,890 - INFO - Success at 161_SMAP_id_18_Sensor_tr_2075_1st_5550.csv using TSPulse_ZS_fft | Time cost: 207.257s at length 8302
+2025-06-19 20:04:29,307 - INFO - Success at 162_SMAP_id_19_Sensor_tr_1908_1st_4690.csv using TSPulse_ZS_fft | Time cost: 189.558s at length 7632
+2025-06-19 20:07:56,905 - INFO - Success at 163_SMAP_id_20_Sensor_tr_2051_1st_4575.csv using TSPulse_ZS_fft | Time cost: 204.959s at length 8205
+2025-06-19 20:11:35,560 - INFO - Success at 165_SMAP_id_22_Sensor_tr_2129_1st_5000.csv using TSPulse_ZS_fft | Time cost: 213.593s at length 8516
+2025-06-19 20:12:47,192 - INFO - Success at 182_Exathlon_id_9_Facility_tr_10766_1st_12590.csv using TSPulse_ZS_fft | Time cost: 1397.169s at length 43066
+2025-06-19 20:13:26,475 - INFO - Success at 166_SMAP_id_23_Sensor_tr_1113_1st_1890.csv using TSPulse_ZS_fft | Time cost: 105.328s at length 4453
+2025-06-19 20:16:56,838 - INFO - Success at 167_SMAP_id_24_Sensor_tr_2094_1st_5600.csv using TSPulse_ZS_fft | Time cost: 209.213s at length 8376
+2025-06-19 20:20:35,561 - INFO - Success at 168_SMAP_id_25_Sensor_tr_1998_1st_2098.csv using TSPulse_ZS_fft | Time cost: 214.856s at length 8579
+2025-06-19 20:23:39,496 - INFO - Success at 169_SMAP_id_26_Sensor_tr_1811_1st_4510.csv using TSPulse_ZS_fft | Time cost: 180.125s at length 7244
+2025-06-19 20:27:19,142 - INFO - Success at 170_SMAP_id_27_Sensor_tr_2160_1st_4690.csv using TSPulse_ZS_fft | Time cost: 216.437s at length 8640
+2025-06-19 20:27:55,844 - INFO - Success at 183_Exathlon_id_10_Facility_tr_11665_1st_13484.csv using TSPulse_ZS_fft | Time cost: 887.471s at length 46660
+2025-06-19 20:42:54,643 - INFO - Success at 184_Exathlon_id_11_Facility_tr_11665_1st_13484.csv using TSPulse_ZS_fft | Time cost: 887.361s at length 46660
+2025-06-19 20:44:18,816 - INFO - Success at 171_SWaT_id_1_Sensor_tr_3749_1st_9522.csv using TSPulse_ZS_fft | Time cost: 1014.728s at length 14996
+2025-06-19 20:57:53,638 - INFO - Success at 185_Exathlon_id_12_Facility_tr_11665_1st_13484.csv using TSPulse_ZS_fft | Time cost: 887.484s at length 46660
+2025-06-19 21:21:21,840 - INFO - Success at 186_Exathlon_id_13_Facility_tr_10766_1st_12590.csv using TSPulse_ZS_fft | Time cost: 1396.659s at length 43066
+2025-06-19 21:22:33,373 - INFO - Success at 142_CATSv2_id_5_Sensor_tr_30704_1st_30804.csv using TSPulse_ZS_fft | Time cost: 6333.888s at length 350000
+2025-06-19 21:30:36,208 - INFO - Success at 052_GHL_id_21_Sensor_tr_50000_1st_98001.csv using TSPulse_ZS_fft | Time cost: 4034.118s at length 200001
+2025-06-19 21:34:52,260 - INFO - Success at 187_Exathlon_id_14_Facility_tr_6193_1st_6293.csv using TSPulse_ZS_fft | Time cost: 789.976s at length 46660
+2025-06-19 22:18:43,522 - INFO - Success at 188_Exathlon_id_15_Facility_tr_12538_1st_12638.csv using TSPulse_ZS_fft | Time cost: 2605.309s at length 129197
+2025-06-19 22:29:41,832 - INFO - Success at 189_Exathlon_id_16_Facility_tr_11663_1st_13482.csv using TSPulse_ZS_fft | Time cost: 595.614s at length 46655
+2025-06-19 22:30:11,532 - INFO - Success at 143_CATSv2_id_6_Sensor_tr_50000_1st_60232.csv using TSPulse_ZS_fft | Time cost: 3613.131s at length 200000
+2025-06-19 22:35:49,039 - INFO - Success at 144_SMAP_id_1_Sensor_tr_2052_1st_5300.csv using TSPulse_ZS_fft | Time cost: 204.909s at length 8209
+2025-06-19 22:38:34,546 - INFO - Success at 053_GHL_id_22_Sensor_tr_50000_1st_126448.csv using TSPulse_ZS_fft | Time cost: 4033.601s at length 200001
+2025-06-19 22:39:26,120 - INFO - Success at 145_SMAP_id_2_Sensor_tr_2133_1st_5400.csv using TSPulse_ZS_fft | Time cost: 213.379s at length 8532
+2025-06-19 22:43:04,195 - INFO - Success at 146_SMAP_id_3_Sensor_tr_2128_1st_5000.csv using TSPulse_ZS_fft | Time cost: 213.267s at length 8514
+2025-06-19 22:46:45,498 - INFO - Success at 147_SMAP_id_4_Sensor_tr_2160_1st_6449.csv using TSPulse_ZS_fft | Time cost: 216.477s at length 8640
+2025-06-19 22:50:16,642 - INFO - Success at 148_SMAP_id_5_Sensor_tr_2011_1st_5060.csv using TSPulse_ZS_fft | Time cost: 206.310s at length 8044
+2025-06-19 22:54:11,797 - INFO - Success at 150_SMAP_id_7_Sensor_tr_2077_1st_5394.csv using TSPulse_ZS_fft | Time cost: 220.658s at length 8310
+2025-06-19 22:58:00,129 - INFO - Success at 151_SMAP_id_8_Sensor_tr_1971_1st_4870.csv using TSPulse_ZS_fft | Time cost: 208.940s at length 7884
+2025-06-19 23:02:01,048 - INFO - Success at 152_SMAP_id_9_Sensor_tr_2073_1st_5600.csv using TSPulse_ZS_fft | Time cost: 220.875s at length 8294

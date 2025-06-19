@@ -16,3 +16,52 @@
 2025-06-19 06:07:04,075 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
 2025-06-19 06:35:38,434 - INFO - Success at 048_GHL_id_17_Sensor_tr_50000_1st_154001.csv using TSPulse_ZS_time | Time cost: 1723.256s at length 200001
 2025-06-19 06:36:53,997 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 08:43:36,904 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 09:43:38,615 - INFO - Success at 050_GHL_id_19_Sensor_tr_43750_1st_55001.csv using TSPulse_ZS_time | Time cost: 3602.539s at length 175001
+2025-06-19 09:46:00,532 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 10:56:07,228 - INFO - Success at 051_GHL_id_20_Sensor_tr_50000_1st_75110.csv using TSPulse_ZS_time | Time cost: 4207.357s at length 200001
+2025-06-19 15:16:45,000 - INFO - Success at 077_SMD_id_21_Facility_tr_3026_1st_3126.csv using TSPulse_ZS_time | Time cost: 833.129s at length 21207
+2025-06-19 15:32:31,612 - INFO - Success at 078_SMD_id_22_Facility_tr_500_1st_326.csv using TSPulse_ZS_time | Time cost: 932.577s at length 23693
+2025-06-19 15:36:46,556 - INFO - Success at 079_LTDB_id_1_Medical_tr_3618_1st_3718.csv using TSPulse_ZS_time | Time cost: 238.541s at length 100000
+2025-06-19 15:45:12,209 - INFO - Success at 080_LTDB_id_2_Medical_tr_500_1st_266.csv using TSPulse_ZS_time | Time cost: 361.329s at length 100000
+2025-06-19 15:53:34,591 - INFO - Success at 081_LTDB_id_3_Medical_tr_500_1st_26.csv using TSPulse_ZS_time | Time cost: 238.029s at length 100000
+2025-06-19 16:00:41,332 - INFO - Success at 083_LTDB_id_5_Medical_tr_15502_1st_15602.csv using TSPulse_ZS_time | Time cost: 238.414s at length 100000
+2025-06-19 16:10:36,268 - INFO - Success at 084_SVDB_id_1_Medical_tr_12973_1st_13073.csv using TSPulse_ZS_time | Time cost: 549.452s at length 230400
+2025-06-19 16:21:31,240 - INFO - Success at 085_SVDB_id_2_Medical_tr_50000_1st_54982.csv using TSPulse_ZS_time | Time cost: 549.045s at length 230400
+2025-06-19 16:33:49,609 - INFO - Success at 086_SVDB_id_3_Medical_tr_533_1st_633.csv using TSPulse_ZS_time | Time cost: 549.446s at length 230400
+2025-06-19 16:47:42,279 - INFO - Success at 087_SVDB_id_4_Medical_tr_5421_1st_5521.csv using TSPulse_ZS_time | Time cost: 549.117s at length 230400
+2025-06-19 17:01:02,168 - INFO - Success at 088_SVDB_id_5_Medical_tr_500_1st_168.csv using TSPulse_ZS_time | Time cost: 549.119s at length 230400
+2025-06-19 17:15:23,898 - INFO - Success at 089_SVDB_id_6_Medical_tr_50000_1st_83083.csv using TSPulse_ZS_time | Time cost: 549.154s at length 230400
+2025-06-19 17:26:48,566 - INFO - Success at 091_SVDB_id_8_Medical_tr_500_1st_126.csv using TSPulse_ZS_time | Time cost: 549.347s at length 230400
+2025-06-19 17:39:01,316 - INFO - Success at 092_SVDB_id_9_Medical_tr_2674_1st_2774.csv using TSPulse_ZS_time | Time cost: 549.200s at length 230400
+2025-06-19 17:50:35,295 - INFO - Success at 093_SVDB_id_10_Medical_tr_500_1st_37.csv using TSPulse_ZS_time | Time cost: 549.145s at length 230400
+2025-06-19 17:59:08,974 - INFO - Success at 094_SVDB_id_11_Medical_tr_20100_1st_23611.csv using TSPulse_ZS_time | Time cost: 191.399s at length 80400
+2025-06-19 18:08:51,346 - INFO - Success at 095_SVDB_id_12_Medical_tr_6264_1st_6364.csv using TSPulse_ZS_time | Time cost: 548.754s at length 230400
+2025-06-19 18:20:29,643 - INFO - Success at 096_SVDB_id_13_Medical_tr_500_1st_444.csv using TSPulse_ZS_time | Time cost: 549.342s at length 230400
+2025-06-19 18:25:00,710 - INFO - Success at 101_SVDB_id_18_Medical_tr_1851_1st_1951.csv using TSPulse_ZS_time | Time cost: 551.201s at length 230400
+2025-06-19 18:31:59,279 - INFO - Success at 097_SVDB_id_14_Medical_tr_1031_1st_1131.csv using TSPulse_ZS_time | Time cost: 549.204s at length 230400
+2025-06-19 18:37:55,553 - INFO - Success at 102_SVDB_id_19_Medical_tr_50000_1st_107354.csv using TSPulse_ZS_time | Time cost: 550.849s at length 230400
+2025-06-19 18:48:14,231 - INFO - Success at 098_SVDB_id_15_Medical_tr_500_1st_303.csv using TSPulse_ZS_time | Time cost: 550.387s at length 230400
+2025-06-19 18:50:35,953 - INFO - Success at 103_SVDB_id_20_Medical_tr_12167_1st_12267.csv using TSPulse_ZS_time | Time cost: 551.221s at length 230400
+2025-06-19 19:00:28,322 - INFO - Success at 099_SVDB_id_16_Medical_tr_1115_1st_1215.csv using TSPulse_ZS_time | Time cost: 550.566s at length 230400
+2025-06-19 19:02:55,376 - INFO - Success at 104_SVDB_id_21_Medical_tr_50000_1st_106634.csv using TSPulse_ZS_time | Time cost: 551.087s at length 230400
+2025-06-19 19:08:51,441 - INFO - Success at 100_SVDB_id_17_Medical_tr_17803_1st_17903.csv using TSPulse_ZS_time | Time cost: 311.698s at length 130400
+2025-06-19 19:10:18,858 - INFO - Success at 105_SVDB_id_22_Medical_tr_500_1st_417.csv using TSPulse_ZS_time | Time cost: 358.692s at length 150000
+2025-06-19 19:18:39,319 - INFO - Success at 106_SVDB_id_23_Medical_tr_37500_1st_121963.csv using TSPulse_ZS_time | Time cost: 357.645s at length 150000
+2025-06-19 19:28:28,234 - INFO - Success at 108_SVDB_id_25_Medical_tr_1238_1st_1338.csv using TSPulse_ZS_time | Time cost: 549.737s at length 230400
+2025-06-19 19:38:50,598 - INFO - Success at 109_SVDB_id_26_Medical_tr_1038_1st_1138.csv using TSPulse_ZS_time | Time cost: 549.185s at length 230400
+2025-06-19 19:54:28,371 - INFO - Success at 110_SVDB_id_27_Medical_tr_30824_1st_30924.csv using TSPulse_ZS_time | Time cost: 549.178s at length 230400
+2025-06-19 20:06:32,535 - INFO - Success at 111_SVDB_id_28_Medical_tr_1791_1st_1891.csv using TSPulse_ZS_time | Time cost: 549.191s at length 230400
+2025-06-19 20:21:29,008 - INFO - Success at 112_SVDB_id_29_Medical_tr_8226_1st_8326.csv using TSPulse_ZS_time | Time cost: 548.972s at length 230400
+2025-06-19 20:27:41,776 - INFO - Success at 114_SVDB_id_31_Medical_tr_25000_1st_63090.csv using TSPulse_ZS_time | Time cost: 238.665s at length 100000
+2025-06-19 22:04:28,796 - INFO - Success at 115_PSM_id_1_Facility_tr_50000_1st_129872.csv using TSPulse_ZS_time | Time cost: 5753.464s at length 217624
+2025-06-19 22:06:51,285 - INFO - Success at 116_TAO_id_1_Environment_tr_500_1st_3.csv using TSPulse_ZS_time | Time cost: 33.372s at length 10000
+2025-06-19 22:08:20,478 - INFO - Success at 117_TAO_id_2_Environment_tr_500_1st_1.csv using TSPulse_ZS_time | Time cost: 33.177s at length 10000
+2025-06-19 22:09:51,908 - INFO - Success at 118_TAO_id_3_Environment_tr_500_1st_7.csv using TSPulse_ZS_time | Time cost: 33.403s at length 10000
+2025-06-19 22:11:04,730 - INFO - Success at 119_TAO_id_4_Environment_tr_500_1st_1.csv using TSPulse_ZS_time | Time cost: 33.194s at length 10000
+2025-06-19 22:12:58,842 - INFO - Success at 121_TAO_id_6_Environment_tr_500_1st_7.csv using TSPulse_ZS_time | Time cost: 33.275s at length 10000
+2025-06-19 22:14:37,352 - INFO - Success at 122_TAO_id_7_Environment_tr_500_1st_19.csv using TSPulse_ZS_time | Time cost: 33.392s at length 10000
+2025-06-19 22:16:04,570 - INFO - Success at 123_TAO_id_8_Environment_tr_500_1st_62.csv using TSPulse_ZS_time | Time cost: 33.188s at length 10000
+2025-06-19 22:17:35,314 - INFO - Success at 124_TAO_id_9_Environment_tr_500_1st_1.csv using TSPulse_ZS_time | Time cost: 33.276s at length 10000
+2025-06-19 22:19:04,539 - INFO - Success at 125_TAO_id_10_Environment_tr_500_1st_9.csv using TSPulse_ZS_time | Time cost: 33.393s at length 10000
+2025-06-19 22:21:41,136 - INFO - Success at 127_TAO_id_12_Environment_tr_500_1st_24.csv using TSPulse_ZS_time | Time cost: 33.189s at length 10000

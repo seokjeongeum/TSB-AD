@@ -5,6 +5,7 @@ from tqdm import tqdm
 import sys
 import warnings
 from sklearn.exceptions import UndefinedMetricWarning
+import argparse
 
 # Suppress UndefinedMetricWarning from sklearn, which can occur when precision is ill-defined.
 warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
@@ -15,15 +16,6 @@ sys.path.insert(
 )
 from TSB_AD.evaluation.metrics import get_metrics
 from TSB_AD.utils.slidingWindows import find_length_rank
-
-# --- Configuration: Base directories to scan for scores ---
-BASE_SCORE_DIRS = [
-    "/workspaces/TSB-AD/eval/score/multi/",
-    "/workspaces/TSB-AD/eval/score/multi-tuning/",
-    "/workspaces/TSB-AD/eval/score/uni/",
-    "/workspaces/TSB-AD/eval/score/uni-tuning/",
-]
-
 
 def evaluate_single_algorithm(score_dir):
     """
@@ -169,30 +161,37 @@ def evaluate_single_algorithm(score_dir):
 
 def main():
     """
-    Finds all algorithm score directories and runs the evaluation for each one.
+    Runs evaluation for a specific algorithm and data type provided as arguments.
     """
-    algorithm_dirs_to_process = []
-    for base_dir in BASE_SCORE_DIRS:
-        if not os.path.isdir(base_dir):
-            print(f"Warning: Base directory not found, skipping: {base_dir}")
-            continue
-        for item in os.listdir(base_dir):
-            full_path = os.path.join(base_dir, item)
-            if os.path.isdir(full_path):
-                algorithm_dirs_to_process.append(full_path)
+    parser = argparse.ArgumentParser(
+        description="Evaluate anomaly detection scores for a given algorithm and data type."
+    )
+    parser.add_argument(
+        "algorithm",
+        type=str,
+        help="The name of the algorithm to evaluate (e.g., 'TSPulse_ZS_ensemble')."
+    )
+    parser.add_argument(
+        "data",
+        type=str,
+        choices=["multi", "multi-tuning", "uni", "uni-tuning"],
+        help="The type of data the algorithm was run on."
+    )
 
-    if not algorithm_dirs_to_process:
-        print(
-            "Error: No algorithm score directories found. Please check paths in BASE_SCORE_DIRS."
-        )
+    args = parser.parse_args()
+
+    # Construct the path to the score directory
+    score_dir = f"/workspaces/TSB-AD/eval/score/{args.data}/{args.algorithm}"
+
+    if not os.path.isdir(score_dir):
+        print(f"Error: Score directory not found at '{score_dir}'. Please check algorithm and data names.")
         return
-    print(f"Found {len(algorithm_dirs_to_process)} algorithm directories to evaluate.")
 
-    for alg_dir in algorithm_dirs_to_process:
-        evaluate_single_algorithm(alg_dir)
+    # Run the evaluation for the specified directory
+    evaluate_single_algorithm(score_dir)
 
     print("\n" + "=" * 60)
-    print("All evaluations finished.")
+    print("Evaluation finished.")
     print("=" * 60)
 
 

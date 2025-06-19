@@ -52,7 +52,7 @@ if __name__ == '__main__':
 
     write_csv = []
     for filename in tqdm(file_list):
-        # if os.path.exists(target_dir+'/'+filename.split('.')[0]+'.npy'): continue
+        if os.path.exists(target_dir+'/'+filename.split('.')[0]+'.npy'): continue
         print('Processing:{} by {}'.format(filename, args.AD_Name))
 
         file_path = os.path.join(args.dataset_dir, filename)
@@ -98,7 +98,7 @@ if __name__ == '__main__':
             write_csv.append(list_w)
 
             ## Temp Save
-            col_w = list(evaluation_result.keys())
+            col_w = ['AUC-PR','AUC-ROC','VUS-PR','VUS-ROC','Standard-F1','PA-F1','Event-based-F1','R-based-F1','Affiliation-F']
             col_w.insert(0, 'Time')
             col_w.insert(0, 'file')
             w_csv = pd.DataFrame(write_csv, columns=col_w)
