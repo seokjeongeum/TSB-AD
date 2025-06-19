@@ -117,6 +117,7 @@ Optimal_Multi_algo_HP_dict = {
     'TSPulse_ZS_time': {},
     'TSPulse_ZS_fft': {},
     'TSPulse_ZS_future': {},
+    'TSPulse2': {},
 }
 
 
@@ -280,4 +281,5 @@ Optimal_Uni_algo_HP_dict = {
     'TSPulse_ZS_time': {},
     'TSPulse_ZS_fft': {},
     'TSPulse_ZS_future': {},
+    'TSPulse2': {},
 }

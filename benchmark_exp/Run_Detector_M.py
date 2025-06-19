@@ -35,14 +35,16 @@ if __name__ == '__main__':
     parser.add_argument('--score_dir', type=str, default='eval/score/multi/')
     parser.add_argument('--save_dir', type=str, default='eval/metrics/multi/')
     parser.add_argument('--save', type=bool, default=True)
-    parser.add_argument('--AD_Name', type=str, default='TSPulse_ZS_ensemble')
+    parser.add_argument('--AD_Name', type=str, default='TSPulse2')
     args = parser.parse_args()
 
 
     target_dir = os.path.join(args.score_dir, args.AD_Name)
     os.makedirs(target_dir, exist_ok = True)
     os.makedirs(args.save_dir, exist_ok = True)
-    logging.basicConfig(filename=f'{target_dir}/000_run_{args.AD_Name}.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    logging.basicConfig(
+        filename=f'{target_dir}/000_run_{args.AD_Name}.log', 
+        level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', force=True)
 
     file_list = pd.read_csv(args.file_lsit)['file_name'].values
     Optimal_Det_HP = Optimal_Multi_algo_HP_dict[args.AD_Name]

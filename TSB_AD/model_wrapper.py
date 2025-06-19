@@ -5,9 +5,11 @@ import math
 import shutil
 import tempfile
 import pandas as pd
+import logging
 
 from transformers import Trainer, TrainingArguments, EarlyStoppingCallback
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')), 'granite-tsfm'))
+from TSPulse2.TSPulse2Pipeline import TSPulse2Pipeline
 from tsfm_public.models.tspulse.configuration_tspulse import TSPulseConfig
 from tsfm_public.toolkit.dataset import ForecastDFDataset
 
@@ -18,10 +20,12 @@ from .utils.slidingWindows import find_length_rank
 
 Unsupervise_AD_Pool = ['FFT', 'SR', 'NORMA', 'Series2Graph', 'Sub_IForest', 'IForest', 'LOF', 'Sub_LOF', 'POLY', 'MatrixProfile', 'Sub_PCA', 'PCA', 'HBOS', 
                         'Sub_HBOS', 'KNN', 'Sub_KNN','KMeansAD', 'KMeansAD_U', 'KShapeAD', 'COPOD', 'CBLOF', 'COF', 'EIF', 'RobustPCA', 'Lag_Llama', 'TimesFM', 'Chronos', 'MOMENT_ZS',
-                        'TSPulse_ZS_ensemble', 'TSPulse_ZS_time', 'TSPulse_ZS_fft', 'TSPulse_ZS_future']
+                        'TSPulse_ZS_ensemble', 'TSPulse_ZS_time', 'TSPulse_ZS_fft', 'TSPulse_ZS_future',
+                        'TSPulse2']
 Semisupervise_AD_Pool = ['Left_STAMPi', 'SAND', 'MCD', 'Sub_MCD', 'OCSVM', 'Sub_OCSVM', 'AutoEncoder', 'CNN', 'LSTMAD', 'TranAD', 'USAD', 'OmniAnomaly', 
                         'AnomalyTransformer', 'TimesNet', 'FITS', 'Donut', 'OFA', 'MOMENT_FT', 'M2N2',
-                        'TSPulse_FT_ensemble', 'TSPulse_FT_time', 'TSPulse_FT_fft', 'TSPulse_FT_future']
+                        'TSPulse_FT_ensemble', 'TSPulse_FT_time', 'TSPulse_FT_fft', 'TSPulse_FT_future',
+                        ]
 
 def run_Unsupervise_AD(model_name, data, **kwargs):
     try:
@@ -422,6 +426,7 @@ def run_M2N2(
     return score.ravel()
 
 path_to_tspulse_model = "ibm-granite/granite-timeseries-tspulse-r1"
+tspulse_batch_size = 1
 
 def _prepare_df_for_tspulse(data_np):
     """
@@ -450,6 +455,7 @@ def _run_ts_pulse_zs(data, prediction_mode, **kwargs):
         num_input_channels=num_channels,
         revision="main",
         mask_type="user",
+        device_map="auto",
     )
 
     pipeline = TimeSeriesAnomalyDetectionPipeline(
@@ -463,7 +469,7 @@ def _run_ts_pulse_zs(data, prediction_mode, **kwargs):
         least_significant_scale=kwargs.get("least_significant_scale", 0.01),
         least_significant_score=kwargs.get("least_significant_score", 0.1),
     )
-    result = pipeline(df, batch_size=256, report_mode=True, predictive_score_smoothing=True)
+    result = pipeline(df, batch_size=tspulse_batch_size, report_mode=True, predictive_score_smoothing=True)
     return result["anomaly_score"].values
 
 def run_TSPulse_ZS_ensemble(data, **kwargs):
@@ -504,6 +510,7 @@ def _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs):
         path_to_tspulse_model,
         config=config,
         ignore_mismatched_sizes=True,
+        device_map="auto",
     )
 
     for name, param in model.named_parameters():
@@ -556,7 +563,7 @@ def _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs):
         aggr_function=kwargs.get("aggr_function", "max"),
         smoothing_length=kwargs.get("smoothing_length", 16),
     )
-    result = pipeline(test_df, batch_size=256, expand_score=True, report_mode=True, predictive_score_smoothing=True)
+    result = pipeline(test_df, batch_size=tspulse_batch_size, expand_score=True, report_mode=True, predictive_score_smoothing=True)
     shutil.rmtree(output_dir)
     return result["anomaly_score"].values
 
@@ -579,3 +586,40 @@ def run_TSPulse_FT_fft(data_train, data_test, **kwargs):
 def run_TSPulse_FT_future(data_train, data_test, **kwargs):
     prediction_mode = AnomalyScoreMethods.PREDICTIVE.value
     return _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs)
+
+def run_TSPulse2(data, **kwargs):
+    df, target_columns = _prepare_df_for_tspulse(data)
+    num_channels = len(target_columns)
+
+    try:
+        zeroshot_model = TSPulseForReconstruction.from_pretrained(
+            path_to_tspulse_model,
+            num_input_channels=num_channels,
+            revision="main",
+            mask_type="user",
+            device_map="auto",
+            ignore_mismatched_sizes=True, # Recommended for patched models
+        )
+
+        pipeline = TSPulse2Pipeline(
+            model=zeroshot_model,
+            timestamp_column="timestamp",
+            target_columns=target_columns,
+            prediction_mode=[
+                AnomalyScoreMethods.PREDICTIVE.value,
+                AnomalyScoreMethods.TIME_RECONSTRUCTION.value,
+                AnomalyScoreMethods.FREQUENCY_RECONSTRUCTION.value,
+            ],
+            aggregation_length=kwargs.get("aggregation_length", 96),
+            aggr_function=kwargs.get("aggr_function", "max"),
+            smoothing_length=kwargs.get("smoothing_length", 16),
+            least_significant_scale=kwargs.get("least_significant_scale", 0.01),
+            least_significant_score=kwargs.get("least_significant_score", 0.1),
+            head_min_max_scale=kwargs.get("head_min_max_scale", True),
+        )
+        result = pipeline(df, batch_size=tspulse_batch_size, report_mode=True, predictive_score_smoothing=True)
+        return result["anomaly_score"].values
+    except Exception as e:
+        # Log the full traceback for better debugging
+        logging.error(f"An error occurred while running TSPulse2", exc_info=True)
+        return str(e)
