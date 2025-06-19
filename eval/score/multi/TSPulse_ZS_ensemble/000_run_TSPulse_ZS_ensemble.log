@@ -102,3 +102,5 @@
 2025-06-19 08:18:48,429 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
 2025-06-19 08:23:19,984 - INFO - Success at 097_SVDB_id_14_Medical_tr_1031_1st_1131.csv using TSPulse_ZS_ensemble | Time cost: 277.127s at length 230400
 2025-06-19 08:28:48,544 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-19 08:33:19,614 - INFO - Success at 098_SVDB_id_15_Medical_tr_500_1st_303.csv using TSPulse_ZS_ensemble | Time cost: 276.661s at length 230400
+2025-06-19 08:35:43,759 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
