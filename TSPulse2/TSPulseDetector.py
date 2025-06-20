@@ -1,5 +1,5 @@
 import pandas as pd
-from TSPulse2.modeling_tspulse import DeviceAgnosticTSPulseForReconstruction, TSPulseForReconstruction
+from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
 from tsfm_public.toolkit.ad_helpers import AnomalyScoreMethods
 
 from TSB_AD.models.base import BaseDetector
@@ -29,6 +29,7 @@ def _prepare_df_for_tspulse(data_np):
 
 class TSPulseDetector(BaseDetector):
     def __init__(self, **kwargs):
+        self.model_class = kwargs.get("model_class", TSPulseForReconstruction)
         self.pipeline_class = kwargs.get("pipeline_class", TSPulse2Pipeline)
         self.aggregation_length = kwargs.get("aggregation_length", 96)
         self.aggr_function = kwargs.get("aggr_function", "max")
@@ -48,12 +49,11 @@ class TSPulseDetector(BaseDetector):
     def fit(self, X):
         _, target_columns = _prepare_df_for_tspulse(X)
         num_channels = len(target_columns)
-        model = DeviceAgnosticTSPulseForReconstruction.from_pretrained(
+        model = self.model_class.from_pretrained(
             "ibm-granite/granite-timeseries-tspulse-r1",
             num_input_channels=num_channels,
             revision="main",
             mask_type="user",
-            device_map="auto",
         )
         accelerator = Accelerator()
         model = accelerator.prepare_model(model, device_placement=True)
@@ -74,7 +74,7 @@ class TSPulseDetector(BaseDetector):
         df, _ = _prepare_df_for_tspulse(X)
         result = self.pipeline(
             df,
-            batch_size=1,
+            batch_size=256,
             report_mode=True,
             predictive_score_smoothing=True,
             expand_score=True,
