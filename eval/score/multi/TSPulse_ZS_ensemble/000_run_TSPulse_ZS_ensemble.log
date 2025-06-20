@@ -339,3 +339,5 @@
 2025-06-20 15:19:50,146 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
 2025-06-20 15:41:31,363 - INFO - Success at 129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901.csv using TSPulse_ZS_ensemble | Time cost: 1301.815s at length 24693
 2025-06-20 15:41:35,615 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 15:45:45,551 - INFO - Success at 130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145.csv using TSPulse_ZS_ensemble | Time cost: 250.470s at length 5162
+2025-06-20 15:45:47,672 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.

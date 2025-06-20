@@ -19,3 +19,5 @@ Optimal_Det_HP:  {}
 Processing:129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901.csv by TSPulse_ZS_ensemble
 evaluation_result:  {'AUC-PR': 0.019348383226512385, 'AUC-ROC': 0.3183603246783754, 'VUS-PR': np.float64(0.020658514773839388), 'VUS-ROC': np.float64(0.34148063079102386), 'Standard-F1': np.float64(0.06138984302271448), 'PA-F1': 0.235505471174261, 'Event-based-F1': np.float64(0.05846103948755365), 'R-based-F1': 0.08974230609468505, 'Affiliation-F': 0.8321240239033321}
 Processing:130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145.csv by TSPulse_ZS_ensemble
+evaluation_result:  {'AUC-PR': 0.05561977525554014, 'AUC-ROC': 0.22525132700020037, 'VUS-PR': np.float64(0.058294444072729226), 'VUS-ROC': np.float64(0.243558241582184), 'Standard-F1': np.float64(0.17066801683384164), 'PA-F1': 0.5148188803512623, 'Event-based-F1': np.float64(0.16977375565610842), 'R-based-F1': 0.3272345734706098, 'Affiliation-F': 0.8982845393047864}
+Processing:132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995.csv by TSPulse_ZS_ensemble
