@@ -162,3 +162,6 @@
 2025-06-20 05:43:24,866 - WARNING - Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
 2025-06-20 05:58:12,103 - INFO - Success at 196_Exathlon_id_23_Facility_tr_11665_1st_13484.csv using TSPulse_ZS_fft | Time cost: 887.924s at length 46660
 2025-06-20 05:58:23,963 - WARNING - Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 15:19:50,389 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 15:37:04,213 - INFO - Success at 054_GHL_id_23_Sensor_tr_50000_1st_135001.csv using TSPulse_ZS_fft | Time cost: 1034.417s at length 200001
+2025-06-20 15:37:26,419 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.

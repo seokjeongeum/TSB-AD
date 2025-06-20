@@ -1,0 +1,820 @@
+Lmod has detected the following error: The following module(s) are unknown:
+"anaconda3"
+
+Please check the spelling or version number. Also try "module spider ..."
+It is also possible your cache file is out-of-date; it may help to try:
+  $ module --ignore_cache load "anaconda3"
+
+Also make sure that all modulefiles written in TCL start with the string
+#%Module
+
+
+
+/var/spool/slurmctld/job701999/slurm_script: line 40: conda: command not found
+  0%|          | 0/22 [00:00<?, ?it/s]Device set to use cuda:0
+/home/seokjeongeum/TSB-AD/granite-tsfm/tsfm_public/toolkit/dataset.py:220: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  data_df["group"] = 0  # create a artificial group
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/TSB-AD/TSPulse2/TSPulse2Pipeline.py:147: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  result[k] = model_outputs[k]
+/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+  9%|▉         | 2/22 [22:29<3:44:54, 674.74s/it]Device set to use cuda:0
+/home/seokjeongeum/TSB-AD/granite-tsfm/tsfm_public/toolkit/dataset.py:220: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  data_df["group"] = 0  # create a artificial group
+slurmstepd: error: *** JOB 701999 ON n57 CANCELLED AT 2025-06-20T15:19:02 ***

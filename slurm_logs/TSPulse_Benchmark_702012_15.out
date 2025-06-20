@@ -1,0 +1,21 @@
+==========================================================
+Starting SLURM Array Job: 702012, Task: 15
+Host: n78.gasi-cluster.cluster
+Date: Fri Jun 20 15:19:29 KST 2025
+Allocated GPUs: 0
+---
+Running with Parameters:
+AD_Name: TSPulse_ZS_time
+Script: Run_Detector_M.py
+Dataset Dir: Datasets/TSB-AD-M/
+File List: Datasets/File_List/TSB-AD-M-Eva.csv
+Extra Args: 
+==========================================================
+Executing command:
+python -u "/home/seokjeongeum/TSB-AD/benchmark_exp/Run_Detector_M.py"   --AD_Name="TSPulse_ZS_time"   --dataset_dir="Datasets/TSB-AD-M/"   --file_lsit="Datasets/File_List/TSB-AD-M-Eva.csv"   --save True   
+CUDA available:  True
+cuDNN version:  90501
+Optimal_Det_HP:  {}
+Processing:052_GHL_id_21_Sensor_tr_50000_1st_98001.csv by TSPulse_ZS_time
+evaluation_result:  {'AUC-PR': 0.0035714765868333654, 'AUC-ROC': 0.049605240410843264, 'VUS-PR': np.float64(0.004633815733946572), 'VUS-ROC': np.float64(0.07474565662085594), 'Standard-F1': np.float64(0.02013569888318121), 'PA-F1': 0.9832911392405064, 'Event-based-F1': np.float64(0.13888888888888873), 'R-based-F1': 0.20082051282051283, 'Affiliation-F': 0.8920730384507733}
+Processing:053_GHL_id_22_Sensor_tr_50000_1st_126448.csv by TSPulse_ZS_time

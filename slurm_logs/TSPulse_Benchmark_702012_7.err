@@ -1,0 +1,17 @@
+Lmod has detected the following error: The following module(s) are unknown:
+"anaconda3"
+
+Please check the spelling or version number. Also try "module spider ..."
+It is also possible your cache file is out-of-date; it may help to try:
+  $ module --ignore_cache load "anaconda3"
+
+Also make sure that all modulefiles written in TCL start with the string
+#%Module
+
+
+
+/var/spool/slurmctld/job702019/slurm_script: line 106: conda: command not found
+  0%|          | 0/180 [00:00<?, ?it/s]Device set to use cuda:0
+/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+ 27%|██▋       | 48/180 [17:36<48:24, 22.00s/it]Device set to use cuda:0
