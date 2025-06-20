@@ -8,6 +8,8 @@ import pandas as pd
 import logging
 
 from transformers import Trainer, TrainingArguments, EarlyStoppingCallback
+
+from TSPulse2.modeling_tspulse import DeviceAgnosticTSPulseForReconstruction
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')), 'granite-tsfm'))
 from TSPulse2.TSPulse2Pipeline import TSPulse2Pipeline
 from tsfm_public.models.tspulse.configuration_tspulse import TSPulseConfig
@@ -495,7 +497,7 @@ def _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs):
         config.num_channels_layerwise = [num_channels] * config.num_layers
         config.decoder_num_channels_layerwise = [num_channels] * config.decoder_num_layers
     
-    model = TSPulseForReconstruction.from_pretrained(
+    model = DeviceAgnosticTSPulseForReconstruction.from_pretrained(
         path_to_tspulse_model,
         config=config,
         ignore_mismatched_sizes=True,
