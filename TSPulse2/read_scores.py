@@ -7,15 +7,19 @@ import warnings
 from sklearn.exceptions import UndefinedMetricWarning
 import argparse
 
-# Suppress UndefinedMetricWarning from sklearn, which can occur when precision is ill-defined.
+# Suppress UndefinedMetricWarning from sklearn.
 warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
 
+# --- FIX 1: Dynamically determine the project's root directory ---
+# This script is in TSPulse2/, so we go up one level ('..') to find the project root.
+# This makes all subsequent paths relative and the script portable.
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
 # Add the project root to the Python path to allow importing from TSB_AD
-sys.path.insert(
-    0, os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-)
+sys.path.insert(0, PROJECT_ROOT)
 from TSB_AD.evaluation.metrics import get_metrics
 from TSB_AD.utils.slidingWindows import find_length_rank
+
 
 def evaluate_single_algorithm(score_dir):
     """
@@ -33,15 +37,22 @@ def evaluate_single_algorithm(score_dir):
     print(f"Starting evaluation for algorithm: '{ad_name}' on '{data_type}' data.")
     print("=" * 60)
 
-    # --- 1. Dynamically set paths based on data type ---
-    if "uni" in data_type:
-        dataset_dir = "/workspaces/TSB-AD/Datasets/TSB-AD-U/"
-        file_list_path = f"/workspaces/TSB-AD/Datasets/File_List/TSB-AD-U-{'Tuning' if 'tuning' in data_type else 'Eva'}.csv"
-        save_dir = f"/workspaces/TSB-AD/eval/metrics/{data_type}/"
-    elif "multi" in data_type:
-        dataset_dir = "/workspaces/TSB-AD/Datasets/TSB-AD-M/"
-        file_list_path = f"/workspaces/TSB-AD/Datasets/File_List/TSB-AD-M-{'Tuning' if 'tuning' in data_type else 'Eva'}.csv"
-        save_dir = f"/workspaces/TSB-AD/eval/metrics/{data_type}/"
+    # --- FIX: Build all paths by joining them with the PROJECT_ROOT ---
+    # This logic is now more robust to correctly identify the data type.
+    if data_type.startswith("uni"):
+        dataset_dir = os.path.join(PROJECT_ROOT, "Datasets", "TSB-AD-U")
+        file_list_name = f"TSB-AD-U-{'Tuning' if 'tuning' in data_type else 'Eva'}.csv"
+        file_list_path = os.path.join(
+            PROJECT_ROOT, "Datasets", "File_List", file_list_name
+        )
+        save_dir = os.path.join(PROJECT_ROOT, "eval", "metrics", data_type)
+    elif data_type.startswith("multi"):
+        dataset_dir = os.path.join(PROJECT_ROOT, "Datasets", "TSB-AD-M")
+        file_list_name = f"TSB-AD-M-{'Tuning' if 'tuning' in data_type else 'Eva'}.csv"
+        file_list_path = os.path.join(
+            PROJECT_ROOT, "Datasets", "File_List", file_list_name
+        )
+        save_dir = os.path.join(PROJECT_ROOT, "eval", "metrics", data_type)
     else:
         print(f"Warning: Unknown data type '{data_type}' in path. Skipping.")
         return
@@ -64,13 +75,7 @@ def evaluate_single_algorithm(score_dir):
         )
         try:
             existing_results_df = pd.read_csv(save_path)
-            # For backward compatibility, rename 'file' column to 'file' if it exists
-            if (
-                "file" in existing_results_df.columns
-                and "file" not in existing_results_df.columns
-            ):
-                existing_results_df.rename(columns={"file": "file"}, inplace=True)
-
+            # Check for the column containing filenames
             if "file" in existing_results_df.columns:
                 # Strip .csv extension for comparison, as we compare against basenames
                 evaluated_files = set(
@@ -81,7 +86,7 @@ def evaluate_single_algorithm(score_dir):
                 print(f"Found {len(evaluated_files)} already evaluated files.")
             elif not existing_results_df.empty:
                 print(
-                    "Warning: Could not find a 'file' or 'file' column in existing results. Re-evaluating all files."
+                    "Warning: Could not find a 'file' column in existing results. Re-evaluating all files."
                 )
         except pd.errors.EmptyDataError:
             print("Warning: Existing results file is empty. Will start from scratch.")
@@ -142,21 +147,26 @@ def evaluate_single_algorithm(score_dir):
             failed_result = {"file": basename, "F1": 0, "AUC-ROC": 0, "AUC-PR": 0}
             new_results.append(failed_result)
 
-        new_results_df = pd.DataFrame(new_results)
+    # --- 4. Combine and save results ---
+    if not new_results:
+        print("No new results were generated.")
+        return
 
-        if existing_results_df is not None:
-            final_df = pd.concat(
-                [existing_results_df, new_results_df], ignore_index=True
-            )
-        else:
-            final_df = new_results_df
+    new_results_df = pd.DataFrame(new_results)
+    if existing_results_df is not None:
+        final_df = pd.concat(
+            [existing_results_df, new_results_df], ignore_index=True
+        ).drop_duplicates(subset=["file"], keep="last")
+    else:
+        final_df = new_results_df
 
-        # Reorder columns to have 'file' first
-        cols = ["file"] + [col for col in final_df.columns if col != "file"]
-        final_df = final_df[cols]
+    # Reorder columns to have 'file' first
+    cols = ["file"] + [col for col in final_df.columns if col != "file"]
+    final_df = final_df[cols]
 
-        os.makedirs(save_dir, exist_ok=True)
-        final_df.to_csv(save_path, index=False)
+    os.makedirs(save_dir, exist_ok=True)
+    final_df.to_csv(save_path, index=False)
+    print(f"Successfully saved updated results to {save_path}")
 
 
 def main():
@@ -169,22 +179,24 @@ def main():
     parser.add_argument(
         "algorithm",
         type=str,
-        help="The name of the algorithm to evaluate (e.g., 'TSPulse_ZS_ensemble')."
+        help="The name of the algorithm to evaluate (e.g., 'TSPulse_ZS_ensemble').",
     )
     parser.add_argument(
         "data",
         type=str,
         choices=["multi", "multi-tuning", "uni", "uni-tuning"],
-        help="The type of data the algorithm was run on."
+        help="The type of data the algorithm was run on.",
     )
 
     args = parser.parse_args()
 
-    # Construct the path to the score directory
-    score_dir = f"/workspaces/TSB-AD/eval/score/{args.data}/{args.algorithm}"
+    # --- FIX 3: Construct the score directory path using the PROJECT_ROOT ---
+    score_dir = os.path.join(PROJECT_ROOT, "eval", "score", args.data, args.algorithm)
 
     if not os.path.isdir(score_dir):
-        print(f"Error: Score directory not found at '{score_dir}'. Please check algorithm and data names.")
+        print(
+            f"Error: Score directory not found at '{score_dir}'. Please check algorithm and data names."
+        )
         return
 
     # Run the evaluation for the specified directory

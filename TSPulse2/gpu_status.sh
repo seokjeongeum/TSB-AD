@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# A script to check nvidia-smi on all nodes where the user has running jobs.
+# A robust script to check nvidia-smi on all nodes where the user has running jobs.
 
 echo "Searching for running jobs for user: $USER..."
 echo
@@ -26,9 +26,11 @@ do
     squeue -u $USER -t RUNNING -w $NODE
     echo "---"
 
-    # THE FIX: Use ssh to run the command directly on the node, bypassing the
-    # srun resource allocation which was causing the error.
-    ssh $NODE nvidia-smi
+    # THE UPGRADES: Added flags to ssh for robustness and cleaner output.
+    # -o ConnectTimeout=5 : Don't hang forever if a node is unresponsive.
+    # -T : Disable tty allocation to prevent warnings.
+    # -q : Suppress ssh banner messages.
+    ssh -o ConnectTimeout=5 -T -q $NODE nvidia-smi
     echo
     echo
 done

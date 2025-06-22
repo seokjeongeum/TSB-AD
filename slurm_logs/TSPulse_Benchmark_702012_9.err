@@ -1,294 +1,0 @@
-Lmod has detected the following error: The following module(s) are unknown:
-"anaconda3"
-
-Please check the spelling or version number. Also try "module spider ..."
-It is also possible your cache file is out-of-date; it may help to try:
-  $ module --ignore_cache load "anaconda3"
-
-Also make sure that all modulefiles written in TCL start with the string
-#%Module
-
-
-
-/var/spool/slurmctld/job702021/slurm_script: line 106: conda: command not found
-  0%|          | 0/350 [00:00<?, ?it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 552_YAHOO_id_2_Synthetic_tr_500_1st_893.csv using TSPulse_ZS_fft | Time cost: 2.170s at length 1421
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 76%|███████▌  | 265/350 [00:02<00:00, 89.90it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 555_YAHOO_id_5_WebService_tr_500_1st_730.csv using TSPulse_ZS_fft | Time cost: 0.992s at length 1680
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 558_YAHOO_id_8_WebService_tr_500_1st_1125.csv using TSPulse_ZS_fft | Time cost: 0.883s at length 1427
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 562_YAHOO_id_12_Synthetic_tr_500_1st_893.csv using TSPulse_ZS_fft | Time cost: 1.028s at length 1421
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 570_YAHOO_id_20_Synthetic_tr_500_1st_658.csv using TSPulse_ZS_fft | Time cost: 0.883s at length 1421
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 571_YAHOO_id_21_Synthetic_tr_500_1st_623.csv using TSPulse_ZS_fft | Time cost: 0.889s at length 1421
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 579_YAHOO_id_29_WebService_tr_500_1st_1342.csv using TSPulse_ZS_fft | Time cost: 0.992s at length 1680
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 603_YAHOO_id_53_Synthetic_tr_500_1st_893.csv using TSPulse_ZS_fft | Time cost: 0.880s at length 1421
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 644_YAHOO_id_94_WebService_tr_500_1st_1078.csv using TSPulse_ZS_fft | Time cost: 0.885s at length 1435
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 645_YAHOO_id_95_WebService_tr_500_1st_1047.csv using TSPulse_ZS_fft | Time cost: 0.989s at length 1680
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 78%|███████▊  | 274/350 [00:17<00:06, 11.86it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 649_YAHOO_id_99_WebService_tr_500_1st_1386.csv using TSPulse_ZS_fft | Time cost: 1.140s at length 1680
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 79%|███████▊  | 275/350 [00:19<00:07, 10.11it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 657_YAHOO_id_107_WebService_tr_500_1st_1260.csv using TSPulse_ZS_fft | Time cost: 0.885s at length 1440
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 658_YAHOO_id_108_Synthetic_tr_500_1st_893.csv using TSPulse_ZS_fft | Time cost: 0.874s at length 1421
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 672_YAHOO_id_122_WebService_tr_500_1st_857.csv using TSPulse_ZS_fft | Time cost: 0.985s at length 1680
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 680_YAHOO_id_130_Synthetic_tr_500_1st_893.csv using TSPulse_ZS_fft | Time cost: 0.873s at length 1421
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 80%|███████▉  | 279/350 [00:25<00:11,  6.32it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 689_YAHOO_id_139_WebService_tr_500_1st_1073.csv using TSPulse_ZS_fft | Time cost: 1.350s at length 1680
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 693_YAHOO_id_143_WebService_tr_500_1st_1003.csv using TSPulse_ZS_fft | Time cost: 0.890s at length 1427
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 701_YAHOO_id_151_Synthetic_tr_500_1st_893.csv using TSPulse_ZS_fft | Time cost: 0.892s at length 1421
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 81%|████████  | 282/350 [00:30<00:14,  4.55it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 723_YAHOO_id_173_WebService_tr_500_1st_1214.csv using TSPulse_ZS_fft | Time cost: 0.886s at length 1420
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 724_YAHOO_id_174_WebService_tr_500_1st_1030.csv using TSPulse_ZS_fft | Time cost: 0.985s at length 1680
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 81%|████████  | 284/350 [00:33<00:17,  3.71it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 734_YAHOO_id_184_WebService_tr_500_1st_768.csv using TSPulse_ZS_fft | Time cost: 0.881s at length 1424
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 81%|████████▏ | 285/350 [00:35<00:19,  3.31it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 741_YAHOO_id_191_WebService_tr_500_1st_1114.csv using TSPulse_ZS_fft | Time cost: 1.207s at length 1680
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 82%|████████▏ | 286/350 [00:37<00:22,  2.81it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 755_YAHOO_id_205_Synthetic_tr_500_1st_893.csv using TSPulse_ZS_fft | Time cost: 0.878s at length 1421
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 82%|████████▏ | 287/350 [00:38<00:26,  2.40it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 762_YAHOO_id_212_WebService_tr_500_1st_1055.csv using TSPulse_ZS_fft | Time cost: 0.986s at length 1680
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 82%|████████▏ | 288/350 [00:40<00:30,  2.03it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 780_YAHOO_id_230_Synthetic_tr_500_1st_893.csv using TSPulse_ZS_fft | Time cost: 0.906s at length 1421
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 83%|████████▎ | 289/350 [00:42<00:37,  1.64it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 788_YAHOO_id_238_WebService_tr_500_1st_973.csv using TSPulse_ZS_fft | Time cost: 0.979s at length 1680
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 83%|████████▎ | 290/350 [00:43<00:42,  1.42it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 797_YAHOO_id_247_Synthetic_tr_500_1st_893.csv using TSPulse_ZS_fft | Time cost: 0.928s at length 1421
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 83%|████████▎ | 291/350 [00:45<00:51,  1.14it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 806_YAHOO_id_256_Synthetic_tr_500_1st_893.csv using TSPulse_ZS_fft | Time cost: 1.147s at length 1421
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 83%|████████▎ | 292/350 [00:47<01:01,  1.06s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 807_YAHOO_id_257_WebService_tr_500_1st_1210.csv using TSPulse_ZS_fft | Time cost: 0.878s at length 1424
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 84%|████████▎ | 293/350 [00:48<01:03,  1.11s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 842_OPPORTUNITY_id_1_HumanActivity_tr_7295_1st_27516.csv using TSPulse_ZS_fft | Time cost: 12.082s at length 29182
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 93%|█████████▎| 324/350 [01:03<00:13,  1.87it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 843_OPPORTUNITY_id_2_HumanActivity_tr_808_1st_908.csv using TSPulse_ZS_fft | Time cost: 3.952s at length 9057
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 93%|█████████▎| 325/350 [01:08<00:18,  1.38it/s]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 844_OPPORTUNITY_id_3_HumanActivity_tr_500_1st_566.csv using TSPulse_ZS_fft | Time cost: 6.559s at length 15653
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 93%|█████████▎| 326/350 [01:16<00:26,  1.12s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 845_OPPORTUNITY_id_4_HumanActivity_tr_7295_1st_27516.csv using TSPulse_ZS_fft | Time cost: 12.102s at length 29182
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 93%|█████████▎| 327/350 [01:30<00:47,  2.04s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 846_OPPORTUNITY_id_5_HumanActivity_tr_2085_1st_2185.csv using TSPulse_ZS_fft | Time cost: 9.150s at length 22194
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 94%|█████████▎| 328/350 [01:42<01:03,  2.90s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 847_OPPORTUNITY_id_6_HumanActivity_tr_808_1st_908.csv using TSPulse_ZS_fft | Time cost: 4.096s at length 9057
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 94%|█████████▍| 329/350 [01:47<01:07,  3.20s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 848_OPPORTUNITY_id_7_HumanActivity_tr_1477_1st_1577.csv using TSPulse_ZS_fft | Time cost: 7.496s at length 18011
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 94%|█████████▍| 330/350 [01:57<01:21,  4.05s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 849_OPPORTUNITY_id_8_HumanActivity_tr_1100_1st_1200.csv using TSPulse_ZS_fft | Time cost: 10.400s at length 24892
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 95%|█████████▍| 331/350 [02:09<01:45,  5.54s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 850_OPPORTUNITY_id_9_HumanActivity_tr_895_1st_995.csv using TSPulse_ZS_fft | Time cost: 6.238s at length 14751
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 95%|█████████▍| 332/350 [02:17<01:48,  6.04s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 851_OPPORTUNITY_id_10_HumanActivity_tr_6213_1st_7311.csv using TSPulse_ZS_fft | Time cost: 10.365s at length 24852
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 95%|█████████▌| 333/350 [02:31<02:11,  7.75s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 853_OPPORTUNITY_id_12_HumanActivity_tr_808_1st_908.csv using TSPulse_ZS_fft | Time cost: 3.939s at length 9057
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 95%|█████████▌| 334/350 [02:37<01:54,  7.15s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 854_OPPORTUNITY_id_13_HumanActivity_tr_1477_1st_1577.csv using TSPulse_ZS_fft | Time cost: 7.506s at length 18011
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 96%|█████████▌| 335/350 [02:46<01:55,  7.70s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 855_OPPORTUNITY_id_14_HumanActivity_tr_808_1st_908.csv using TSPulse_ZS_fft | Time cost: 3.929s at length 9057
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 96%|█████████▌| 336/350 [02:51<01:38,  7.06s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 856_OPPORTUNITY_id_15_HumanActivity_tr_808_1st_908.csv using TSPulse_ZS_fft | Time cost: 4.090s at length 9057
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 96%|█████████▋| 337/350 [02:57<01:27,  6.70s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 857_OPPORTUNITY_id_16_HumanActivity_tr_500_1st_566.csv using TSPulse_ZS_fft | Time cost: 6.552s at length 15653
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 97%|█████████▋| 338/350 [03:07<01:30,  7.55s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 858_OPPORTUNITY_id_17_HumanActivity_tr_808_1st_908.csv using TSPulse_ZS_fft | Time cost: 4.078s at length 9057
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 97%|█████████▋| 339/350 [03:12<01:16,  6.95s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 859_OPPORTUNITY_id_18_HumanActivity_tr_895_1st_995.csv using TSPulse_ZS_fft | Time cost: 6.202s at length 14751
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 97%|█████████▋| 340/350 [03:20<01:11,  7.14s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 860_OPPORTUNITY_id_19_HumanActivity_tr_808_1st_908.csv using TSPulse_ZS_fft | Time cost: 3.934s at length 9057
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 97%|█████████▋| 341/350 [03:25<00:59,  6.65s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 861_OPPORTUNITY_id_20_HumanActivity_tr_2085_1st_2185.csv using TSPulse_ZS_fft | Time cost: 9.289s at length 22194
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 98%|█████████▊| 342/350 [03:37<01:04,  8.07s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 862_OPPORTUNITY_id_21_HumanActivity_tr_500_1st_566.csv using TSPulse_ZS_fft | Time cost: 6.579s at length 15653
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 98%|█████████▊| 343/350 [03:45<00:57,  8.27s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 863_OPPORTUNITY_id_22_HumanActivity_tr_808_1st_908.csv using TSPulse_ZS_fft | Time cost: 4.078s at length 9057
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 98%|█████████▊| 344/350 [03:51<00:44,  7.40s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 865_OPPORTUNITY_id_24_HumanActivity_tr_2085_1st_2185.csv using TSPulse_ZS_fft | Time cost: 9.142s at length 22194
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 99%|█████████▊| 345/350 [04:02<00:43,  8.60s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 866_OPPORTUNITY_id_25_HumanActivity_tr_6213_1st_7311.csv using TSPulse_ZS_fft | Time cost: 10.355s at length 24852
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 99%|█████████▉| 346/350 [04:15<00:39,  9.99s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 867_OPPORTUNITY_id_26_HumanActivity_tr_808_1st_908.csv using TSPulse_ZS_fft | Time cost: 3.945s at length 9057
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 99%|█████████▉| 347/350 [04:21<00:26,  8.68s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 868_OPPORTUNITY_id_27_HumanActivity_tr_2085_1st_2185.csv using TSPulse_ZS_fft | Time cost: 9.151s at length 22194
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
- 99%|█████████▉| 348/350 [04:33<00:19,  9.57s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 869_OPPORTUNITY_id_28_HumanActivity_tr_500_1st_566.csv using TSPulse_ZS_fft | Time cost: 6.699s at length 15653
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-100%|█████████▉| 349/350 [04:43<00:09,  9.70s/it]WARNING:p-1510561:t-140315499861824:other.py:check_os_kernel:Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-Device set to use cuda:0
-INFO:p-1510561:t-140315499861824:Run_Detector_U.py:<module>:Success at 870_OPPORTUNITY_id_29_HumanActivity_tr_1477_1st_1577.csv using TSPulse_ZS_fft | Time cost: 7.478s at length 18011
-/home/seokjeongeum/.conda/envs/tsb-ad-env/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
-100%|██████████| 350/350 [04:52<00:00,  9.63s/it]100%|██████████| 350/350 [04:52<00:00,  1.20it/s]

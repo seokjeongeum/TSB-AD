@@ -4,6 +4,7 @@ channels:
   - conda-forge
 dependencies:
   - python=3.11
+  - black
   - pip
   - pip:
     - -r ../requirements.txt # Use ../ to go one directory up

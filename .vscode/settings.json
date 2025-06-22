@@ -4,5 +4,6 @@
     ],
     "cursorpyright.analysis.extraPaths": [
         "./granite-tsfm"
-    ]
+    ],
+    "python.formatting.provider": "black"
 }

@@ -1,89 +1,179 @@
-2025-06-19 02:20:51,317 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
-2025-06-19 02:49:20,597 - INFO - Success at 041_GHL_id_10_Sensor_tr_50000_1st_57001.csv using TSPulse_ZS_time | Time cost: 1715.150s at length 200001
-2025-06-19 02:50:19,914 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
-2025-06-19 03:18:53,960 - INFO - Success at 042_GHL_id_11_Sensor_tr_50000_1st_150001.csv using TSPulse_ZS_time | Time cost: 1714.681s at length 200001
-2025-06-19 03:19:47,515 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
-2025-06-19 03:48:38,935 - INFO - Success at 043_GHL_id_12_Sensor_tr_39938_1st_40038.csv using TSPulse_ZS_time | Time cost: 1732.059s at length 200001
-2025-06-19 03:49:30,610 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
-2025-06-19 04:18:06,272 - INFO - Success at 044_GHL_id_13_Sensor_tr_50000_1st_145001.csv using TSPulse_ZS_time | Time cost: 1716.271s at length 200001
-2025-06-19 04:19:01,811 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
-2025-06-19 04:38:23,908 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
-2025-06-19 05:06:58,202 - INFO - Success at 045_GHL_id_14_Sensor_tr_50000_1st_85076.csv using TSPulse_ZS_time | Time cost: 1715.138s at length 200001
-2025-06-19 05:08:04,913 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
-2025-06-19 05:36:37,543 - INFO - Success at 046_GHL_id_15_Sensor_tr_50000_1st_156462.csv using TSPulse_ZS_time | Time cost: 1723.295s at length 200001
-2025-06-19 05:37:29,665 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
-2025-06-19 06:06:02,712 - INFO - Success at 047_GHL_id_16_Sensor_tr_50000_1st_77001.csv using TSPulse_ZS_time | Time cost: 1713.730s at length 200001
-2025-06-19 06:07:04,075 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
-2025-06-19 06:35:38,434 - INFO - Success at 048_GHL_id_17_Sensor_tr_50000_1st_154001.csv using TSPulse_ZS_time | Time cost: 1723.256s at length 200001
-2025-06-19 06:36:53,997 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
-2025-06-19 08:43:36,904 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
-2025-06-19 09:43:38,615 - INFO - Success at 050_GHL_id_19_Sensor_tr_43750_1st_55001.csv using TSPulse_ZS_time | Time cost: 3602.539s at length 175001
-2025-06-19 09:46:00,532 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
-2025-06-19 10:56:07,228 - INFO - Success at 051_GHL_id_20_Sensor_tr_50000_1st_75110.csv using TSPulse_ZS_time | Time cost: 4207.357s at length 200001
-2025-06-19 15:16:45,000 - INFO - Success at 077_SMD_id_21_Facility_tr_3026_1st_3126.csv using TSPulse_ZS_time | Time cost: 833.129s at length 21207
-2025-06-19 15:32:31,612 - INFO - Success at 078_SMD_id_22_Facility_tr_500_1st_326.csv using TSPulse_ZS_time | Time cost: 932.577s at length 23693
-2025-06-19 15:36:46,556 - INFO - Success at 079_LTDB_id_1_Medical_tr_3618_1st_3718.csv using TSPulse_ZS_time | Time cost: 238.541s at length 100000
-2025-06-19 15:45:12,209 - INFO - Success at 080_LTDB_id_2_Medical_tr_500_1st_266.csv using TSPulse_ZS_time | Time cost: 361.329s at length 100000
-2025-06-19 15:53:34,591 - INFO - Success at 081_LTDB_id_3_Medical_tr_500_1st_26.csv using TSPulse_ZS_time | Time cost: 238.029s at length 100000
-2025-06-19 16:00:41,332 - INFO - Success at 083_LTDB_id_5_Medical_tr_15502_1st_15602.csv using TSPulse_ZS_time | Time cost: 238.414s at length 100000
-2025-06-19 16:10:36,268 - INFO - Success at 084_SVDB_id_1_Medical_tr_12973_1st_13073.csv using TSPulse_ZS_time | Time cost: 549.452s at length 230400
-2025-06-19 16:21:31,240 - INFO - Success at 085_SVDB_id_2_Medical_tr_50000_1st_54982.csv using TSPulse_ZS_time | Time cost: 549.045s at length 230400
-2025-06-19 16:33:49,609 - INFO - Success at 086_SVDB_id_3_Medical_tr_533_1st_633.csv using TSPulse_ZS_time | Time cost: 549.446s at length 230400
-2025-06-19 16:47:42,279 - INFO - Success at 087_SVDB_id_4_Medical_tr_5421_1st_5521.csv using TSPulse_ZS_time | Time cost: 549.117s at length 230400
-2025-06-19 17:01:02,168 - INFO - Success at 088_SVDB_id_5_Medical_tr_500_1st_168.csv using TSPulse_ZS_time | Time cost: 549.119s at length 230400
-2025-06-19 17:15:23,898 - INFO - Success at 089_SVDB_id_6_Medical_tr_50000_1st_83083.csv using TSPulse_ZS_time | Time cost: 549.154s at length 230400
-2025-06-19 17:26:48,566 - INFO - Success at 091_SVDB_id_8_Medical_tr_500_1st_126.csv using TSPulse_ZS_time | Time cost: 549.347s at length 230400
-2025-06-19 17:39:01,316 - INFO - Success at 092_SVDB_id_9_Medical_tr_2674_1st_2774.csv using TSPulse_ZS_time | Time cost: 549.200s at length 230400
-2025-06-19 17:50:35,295 - INFO - Success at 093_SVDB_id_10_Medical_tr_500_1st_37.csv using TSPulse_ZS_time | Time cost: 549.145s at length 230400
-2025-06-19 17:59:08,974 - INFO - Success at 094_SVDB_id_11_Medical_tr_20100_1st_23611.csv using TSPulse_ZS_time | Time cost: 191.399s at length 80400
-2025-06-19 18:08:51,346 - INFO - Success at 095_SVDB_id_12_Medical_tr_6264_1st_6364.csv using TSPulse_ZS_time | Time cost: 548.754s at length 230400
-2025-06-19 18:20:29,643 - INFO - Success at 096_SVDB_id_13_Medical_tr_500_1st_444.csv using TSPulse_ZS_time | Time cost: 549.342s at length 230400
-2025-06-19 18:25:00,710 - INFO - Success at 101_SVDB_id_18_Medical_tr_1851_1st_1951.csv using TSPulse_ZS_time | Time cost: 551.201s at length 230400
-2025-06-19 18:31:59,279 - INFO - Success at 097_SVDB_id_14_Medical_tr_1031_1st_1131.csv using TSPulse_ZS_time | Time cost: 549.204s at length 230400
-2025-06-19 18:37:55,553 - INFO - Success at 102_SVDB_id_19_Medical_tr_50000_1st_107354.csv using TSPulse_ZS_time | Time cost: 550.849s at length 230400
-2025-06-19 18:48:14,231 - INFO - Success at 098_SVDB_id_15_Medical_tr_500_1st_303.csv using TSPulse_ZS_time | Time cost: 550.387s at length 230400
-2025-06-19 18:50:35,953 - INFO - Success at 103_SVDB_id_20_Medical_tr_12167_1st_12267.csv using TSPulse_ZS_time | Time cost: 551.221s at length 230400
-2025-06-19 19:00:28,322 - INFO - Success at 099_SVDB_id_16_Medical_tr_1115_1st_1215.csv using TSPulse_ZS_time | Time cost: 550.566s at length 230400
-2025-06-19 19:02:55,376 - INFO - Success at 104_SVDB_id_21_Medical_tr_50000_1st_106634.csv using TSPulse_ZS_time | Time cost: 551.087s at length 230400
-2025-06-19 19:08:51,441 - INFO - Success at 100_SVDB_id_17_Medical_tr_17803_1st_17903.csv using TSPulse_ZS_time | Time cost: 311.698s at length 130400
-2025-06-19 19:10:18,858 - INFO - Success at 105_SVDB_id_22_Medical_tr_500_1st_417.csv using TSPulse_ZS_time | Time cost: 358.692s at length 150000
-2025-06-19 19:18:39,319 - INFO - Success at 106_SVDB_id_23_Medical_tr_37500_1st_121963.csv using TSPulse_ZS_time | Time cost: 357.645s at length 150000
-2025-06-19 19:28:28,234 - INFO - Success at 108_SVDB_id_25_Medical_tr_1238_1st_1338.csv using TSPulse_ZS_time | Time cost: 549.737s at length 230400
-2025-06-19 19:38:50,598 - INFO - Success at 109_SVDB_id_26_Medical_tr_1038_1st_1138.csv using TSPulse_ZS_time | Time cost: 549.185s at length 230400
-2025-06-19 19:54:28,371 - INFO - Success at 110_SVDB_id_27_Medical_tr_30824_1st_30924.csv using TSPulse_ZS_time | Time cost: 549.178s at length 230400
-2025-06-19 20:06:32,535 - INFO - Success at 111_SVDB_id_28_Medical_tr_1791_1st_1891.csv using TSPulse_ZS_time | Time cost: 549.191s at length 230400
-2025-06-19 20:21:29,008 - INFO - Success at 112_SVDB_id_29_Medical_tr_8226_1st_8326.csv using TSPulse_ZS_time | Time cost: 548.972s at length 230400
-2025-06-19 20:27:41,776 - INFO - Success at 114_SVDB_id_31_Medical_tr_25000_1st_63090.csv using TSPulse_ZS_time | Time cost: 238.665s at length 100000
-2025-06-19 22:04:28,796 - INFO - Success at 115_PSM_id_1_Facility_tr_50000_1st_129872.csv using TSPulse_ZS_time | Time cost: 5753.464s at length 217624
-2025-06-19 22:06:51,285 - INFO - Success at 116_TAO_id_1_Environment_tr_500_1st_3.csv using TSPulse_ZS_time | Time cost: 33.372s at length 10000
-2025-06-19 22:08:20,478 - INFO - Success at 117_TAO_id_2_Environment_tr_500_1st_1.csv using TSPulse_ZS_time | Time cost: 33.177s at length 10000
-2025-06-19 22:09:51,908 - INFO - Success at 118_TAO_id_3_Environment_tr_500_1st_7.csv using TSPulse_ZS_time | Time cost: 33.403s at length 10000
-2025-06-19 22:11:04,730 - INFO - Success at 119_TAO_id_4_Environment_tr_500_1st_1.csv using TSPulse_ZS_time | Time cost: 33.194s at length 10000
-2025-06-19 22:12:58,842 - INFO - Success at 121_TAO_id_6_Environment_tr_500_1st_7.csv using TSPulse_ZS_time | Time cost: 33.275s at length 10000
-2025-06-19 22:14:37,352 - INFO - Success at 122_TAO_id_7_Environment_tr_500_1st_19.csv using TSPulse_ZS_time | Time cost: 33.392s at length 10000
-2025-06-19 22:16:04,570 - INFO - Success at 123_TAO_id_8_Environment_tr_500_1st_62.csv using TSPulse_ZS_time | Time cost: 33.188s at length 10000
-2025-06-19 22:17:35,314 - INFO - Success at 124_TAO_id_9_Environment_tr_500_1st_1.csv using TSPulse_ZS_time | Time cost: 33.276s at length 10000
-2025-06-19 22:19:04,539 - INFO - Success at 125_TAO_id_10_Environment_tr_500_1st_9.csv using TSPulse_ZS_time | Time cost: 33.393s at length 10000
-2025-06-19 22:21:41,136 - INFO - Success at 127_TAO_id_12_Environment_tr_500_1st_24.csv using TSPulse_ZS_time | Time cost: 33.189s at length 10000
-2025-06-19 23:47:42,833 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
-2025-06-19 23:47:55,785 - INFO - Success at 128_TAO_id_13_Environment_tr_500_1st_7.csv using TSPulse_ZS_time | Time cost: 13.686s at length 10000
-2025-06-19 23:48:32,784 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
-2025-06-19 23:48:34,986 - ERROR - At 129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901.csv: An error occurred while running the model 'run_TSPulse_ZS_time': CUDA out of memory. Tried to allocate 9.40 GiB. GPU 0 has a total capacity of 47.41 GiB of which 8.30 GiB is free. Process 705334 has 39.04 GiB memory in use. Of the allocated memory 33.23 GiB is allocated by PyTorch, and 5.50 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
-2025-06-20 04:16:07,186 - WARNING - Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-2025-06-20 04:16:14,244 - ERROR - At 129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901.csv: An error occurred while running the model 'run_TSPulse_ZS_time': CUDA out of memory. Tried to allocate 4.70 GiB. GPU 0 has a total capacity of 22.37 GiB of which 1.61 GiB is free. Process 1955542 has 20.76 GiB memory in use. Of the allocated memory 19.13 GiB is allocated by PyTorch, and 1.46 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
-2025-06-20 04:16:15,563 - WARNING - Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-2025-06-20 04:16:20,748 - ERROR - At 130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145.csv: An error occurred while running the model 'run_TSPulse_ZS_time': CUDA out of memory. Tried to allocate 4.70 GiB. GPU 0 has a total capacity of 22.37 GiB of which 4.51 GiB is free. Process 1955542 has 17.85 GiB memory in use. Of the allocated memory 14.08 GiB is allocated by PyTorch, and 3.59 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
-2025-06-20 04:16:22,291 - WARNING - Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-2025-06-20 04:16:27,770 - ERROR - At 132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995.csv: An error occurred while running the model 'run_TSPulse_ZS_time': CUDA out of memory. Tried to allocate 4.70 GiB. GPU 0 has a total capacity of 22.37 GiB of which 157.81 MiB is free. Process 1955542 has 22.21 GiB memory in use. Of the allocated memory 14.08 GiB is allocated by PyTorch, and 7.95 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
-2025-06-20 04:16:29,095 - WARNING - Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-2025-06-20 04:16:35,428 - ERROR - At 133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500.csv: An error occurred while running the model 'run_TSPulse_ZS_time': CUDA out of memory. Tried to allocate 4.70 GiB. GPU 0 has a total capacity of 22.37 GiB of which 157.81 MiB is free. Process 1955542 has 22.21 GiB memory in use. Of the allocated memory 14.08 GiB is allocated by PyTorch, and 7.95 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
-2025-06-20 04:16:37,895 - WARNING - Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-2025-06-20 04:16:43,567 - ERROR - At 134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577.csv: An error occurred while running the model 'run_TSPulse_ZS_time': CUDA out of memory. Tried to allocate 4.70 GiB. GPU 0 has a total capacity of 22.37 GiB of which 157.81 MiB is free. Process 1955542 has 22.21 GiB memory in use. Of the allocated memory 14.08 GiB is allocated by PyTorch, and 7.95 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
-2025-06-20 04:16:45,309 - WARNING - Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-2025-06-20 04:16:52,059 - ERROR - At 135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185.csv: An error occurred while running the model 'run_TSPulse_ZS_time': CUDA out of memory. Tried to allocate 4.70 GiB. GPU 0 has a total capacity of 22.37 GiB of which 157.81 MiB is free. Process 1955542 has 22.21 GiB memory in use. Of the allocated memory 14.08 GiB is allocated by PyTorch, and 7.95 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
-2025-06-20 04:16:53,950 - WARNING - Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-2025-06-20 04:17:00,010 - ERROR - At 136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595.csv: An error occurred while running the model 'run_TSPulse_ZS_time': CUDA out of memory. Tried to allocate 4.70 GiB. GPU 0 has a total capacity of 22.37 GiB of which 157.81 MiB is free. Process 1955542 has 22.21 GiB memory in use. Of the allocated memory 14.08 GiB is allocated by PyTorch, and 7.95 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
-2025-06-20 04:17:03,248 - WARNING - Detected kernel version 5.4.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
 2025-06-20 15:19:50,618 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
 2025-06-20 15:37:05,583 - INFO - Success at 052_GHL_id_21_Sensor_tr_50000_1st_98001.csv using TSPulse_ZS_time | Time cost: 1035.529s at length 200001
 2025-06-20 15:37:23,587 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 16:08:09,489 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 16:11:31,155 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 16:35:43,981 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 16:52:58,639 - INFO - Success at 054_GHL_id_23_Sensor_tr_50000_1st_135001.csv using TSPulse_ZS_time | Time cost: 1035.186s at length 200001
+2025-06-20 16:53:22,122 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 17:10:34,639 - INFO - Success at 055_GHL_id_24_Sensor_tr_50000_1st_118124.csv using TSPulse_ZS_time | Time cost: 1033.072s at length 200001
+2025-06-20 17:10:53,626 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 17:28:06,019 - INFO - Success at 056_GHL_id_25_Sensor_tr_50000_1st_105568.csv using TSPulse_ZS_time | Time cost: 1032.919s at length 200001
+2025-06-20 17:28:28,109 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 17:32:26,009 - INFO - Success at 057_SMD_id_1_Facility_tr_4529_1st_4629.csv using TSPulse_ZS_time | Time cost: 238.418s at length 23694
+2025-06-20 17:32:29,343 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 17:37:18,754 - INFO - Success at 058_SMD_id_2_Facility_tr_1087_1st_1187.csv using TSPulse_ZS_time | Time cost: 290.027s at length 28726
+2025-06-20 17:37:24,902 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 17:41:22,684 - INFO - Success at 059_SMD_id_3_Facility_tr_757_1st_857.csv using TSPulse_ZS_time | Time cost: 238.442s at length 23689
+2025-06-20 17:41:25,050 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 17:46:14,425 - INFO - Success at 060_SMD_id_4_Facility_tr_7176_1st_10609.csv using TSPulse_ZS_time | Time cost: 289.967s at length 28705
+2025-06-20 17:46:18,632 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 17:51:07,831 - INFO - Success at 061_SMD_id_5_Facility_tr_7176_1st_15144.csv using TSPulse_ZS_time | Time cost: 289.727s at length 28704
+2025-06-20 17:51:12,882 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 17:55:10,849 - INFO - Success at 063_SMD_id_7_Facility_tr_5923_1st_6506.csv using TSPulse_ZS_time | Time cost: 238.462s at length 23694
+2025-06-20 17:55:18,170 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 17:58:50,474 - INFO - Success at 064_SMD_id_8_Facility_tr_2272_1st_2372.csv using TSPulse_ZS_time | Time cost: 212.825s at length 21203
+2025-06-20 17:58:55,919 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 18:02:53,956 - INFO - Success at 065_SMD_id_9_Facility_tr_737_1st_837.csv using TSPulse_ZS_time | Time cost: 238.529s at length 23697
+2025-06-20 18:02:59,120 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 18:06:56,854 - INFO - Success at 066_SMD_id_10_Facility_tr_2634_1st_2734.csv using TSPulse_ZS_time | Time cost: 238.268s at length 23687
+2025-06-20 18:07:01,016 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 18:10:48,798 - INFO - Success at 067_SMD_id_11_Facility_tr_1980_1st_2080.csv using TSPulse_ZS_time | Time cost: 228.312s at length 22703
+2025-06-20 18:10:53,590 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 18:15:42,861 - INFO - Success at 068_SMD_id_12_Facility_tr_1099_1st_1199.csv using TSPulse_ZS_time | Time cost: 289.778s at length 28713
+2025-06-20 18:15:45,686 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 18:19:43,690 - INFO - Success at 069_SMD_id_13_Facility_tr_5925_1st_12760.csv using TSPulse_ZS_time | Time cost: 238.537s at length 23700
+2025-06-20 18:19:51,536 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 18:24:41,128 - INFO - Success at 070_SMD_id_14_Facility_tr_1070_1st_1170.csv using TSPulse_ZS_time | Time cost: 290.088s at length 28743
+2025-06-20 18:24:45,869 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 18:29:35,067 - INFO - Success at 071_SMD_id_15_Facility_tr_1109_1st_1209.csv using TSPulse_ZS_time | Time cost: 289.880s at length 28700
+2025-06-20 18:29:38,067 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 18:33:36,185 - INFO - Success at 073_SMD_id_17_Facility_tr_5926_1st_10620.csv using TSPulse_ZS_time | Time cost: 238.716s at length 23706
+2025-06-20 18:33:39,394 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 18:38:28,541 - INFO - Success at 074_SMD_id_18_Facility_tr_7174_1st_21230.csv using TSPulse_ZS_time | Time cost: 289.668s at length 28696
+2025-06-20 18:38:32,221 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 18:42:30,233 - INFO - Success at 075_SMD_id_19_Facility_tr_564_1st_664.csv using TSPulse_ZS_time | Time cost: 238.533s at length 23696
+2025-06-20 18:42:37,240 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 18:46:35,192 - INFO - Success at 076_SMD_id_20_Facility_tr_5925_1st_17580.csv using TSPulse_ZS_time | Time cost: 238.482s at length 23703
+2025-06-20 18:46:37,074 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 19:06:10,106 - INFO - Success at 129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901.csv using TSPulse_ZS_time | Time cost: 1173.517s at length 24693
+2025-06-20 19:06:14,217 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 19:09:59,797 - INFO - Success at 130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145.csv using TSPulse_ZS_time | Time cost: 226.098s at length 5162
+2025-06-20 19:10:01,705 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 19:17:09,413 - INFO - Success at 132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995.csv using TSPulse_ZS_time | Time cost: 428.196s at length 9323
+2025-06-20 19:17:11,922 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 19:22:25,618 - INFO - Success at 133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500.csv using TSPulse_ZS_time | Time cost: 314.203s at length 6980
+2025-06-20 19:22:27,802 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 19:35:23,708 - INFO - Success at 134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577.csv using TSPulse_ZS_time | Time cost: 776.417s at length 16515
+2025-06-20 19:35:27,098 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 19:52:34,966 - INFO - Success at 135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185.csv using TSPulse_ZS_time | Time cost: 1028.481s at length 21706
+2025-06-20 19:52:40,005 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 20:14:02,851 - INFO - Success at 136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595.csv using TSPulse_ZS_time | Time cost: 1283.378s at length 26969
+2025-06-20 20:14:08,108 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 20:51:22,018 - INFO - Success at 137_CreditCard_id_1_Finance_tr_500_1st_541.csv using TSPulse_ZS_time | Time cost: 2234.597s at length 284807
+2025-06-20 20:52:16,794 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 20:59:59,089 - INFO - Success at 138_CATSv2_id_1_Sensor_tr_16568_1st_16668.csv using TSPulse_ZS_time | Time cost: 462.849s at length 100000
+2025-06-20 21:00:17,158 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 21:15:21,028 - INFO - Success at 139_CATSv2_id_2_Sensor_tr_5592_1st_5692.csv using TSPulse_ZS_time | Time cost: 904.519s at length 195000
+2025-06-20 21:16:18,670 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 21:31:22,232 - INFO - Success at 141_CATSv2_id_4_Sensor_tr_41727_1st_41827.csv using TSPulse_ZS_time | Time cost: 904.108s at length 195000
+2025-06-20 21:32:16,221 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 21:59:19,573 - INFO - Success at 142_CATSv2_id_5_Sensor_tr_30704_1st_30804.csv using TSPulse_ZS_time | Time cost: 1624.017s at length 350000
+2025-06-20 22:02:06,651 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:17:33,118 - INFO - Success at 143_CATSv2_id_6_Sensor_tr_50000_1st_60232.csv using TSPulse_ZS_time | Time cost: 927.012s at length 200000
+2025-06-20 22:18:21,844 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:19:14,077 - INFO - Success at 144_SMAP_id_1_Sensor_tr_2052_1st_5300.csv using TSPulse_ZS_time | Time cost: 52.766s at length 8209
+2025-06-20 22:19:16,035 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:20:10,489 - INFO - Success at 145_SMAP_id_2_Sensor_tr_2133_1st_5400.csv using TSPulse_ZS_time | Time cost: 54.942s at length 8532
+2025-06-20 22:20:12,944 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:21:07,269 - INFO - Success at 146_SMAP_id_3_Sensor_tr_2128_1st_5000.csv using TSPulse_ZS_time | Time cost: 54.854s at length 8514
+2025-06-20 22:21:09,698 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:22:05,019 - INFO - Success at 147_SMAP_id_4_Sensor_tr_2160_1st_6449.csv using TSPulse_ZS_time | Time cost: 55.817s at length 8640
+2025-06-20 22:22:07,450 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:22:58,573 - INFO - Success at 148_SMAP_id_5_Sensor_tr_2011_1st_5060.csv using TSPulse_ZS_time | Time cost: 51.629s at length 8044
+2025-06-20 22:23:00,225 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:23:53,141 - INFO - Success at 150_SMAP_id_7_Sensor_tr_2077_1st_5394.csv using TSPulse_ZS_time | Time cost: 53.400s at length 8310
+2025-06-20 22:23:55,296 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:24:45,340 - INFO - Success at 151_SMAP_id_8_Sensor_tr_1971_1st_4870.csv using TSPulse_ZS_time | Time cost: 50.534s at length 7884
+2025-06-20 22:24:47,548 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:25:40,519 - INFO - Success at 152_SMAP_id_9_Sensor_tr_2073_1st_5600.csv using TSPulse_ZS_time | Time cost: 53.472s at length 8294
+2025-06-20 22:25:42,468 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:26:28,950 - INFO - Success at 153_SMAP_id_10_Sensor_tr_1840_1st_4030.csv using TSPulse_ZS_time | Time cost: 46.978s at length 7361
+2025-06-20 22:26:31,261 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:27:25,276 - INFO - Success at 154_SMAP_id_11_Sensor_tr_2117_1st_4770.csv using TSPulse_ZS_time | Time cost: 54.525s at length 8469
+2025-06-20 22:27:27,737 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:28:16,041 - INFO - Success at 155_SMAP_id_12_Sensor_tr_1907_1st_4800.csv using TSPulse_ZS_time | Time cost: 48.849s at length 7628
+2025-06-20 22:28:17,590 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:28:45,954 - INFO - Success at 156_SMAP_id_13_Sensor_tr_1173_1st_2750.csv using TSPulse_ZS_time | Time cost: 28.860s at length 4693
+2025-06-20 22:28:47,358 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:29:41,729 - INFO - Success at 157_SMAP_id_14_Sensor_tr_2126_1st_5000.csv using TSPulse_ZS_time | Time cost: 54.893s at length 8505
+2025-06-20 22:29:44,197 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:30:37,039 - INFO - Success at 158_SMAP_id_15_Sensor_tr_2075_1st_5610.csv using TSPulse_ZS_time | Time cost: 53.333s at length 8300
+2025-06-20 22:30:38,824 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:31:23,065 - INFO - Success at 159_SMAP_id_16_Sensor_tr_1757_1st_2650.csv using TSPulse_ZS_time | Time cost: 44.739s at length 7029
+2025-06-20 22:31:24,312 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:32:10,576 - INFO - Success at 160_SMAP_id_17_Sensor_tr_1832_1st_5300.csv using TSPulse_ZS_time | Time cost: 46.749s at length 7331
+2025-06-20 22:32:12,993 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:33:06,021 - INFO - Success at 161_SMAP_id_18_Sensor_tr_2075_1st_5550.csv using TSPulse_ZS_time | Time cost: 53.532s at length 8302
+2025-06-20 22:33:07,953 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:33:56,284 - INFO - Success at 162_SMAP_id_19_Sensor_tr_1908_1st_4690.csv using TSPulse_ZS_time | Time cost: 48.835s at length 7632
+2025-06-20 22:33:57,798 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:34:49,987 - INFO - Success at 163_SMAP_id_20_Sensor_tr_2051_1st_4575.csv using TSPulse_ZS_time | Time cost: 52.686s at length 8205
+2025-06-20 22:34:52,324 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:35:46,668 - INFO - Success at 165_SMAP_id_22_Sensor_tr_2129_1st_5000.csv using TSPulse_ZS_time | Time cost: 54.831s at length 8516
+2025-06-20 22:35:49,250 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:36:16,026 - INFO - Success at 166_SMAP_id_23_Sensor_tr_1113_1st_1890.csv using TSPulse_ZS_time | Time cost: 27.272s at length 4453
+2025-06-20 22:36:16,949 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:37:10,431 - INFO - Success at 167_SMAP_id_24_Sensor_tr_2094_1st_5600.csv using TSPulse_ZS_time | Time cost: 53.986s at length 8376
+2025-06-20 22:37:12,320 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:38:07,036 - INFO - Success at 168_SMAP_id_25_Sensor_tr_1998_1st_2098.csv using TSPulse_ZS_time | Time cost: 55.213s at length 8579
+2025-06-20 22:38:08,879 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:38:54,565 - INFO - Success at 169_SMAP_id_26_Sensor_tr_1811_1st_4510.csv using TSPulse_ZS_time | Time cost: 46.176s at length 7244
+2025-06-20 22:38:56,176 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:39:51,309 - INFO - Success at 170_SMAP_id_27_Sensor_tr_2160_1st_4690.csv using TSPulse_ZS_time | Time cost: 55.624s at length 8640
+2025-06-20 22:39:53,772 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 22:43:03,567 - INFO - Success at 171_SWaT_id_1_Sensor_tr_3749_1st_9522.csv using TSPulse_ZS_time | Time cost: 190.430s at length 14996
+2025-06-20 22:43:09,908 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 23:50:37,673 - INFO - Success at 172_SWaT_id_2_Sensor_tr_23700_1st_23800.csv using TSPulse_ZS_time | Time cost: 4048.269s at length 399919
+2025-06-20 23:52:18,265 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-20 23:58:05,754 - INFO - Success at 173_GECCO_id_1_Sensor_tr_16165_1st_16265.csv using TSPulse_ZS_time | Time cost: 348.072s at length 138521
+2025-06-20 23:58:18,793 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 00:01:47,849 - INFO - Success at 174_Exathlon_id_1_Facility_tr_10766_1st_12590.csv using TSPulse_ZS_time | Time cost: 209.577s at length 43066
+2025-06-21 00:01:55,461 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 00:03:39,349 - INFO - Success at 175_Exathlon_id_2_Facility_tr_10684_1st_10784.csv using TSPulse_ZS_time | Time cost: 104.375s at length 46656
+2025-06-21 00:03:50,343 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 00:09:47,408 - INFO - Success at 176_Exathlon_id_3_Facility_tr_10766_1st_12590.csv using TSPulse_ZS_time | Time cost: 357.686s at length 43066
+2025-06-21 00:09:55,823 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 00:13:42,537 - INFO - Success at 177_Exathlon_id_4_Facility_tr_11665_1st_13484.csv using TSPulse_ZS_time | Time cost: 227.226s at length 46660
+2025-06-21 00:13:47,350 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 00:20:14,763 - INFO - Success at 179_Exathlon_id_6_Facility_tr_11665_1st_13484.csv using TSPulse_ZS_time | Time cost: 387.926s at length 46660
+2025-06-21 00:20:23,844 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 00:26:21,116 - INFO - Success at 180_Exathlon_id_7_Facility_tr_10766_1st_12590.csv using TSPulse_ZS_time | Time cost: 357.814s at length 43066
+2025-06-21 00:26:29,464 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 00:29:02,665 - INFO - Success at 181_Exathlon_id_8_Facility_tr_11663_1st_13482.csv using TSPulse_ZS_time | Time cost: 153.732s at length 46655
+2025-06-21 00:29:07,119 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 00:35:04,257 - INFO - Success at 182_Exathlon_id_9_Facility_tr_10766_1st_12590.csv using TSPulse_ZS_time | Time cost: 357.650s at length 43066
+2025-06-21 00:35:12,658 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 00:38:59,387 - INFO - Success at 183_Exathlon_id_10_Facility_tr_11665_1st_13484.csv using TSPulse_ZS_time | Time cost: 227.261s at length 46660
+2025-06-21 00:39:04,101 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 00:42:50,753 - INFO - Success at 184_Exathlon_id_11_Facility_tr_11665_1st_13484.csv using TSPulse_ZS_time | Time cost: 227.144s at length 46660
+2025-06-21 00:42:55,453 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 00:46:42,096 - INFO - Success at 185_Exathlon_id_12_Facility_tr_11665_1st_13484.csv using TSPulse_ZS_time | Time cost: 227.147s at length 46660
+2025-06-21 00:46:46,857 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 00:52:44,090 - INFO - Success at 186_Exathlon_id_13_Facility_tr_10766_1st_12590.csv using TSPulse_ZS_time | Time cost: 357.722s at length 43066
+2025-06-21 00:52:52,479 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 00:56:14,729 - INFO - Success at 187_Exathlon_id_14_Facility_tr_6193_1st_6293.csv using TSPulse_ZS_time | Time cost: 202.803s at length 46660
+2025-06-21 00:56:25,561 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 01:07:31,529 - INFO - Success at 188_Exathlon_id_15_Facility_tr_12538_1st_12638.csv using TSPulse_ZS_time | Time cost: 666.495s at length 129197
+2025-06-21 01:07:56,545 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 01:10:29,570 - INFO - Success at 189_Exathlon_id_16_Facility_tr_11663_1st_13482.csv using TSPulse_ZS_time | Time cost: 153.558s at length 46655
+2025-06-21 01:10:34,673 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 01:21:40,687 - INFO - Success at 190_Exathlon_id_17_Facility_tr_12538_1st_12638.csv using TSPulse_ZS_time | Time cost: 666.508s at length 129197
+2025-06-21 01:22:05,884 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 01:25:52,551 - INFO - Success at 191_Exathlon_id_18_Facility_tr_11665_1st_13484.csv using TSPulse_ZS_time | Time cost: 227.203s at length 46660
+2025-06-21 01:25:57,252 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 01:29:43,980 - INFO - Success at 192_Exathlon_id_19_Facility_tr_11665_1st_13484.csv using TSPulse_ZS_time | Time cost: 227.227s at length 46660
+2025-06-21 01:29:48,606 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 01:31:20,048 - INFO - Success at 193_Exathlon_id_20_Facility_tr_8898_1st_8998.csv using TSPulse_ZS_time | Time cost: 91.932s at length 46650
+2025-06-21 01:31:31,082 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 01:34:04,123 - INFO - Success at 194_Exathlon_id_21_Facility_tr_6985_1st_7085.csv using TSPulse_ZS_time | Time cost: 153.659s at length 46649
+2025-06-21 01:34:12,739 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 01:37:59,361 - INFO - Success at 196_Exathlon_id_23_Facility_tr_11665_1st_13484.csv using TSPulse_ZS_time | Time cost: 227.242s at length 46660
+2025-06-21 01:38:04,157 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 01:44:01,385 - INFO - Success at 197_Exathlon_id_24_Facility_tr_10766_1st_12590.csv using TSPulse_ZS_time | Time cost: 357.777s at length 43066
+2025-06-21 01:44:09,853 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 01:55:15,953 - INFO - Success at 198_Exathlon_id_25_Facility_tr_12538_1st_12638.csv using TSPulse_ZS_time | Time cost: 666.632s at length 129197
+2025-06-21 01:55:41,006 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 02:06:46,856 - INFO - Success at 199_Exathlon_id_26_Facility_tr_12538_1st_12638.csv using TSPulse_ZS_time | Time cost: 666.361s at length 129197
+2025-06-21 02:07:12,207 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-06-21 02:13:09,438 - INFO - Success at 200_Exathlon_id_27_Facility_tr_10766_1st_12590.csv using TSPulse_ZS_time | Time cost: 357.911s at length 43066
