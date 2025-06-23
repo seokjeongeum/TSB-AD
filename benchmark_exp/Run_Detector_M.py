@@ -35,7 +35,7 @@ if __name__ == '__main__':
     parser.add_argument('--score_dir', type=str, default='eval/score/multi/')
     parser.add_argument('--save_dir', type=str, default='eval/metrics/multi/')
     parser.add_argument('--save', type=bool, default=True)
-    parser.add_argument('--AD_Name', type=str, default='TSPulse2')
+    parser.add_argument('--AD_Name', type=str, default='TSPulse2_0623')
     args = parser.parse_args()
 
 

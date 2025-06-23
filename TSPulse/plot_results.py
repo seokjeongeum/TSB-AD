@@ -47,14 +47,6 @@ def plot_anomaly_scores(file_basename):
                 scores = np.load(score_path)
                 if len(scores) != len(time_series):
                     scores = np.resize(scores, len(time_series))
-                
-                # Min-Max scale the scores to be between 0 and 1
-                min_val = np.min(scores)
-                max_val = np.max(scores)
-                if max_val - min_val > 0:
-                    scores = (scores - min_val) / (max_val - min_val)
-                else:
-                    scores = np.zeros_like(scores) # Handle case of flat scores
                     
                 scores_to_plot[algo_name] = scores
             except Exception as e:

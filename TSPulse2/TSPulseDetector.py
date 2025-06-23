@@ -37,6 +37,7 @@ class TSPulseDetector(BaseDetector):
         self.least_significant_scale = kwargs.get("least_significant_scale", 0.01)
         self.least_significant_score = kwargs.get("least_significant_score", 0.1)
         self.head_min_max_scale = kwargs.get("head_min_max_scale", True)
+        self.llm_selection = kwargs.get("llm_selection", True)
         self.prediction_mode = kwargs.get(
             "prediction_mode",
             [
@@ -68,13 +69,14 @@ class TSPulseDetector(BaseDetector):
             least_significant_scale=self.least_significant_scale,
             least_significant_score=self.least_significant_score,
             head_min_max_scale=self.head_min_max_scale,
+            llm_selection=self.llm_selection,
         )
 
     def decision_function(self, X):
         df, _ = _prepare_df_for_tspulse(X)
         result = self.pipeline(
             df,
-            batch_size=512,
+            batch_size=1024,
             report_mode=True,
             predictive_score_smoothing=True,
             expand_score=True,

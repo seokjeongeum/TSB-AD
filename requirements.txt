@@ -24,3 +24,4 @@ pyarrow
 rich
 polars
 ipywidgets
+google-genai

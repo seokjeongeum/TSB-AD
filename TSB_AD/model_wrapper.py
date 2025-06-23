@@ -456,6 +456,7 @@ def run_TSPulse_ZS_ensemble(data, **kwargs):
         AnomalyScoreMethods.FREQUENCY_RECONSTRUCTION.value,
     ]
     kwargs['head_min_max_scale']=False
+    kwargs['llm_selection']=False
     clf = TSPulseDetector(**kwargs)
     clf.fit(data)
     return clf.decision_function(data)
@@ -466,6 +467,7 @@ def run_TSPulse_ZS_time(data, **kwargs):
     kwargs['pipeline_class']=TimeSeriesAnomalyDetectionPipeline
     kwargs['prediction_mode'] = AnomalyScoreMethods.TIME_RECONSTRUCTION.value
     kwargs['head_min_max_scale']=False
+    kwargs['llm_selection']=False
     clf = TSPulseDetector(**kwargs)
     clf.fit(data)
     return clf.decision_function(data)
@@ -476,6 +478,7 @@ def run_TSPulse_ZS_fft(data, **kwargs):
     kwargs['pipeline_class']=TimeSeriesAnomalyDetectionPipeline
     kwargs['prediction_mode'] = AnomalyScoreMethods.FREQUENCY_RECONSTRUCTION.value
     kwargs['head_min_max_scale']=False
+    kwargs['llm_selection']=False
     clf = TSPulseDetector(**kwargs)
     clf.fit(data)
     return clf.decision_function(data)
@@ -485,6 +488,7 @@ def run_TSPulse_ZS_future(data, **kwargs):
     kwargs['pipeline_class']=TimeSeriesAnomalyDetectionPipeline
     kwargs['prediction_mode'] = AnomalyScoreMethods.PREDICTIVE.value
     kwargs['head_min_max_scale']=False
+    kwargs['llm_selection']=False
     clf = TSPulseDetector(**kwargs)
     clf.fit(data)
     return clf.decision_function(data)
@@ -594,6 +598,7 @@ def run_TSPulse2_0623(data, **kwargs):
         AnomalyScoreMethods.FREQUENCY_RECONSTRUCTION.value,
     ]
     kwargs['head_min_max_scale']=True
+    kwargs['llm_selection']=True
     clf=TSPulseDetector(**kwargs)
     clf.fit(data)
     return clf.decision_function(data)

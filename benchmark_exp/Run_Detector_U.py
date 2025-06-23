@@ -42,7 +42,7 @@ if __name__ == '__main__':
     target_dir = os.path.join(args.score_dir, args.AD_Name)
     os.makedirs(target_dir, exist_ok = True)
     os.makedirs(args.save_dir, exist_ok = True)
-    logging.basicConfig(filename=f'{target_dir}/000_run_{args.AD_Name}.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    logging.basicConfig(filename=f'{target_dir}/000_run_{args.AD_Name}.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', force=True)
 
     file_list = pd.read_csv(args.file_lsit)['file_name'].values
     Optimal_Det_HP = Optimal_Uni_algo_HP_dict[args.AD_Name]
