@@ -1,27 +1,33 @@
 import glob
 import os
-
 import pandas as pd
 
-# --- Configuration ---
+# --- FIX 1: Dynamically determine the project's root directory ---
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-# Directory to save the final comparison files
-OUTPUT_DIR = "/workspaces/TSB-AD/comparison_results/"
-
-# The performance metric we want to compare
+# --- Configuration (now using PROJECT_ROOT to build paths) ---
+OUTPUT_DIR = os.path.join(PROJECT_ROOT, "comparison_results")
 METRIC_TO_COMPARE = "VUS-PR"
-
-# Group configurations for different benchmark sets
 BENCHMARK_CONFIGS = [
     {
         "name": "uni",
-        "metrics_dir": "/workspaces/TSB-AD/eval/metrics/uni/",
-        "benchmark_file": "/workspaces/TSB-AD/benchmark_exp/benchmark_eval_results/uni_mergedTable_VUS-PR.csv",
+        "metrics_dir": os.path.join(PROJECT_ROOT, "eval", "metrics", "uni"),
+        "benchmark_file": os.path.join(
+            PROJECT_ROOT,
+            "benchmark_exp",
+            "benchmark_eval_results",
+            "uni_mergedTable_VUS-PR.csv",
+        ),
     },
     {
         "name": "multi",
-        "metrics_dir": "/workspaces/TSB-AD/eval/metrics/multi/",
-        "benchmark_file": "/workspaces/TSB-AD/benchmark_exp/benchmark_eval_results/multi_mergedTable_VUS-PR.csv",
+        "metrics_dir": os.path.join(PROJECT_ROOT, "eval", "metrics", "multi"),
+        "benchmark_file": os.path.join(
+            PROJECT_ROOT,
+            "benchmark_exp",
+            "benchmark_eval_results",
+            "multi_mergedTable_VUS-PR.csv",
+        ),
     },
 ]
 
@@ -36,15 +42,21 @@ def save_final_comparison(name, metrics_dir, benchmark_file, output_dir, metric)
     """
     print(f"\n--- Processing Benchmark Set: {name.upper()} ---")
 
-    # 1. Load and prepare the main benchmark table
+    # 1. Load the main benchmark table
     try:
         benchmark_df = pd.read_csv(benchmark_file)
         if "file" not in benchmark_df.columns:
             benchmark_df.rename(columns={"Unnamed: 0": "file"}, inplace=True)
-        benchmark_df.set_index("file", inplace=True)
     except FileNotFoundError:
         print(f"Error: Benchmark file not found at '{benchmark_file}'")
         return
+
+    # --- THE FIX (Part 1): Normalize the 'file' column by removing the .csv extension ---
+    # This ensures it will match the index of your TSPulse results.
+    benchmark_df["file"] = benchmark_df["file"].str.replace(r"\.csv$", "", regex=True)
+
+    # Set the index AFTER normalization
+    benchmark_df.set_index("file", inplace=True)
 
     # Store original baseline algorithm columns
     baseline_algos = [
@@ -53,6 +65,10 @@ def save_final_comparison(name, metrics_dir, benchmark_file, output_dir, metric)
         if not col.endswith(("_len", "_ratio", "_anomaly"))
     ]
 
+    # --- THE FIX (Part 2): Create the merged_df *after* the benchmark_df is fixed ---
+    # Now, merged_df will have the correct index from the start.
+    merged_df = benchmark_df.copy()
+
     # 2. Find and merge all TSPulse variant result files from the specific directory
     tspulse_files = sorted(glob.glob(os.path.join(metrics_dir, "TSPulse*.csv")))
 
@@ -60,19 +76,25 @@ def save_final_comparison(name, metrics_dir, benchmark_file, output_dir, metric)
         print(f"Warning: No TSPulse result files found in '{metrics_dir}', skipping.")
         return
 
-    merged_df = benchmark_df.copy()
     tspulse_algo_names = []
     tspulse2_algo_name = "TSPulse2"
+    tspulse_ensemble_algo_name = "TSPulse_ZS_ensemble"
 
     for file_path in tspulse_files:
         algo_name = os.path.basename(file_path).replace(".csv", "")
         tspulse_algo_names.append(algo_name)
         try:
             tspulse_df = pd.read_csv(file_path)
+            # The 'file' column in tspulse_df is now guaranteed to be clean because
+            # of the pre-processing step. No in-memory cleaning is needed here.
             if "file" not in tspulse_df.columns or metric not in tspulse_df.columns:
                 continue
+
             tspulse_scores = tspulse_df[["file", metric]].set_index("file")
+
+            # This assignment will now work because the indices of merged_df and tspulse_scores match.
             merged_df[algo_name] = tspulse_scores[metric]
+
         except Exception as e:
             print(f"Could not process file {file_path}: {e}")
 
@@ -83,14 +105,24 @@ def save_final_comparison(name, metrics_dir, benchmark_file, output_dir, metric)
 
     # Separate TSPulse2 from other TSPulse variants
     zs_algo_names = [name for name in tspulse_algo_names if name != tspulse2_algo_name]
-    tspulse_zs_scores_df = merged_df.get(zs_algo_names, pd.DataFrame())
+
+    # Safely select only the ZS algorithm columns that actually exist in the merged dataframe
+    existing_zs_algos = [name for name in zs_algo_names if name in merged_df.columns]
+    tspulse_zs_scores_df = merged_df[existing_zs_algos]
+
     best_tspulse_zs_scores = tspulse_zs_scores_df.max(axis=1)
+    best_tspulse_zs_algos = tspulse_zs_scores_df.idxmax(axis=1)
 
     summary_data = {
         "Best_Baseline_Algo": best_baseline_algos,
         "Best_Baseline_Score": best_baseline_scores,
-        "TSPulse_ZS_Best": best_tspulse_zs_scores,
+        "Best_TSPulse_ZS_Algo": best_tspulse_zs_algos,
+        "Best_TSPulse_ZS_Score": best_tspulse_zs_scores,
     }
+
+    # Add TSPulse_ZS_ensemble to summary_data if it exists, to make it available in the final CSV.
+    if tspulse_ensemble_algo_name in merged_df.columns:
+        summary_data[tspulse_ensemble_algo_name] = merged_df[tspulse_ensemble_algo_name]
 
     # Add TSPulse2 if it was found
     if tspulse2_algo_name in merged_df.columns:
@@ -101,8 +133,23 @@ def save_final_comparison(name, metrics_dir, benchmark_file, output_dir, metric)
 
     summary_df = pd.DataFrame(summary_data)
     summary_df["Diff_ZS_vs_Baseline"] = (
-        summary_df["TSPulse_ZS_Best"] - summary_df["Best_Baseline_Score"]
+        summary_df["Best_TSPulse_ZS_Score"] - summary_df["Best_Baseline_Score"]
     )
+
+    # --- NEW: Add specific comparisons for TSPulse2 ---
+    if tspulse2_algo_name in summary_df.columns:
+        # Compare against the best of the other TSPulse variants
+        if "Best_TSPulse_ZS_Score" in summary_df.columns:
+            summary_df["Diff_TSPulse2_vs_Best_ZS"] = (
+                summary_df[tspulse2_algo_name] - summary_df["Best_TSPulse_ZS_Score"]
+            )
+
+        # Compare against the specific 'ensemble' variant
+        if tspulse_ensemble_algo_name in summary_df.columns:
+            summary_df["Diff_TSPulse2_vs_Ensemble"] = (
+                summary_df[tspulse2_algo_name] - summary_df[tspulse_ensemble_algo_name]
+            )
+
     summary_df.fillna(0.0, inplace=True)
 
     # Sort by the difference to easily see where TSPulse performs best/worst
@@ -112,13 +159,6 @@ def save_final_comparison(name, metrics_dir, benchmark_file, output_dir, metric)
         else ["Diff_ZS_vs_Baseline", "Best_Baseline_Score"]
     )
     sorted_summary = summary_df.sort_values(by=sort_columns, ascending=[False, True])
-
-    # --- Print Detailed Per-File Comparison to Console ---
-    print(f"\n--- Detailed Per-File Comparison ({name.upper()}) ---")
-    with pd.option_context(
-        "display.max_rows", None, "display.max_columns", None, "display.width", 1000
-    ):
-        print(sorted_summary)
 
     # --- Save Detailed Per-File Comparison to CSV ---
     os.makedirs(output_dir, exist_ok=True)
@@ -136,9 +176,13 @@ def save_final_comparison(name, metrics_dir, benchmark_file, output_dir, metric)
         mean_scores_dict = {}
 
     if not summary_df.empty:
-        mean_scores_dict["TSPulse_ZS_Best"] = summary_df["TSPulse_ZS_Best"].mean()
+        mean_scores_dict["TSPulse_ZS_Best"] = summary_df["Best_TSPulse_ZS_Score"].mean()
         if tspulse2_algo_name in summary_df.columns:
             mean_scores_dict[tspulse2_algo_name] = summary_df[tspulse2_algo_name].mean()
+        if tspulse_ensemble_algo_name in summary_df.columns:
+            mean_scores_dict[tspulse_ensemble_algo_name] = summary_df[
+                tspulse_ensemble_algo_name
+            ].mean()
 
     mean_scores = pd.Series(mean_scores_dict).sort_values(ascending=False)
 
@@ -164,8 +208,21 @@ def save_final_comparison(name, metrics_dir, benchmark_file, output_dir, metric)
                 f"On average, TSPulse2 performs {avg_diff_ts2:+.4f} points different than the best baseline per file."
             )
 
+        if "Diff_TSPulse2_vs_Best_ZS" in summary_df.columns:
+            avg_diff = summary_df["Diff_TSPulse2_vs_Best_ZS"].mean()
+            print(
+                f"On average, TSPulse2 performs {avg_diff:+.4f} points different than TSPulse_ZS_Best per file."
+            )
+
+        if "Diff_TSPulse2_vs_Ensemble" in summary_df.columns:
+            avg_diff = summary_df["Diff_TSPulse2_vs_Ensemble"].mean()
+            print(
+                f"On average, TSPulse2 performs {avg_diff:+.4f} points different than TSPulse_ZS_ensemble per file."
+            )
+
 
 if __name__ == "__main__":
+    # Now, run the main comparison logic
     for config in BENCHMARK_CONFIGS:
         save_final_comparison(
             name=config["name"],

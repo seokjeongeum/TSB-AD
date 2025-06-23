@@ -31,11 +31,11 @@ if __name__ == '__main__':
     ## ArgumentParser
     parser = argparse.ArgumentParser(description='Generating Anomaly Score')
     parser.add_argument('--dataset_dir', type=str, default='Datasets/TSB-AD-U/')
-    parser.add_argument('--file_lsit', type=str, default='Datasets/File_List/TSB-AD-U-Tuning7.csv')
-    parser.add_argument('--score_dir', type=str, default='eval/score/uni-tuning/')
-    parser.add_argument('--save_dir', type=str, default='eval/metrics/uni-tuning/')
+    parser.add_argument('--file_lsit', type=str, default='Datasets/File_List/TSB-AD-U-Eva.csv')
+    parser.add_argument('--score_dir', type=str, default='eval/score/uni/')
+    parser.add_argument('--save_dir', type=str, default='eval/metrics/uni/')
     parser.add_argument('--save', type=bool, default=True)
-    parser.add_argument('--AD_Name', type=str, default='TSPulse_ZS_ensemble')
+    parser.add_argument('--AD_Name', type=str, default='TSPulse2_0623')
     args = parser.parse_args()
 
 
