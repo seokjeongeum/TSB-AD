@@ -10,12 +10,8 @@ import logging
 from transformers import Trainer, TrainingArguments, EarlyStoppingCallback
 
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')), 'granite-tsfm'))
-from TSPulse2.TSPulse2Pipeline import TSPulse2Pipeline
 from tsfm_public.models.tspulse.configuration_tspulse import TSPulseConfig
 from tsfm_public.toolkit.dataset import ForecastDFDataset
-
-
-from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
 from tsfm_public.toolkit.time_series_anomaly_detection_pipeline import TimeSeriesAnomalyDetectionPipeline, AnomalyScoreMethods
 from .utils.slidingWindows import find_length_rank
 
@@ -448,6 +444,7 @@ def _prepare_df_for_tspulse(data_np):
 
 def run_TSPulse_ZS_ensemble(data, **kwargs):
     from TSPulse2.TSPulseDetector import TSPulseDetector
+    from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
     kwargs['model_class']=TSPulseForReconstruction
     kwargs['pipeline_class']=TimeSeriesAnomalyDetectionPipeline
     kwargs['prediction_mode'] = [
@@ -463,6 +460,7 @@ def run_TSPulse_ZS_ensemble(data, **kwargs):
 
 def run_TSPulse_ZS_time(data, **kwargs):
     from TSPulse2.TSPulseDetector import TSPulseDetector
+    from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
     kwargs['model_class']=TSPulseForReconstruction
     kwargs['pipeline_class']=TimeSeriesAnomalyDetectionPipeline
     kwargs['prediction_mode'] = AnomalyScoreMethods.TIME_RECONSTRUCTION.value
@@ -474,6 +472,7 @@ def run_TSPulse_ZS_time(data, **kwargs):
 
 def run_TSPulse_ZS_fft(data, **kwargs):
     from TSPulse2.TSPulseDetector import TSPulseDetector
+    from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction    
     kwargs['model_class']=TSPulseForReconstruction
     kwargs['pipeline_class']=TimeSeriesAnomalyDetectionPipeline
     kwargs['prediction_mode'] = AnomalyScoreMethods.FREQUENCY_RECONSTRUCTION.value
@@ -485,6 +484,8 @@ def run_TSPulse_ZS_fft(data, **kwargs):
 
 def run_TSPulse_ZS_future(data, **kwargs):
     from TSPulse2.TSPulseDetector import TSPulseDetector
+    from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
+    kwargs['model_class']=TSPulseForReconstruction
     kwargs['pipeline_class']=TimeSeriesAnomalyDetectionPipeline
     kwargs['prediction_mode'] = AnomalyScoreMethods.PREDICTIVE.value
     kwargs['head_min_max_scale']=False
@@ -590,6 +591,10 @@ def run_TSPulse_FT_future(data_train, data_test, **kwargs):
 
 def run_TSPulse2_0623(data, **kwargs):
     from TSPulse2.TSPulseDetector import TSPulseDetector
+    from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
+    from TSPulse2.TSPulse2Pipeline import TSPulse2Pipeline
+    from tsfm_public.toolkit.ad_helpers import AnomalyScoreMethods
+    
     kwargs['model_class']=TSPulseForReconstruction
     kwargs['pipeline_class']=TSPulse2Pipeline
     kwargs['prediction_mode'] = [
@@ -598,7 +603,8 @@ def run_TSPulse2_0623(data, **kwargs):
         AnomalyScoreMethods.FREQUENCY_RECONSTRUCTION.value,
     ]
     kwargs['head_min_max_scale']=True
-    kwargs['llm_selection']=True
+    kwargs['llm_selection']=False
+    kwargs['head_selector']="model"
     clf=TSPulseDetector(**kwargs)
     clf.fit(data)
     return clf.decision_function(data)

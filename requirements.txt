@@ -25,3 +25,8 @@ rich
 polars
 ipywidgets
 google-genai
+joblib
+lightgbm
+xgboost
+catboost
+pytorch-tabnet

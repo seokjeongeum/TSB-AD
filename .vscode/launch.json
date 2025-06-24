@@ -9,11 +9,7 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}",
-                "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"
-            },
+            "console": "integratedTerminal"
         }
     ]
 }
