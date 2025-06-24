@@ -16,11 +16,19 @@
 #SBATCH --gres=gpu:1                      # Request 1 GPU *per task*
 #SBATCH --time=3-00:00:00                 # Max wall time (3 days)
 #
-#SBATCH --array=1-4                      
+#SBATCH --array=1-20
 #
 #=========================================================================================
 # Shared Setup (This part runs for every task in the array)
 #=========================================================================================
+# Load secrets from a secure, non-version-controlled file
+if [ -f ~/.secrets ]; then
+    echo "Loading secrets..."
+    source ~/.secrets
+else
+    echo "ERROR: Secrets file not found!"
+    exit 1
+fi
 
 echo "--- SLURM JOB ARRAY TASK START ---"
 echo "Job Name: $SLURM_JOB_NAME"
@@ -35,12 +43,48 @@ echo "----------------------------------"
 mkdir -p slurm_logs
 
 # These arrays must have the same number of elements as the --array count.
-AD_NAMES=( "TSPulse2_0623" "TSPulse2_0623" "TSPulse2_0623" "TSPulse2_0623")
-RUN_SCRIPTS=( "Run_Detector_M.py" "Run_Detector_U.py" "Run_Detector_M.py" "Run_Detector_U.py")
-DATASET_DIRS=( "Datasets/TSB-AD-M/" "Datasets/TSB-AD-U/" "Datasets/TSB-AD-M/" "Datasets/TSB-AD-U/")
-FILE_LISTS=( "Datasets/File_List/TSB-AD-M-Eva.csv" "Datasets/File_List/TSB-AD-U-Eva.csv" "Datasets/File_List/TSB-AD-M-Tuning.csv" "Datasets/File_List/TSB-AD-U-Tuning.csv")
-EXTRA_ARGS=( "" "" "--score_dir 'eval/score/multi-tuning/' --save_dir 'eval/metrics/multi-tuning/'" "--score_dir 'eval/score/uni-tuning/' --save_dir 'eval/metrics/uni-tuning/'")
-AGGREGATION_MODES=( "multi" "uni" "multi-tuning" "uni-tuning")
+AD_NAMES=(
+    "TSPulse2_0623" "TSPulse2_0623" "TSPulse2_0623" "TSPulse2_0623"
+    "TSPulse_ZS_ensemble" "TSPulse_ZS_ensemble" "TSPulse_ZS_ensemble" "TSPulse_ZS_ensemble"
+    "TSPulse_ZS_time" "TSPulse_ZS_time" "TSPulse_ZS_time" "TSPulse_ZS_time"
+    "TSPulse_ZS_fft" "TSPulse_ZS_fft" "TSPulse_ZS_fft" "TSPulse_ZS_fft"
+    "TSPulse_ZS_future" "TSPulse_ZS_future" "TSPulse_ZS_future" "TSPulse_ZS_future"
+)
+RUN_SCRIPTS=(
+    "Run_Detector_M.py" "Run_Detector_U.py" "Run_Detector_M.py" "Run_Detector_U.py"
+    "Run_Detector_M.py" "Run_Detector_U.py" "Run_Detector_M.py" "Run_Detector_U.py"
+    "Run_Detector_M.py" "Run_Detector_U.py" "Run_Detector_M.py" "Run_Detector_U.py"
+    "Run_Detector_M.py" "Run_Detector_U.py" "Run_Detector_M.py" "Run_Detector_U.py"
+    "Run_Detector_M.py" "Run_Detector_U.py" "Run_Detector_M.py" "Run_Detector_U.py"
+)
+DATASET_DIRS=(
+    "Datasets/TSB-AD-M/" "Datasets/TSB-AD-U/" "Datasets/TSB-AD-M/" "Datasets/TSB-AD-U/"
+    "Datasets/TSB-AD-M/" "Datasets/TSB-AD-U/" "Datasets/TSB-AD-M/" "Datasets/TSB-AD-U/"
+    "Datasets/TSB-AD-M/" "Datasets/TSB-AD-U/" "Datasets/TSB-AD-M/" "Datasets/TSB-AD-U/"
+    "Datasets/TSB-AD-M/" "Datasets/TSB-AD-U/" "Datasets/TSB-AD-M/" "Datasets/TSB-AD-U/"
+    "Datasets/TSB-AD-M/" "Datasets/TSB-AD-U/" "Datasets/TSB-AD-M/" "Datasets/TSB-AD-U/"
+)
+FILE_LISTS=(
+    "Datasets/File_List/TSB-AD-M-Eva.csv" "Datasets/File_List/TSB-AD-U-Eva.csv" "Datasets/File_List/TSB-AD-M-Tuning.csv" "Datasets/File_List/TSB-AD-U-Tuning.csv"
+    "Datasets/File_List/TSB-AD-M-Eva.csv" "Datasets/File_List/TSB-AD-U-Eva.csv" "Datasets/File_List/TSB-AD-M-Tuning.csv" "Datasets/File_List/TSB-AD-U-Tuning.csv"
+    "Datasets/File_List/TSB-AD-M-Eva.csv" "Datasets/File_List/TSB-AD-U-Eva.csv" "Datasets/File_List/TSB-AD-M-Tuning.csv" "Datasets/File_List/TSB-AD-U-Tuning.csv"
+    "Datasets/File_List/TSB-AD-M-Eva.csv" "Datasets/File_List/TSB-AD-U-Eva.csv" "Datasets/File_List/TSB-AD-M-Tuning.csv" "Datasets/File_List/TSB-AD-U-Tuning.csv"
+    "Datasets/File_List/TSB-AD-M-Eva.csv" "Datasets/File_List/TSB-AD-U-Eva.csv" "Datasets/File_List/TSB-AD-M-Tuning.csv" "Datasets/File_List/TSB-AD-U-Tuning.csv"
+)
+EXTRA_ARGS=(
+    "" "" "--score_dir 'eval/score/multi-tuning/' --save_dir 'eval/metrics/multi-tuning/'" "--score_dir 'eval/score/uni-tuning/' --save_dir 'eval/metrics/uni-tuning/'"
+    "" "" "--score_dir 'eval/score/multi-tuning/' --save_dir 'eval/metrics/multi-tuning/'" "--score_dir 'eval/score/uni-tuning/' --save_dir 'eval/metrics/uni-tuning/'"
+    "" "" "--score_dir 'eval/score/multi-tuning/' --save_dir 'eval/metrics/multi-tuning/'" "--score_dir 'eval/score/uni-tuning/' --save_dir 'eval/metrics/uni-tuning/'"
+    "" "" "--score_dir 'eval/score/multi-tuning/' --save_dir 'eval/metrics/multi-tuning/'" "--score_dir 'eval/score/uni-tuning/' --save_dir 'eval/metrics/uni-tuning/'"
+    "" "" "--score_dir 'eval/score/multi-tuning/' --save_dir 'eval/metrics/multi-tuning/'" "--score_dir 'eval/score/uni-tuning/' --save_dir 'eval/metrics/uni-tuning/'"
+)
+AGGREGATION_MODES=(
+    "multi" "uni" "multi-tuning" "uni-tuning"
+    "multi" "uni" "multi-tuning" "uni-tuning"
+    "multi" "uni" "multi-tuning" "uni-tuning"
+    "multi" "uni" "multi-tuning" "uni-tuning"
+    "multi" "uni" "multi-tuning" "uni-tuning"
+)
 
 #=========================================================================================
 # Task-Specific Logic
@@ -58,7 +102,8 @@ CURRENT_EXTRA_ARGS=${EXTRA_ARGS[$TASK_INDEX]}
 CURRENT_AGG_MODE=${AGGREGATION_MODES[$TASK_INDEX]}
 
 # --- Environment Setup (Merged from worker_script.sh) ---
-PROJECT_ROOT="/home/seokjeongeum/TSB-AD"
+# --- FIX: Use the reliable $SLURM_SUBMIT_DIR instead of a relative path ---
+PROJECT_ROOT="$SLURM_SUBMIT_DIR"
 export PYTHONPATH="${PROJECT_ROOT}:${PROJECT_ROOT}/granite-tsfm"
 
 # Load modules and activate environment
@@ -83,7 +128,7 @@ echo "=========================================================="
 COMMAND="python -u \"${PROJECT_ROOT}/benchmark_exp/${CURRENT_SCRIPT}\" \
   --AD_Name=\"${CURRENT_AD_NAME}\" \
   --dataset_dir=\"${CURRENT_DATA_DIR}\" \
-  --file_lsit=\"${CURRENT_FILE_LIST}\" \
+  --file_list=\"${CURRENT_FILE_LIST}\" \
   --save True \
   ${CURRENT_EXTRA_ARGS}"
 

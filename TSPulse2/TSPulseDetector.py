@@ -76,7 +76,7 @@ class TSPulseDetector(BaseDetector):
         df, _ = _prepare_df_for_tspulse(X)
         result = self.pipeline(
             df,
-            batch_size=1024,
+            batch_size=2048,
             report_mode=True,
             predictive_score_smoothing=True,
             expand_score=True,
