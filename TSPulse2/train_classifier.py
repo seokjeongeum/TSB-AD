@@ -67,10 +67,6 @@ EVA_METRIC_FILES = {
     "scaled_ensemble": "TSPulse2.csv",
 }
 
-TUNING_METRIC_FILES = {
-    "scaled_ensemble": "TSPulse2.csv",
-}
-
 
 DATASET_CONFIG = {
     "M-Eva": {
@@ -218,16 +214,11 @@ def load_data_from_config(
         config = DATASET_CONFIG[group_name]
         logging.info(f"--- Processing data for: {group_name} ---")
 
-        is_tuning_group = "Tuning" in group_name
-        metric_files_to_use = (
-            TUNING_METRIC_FILES if is_tuning_group else EVA_METRIC_FILES
-        )
-
         metrics_dir = os.path.join(METRICS_BASE_PATH, config["metrics_dir_name"])
         data_dir = os.path.join(BASE_DATA_PATH, config["data_dir_name"])
 
         metrics_cache = load_metrics_for_dir(
-            metrics_dir, tuple(metric_files_to_use.items())
+            metrics_dir, tuple(EVA_METRIC_FILES.items())
         )
 
         if not metrics_cache:
@@ -281,14 +272,20 @@ def evaluate_and_log(predictions, dataset_name, tsp, output_dir):
         digits=4,
         zero_division=0,
     )
+    label_distribution = pd.Series(true_labels_text).value_counts()
 
     logging.info(f"\n\n--- {dataset_name} Test Set Evaluation ---")
     logging.info(f"Accuracy: {accuracy:.4f}")
+    logging.info(
+        f"Ground Truth Label Distribution:\n{label_distribution.to_string()}"
+    )
     logging.info("Classification Report:\n" + report)
 
     results_file = os.path.join(output_dir, f"test_results_{dataset_name.lower()}.txt")
     with open(results_file, "w") as f:
         f.write(f"Test Accuracy: {accuracy:.4f}\n\n")
+        f.write("Ground Truth Label Distribution:\n")
+        f.write(label_distribution.to_string() + "\n\n")
         f.write("Classification Report:\n")
         f.write(report)
 
@@ -409,6 +406,15 @@ def main():
     if train_df.empty or eval_df.empty:
         logging.error("Dataset splitting resulted in empty datasets. Exiting.")
         sys.exit(1)
+
+    logging.info(
+        "---> Train Set Ground Truth Label Distribution <---\n"
+        f"{train_df['labels'].value_counts().to_string()}"
+    )
+    logging.info(
+        "---> Validation Set Ground Truth Label Distribution <---\n"
+        f"{eval_df['labels'].value_counts().to_string()}"
+    )
 
     logging.info("Transforming datasets with the fitted preprocessor...")
     train_df_prep = tsp.preprocess(train_df)
