@@ -15,6 +15,7 @@ import argparse
 import logging
 import os
 import sys
+import re
 from typing import Dict, List
 
 import numpy as np
@@ -22,6 +23,7 @@ import pandas as pd
 import torch
 from joblib import Parallel, delayed
 from sklearn.metrics import accuracy_score, classification_report
+from sklearn.utils.class_weight import compute_class_weight
 from tqdm.auto import tqdm
 from transformers import (EarlyStoppingCallback, Trainer, TrainingArguments,
                           set_seed)
@@ -145,28 +147,86 @@ def _process_single_file(
     return samples
 
 
-def load_and_process_data(dataset_type: str) -> List[Dict]:
+def get_base_multivariate_file(univariate_filename: str, multi_base_names: list) -> str:
     """
-    Loads and processes data from a given dataset type ('uni' or 'multi'),
-    aligning with the logic from train_selector_with_embeddings.py.
-    It uses only files common to all metric definitions.
-    """
-    logging.info(f"\n--- Processing {dataset_type.upper()} tuning data ---")
+    Finds the original multivariate base filename for a derived univariate filename.
+    It iterates through a pre-sorted list of multivariate names to find the longest match.
 
+    Args:
+        univariate_filename (str): The filename of the derived univariate series.
+        multi_base_names (list): A list of original multivariate base names, sorted by length descending.
+
+    Returns:
+        str: The matching multivariate base name, or None if not found.
+    """
+    # The univariate filename is without extension here
+    for base_name in multi_base_names:
+        if univariate_filename.startswith(base_name + "_"):
+            return base_name
+    logging.debug(f"Could not find base name for {univariate_filename}")
+    return None
+
+
+def get_base_multivariate_file_map(univariate_files: list, multi_base_names: list) -> dict:
+    """
+    Efficiently finds the original multivariate base filename for a list of derived univariate filenames
+    using a single compiled regular expression.
+
+    Args:
+        univariate_files (list): A list of derived univariate series filenames (without extension).
+        multi_base_names (list): A list of original multivariate base names, sorted by length descending.
+
+    Returns:
+        dict: A mapping from each univariate filename to its corresponding multivariate base name.
+    """
+    # The list of base names is pre-sorted by length, so the regex will prioritize the longest match.
+    base_name_pattern = "|".join(re.escape(b) for b in multi_base_names)
+    # This regex looks for one of the base names at the start of the string, followed by an underscore.
+    base_name_regex = re.compile(f"^({base_name_pattern})_")
+
+    mapping = {}
+    for f in tqdm(univariate_files, desc="Mapping univariate files to base names"):
+        match = base_name_regex.match(f)
+        if match:
+            # group(1) captures the matched base name from the pattern.
+            mapping[f] = match.group(1)
+        else:
+            logging.debug(f"Could not determine base name for {f}")
+            mapping[f] = None
+    return mapping
+
+
+def load_split_and_process_data(
+    dataset_type: str, multi_file_lists: dict = None
+) -> (List[Dict], List[Dict]):
+    """
+    Loads data, splits it into train/val and test sets based on file lists,
+    and processes them into univariate samples.
+    """
+    logging.info(f"\n--- Processing {dataset_type.upper()} data ---")
+
+    # 1. Define paths based on dataset type
+    full_list_name, eva_list_name = None, None  # Default to None
     if dataset_type == "uni":
         data_dir_name = "TSB-AD-U"
-        metrics_dir_name = "uni-tuning"
-        file_list_name = "TSB-AD-U-Tuning.csv"
-    else:  # multi
+        metrics_dir_name = "uni"
+        full_list_name = "TSB-AD-U.csv"
+        eva_list_name = "TSB-AD-U-Eva.csv"
+    elif dataset_type == "multi":
         data_dir_name = "TSB-AD-M"
-        metrics_dir_name = "multi-tuning"
-        file_list_name = "TSB-AD-M-Tuning.csv"
+        metrics_dir_name = "multi"
+        full_list_name = "TSB-AD-M.csv"
+        eva_list_name = "TSB-AD-M-Eva.csv"
+    elif dataset_type == "multi_as_uni":
+        data_dir_name = "TSB-AD-M-univariate"
+        metrics_dir_name = "multi_as_uni"
+    else:
+        raise ValueError(f"Unknown dataset_type: {dataset_type}")
 
     data_dir = os.path.join(BASE_DATA_PATH, data_dir_name)
     metrics_dir = os.path.join(METRICS_BASE_PATH, metrics_dir_name)
-    file_list_path = os.path.join(BASE_DATA_PATH, "File_List", file_list_name)
 
-    # 1. Load all metric files for the given dataset type
+    # 2. Load all metric files to find common files
     metric_dfs = {}
     for head_name, file_name in EVA_METRIC_FILES.items():
         file_path = os.path.join(metrics_dir, file_name)
@@ -176,7 +236,6 @@ def load_and_process_data(dataset_type: str) -> List[Dict]:
             )
             continue
         df = pd.read_csv(file_path)
-        # Sanitize filenames to match across different files
         df["file"] = df["file"].apply(
             lambda x: os.path.splitext(x)[0] if isinstance(x, str) else x
         )
@@ -184,55 +243,87 @@ def load_and_process_data(dataset_type: str) -> List[Dict]:
 
     if not metric_dfs:
         logging.error(f"No metric files found for {dataset_type}. Skipping.")
-        return []
+        return [], []
 
     active_heads = list(metric_dfs.keys())
-    if len(active_heads) < len(EVA_METRIC_FILES):
-        logging.warning(
-            f"Not all heads have metric files. Using available heads: {active_heads}"
-        )
-
-    # 2. Find common files across all loaded metric dataframes
     common_files = set(metric_dfs[active_heads[0]].index)
     for head_name in active_heads[1:]:
         common_files.intersection_update(metric_dfs[head_name].index)
-
-    logging.info(f"Found {len(common_files)} common files for {dataset_type} data.")
-
-    # 3. Filter the main file list to only include common files
-    try:
-        file_list_df = pd.read_csv(file_list_path)
-        all_tuning_files_with_ext = file_list_df["file_name"].tolist()
-    except FileNotFoundError:
-        logging.error(f"Tuning file list not found at {file_list_path}.")
-        return []
-
-    # Match common_files (without extension) to the full filenames
-    files_to_process = [
-        f
-        for f in all_tuning_files_with_ext
-        if os.path.splitext(f)[0] in common_files
-    ]
-    logging.info(f"Processing {len(files_to_process)} files from the file list.")
-
-    # 4. Create metrics_cache for get_best_head. This is slightly different from
-    # the selector's approach but reuses the existing `get_best_head` function.
-    metrics_cache = {}
-    for head, df in metric_dfs.items():
-        # Ensure the index name is what get_best_head expects
-        df.index.name = "file_sanitized"
-        metrics_cache[head] = df
-
-    # 5. Process the filtered files in parallel
-    processed_samples_lists = Parallel(n_jobs=-1)(
-        delayed(_process_single_file)(filename, data_dir, metrics_cache)
-        for filename in tqdm(files_to_process, desc=f"Processing {dataset_type} files")
+    logging.info(
+        f"Found {len(common_files)} common files with metrics for {dataset_type} data."
     )
 
-    all_univariate_samples = [
-        sample for sublist in processed_samples_lists for sample in sublist
+    # 3. Load file lists to determine train/val and test splits
+    if dataset_type == "multi_as_uni":
+        train_val_files_set, test_files_set = set(), set()
+        multi_eva_files_set = multi_file_lists["eva"]
+        multi_base_names = multi_file_lists["base"]
+
+        # --- OPTIMIZATION ---
+        # The original method iterated through all base names for each univariate file,
+        # which was very slow (O(N*M)). This new method builds a single regex
+        # to find all mappings in one pass (much faster).
+        uni_to_multi_map = get_base_multivariate_file_map(
+            list(common_files), multi_base_names
+        )
+
+        for f, base_multi_name in uni_to_multi_map.items():
+            if base_multi_name and (base_multi_name + ".csv") in multi_eva_files_set:
+                test_files_set.add(f + ".csv")
+            else:
+                train_val_files_set.add(f + ".csv")
+    else:
+        full_file_list_path = os.path.join(BASE_DATA_PATH, "File_List", full_list_name)
+        eva_file_list_path = os.path.join(BASE_DATA_PATH, "File_List", eva_list_name)
+        try:
+            full_files_set = set(pd.read_csv(full_file_list_path)["file_name"])
+            eva_files_set = set(pd.read_csv(eva_file_list_path)["file_name"])
+        except FileNotFoundError as e:
+            logging.error(f"File list not found: {e}. Cannot create splits.")
+            return [], []
+
+        train_val_files_set = full_files_set - eva_files_set
+        test_files_set = eva_files_set
+
+    # 4. Filter file lists to only those with valid metrics
+    files_to_process_train_val = [
+        f for f in train_val_files_set if os.path.splitext(f)[0] in common_files
     ]
-    return all_univariate_samples
+    files_to_process_test = [
+        f for f in test_files_set if os.path.splitext(f)[0] in common_files
+    ]
+
+    logging.info(
+        f"Found {len(files_to_process_train_val)} files for the training/validation pool."
+    )
+    logging.info(f"Found {len(files_to_process_test)} files for the test set.")
+
+    # 5. Create metrics_cache for get_best_head
+    metrics_cache = {head: df for head, df in metric_dfs.items()}
+
+    # 6. Process files in parallel
+    logging.info("Processing train/validation files...")
+    train_val_samples_lists = Parallel(n_jobs=-1)(
+        delayed(_process_single_file)(filename, data_dir, metrics_cache)
+        for filename in tqdm(
+            files_to_process_train_val,
+            desc=f"Processing {dataset_type} train/val files",
+        )
+    )
+    train_val_samples = [
+        sample for sublist in train_val_samples_lists for sample in sublist
+    ]
+
+    logging.info("Processing test files...")
+    test_samples_lists = Parallel(n_jobs=-1)(
+        delayed(_process_single_file)(filename, data_dir, metrics_cache)
+        for filename in tqdm(
+            files_to_process_test, desc=f"Processing {dataset_type} test files"
+        )
+    )
+    test_samples = [sample for sublist in test_samples_lists for sample in sublist]
+
+    return train_val_samples, test_samples
 
 
 def create_dataframe_for_preprocessor(data_samples: List[Dict]) -> pd.DataFrame:
@@ -280,32 +371,28 @@ def evaluate_and_log(predictions, dataset_name, tsp, output_dir):
         f.write(report)
 
 
-class TrainerWithTrainAccuracy(Trainer):
+class TrainerWithWeightedLoss(Trainer):
+    def __init__(self, *args, class_weights=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.class_weights = class_weights
+
     def compute_loss(self, model, inputs, return_outputs=False, **kwargs):
-        """
-        Override compute_loss to handle the label key mismatch and log training accuracy.
-        """
-        # The Trainer moves the column listed in `label_names` to 'labels'.
-        # We need to rename it back to 'target_values' for the model's forward pass.
         if "labels" in inputs:
             inputs["target_values"] = inputs.pop("labels")
 
-        # Forward pass
         outputs = model(**inputs)
+        logits = outputs.prediction_outputs
+        labels = inputs.get("target_values")
 
-        # Loss is part of the model's output
-        loss = outputs.loss
+        # Use a new loss function with the calculated weights
+        loss_fct = torch.nn.CrossEntropyLoss(weight=self.class_weights)
+        loss = loss_fct(logits, labels)
 
         # --- Custom Logic to Compute and Log Training Accuracy ---
-        if self.is_in_train:
-            logits = outputs.prediction_outputs
-            # The labels are now in 'target_values'
-            labels = inputs.get("target_values")
-
-            if logits is not None and labels is not None:
-                preds = torch.argmax(logits.detach(), dim=-1)
-                accuracy = (preds == labels).float().mean()
-                self.log({"accuracy": accuracy.item()})
+        if self.is_in_train and labels is not None:
+            preds = torch.argmax(logits.detach(), dim=-1)
+            accuracy = (preds == labels).float().mean()
+            self.log({"accuracy": accuracy.item()})
 
         return (loss, outputs) if return_outputs else loss
 
@@ -337,38 +424,89 @@ def main():
     )
     parser.add_argument("--mask_ratio", type=float, default=0.3)
     parser.add_argument("--channel_virtual_expand_scale", type=int, default=2)
+    parser.add_argument(
+        "--fresh_start",
+        action="store_true",
+        help="Start training from scratch, overwriting existing checkpoints. Default is to resume.",
+    )
 
     args = parser.parse_args()
     os.makedirs(args.output_dir, exist_ok=True)
 
     logging.info("STEP 1: Loading and Processing Data...")
-    # Load all available "Tuning" data using the new common-file logic.
-    uni_samples = load_and_process_data("uni")
-    multi_samples = load_and_process_data("multi")
-    all_samples = uni_samples + multi_samples
 
-    if not all_samples:
-        logging.error("Data loading resulted in an empty dataset. Exiting.")
+    # Load file lists for multi-variate cases first, as they are needed for multi_as_uni
+    multi_full_list_path = os.path.join(BASE_DATA_PATH, "File_List", "TSB-AD-M.csv")
+    multi_eva_list_path = os.path.join(BASE_DATA_PATH, "File_List", "TSB-AD-M-Eva.csv")
+    try:
+        multi_full_df = pd.read_csv(multi_full_list_path)
+        multi_eva_files_set = set(pd.read_csv(multi_eva_list_path)["file_name"])
+        # Create a list of base names (without .csv), sorted by length descending
+        multi_base_names = sorted(
+            [os.path.splitext(f)[0] for f in multi_full_df["file_name"]],
+            key=len,
+            reverse=True,
+        )
+        multi_file_lists = {"eva": multi_eva_files_set, "base": multi_base_names}
+    except FileNotFoundError as e:
+        logging.error(f"Multivariate file list not found: {e}. Cannot proceed.")
         return
 
-    logging.info(f"Loaded a total of {len(all_samples)} samples from tuning data.")
+    # Load and split data using the new logic
+    uni_train_val_samples, uni_test_samples = load_split_and_process_data("uni")
+    multi_train_val_samples, multi_test_samples = load_split_and_process_data("multi")
+    (
+        multi_as_uni_train_val_samples,
+        multi_as_uni_test_samples,
+    ) = load_split_and_process_data("multi_as_uni", multi_file_lists=multi_file_lists)
+
+    all_train_val_samples = (
+        uni_train_val_samples + multi_train_val_samples + multi_as_uni_train_val_samples
+    )
+    all_test_samples = uni_test_samples + multi_test_samples + multi_as_uni_test_samples
+
+    if not all_train_val_samples:
+        logging.error(
+            "Training/validation data loading resulted in an empty dataset. Exiting."
+        )
+        return
+    if not all_test_samples:
+        logging.warning(
+            "Test data loading resulted in an empty dataset. Evaluation will be skipped."
+        )
+
+    logging.info(
+        f"Loaded {len(all_train_val_samples)} samples for training/validation pool."
+    )
+    logging.info(f"Loaded {len(all_test_samples)} samples for test set.")
 
     logging.info("STEP 2: Preparing DataFrame and Splitting Data...")
-    df_full = create_dataframe_for_preprocessor(all_samples)
+    df_train_val = create_dataframe_for_preprocessor(all_train_val_samples)
+    df_test = (
+        create_dataframe_for_preprocessor(all_test_samples)
+        if all_test_samples
+        else pd.DataFrame()
+    )
 
-    # Shuffle the DataFrame
-    df_full = df_full.sample(frac=1, random_state=SEED).reset_index(drop=True)
+    # Shuffle the training/validation pool
+    df_train_val = df_train_val.sample(frac=1, random_state=SEED).reset_index(drop=True)
 
-    # 80/10/10 Split
-    train_size = int(0.8 * len(df_full))
-    val_size = int(0.1 * len(df_full))
+    # Split the pool into 90% training and 10% validation
+    train_size = int(0.9 * len(df_train_val))
+    train_df = df_train_val[:train_size].reset_index(drop=True)
+    eval_df = df_train_val[train_size:].reset_index(drop=True)
+    test_df = df_test.reset_index(drop=True)  # Already separate
 
-    train_df = df_full[:train_size].reset_index(drop=True)
-    eval_df = df_full[train_size : train_size + val_size].reset_index(drop=True)
-    test_df = df_full[train_size + val_size :].reset_index(drop=True)
+    logging.info("--- Training Set Label Distribution ---")
+    logging.info(train_df["labels"].value_counts(normalize=True).to_string())
 
-    if train_df.empty or eval_df.empty or test_df.empty:
-        logging.error("Dataset splitting resulted in empty datasets. Exiting.")
+    # Combine all data to fit the preprocessor
+    df_full = pd.concat([train_df, eval_df, test_df], ignore_index=True)
+
+    if train_df.empty or eval_df.empty:
+        logging.error(
+            "Dataset splitting resulted in empty train or validation sets. Exiting."
+        )
         sys.exit(1)
 
     logging.info("STEP 3: Preprocessing Data...")
@@ -387,6 +525,20 @@ def main():
     train_df_prep = tsp.preprocess(train_df)
     eval_df_prep = tsp.preprocess(eval_df)
     test_df_prep = tsp.preprocess(test_df)
+
+    # Calculate class weights for handling imbalance
+    class_labels = tsp.label_encoder.classes_
+    # We need the original string labels from the training set to calculate weights correctly.
+    # The 'train_df' still has the original string labels.
+    train_labels_text = train_df["labels"]
+
+    class_weights = compute_class_weight(
+        class_weight="balanced", classes=class_labels, y=train_labels_text
+    )
+    # The trainer expects a tensor on the correct device.
+    class_weights_tensor = torch.tensor(class_weights, dtype=torch.float).to("cuda")
+
+    logging.info(f"Using class weights: {class_weights_tensor}")
 
     # Create the datasets
     train_dataset = ClassificationDFDataset(
@@ -455,7 +607,7 @@ def main():
     # 5. Train Model
     logging.info("STEP 5: Training Model...")
 
-    batch_size = 1  # Use a constant batch size
+    batch_size = 2**14  # Use a constant batch size
     logging.info("Finding optimal learning rate...")
     lr, model = optimal_lr_finder(
         model,
@@ -466,7 +618,7 @@ def main():
 
     training_args = TrainingArguments(
         output_dir=os.path.join(args.output_dir, "checkpoints"),
-        overwrite_output_dir=True,
+        overwrite_output_dir=args.fresh_start,
         learning_rate=lr,
         num_train_epochs=200,
         do_eval=True,
@@ -491,16 +643,17 @@ def main():
         label_names=["target_values"],  # Inform Trainer of the correct label key
     )
 
-    trainer = TrainerWithTrainAccuracy(
+    trainer = TrainerWithWeightedLoss(
         model=model,
         args=training_args,
         train_dataset=train_dataset,
         eval_dataset=eval_dataset,
         compute_metrics=compute_metrics,
         callbacks=[EarlyStoppingCallback(early_stopping_patience=10)],
+        class_weights=class_weights_tensor,  # Pass the weights
     )
 
-    trainer.train()
+    trainer.train(resume_from_checkpoint=not args.fresh_start)
 
     logging.info("STEP 6: Evaluating on Test Set...")
     predictions = trainer.predict(test_dataset)
