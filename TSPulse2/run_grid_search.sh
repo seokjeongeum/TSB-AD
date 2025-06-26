@@ -15,38 +15,45 @@
 #SBATCH --error=slurm_logs/%x_%A_%a.err  # Unique error log for each task
 #
 #SBATCH --partition=A100-80GB            # The GPU partition you want to use
-#SBATCH --qos=hpgpu                      # Requesting permission for the partition
+#
+# === FIX BASED ON CLUSTER POLICY ===
+# The array size is 32, which is > 16 GPUs.
+# Per cluster rules (page 5), jobs using >16 advanced GPUs MUST use the 'add_hpgpu' QOS.
+#SBATCH --qos=add_hpgpu
+# The 'add_hpgpu' QOS has a maximum wall time of 1 day.
+#SBATCH --time=1-00:00:00
+# ===================================
+#
 #SBATCH --gres=gpu:1                     # Request 1 GPU *per task*
-#SBATCH --time=3-00:00:00                 # Max wall time (3 days)
+
+# Set the array size. The total number of combinations is 2*2*2*2*2 = 32.
+#SBATCH --array=1-32
 
 #=========================================================================================
-# Hyperparameter Grid Definition
-#
-# Define the sets of hyperparameters to test. The script will generate all combinations.
-# The notebook suggests these are good candidates for tuning:
-# head_reduce_d_model, decoder_mode, head_gated_attention_activation,
-# mask_ratio, channel_virtual_expand_scale
+# HYPERPARAMETER & LOGIC BLOCK
+# This entire block will be executed by EACH task in the job array.
+# Slurm sets a unique $SLURM_ARRAY_TASK_ID for each one.
 #=========================================================================================
+
+# Exit immediately if a command exits with a non-zero status.
+set -e 
+
+# 1. Define the Hyperparameter Grid
+# This must be defined inside the execution block so each task knows the full grid.
 HEAD_REDUCE_D_MODELS=(1 2)
 DECODER_MODES=("mix_channel" "common_channel")
 MASK_RATIOS=(0.0 0.3)
 HEAD_GATED_ATTENTION_ACTIVATIONS=("softmax" "sigmoid")
 CHANNEL_VIRTUAL_EXPAND_SCALES=(1 2)
 
-
-#=========================================================================================
-# Combination Generation
-#
-# This block creates an array 'PARAMS' where each element is a string containing
-# a unique combination of the hyperparameters defined above.
-#=========================================================================================
+# 2. Generate All Combinations
+# Each task will regenerate this list, but it's quick and ensures correctness.
 declare -a PARAMS
 for reduce_d in "${HEAD_REDUCE_D_MODELS[@]}"; do
   for decoder in "${DECODER_MODES[@]}"; do
     for mask in "${MASK_RATIOS[@]}"; do
       for head_act in "${HEAD_GATED_ATTENTION_ACTIVATIONS[@]}"; do
         for expand_scale in "${CHANNEL_VIRTUAL_EXPAND_SCALES[@]}"; do
-          # Each combination is a single space-separated string
           PARAMS+=("$reduce_d $decoder $mask $head_act $expand_scale")
         done
       done
@@ -54,63 +61,42 @@ for reduce_d in "${HEAD_REDUCE_D_MODELS[@]}"; do
   done
 done
 
-#=========================================================================================
-# Slurm Array Configuration
-#
-# Set the array size to the total number of combinations we generated.
-#=========================================================================================
-NUM_JOBS=${#PARAMS[@]}
-echo "INFO: Submitting a job array with ${NUM_JOBS} tasks."
-#SBATCH --array=1-${NUM_JOBS}
-
-#=========================================================================================
-# Shared Setup (runs for every task)
-#=========================================================================================
-set -e # Exit immediately if a command exits with a non-zero status.
-
-echo "--- SLURM JOB ARRAY TASK START ---"
-echo "Job Name: $SLURM_JOB_NAME"
-echo "Job ID: $SLURM_JOB_ID"
-echo "Array Job ID: $SLURM_ARRAY_JOB_ID"
-echo "Array Task ID: $SLURM_ARRAY_TASK_ID / ${NUM_JOBS}"
-echo "Host: $(hostname)"
-echo "----------------------------------"
-
-# Ensure the log directory exists before any task tries to write to it.
-mkdir -p slurm_logs
-
-# Use the reliable $SLURM_SUBMIT_DIR to define the project root
-PROJECT_ROOT="$SLURM_SUBMIT_DIR"
-export PYTHONPATH="${PROJECT_ROOT}:${PROJECT_ROOT}/granite-tsfm"
-
-# Load modules and activate Conda environment
-module load cuda/11.8 conda-py39
-conda activate tsb-ad-env
-
-# Change to the project directory
-cd "$PROJECT_ROOT"
-
-#=========================================================================================
-# Task-Specific Logic & Execution
-#=========================================================================================
-# SLURM_ARRAY_TASK_ID is 1-based, but our array is 0-based. Subtract 1 for the index.
+# 3. Task-Specific Setup
+# Use the Slurm-provided TASK_ID to select the correct parameters.
+# SLURM_ARRAY_TASK_ID is 1-based, so subtract 1 for the 0-based bash array.
 TASK_INDEX=$((SLURM_ARRAY_TASK_ID - 1))
-
-# Retrieve the space-separated parameter string for the current task
 CURRENT_PARAMS_STR=${PARAMS[$TASK_INDEX]}
-
-# Read the parameters from the string into an array
 read -r -a CURRENT_PARAMS <<< "$CURRENT_PARAMS_STR"
 
-# Assign parameters to named variables for clarity
 CURRENT_REDUCE_D=${CURRENT_PARAMS[0]}
 CURRENT_DECODER=${CURRENT_PARAMS[1]}
 CURRENT_MASK=${CURRENT_PARAMS[2]}
 CURRENT_HEAD_ACT=${CURRENT_PARAMS[3]}
 CURRENT_EXPAND_SCALE=${CURRENT_PARAMS[4]}
 
+# 4. Environment Setup
+echo "--- SLURM JOB ARRAY TASK START ---"
+echo "Job Name: $SLURM_JOB_NAME"
+echo "Array Job ID: $SLURM_ARRAY_JOB_ID"
+echo "Array Task ID: $SLURM_ARRAY_TASK_ID / $SLURM_ARRAY_TASK_COUNT"
+echo "Host: $(hostname)"
+echo "----------------------------------"
 
-# Create a unique output directory for this specific run to avoid conflicts
+# Ensure the log directory exists (important for the first task)
+mkdir -p slurm_logs
+
+# Define project root and set PYTHONPATH
+PROJECT_ROOT="$SLURM_SUBMIT_DIR"
+export PYTHONPATH="${PROJECT_ROOT}:${PROJECT_ROOT}/granite-tsfm"
+
+# Load modules and activate Conda environment
+# Note: The specific modules may need to be adjusted based on the cluster environment.
+module load cuda/11.8 conda-py39
+conda activate tsb-ad-env
+cd "$PROJECT_ROOT"
+
+# 5. Execution
+# Create a unique output directory for this specific run
 RUN_ID="reduce_${CURRENT_REDUCE_D}_decoder_${CURRENT_DECODER}_mask_${CURRENT_MASK}_headact_${CURRENT_HEAD_ACT}_expand_${CURRENT_EXPAND_SCALE}"
 CURRENT_OUTPUT_DIR="${PROJECT_ROOT}/TSPulse2/grid_search_results/${RUN_ID}"
 mkdir -p "$CURRENT_OUTPUT_DIR"
@@ -141,12 +127,10 @@ eval "$COMMAND"
 # Check the exit code of the training script
 if [ $? -ne 0 ]; then
     echo "!!! Training command failed for task $SLURM_ARRAY_TASK_ID. !!!"
-    # Create a failure token file for easy identification of failed runs
     touch "${CURRENT_OUTPUT_DIR}/_FAILED"
     exit 1
 fi
 
-# Create a success token file
 touch "${CURRENT_OUTPUT_DIR}/_SUCCESS"
 
 echo "=========================================================="

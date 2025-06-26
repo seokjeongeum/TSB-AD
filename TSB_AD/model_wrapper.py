@@ -18,7 +18,7 @@ from .utils.slidingWindows import find_length_rank
 Unsupervise_AD_Pool = ['FFT', 'SR', 'NORMA', 'Series2Graph', 'Sub_IForest', 'IForest', 'LOF', 'Sub_LOF', 'POLY', 'MatrixProfile', 'Sub_PCA', 'PCA', 'HBOS', 
                         'Sub_HBOS', 'KNN', 'Sub_KNN','KMeansAD', 'KMeansAD_U', 'KShapeAD', 'COPOD', 'CBLOF', 'COF', 'EIF', 'RobustPCA', 'Lag_Llama', 'TimesFM', 'Chronos', 'MOMENT_ZS',
                         'TSPulse_ZS_ensemble', 'TSPulse_ZS_time', 'TSPulse_ZS_fft', 'TSPulse_ZS_future',
-                        'TSPulse2_0623']
+                        'TSPulse2']
 Semisupervise_AD_Pool = ['Left_STAMPi', 'SAND', 'MCD', 'Sub_MCD', 'OCSVM', 'Sub_OCSVM', 'AutoEncoder', 'CNN', 'LSTMAD', 'TranAD', 'USAD', 'OmniAnomaly', 
                         'AnomalyTransformer', 'TimesNet', 'FITS', 'Donut', 'OFA', 'MOMENT_FT', 'M2N2',
                         'TSPulse_FT_ensemble', 'TSPulse_FT_time', 'TSPulse_FT_fft', 'TSPulse_FT_future',
@@ -589,7 +589,7 @@ def run_TSPulse_FT_future(data_train, data_test, **kwargs):
     prediction_mode = AnomalyScoreMethods.PREDICTIVE.value
     return _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs)
 
-def run_TSPulse2_0623(data, **kwargs):
+def run_TSPulse2(data, **kwargs):
     from TSPulse2.TSPulseDetector import TSPulseDetector
     from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
     from TSPulse2.TSPulse2Pipeline import TSPulse2Pipeline
@@ -604,7 +604,7 @@ def run_TSPulse2_0623(data, **kwargs):
     ]
     kwargs['head_min_max_scale']=True
     kwargs['llm_selection']=False
-    kwargs['head_selector']="model"
+    # kwargs['head_selector']="model"
     clf=TSPulseDetector(**kwargs)
     clf.fit(data)
     return clf.decision_function(data)

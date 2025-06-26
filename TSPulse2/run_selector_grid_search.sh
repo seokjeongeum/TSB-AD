@@ -1,72 +1,62 @@
 #!/bin/bash
 #=========================================================================================
+#
 # Slurm SBATCH Script for Architecture Search on the Selector Model
 #
-# This script systematically tests a list of model architectures for the
-# train_selector_with_embeddings.py script. It uses a Slurm job array to
-# execute each architecture as a separate training task.
 #=========================================================================================
-#
+
 #SBATCH --job-name=SelectorArchSearch
-#SBATCH --output=slurm_logs/%x_%A_%a.out # Unique log for each task
-#SBATCH --error=slurm_logs/%x_%A_%a.err  # Unique error log for each task
-#
-#SBATCH --partition=A100-80GB            # The GPU partition to use
-#SBATCH --qos=hpgpu                      # Requesting permission for the partition
-#SBATCH --gres=gpu:1                     # Request 1 GPU per task
-#SBATCH --time=1-00:00:00                # Max wall time (1 day)
+#SBATCH --output=slurm_logs/%x_%A_%a.out
+#SBATCH --error=slurm_logs/%x_%A_%a.err
+#SBATCH --partition=A100-80GB
+#SBATCH --qos=add_hpgpu
+#SBATCH --time=1-00:00:00
+#SBATCH --gres=gpu:1
+
+# FIX: Moved the --array directive here with all other SBATCH directives.
+# The array size must be hardcoded.
+#SBATCH --array=1-21
 
 #=========================================================================================
+#
 # Model Architecture Definition
 #
-# This list should match the keys in the 'architectures' dictionary in the
-# train_selector_with_embeddings.py script.
 #=========================================================================================
 MODELS_TO_TEST=(
-    "BestOfBreedMLP"
-    "MLP"
-    "ResMLP"
-    "SkipMLP"
-    "CNN1D"
-    "Encoder"
-    "RandomForest"
-    "XGBoost"
-    "CatBoost"
-    "ExtraTrees"
-    "GradientBoosting"
-    "AdaBoost"
-    "SVC"
-    "KNN"
-    "LogisticRegression"
-    "GaussianNB"
-    "LDA"
-    "DecisionTree"
-    "QDA"
-    "Bagging"
-    "PassiveAggressive"
+    "BestOfBreedMLP" "MLP" "ResMLP" "SkipMLP" "CNN1D" "Encoder" "RandomForest"
+    "XGBoost" "CatBoost" "ExtraTrees" "GradientBoosting" "AdaBoost" "SVC" "KNN"
+    "LogisticRegression" "GaussianNB" "LDA" "DecisionTree" "QDA" "Bagging" "PassiveAggressive"
 )
 
 #=========================================================================================
-# Slurm Array Configuration
-#=========================================================================================
-NUM_JOBS=${#MODELS_TO_TEST[@]}
-echo "INFO: Submitting a job array with ${NUM_JOBS} tasks for selector architecture search."
-#SBATCH --array=1-${NUM_JOBS}
-
-#=========================================================================================
-# Shared Setup
+#
+# Shared Setup - All commands must come AFTER the SBATCH directives.
+#
 #=========================================================================================
 set -e # Exit immediately on error
 
+# Check if running as a slurm array job.
+if [ -z "$SLURM_ARRAY_TASK_ID" ]; then
+    echo "ERROR: This script is not running as a Slurm job array." >&2
+    echo "This may be because the #SBATCH --array directive is misplaced." >&2
+    exit 1
+fi
+
+# FIX: Moved the informational echo here. It will now appear in each job's log.
+NUM_JOBS=${#MODELS_TO_TEST[@]}
+echo "INFO: Starting task for one of ${NUM_JOBS} models in the architecture search."
+
+# Define project root first, so it can be used for all paths
+PROJECT_ROOT="$SLURM_SUBMIT_DIR"
+
 echo "--- SLURM JOB ARRAY TASK START ---"
 echo "Job Name: $SLURM_JOB_NAME"
-echo "Array Task ID: $SLURM_ARRAY_TASK_ID / ${NUM_JOBS}"
+echo "Array Task ID: $SLURM_ARRAY_TASK_ID / $SLURM_ARRAY_TASK_COUNT"
 echo "Host: $(hostname)"
 echo "----------------------------------"
 
-mkdir -p slurm_logs
+mkdir -p "${PROJECT_ROOT}/slurm_logs"
 
-PROJECT_ROOT="$SLURM_SUBMIT_DIR"
 export PYTHONPATH="${PROJECT_ROOT}:${PROJECT_ROOT}/granite-tsfm"
 
 module load cuda/11.8 conda-py39
@@ -75,13 +65,14 @@ conda activate tsb-ad-env
 cd "$PROJECT_ROOT"
 
 #=========================================================================================
+#
 # Task-Specific Logic & Execution
+#
 #=========================================================================================
 TASK_INDEX=$((SLURM_ARRAY_TASK_ID - 1))
 CURRENT_MODEL=${MODELS_TO_TEST[$TASK_INDEX]}
 
-# Create a unique output directory for this specific model run
-CURRENT_OUTPUT_DIR="TSPulse2/selector_arch_search_combined/${CURRENT_MODEL}"
+CURRENT_OUTPUT_DIR="${PROJECT_ROOT}/TSPulse2/selector_arch_search_combined/${CURRENT_MODEL}"
 mkdir -p "$CURRENT_OUTPUT_DIR"
 
 echo "=========================================================="
@@ -92,17 +83,18 @@ echo "Augmentation: Enabled"
 echo "Output Dir: $CURRENT_OUTPUT_DIR"
 echo "=========================================================="
 
-# Construct and run the final python command
-# Augmentation is always on, as requested.
+# MODIFIED: Updated the command to use the new required arguments
+# and added the flag for the detailed report.
 COMMAND="python -u TSPulse2/train_selector_with_embeddings.py \
-  --output_model_dir=\"${CURRENT_OUTPUT_DIR}\" \
-  --model_to_use=${CURRENT_MODEL}"
+    --output_model_dir=\"${CURRENT_OUTPUT_DIR}\" \
+    --model_to_use=${CURRENT_MODEL} \
+    --detailed_report"
 
-echo "Executing command: $COMMAND"
-eval "$COMMAND"
+echo "Executing command: ${COMMAND}"
+eval "${COMMAND}"
 
 if [ $? -ne 0 ]; then
-    echo "!!! Selector training command failed for task $SLURM_ARRAY_TASK_ID ($CURRENT_MODEL). !!!"
+    echo "!!! Selector training command failed for task ${SLURM_ARRAY_TASK_ID} (${CURRENT_MODEL}). !!!"
     touch "${CURRENT_OUTPUT_DIR}/_FAILED"
     exit 1
 fi

@@ -24,10 +24,11 @@ sys.path.insert(
         "granite-tsfm",
     ),
 )
-from embedding_pipeline import EmbeddingExtractorPipeline
 from tsfm_public.toolkit.ad_helpers import AnomalyScoreMethods
 from tsfm_public.toolkit.time_series_anomaly_detection_pipeline import (
-    TimeSeriesAnomalyDetectionPipeline, score_smoothing)
+    TimeSeriesAnomalyDetectionPipeline,
+    score_smoothing,
+)
 
 
 class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):

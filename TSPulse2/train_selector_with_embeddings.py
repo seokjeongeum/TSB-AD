@@ -14,14 +14,24 @@ import torch.optim as optim
 import xgboost as xgb
 from catboost import CatBoostClassifier
 from sklearn.base import clone
-from sklearn.discriminant_analysis import (LinearDiscriminantAnalysis,
-                                           QuadraticDiscriminantAnalysis)
-from sklearn.ensemble import (AdaBoostClassifier, BaggingClassifier,
-                              ExtraTreesClassifier, GradientBoostingClassifier,
-                              RandomForestClassifier)
-from sklearn.linear_model import (LogisticRegression,
-                                  PassiveAggressiveClassifier)
-from sklearn.metrics import accuracy_score, log_loss
+from sklearn.discriminant_analysis import (
+    LinearDiscriminantAnalysis,
+    QuadraticDiscriminantAnalysis,
+)
+from sklearn.ensemble import (
+    AdaBoostClassifier,
+    BaggingClassifier,
+    ExtraTreesClassifier,
+    GradientBoostingClassifier,
+    RandomForestClassifier,
+)
+from sklearn.linear_model import LogisticRegression, PassiveAggressiveClassifier
+from sklearn.metrics import (
+    accuracy_score,
+    classification_report,
+    confusion_matrix,
+    log_loss,
+)
 from sklearn.model_selection import StratifiedKFold
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
@@ -35,8 +45,7 @@ sys.path.insert(
     0,
     os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "granite-tsfm")),
 )
-from tsfm_public.models.tspulse.modeling_tspulse import (
-    TSPulseForClassification)
+from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForClassification
 
 
 def get_full_decoder_embeddings(model, past_values):
@@ -368,29 +377,34 @@ class HybridConvGRUClassifier(nn.Module):
         return out
 
 
-def process_dataset(dataset_type, args, model, heads_and_files):
+def process_dataset(dataset_type, args, model, heads_and_files, file_list_path):
     """Helper function to process datasets and generate full decoder embeddings."""
-    print(f"\nProcessing {dataset_type.upper()} tuning data...")
+    
+    # FIX: Determine if we are processing Tuning or Evaluation data
+    # and set the correct metrics directory path accordingly.
+    is_tuning = "Tuning" in os.path.basename(file_list_path)
+    mode_name = "Tuning" if is_tuning else "Eva"
+    
+    processing_mode = f"{dataset_type.upper()}-{mode_name}"
+    print(f"\nProcessing {processing_mode} data...")
 
     if dataset_type == "uni":
         dataset_dir = "Datasets/TSB-AD-U/"
-        metrics_dir = "eval/metrics/uni-tuning/"
-        file_list_path = "Datasets/File_List/TSB-AD-U-Tuning.csv"
+        # Use 'uni-tuning' for tuning data, and 'uni' for evaluation data.
+        metrics_dir = "eval/metrics/uni-tuning/" if is_tuning else "eval/metrics/uni/"
     else:  # multi
         dataset_dir = "Datasets/TSB-AD-M/"
-        metrics_dir = "eval/metrics/multi-tuning/"
-        file_list_path = "Datasets/File_List/TSB-AD-M-Tuning.csv"
+        # Use 'multi-tuning' for tuning data, and 'multi' for evaluation data.
+        metrics_dir = "eval/metrics/multi-tuning/" if is_tuning else "eval/metrics/multi/"
 
-    # --- 1. Load all metric files for the given dataset type ---
     metric_dfs = {}
     for head_name, file_name in heads_and_files.items():
         file_path = os.path.join(metrics_dir, file_name)
         if not os.path.exists(file_path):
             print(
-                f"Warning: Metric file not found for {dataset_type} data, skipping head '{head_name}': {file_path}"
+                f"Warning: Metric file not found for {dataset_type} data in {metrics_dir}, skipping head '{head_name}': {file_path}"
             )
             continue
-
         df = pd.read_csv(file_path)
         df["file"] = df["file"].apply(
             lambda x: os.path.splitext(x)[0] if isinstance(x, str) else x
@@ -399,51 +413,39 @@ def process_dataset(dataset_type, args, model, heads_and_files):
 
     if not metric_dfs:
         print(f"No metric files found for {dataset_type}. Skipping.")
-        return [], []
+        return [], [], []
 
     active_heads = list(metric_dfs.keys())
-    if len(active_heads) < len(heads_and_files):
-        print(
-            f"Warning: Not all heads have metric files for {dataset_type}. Training will proceed with available heads: {active_heads}"
-        )
-
-    # --- 2. Find common files and generate training instances ---
     common_files = set(metric_dfs[active_heads[0]].index)
     for head_name in active_heads[1:]:
         common_files.intersection_update(metric_dfs[head_name].index)
-
-    print(f"Found {len(common_files)} common {dataset_type} files for training.")
-
-    X_train = []
-    y_train = []
+    
+    X_data, y_data, source_files = [], [], [] # NEW: Added source_files to track origins
 
     try:
         file_list_df = pd.read_csv(file_list_path)
-        all_tuning_files_with_ext = file_list_df["file_name"].tolist()
+        all_target_files_with_ext = file_list_df["file_name"].tolist()
     except FileNotFoundError:
-        print(
-            f"Warning: Tuning file list not found at {file_list_path}. Cannot process files."
-        )
-        return [], []
+        print(f"FATAL: File list not found at {file_list_path}. Cannot process files.")
+        sys.exit(1)
 
-    tuning_files = [
-        f for f in all_tuning_files_with_ext if os.path.splitext(f)[0] in common_files
+    # Filter the target files to only include those we have metric data for
+    target_files = [
+        f for f in all_target_files_with_ext if os.path.splitext(f)[0] in common_files
     ]
+    print(
+        f"Found {len(target_files)} common {dataset_type} files to process from {os.path.basename(file_list_path)}."
+    )
 
     device = next(model.parameters()).device
     context_length = model.config.context_length
-
     model.config.num_input_channels = 1
     model.config.channel_virtual_expand_scale = 1
-
-    # --- BATCHED Embedding Generation ---
     embedding_batch_size = 1024
 
-    # Collect all data first
-    data_to_process = []
-    labels_to_process = []
+    data_to_process, labels_to_process, files_to_process = [], [], []
 
-    for filename in sorted(tuning_files):
+    for filename in sorted(target_files):
         data_path = os.path.join(dataset_dir, filename)
         if not os.path.exists(data_path):
             continue
@@ -466,8 +468,8 @@ def process_dataset(dataset_type, args, model, heads_and_files):
 
             for i in range(num_channels):
                 channel_data = data_np[:, i : i + 1]
-                current_length = channel_data.shape[0]
                 padded_channel_data = np.zeros((context_length, 1))
+                current_length = channel_data.shape[0]
                 if current_length >= context_length:
                     padded_channel_data = channel_data[-context_length:]
                 else:
@@ -475,57 +477,49 @@ def process_dataset(dataset_type, args, model, heads_and_files):
 
                 data_to_process.append(padded_channel_data)
                 labels_to_process.append(global_best_head_idx)
+                files_to_process.append(f"{basename}_ch{i}")
         except Exception as e:
             print(f"Could not prepare file {filename}. Error: {e}")
 
-    # Process in batches
     for i in tqdm(
         range(0, len(data_to_process), embedding_batch_size),
-        desc=f"Generating {dataset_type} Embeddings",
+        desc=f"Generating {processing_mode} Embeddings",
     ):
-        batch_data_np = data_to_process[i : i + embedding_batch_size]
+        batch_data_np = np.array(data_to_process[i : i + embedding_batch_size])
         batch_labels = labels_to_process[i : i + embedding_batch_size]
-        past_values_batch = torch.tensor(
-            np.array(batch_data_np), dtype=torch.float32
-        ).to(device)
+        batch_files = files_to_process[i : i + embedding_batch_size]
+        past_values_batch = torch.tensor(batch_data_np, dtype=torch.float32).to(device)
         batch_embeddings = get_full_decoder_embeddings(model, past_values_batch)
+        X_data.extend(batch_embeddings)
+        y_data.extend(batch_labels)
+        source_files.extend(batch_files)
 
-        X_train.extend(batch_embeddings)
-        y_train.extend(batch_labels)
-
-    return X_train, y_train
+    return X_data, y_data, source_files
 
 
 def evaluate_performance(model, X_data, y_data, num_classes, device, criterion=None):
-    """Helper function to evaluate model performance on a given dataset."""
     if len(X_data) == 0:
-        return 0.0, float("inf")
+        return 0.0, float("inf"), None
 
     if isinstance(model, nn.Module):
-        model.eval()
-        model = model.to(device)  # Ensure model is on the correct device for evaluation
+        model.eval().to(device)
         X_tensor = torch.tensor(X_data, dtype=torch.float32).to(device)
         y_tensor = torch.tensor(y_data, dtype=torch.long).to(device)
         with torch.no_grad():
             outputs = model(X_tensor)
-            if criterion is not None:
-                loss = criterion(outputs, y_tensor).item()
-            else:
-                loss = float("inf")
+            loss = criterion(outputs, y_tensor).item() if criterion else float("inf")
             _, predicted = torch.max(outputs, 1)
             accuracy = (predicted == y_tensor).sum().item() / len(y_tensor)
-        return accuracy, loss
+        return accuracy, loss, predicted.cpu().numpy()
     else:  # scikit-learn
-        if not hasattr(model, "predict_proba"):
-            return accuracy_score(y_data, model.predict(X_data)), 0.0
-
-        y_pred_proba = model.predict_proba(X_data)
-        accuracy = accuracy_score(y_data, np.argmax(y_pred_proba, axis=1))
-        try:
-            loss = log_loss(y_data, y_pred_proba, labels=np.arange(num_classes))
-        except ValueError:
-            loss = 0.0  #
-        return accuracy, loss
+        y_pred = model.predict(X_data)
+        accuracy = accuracy_score(y_data, y_pred)
+        loss = (
+            log_loss(y_data, model.predict_proba(X_data), labels=np.arange(num_classes))
+            if hasattr(model, "predict_proba")
+            else 0.0
+        )
+        return accuracy, loss, y_pred
 
 
 def perform_cross_validation(
@@ -634,7 +628,7 @@ def perform_cross_validation(
             model_instance.fit(X_train_aug, y_train_aug)
             trained_model = model_instance
 
-        acc, _ = evaluate_performance(
+        acc, _, _ = evaluate_performance(
             trained_model,
             X_val,
             y_val,
@@ -667,6 +661,63 @@ def mixup_criterion(criterion, pred, y_a, y_b, lam):
     return lam * criterion(pred, y_a) + (1 - lam) * criterion(pred, y_b)
 
 
+# NEW: Function to generate and save a detailed performance report
+def generate_detailed_report(
+    model,
+    X_data,
+    y_data,
+    source_files,
+    num_classes,
+    device,
+    output_dir,
+    label_encoder,
+    data_label,
+):
+    if len(X_data) == 0:
+        print(f"Skipping detailed report for {data_label} (no data).")
+        return
+
+    print(f"\n--- Detailed Performance Report ({data_label}) ---")
+    final_criterion = nn.CrossEntropyLoss() if isinstance(model, nn.Module) else None
+    accuracy, loss, predictions = evaluate_performance(
+        model, X_data, y_data, num_classes, device, final_criterion
+    )
+    print(f"Final {data_label} Accuracy: {accuracy:.4f} (Loss: {loss:.4f})")
+
+    # Create a reverse mapping from index to head name
+    index_to_label = {v: k for k, v in label_encoder.items()}
+
+    # Create a pandas DataFrame for detailed analysis
+    report_df = pd.DataFrame(
+        {
+            "file_channel": source_files,
+            "ground_truth_idx": y_data,
+            "prediction_idx": predictions,
+            "ground_truth_label": [index_to_label[y] for y in y_data],
+            "prediction_label": [index_to_label[p] for p in predictions],
+        }
+    )
+    report_df["is_correct"] = (
+        report_df["ground_truth_idx"] == report_df["prediction_idx"]
+    )
+
+    report_path = os.path.join(
+        output_dir, f"detailed_performance_report_{data_label}.csv"
+    )
+    report_df.to_csv(report_path, index=False)
+    print(f"Detailed {data_label} report saved to: {report_path}")
+
+    # Print a summary of misclassifications
+    if not report_df["is_correct"].all():
+        print("\nMisclassification Summary:")
+        misclassified = report_df[~report_df["is_correct"]]
+        print(
+            misclassified[
+                ["file_channel", "ground_truth_label", "prediction_label"]
+            ].to_string()
+        )
+
+
 def main(args):
     """
     Trains a single specialist model on combined uni- and multivariate data
@@ -694,34 +745,37 @@ def main(args):
     model = model.to(device)
     model.eval()
 
-    # Process both datasets
-    X_uni, y_uni = process_dataset("uni", args, model, heads_and_files)
-    X_multi, y_multi = process_dataset("multi", args, model, heads_and_files)
+    # --- 1. Load TRAINING data from TUNING files ---
+    X_uni_train, y_uni_train, _ = process_dataset(
+        "uni", args, model, heads_and_files, args.uni_train_list
+    )
+    X_multi_train, y_multi_train, _ = process_dataset(
+        "multi", args, model, heads_and_files, args.multi_train_list
+    )
 
-    if not X_uni and not X_multi:
+    if not X_uni_train and not X_multi_train:
         print("Fatal Error: No training data could be generated. Exiting.")
-        return
+        sys.exit(1)
 
-    # --- Prepare and Combine Datasets ---
-    X_uni_np, y_uni_np = np.array(X_uni), np.array(y_uni)
-    X_multi_np, y_multi_np = np.array(X_multi), np.array(y_multi)
+    X_uni_np = np.array(X_uni_train)
+    y_uni_np = np.array(y_uni_train)
+    X_multi_np = np.array(X_multi_train)
+    y_multi_np = np.array(y_multi_train)
 
-    # Combine datasets for training
-    if len(X_uni_np) > 0 and len(X_multi_np) > 0:
-        X_combined_np = np.concatenate((X_uni_np, X_multi_np), axis=0)
-        y_combined_np = np.concatenate((y_uni_np, y_multi_np), axis=0)
-    elif len(X_uni_np) > 0:
-        X_combined_np = X_uni_np
-        y_combined_np = y_uni_np
-    else:  # Only multi data exists
-        X_combined_np = X_multi_np
-        y_combined_np = y_multi_np
+    X_combined_np = (
+        np.concatenate((X_uni_np, X_multi_np))
+        if len(X_uni_np) > 0 and len(X_multi_np) > 0
+        else X_uni_np if len(X_uni_np) > 0 else X_multi_np
+    )
+    y_combined_np = (
+        np.concatenate((y_uni_np, y_multi_np))
+        if len(y_uni_np) > 0 and len(y_multi_np) > 0
+        else y_uni_np if len(y_uni_np) > 0 else y_multi_np
+    )
 
-    print(f"\nTotal univariate instances: {len(y_uni_np)}")
-    print(f"Total multivariate instances: {len(y_multi_np)}")
-    print(f"Total combined instances for training: {len(y_combined_np)}")
+    print(f"\nTotal combined instances for training: {len(y_combined_np)}")
 
-    # --- Architectures ---
+    # --- 2. Define Architectures ---
     input_dim = X_combined_np.shape[1]
     num_classes = len(all_head_names)
 
@@ -773,6 +827,7 @@ def main(args):
         print(f"Valid choices are: {list(architectures.keys())}")
         sys.exit(1)
 
+    # --- 3. Cross-Validation on TRAINING data ---
     model_name = args.model_to_use
     model_builder = architectures[model_name]
 
@@ -803,6 +858,7 @@ def main(args):
         print(f"Failed to cross-validate {model_name}. Error: {e}")
         return
 
+    # --- 4. Final Training on ALL TRAINING data ---
     print(f"\nRetraining specialist ({model_name}) on all combined data...")
 
     final_model = model_builder()
@@ -847,45 +903,93 @@ def main(args):
         final_model.fit(X_combined_np, y_combined_np)
         trained_model = final_model
 
-    # --- Final Evaluation ---
-    print("\n--- Final Model Performance ---")
-    final_criterion = (
-        nn.CrossEntropyLoss() if isinstance(trained_model, nn.Module) else None
+    # --- 5. Final Evaluation on SEPARATE EVALUATION data ---
+    print("\n--- Final Model Performance on Evaluation Set ---")
+    # MODIFIED: Load evaluation data
+    X_uni_eval, y_uni_eval, files_uni_eval = process_dataset(
+        "uni", args, model, heads_and_files, args.uni_eval_list
+    )
+    X_multi_eval, y_multi_eval, files_multi_eval = process_dataset(
+        "multi", args, model, heads_and_files, args.multi_eval_list
     )
 
-    if len(X_uni_np) > 0:
-        uni_acc, uni_loss = evaluate_performance(
-            trained_model, X_uni_np, y_uni_np, num_classes, device, final_criterion
-        )
-        print(f"Final Univariate Accuracy: {uni_acc:.4f} (Loss: {uni_loss:.4f})")
-    else:
-        print("Skipping univariate evaluation (no data).")
+    # Convert to numpy arrays
+    X_uni_eval_np, y_uni_eval_np = np.array(X_uni_eval), np.array(y_uni_eval)
+    X_multi_eval_np, y_multi_eval_np = np.array(X_multi_eval), np.array(y_multi_eval)
 
-    if len(X_multi_np) > 0:
-        multi_acc, multi_loss = evaluate_performance(
-            trained_model, X_multi_np, y_multi_np, num_classes, device, final_criterion
-        )
-        print(f"Final Multivariate Accuracy: {multi_acc:.4f} (Loss: {multi_loss:.4f})")
-    else:
-        print("Skipping multivariate evaluation (no data).")
-
-    # Save the combined model
-    output_dir = os.path.join(
-        os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "..", args.output_model_dir)
-        ),
-        "combined",
-    )
+    # --- 6. Save Model and Generate Reports ---
+    output_dir = os.path.join(args.output_model_dir, "combined")
     os.makedirs(output_dir, exist_ok=True)
+
+    # Generate detailed reports if requested
+    if args.detailed_report:
+        generate_detailed_report(
+            trained_model,
+            X_uni_eval_np,
+            y_uni_eval_np,
+            files_uni_eval,
+            num_classes,
+            device,
+            output_dir,
+            label_encoder,
+            "univariate_eval",
+        )
+        generate_detailed_report(
+            trained_model,
+            X_multi_eval_np,
+            y_multi_eval_np,
+            files_multi_eval,
+            num_classes,
+            device,
+            output_dir,
+            label_encoder,
+            "multivariate_eval",
+        )
+
+    # --- 7. Create a Machine-Readable Summary ---
+    print("\n--- Creating Summary File ---")
+
+    # We need the final evaluation accuracies. Let's recalculate or store them.
+    # The generate_detailed_report function already calculates them.
+    # For simplicity, we'll just run evaluate_performance again here.
+    final_uni_acc, _, _ = (
+        evaluate_performance(
+            trained_model, X_uni_eval_np, y_uni_eval_np, num_classes, device
+        )
+        if len(X_uni_eval_np) > 0
+        else (0.0, 0.0, None)
+    )
+    final_multi_acc, _, _ = (
+        evaluate_performance(
+            trained_model, X_multi_eval_np, y_multi_eval_np, num_classes, device
+        )
+        if len(X_multi_eval_np) > 0
+        else (0.0, 0.0, None)
+    )
+
+    summary_data = {
+        "model_name": [model_name],
+        "cv_accuracy": [f"{mean_acc:.4f} \u00b1 {std_dev:.4f}"],
+        "final_univariate_accuracy": [f"{final_uni_acc:.4f}"],
+        "final_multivariate_accuracy": [f"{final_multi_acc:.4f}"],
+    }
+    summary_df = pd.DataFrame(summary_data)
+    summary_path = os.path.join(output_dir, "summary.csv")
+    # Save without header and index to make aggregation easier
+    summary_df.to_csv(summary_path, index=False, header=False)
+    print(f"Summary saved to: {summary_path}")
+
+    # --- 8. Save Model and Generate Reports ---
+    # Save the model itself
     joblib.dump(
         label_encoder, os.path.join(output_dir, "embedding_selector_encoder.joblib")
     )
     model_path = os.path.join(
         output_dir,
         (
-            "embedding_selector_model.joblib"
-            if not isinstance(trained_model, nn.Module)
-            else "embedding_selector_model.pt"
+            "embedding_selector_model.pt"
+            if isinstance(trained_model, nn.Module)
+            else "embedding_selector_model.joblib"
         ),
     )
 
@@ -893,14 +997,14 @@ def main(args):
         torch.save(trained_model.cpu().state_dict(), model_path)
     else:
         joblib.dump(trained_model, model_path)
-    print(f"Combined specialist model saved to: {model_path}")
+    print(f"\nCombined specialist model saved to: {model_path}")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Train specialist head selectors using TSPulse embeddings."
     )
-    parser.add_argument("--output_model_dir", type=str, default="trained_selectors/")
+    parser.add_argument("--output_model_dir", type=str, required=True)
     parser.add_argument(
         "--model_to_use",
         type=str,
@@ -908,14 +1012,27 @@ if __name__ == "__main__":
         help="The specific model architecture to train.",
     )
 
+    # NEW: Argument to control detailed report generation
+    parser.add_argument(
+        "--detailed_report",
+        action="store_true",
+        help="Generate a detailed CSV report of predictions on the evaluation set.",
+    )
+
     args = parser.parse_args()
 
-    # Hardcode hyperparameters that are no longer command-line arguments
+    # Hardcode the file lists instead of using command-line arguments
+    args.uni_train_list = "Datasets/File_List/TSB-AD-U-Tuning.csv"
+    args.multi_train_list = "Datasets/File_List/TSB-AD-M-Tuning.csv"
+    args.uni_eval_list = "Datasets/File_List/TSB-AD-U-Eva.csv"
+    args.multi_eval_list = "Datasets/File_List/TSB-AD-M-Eva.csv"
+
+    # Hardcoded hyperparameters
     args.learning_rate = 1e-3
     args.num_epochs = 100
     args.batch_size = 16
     args.weight_decay = 1e-4
     args.seed = 2024
-    args.augment = True  # Augmentation is now always enabled
+    args.augment = True
 
     main(args)
