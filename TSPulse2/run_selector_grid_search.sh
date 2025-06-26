@@ -6,8 +6,8 @@
 #=========================================================================================
 
 #SBATCH --job-name=SelectorArchSearch
-#SBATCH --output=slurm_logs/%x_%A_%a.out
-#SBATCH --error=slurm_logs/%x_%A_%a.err
+#SBATCH --output=slurm_logs/%A_%x_%a.out
+#SBATCH --error=slurm_logs/%A_%x_%a.err
 #SBATCH --partition=A100-80GB
 #SBATCH --qos=add_hpgpu
 #SBATCH --time=1-00:00:00

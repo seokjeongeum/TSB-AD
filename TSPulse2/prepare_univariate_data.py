@@ -11,12 +11,8 @@ def convert_multivariate_to_univariate(source_dir, dest_dir, file_list_path):
     Converts all multivariate CSV files from a source directory into multiple
     univariate CSV files in a destination directory.
 
-    For each input file like 'source/data.csv' with columns ['col1', 'col2', 'Label'],
-    it creates:
-    - 'dest/data_col1.csv' with columns ['value', 'Label']
-    - 'dest/data_col2.csv' with columns ['value', 'Label']
-
-    It also creates a new file list for the generated univariate files.
+    For each input file, it creates multiple univariate files where the original
+    base name is separated from the column name by a hyphen.
 
     Args:
         source_dir (str): Directory containing the original multivariate CSV files.
@@ -54,16 +50,19 @@ def convert_multivariate_to_univariate(source_dir, dest_dir, file_list_path):
         base_name = os.path.splitext(filename)[0]
 
         for col in feature_columns:
-            # Sanitize column name to be filesystem-friendly
-            sanitized_col_name = "".join(
-                c for c in col if c.isalnum() or c in ("_", "-")
-            ).rstrip()
+            # Sanitize column name to be filesystem-friendly, replacing dots with hyphens
+            sanitized_col_name = (
+                "".join(c for c in col if c.isalnum() or c in ("_", "-", "."))
+                .replace(".", "-")
+                .rstrip()
+            )
 
             # Create a new DataFrame for the univariate series
             univariate_df = pd.DataFrame({"value": df[col], "Label": label_series})
 
-            # Define the new filename and save it
-            new_filename = f"{base_name}_{sanitized_col_name}.csv"
+            # Define the new filename using a hyphen as a separator
+            new_filename = f"{base_name}-{sanitized_col_name}.csv"
+
             dest_path = os.path.join(dest_dir, new_filename)
             univariate_df.to_csv(dest_path, index=False)
 
@@ -109,5 +108,11 @@ if __name__ == "__main__":
         help="Path to the file list of the multivariate data.",
     )
     args = parser.parse_args()
+
+    # Before running, you might want to delete the old output directory
+    # import shutil
+    # if os.path.exists(args.dest_dir):
+    #     print(f"Removing old directory: {args.dest_dir}")
+    #     shutil.rmtree(args.dest_dir)
 
     convert_multivariate_to_univariate(args.source_dir, args.dest_dir, args.file_list)
