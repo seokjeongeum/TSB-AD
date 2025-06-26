@@ -27,8 +27,7 @@ from joblib import Parallel, delayed
 from sklearn.metrics import accuracy_score, classification_report
 from torch.utils.data import Dataset
 from tqdm.auto import tqdm
-from transformers import (EarlyStoppingCallback, Trainer, TrainingArguments,
-                          set_seed)
+from transformers import EarlyStoppingCallback, Trainer, TrainingArguments, set_seed
 
 sys.path.insert(
     0,
@@ -37,8 +36,9 @@ sys.path.insert(
 from tsfm_public.models.tspulse import TSPulseForClassification
 from tsfm_public.toolkit.dataset import ClassificationDFDataset
 from tsfm_public.toolkit.lr_finder import optimal_lr_finder
-from tsfm_public.toolkit.time_series_classification_preprocessor import \
-    TimeSeriesClassificationPreprocessor
+from tsfm_public.toolkit.time_series_classification_preprocessor import (
+    TimeSeriesClassificationPreprocessor,
+)
 
 # --- Configuration ---
 SEED = 2024
@@ -58,7 +58,7 @@ METRICS_BASE_PATH = os.path.join(PROJECT_ROOT, "eval", "metrics")
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, "TSPulse2", "classification_output")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Define metric file mappings. One for 'Eva' sets, one for 'Tuning' sets.
+# Define metric file mappings. This is the single source of truth for heads.
 EVA_METRIC_FILES = {
     "ensemble": "TSPulse_ZS_ensemble.csv",
     "fft": "TSPulse_ZS_fft.csv",
@@ -67,60 +67,13 @@ EVA_METRIC_FILES = {
     "scaled_ensemble": "TSPulse2.csv",
 }
 
+# The TUNING_METRIC_FILES dictionary is no longer needed as we will use a unified approach.
 
-DATASET_CONFIG = {
-    "M-Eva": {
-        "list_file": f"{BASE_DATA_PATH}/File_List/TSB-AD-M-Eva.csv",
-        "metrics_dir_name": "multi",
-        "data_dir_name": "TSB-AD-M",
-    },
-    "M-Tuning": {
-        "list_file": f"{BASE_DATA_PATH}/File_List/TSB-AD-M-Tuning.csv",
-        "metrics_dir_name": "multi-tuning",
-        "data_dir_name": "TSB-AD-M",
-    },
-    "U-Eva": {
-        "list_file": f"{BASE_DATA_PATH}/File_List/TSB-AD-U-Eva.csv",
-        "metrics_dir_name": "uni",
-        "data_dir_name": "TSB-AD-U",
-    },
-    "U-Tuning": {
-        "list_file": f"{BASE_DATA_PATH}/File_List/TSB-AD-U-Tuning.csv",
-        "metrics_dir_name": "uni-tuning",
-        "data_dir_name": "TSB-AD-U",
-    },
-}
+# The DATASET_CONFIG dictionary is no longer needed, as paths will be handled
+# directly in the simplified data loading function.
+
 
 # --- Helper Functions ---
-
-
-def parse_train_index(filename: str) -> int:
-    """Extracts the training index from the TSB-AD filename."""
-    match = re.search(r"_tr_(\d+)_", filename)
-    if match:
-        return int(match.group(1))
-    raise ValueError(f"Could not parse train index from filename: {filename}")
-
-
-@lru_cache(maxsize=8)
-def load_metrics_for_dir(metrics_dir: str, files_to_load: tuple) -> dict:
-    """Loads specified metric files from a directory into a dictionary of DataFrames."""
-    files_to_load_dict = dict(files_to_load)
-
-    logging.info(f"Loading metrics from: {metrics_dir}")
-    metrics_data = {}
-    for head, fname in files_to_load_dict.items():
-        metric_file_path = os.path.join(metrics_dir, fname)
-        if not os.path.exists(metric_file_path):
-            logging.warning(
-                f"Metric file not found: {metric_file_path}. Skipping head '{head}'."
-            )
-            continue
-        df = pd.read_csv(metric_file_path)
-        df["file_sanitized"] = df["file"].str.replace(".csv", "", regex=False)
-        df = df.set_index("file_sanitized")
-        metrics_data[head] = df
-    return metrics_data
 
 
 def get_best_head(filename: str, metrics_data: dict) -> str:
@@ -137,9 +90,14 @@ def get_best_head(filename: str, metrics_data: dict) -> str:
             scores[head] = -1.0
 
     if not any(s > -1.0 for s in scores.values()):
-        logging.warning(f"File '{filename}' not found in any metric files. Skipping.")
+        # This case is now more important as we only process common files.
+        # If a file is in the common list but somehow has no score, log a warning.
+        logging.warning(
+            f"File '{filename}' was expected in metric files but no score was found. Skipping."
+        )
         return None
 
+    # The default return is less likely to be hit, but kept as a fallback.
     if not scores:
         return "scaled_ensemble"
 
@@ -148,36 +106,23 @@ def get_best_head(filename: str, metrics_data: dict) -> str:
 
 
 def _process_single_file(
-    filename: str,
-    group_name: str,
-    data_dir: str,
-    metrics_cache: dict,
-    use_train_split_for_eva: bool,
+    filename: str, data_dir: str, metrics_cache: dict
 ) -> List[Dict]:
-    """Helper function to process a single file for parallel execution."""
+    """
+    Helper function to process a single file for parallel execution.
+    This version is simplified and does not handle Eva splits.
+    """
     samples = []
+    # The label (best head) is now determined from a pre-filtered set of common files
     label = get_best_head(filename, metrics_cache)
     if label is None:
         return samples
 
     try:
         data_path = os.path.join(data_dir, filename)
-        df_raw = pd.read_csv(data_path)
+        df_processed = pd.read_csv(data_path)
 
-        is_eva_group = "Eva" in group_name
-        if is_eva_group:
-            train_index = parse_train_index(filename)
-            if use_train_split_for_eva:
-                # Use training part of Eva files for the train/val set
-                df_processed = df_raw.iloc[:train_index].copy()
-            else:
-                # Use test part of Eva files for the test set
-                df_processed = df_raw.iloc[train_index:].copy()
-        else:
-            # For non-eva files (Tuning files), use the whole series
-            df_processed = df_raw.copy()
-
-        # Re-identify value columns after potential slicing
+        # Re-identify value columns
         value_cols = [
             c
             for c in df_processed.columns
@@ -204,42 +149,93 @@ def _process_single_file(
     return samples
 
 
-def load_data_from_config(
-    groups_to_load: List[str], use_train_split_for_eva: bool
-) -> List[Dict]:
-    """Loads data, parallelized with joblib."""
-    all_univariate_samples = []
+def load_and_process_data(dataset_type: str) -> List[Dict]:
+    """
+    Loads and processes data from a given dataset type ('uni' or 'multi'),
+    aligning with the logic from train_selector_with_embeddings.py.
+    It uses only files common to all metric definitions.
+    """
+    logging.info(f"\n--- Processing {dataset_type.upper()} tuning data ---")
 
-    for group_name in groups_to_load:
-        config = DATASET_CONFIG[group_name]
-        logging.info(f"--- Processing data for: {group_name} ---")
+    if dataset_type == "uni":
+        data_dir_name = "TSB-AD-U"
+        metrics_dir_name = "uni-tuning"
+        file_list_name = "TSB-AD-U-Tuning.csv"
+    else:  # multi
+        data_dir_name = "TSB-AD-M"
+        metrics_dir_name = "multi-tuning"
+        file_list_name = "TSB-AD-M-Tuning.csv"
 
-        metrics_dir = os.path.join(METRICS_BASE_PATH, config["metrics_dir_name"])
-        data_dir = os.path.join(BASE_DATA_PATH, config["data_dir_name"])
+    data_dir = os.path.join(BASE_DATA_PATH, data_dir_name)
+    metrics_dir = os.path.join(METRICS_BASE_PATH, metrics_dir_name)
+    file_list_path = os.path.join(BASE_DATA_PATH, "File_List", file_list_name)
 
-        metrics_cache = load_metrics_for_dir(
-            metrics_dir, tuple(EVA_METRIC_FILES.items())
-        )
-
-        if not metrics_cache:
-            logging.error(f"No metrics loaded for {metrics_dir}. Cannot proceed.")
+    # 1. Load all metric files for the given dataset type
+    metric_dfs = {}
+    for head_name, file_name in EVA_METRIC_FILES.items():
+        file_path = os.path.join(metrics_dir, file_name)
+        if not os.path.exists(file_path):
+            logging.warning(
+                f"Metric file not found, skipping head '{head_name}': {file_path}"
+            )
             continue
+        df = pd.read_csv(file_path)
+        # Sanitize filenames to match across different files
+        df["file"] = df["file"].apply(
+            lambda x: os.path.splitext(x)[0] if isinstance(x, str) else x
+        )
+        metric_dfs[head_name] = df.set_index("file")
 
-        file_list_df = pd.read_csv(config["list_file"])
+    if not metric_dfs:
+        logging.error(f"No metric files found for {dataset_type}. Skipping.")
+        return []
 
-        processed_samples_lists = Parallel(n_jobs=-1)(
-            delayed(_process_single_file)(
-                filename, group_name, data_dir, metrics_cache, use_train_split_for_eva
-            )
-            for filename in tqdm(
-                file_list_df["file_name"], desc=f"Processing {group_name}"
-            )
+    active_heads = list(metric_dfs.keys())
+    if len(active_heads) < len(EVA_METRIC_FILES):
+        logging.warning(
+            f"Not all heads have metric files. Using available heads: {active_heads}"
         )
 
-        all_univariate_samples.extend(
-            [sample for sublist in processed_samples_lists for sample in sublist]
-        )
+    # 2. Find common files across all loaded metric dataframes
+    common_files = set(metric_dfs[active_heads[0]].index)
+    for head_name in active_heads[1:]:
+        common_files.intersection_update(metric_dfs[head_name].index)
 
+    logging.info(f"Found {len(common_files)} common files for {dataset_type} data.")
+
+    # 3. Filter the main file list to only include common files
+    try:
+        file_list_df = pd.read_csv(file_list_path)
+        all_tuning_files_with_ext = file_list_df["file_name"].tolist()
+    except FileNotFoundError:
+        logging.error(f"Tuning file list not found at {file_list_path}.")
+        return []
+
+    # Match common_files (without extension) to the full filenames
+    files_to_process = [
+        f
+        for f in all_tuning_files_with_ext
+        if os.path.splitext(f)[0] in common_files
+    ]
+    logging.info(f"Processing {len(files_to_process)} files from the file list.")
+
+    # 4. Create metrics_cache for get_best_head. This is slightly different from
+    # the selector's approach but reuses the existing `get_best_head` function.
+    metrics_cache = {}
+    for head, df in metric_dfs.items():
+        # Ensure the index name is what get_best_head expects
+        df.index.name = "file_sanitized"
+        metrics_cache[head] = df
+
+    # 5. Process the filtered files in parallel
+    processed_samples_lists = Parallel(n_jobs=-1)(
+        delayed(_process_single_file)(filename, data_dir, metrics_cache)
+        for filename in tqdm(files_to_process, desc=f"Processing {dataset_type} files")
+    )
+
+    all_univariate_samples = [
+        sample for sublist in processed_samples_lists for sample in sublist
+    ]
     return all_univariate_samples
 
 
@@ -276,9 +272,7 @@ def evaluate_and_log(predictions, dataset_name, tsp, output_dir):
 
     logging.info(f"\n\n--- {dataset_name} Test Set Evaluation ---")
     logging.info(f"Accuracy: {accuracy:.4f}")
-    logging.info(
-        f"Ground Truth Label Distribution:\n{label_distribution.to_string()}"
-    )
+    logging.info(f"Ground Truth Label Distribution:\n{label_distribution.to_string()}")
     logging.info("Classification Report:\n" + report)
 
     results_file = os.path.join(output_dir, f"test_results_{dataset_name.lower()}.txt")
@@ -351,36 +345,36 @@ def main():
     args = parser.parse_args()
     os.makedirs(args.output_dir, exist_ok=True)
 
-    logging.info("STEP 1: Loading and Splitting Data...")
-    # Load the training part of Eva datasets to be used for training and validation
-    logging.info("Loading Eva data for training/validation set...")
-    train_val_pool_samples = load_data_from_config(
-        ["M-Eva", "U-Eva"], use_train_split_for_eva=True
-    )
+    logging.info("STEP 1: Loading and Processing Data...")
+    # Load all available "Tuning" data using the new common-file logic.
+    uni_samples = load_and_process_data("uni")
+    multi_samples = load_and_process_data("multi")
+    all_samples = uni_samples + multi_samples
 
-    # Load the Tuning datasets for testing
-    logging.info("Loading Tuning data for test sets...")
-    uni_test_samples = load_data_from_config(
-        ["U-Tuning"], use_train_split_for_eva=False
-    )
-    multi_test_samples = load_data_from_config(
-        ["M-Tuning"], use_train_split_for_eva=False
-    )
-
-    if not train_val_pool_samples or not uni_test_samples or not multi_test_samples:
-        logging.error("Data loading resulted in empty datasets. Exiting.")
+    if not all_samples:
+        logging.error("Data loading resulted in an empty dataset. Exiting.")
         return
 
-    logging.info(
-        f"Loaded {len(train_val_pool_samples)} samples for training/validation pool, "
-        f"{len(uni_test_samples)} for univariate testing, and "
-        f"{len(multi_test_samples)} for multivariate testing."
-    )
+    logging.info(f"Loaded a total of {len(all_samples)} samples from tuning data.")
 
-    logging.info("STEP 2: Preparing DataFrames...")
-    df_train_val_pool = create_dataframe_for_preprocessor(train_val_pool_samples)
-    df_uni_test = create_dataframe_for_preprocessor(uni_test_samples)
-    df_multi_test = create_dataframe_for_preprocessor(multi_test_samples)
+    logging.info("STEP 2: Preparing DataFrame and Splitting Data...")
+    df_full = create_dataframe_for_preprocessor(all_samples)
+
+    # Shuffle the DataFrame
+    df_full = df_full.sample(frac=1, random_state=SEED).reset_index(drop=True)
+
+    # 80/10/10 Split
+    train_size = int(0.8 * len(df_full))
+    val_size = int(0.1 * len(df_full))
+
+    train_df = df_full[:train_size]
+    eval_df = df_full[train_size : train_size + val_size]
+    # Use a combined test set for final evaluation
+    test_df = df_full[train_size + val_size :]
+
+    if train_df.empty or eval_df.empty or test_df.empty:
+        logging.error("Dataset splitting resulted in empty datasets. Exiting.")
+        sys.exit(1)
 
     logging.info("STEP 3: Preprocessing Data...")
     tsp = TimeSeriesClassificationPreprocessor(
@@ -390,37 +384,14 @@ def main():
         encode_labels=True,
     )
 
-    # Fit preprocessor on all available data to learn all labels.
-    logging.info("Fitting preprocessor on all available data to learn all labels...")
-    df_full_for_fitting = pd.concat(
-        [df_train_val_pool, df_uni_test, df_multi_test], ignore_index=True
-    )
-    tsp.train(df_full_for_fitting)
-
-    # Split the Eva data pool into training and validation sets.
-    train_df = df_train_val_pool.sample(frac=0.9, random_state=SEED).reset_index(
-        drop=True
-    )
-    eval_df = df_train_val_pool.drop(train_df.index).reset_index(drop=True)
-
-    if train_df.empty or eval_df.empty:
-        logging.error("Dataset splitting resulted in empty datasets. Exiting.")
-        sys.exit(1)
-
-    logging.info(
-        "---> Train Set Ground Truth Label Distribution <---\n"
-        f"{train_df['labels'].value_counts().to_string()}"
-    )
-    logging.info(
-        "---> Validation Set Ground Truth Label Distribution <---\n"
-        f"{eval_df['labels'].value_counts().to_string()}"
-    )
+    # Fit preprocessor on the full dataset to learn all labels and scaling params
+    logging.info("Fitting preprocessor on all available data...")
+    tsp.train(df_full)
 
     logging.info("Transforming datasets with the fitted preprocessor...")
     train_df_prep = tsp.preprocess(train_df)
     eval_df_prep = tsp.preprocess(eval_df)
-    uni_test_df_prep = tsp.preprocess(df_uni_test)
-    multi_test_df_prep = tsp.preprocess(df_multi_test)
+    test_df_prep = tsp.preprocess(test_df)
 
     # Create the datasets
     train_dataset = ClassificationDFDataset(
@@ -437,15 +408,8 @@ def main():
         context_length=512,
         full_series=True,
     )
-    uni_test_dataset = ClassificationDFDataset(
-        uni_test_df_prep,
-        input_columns=["past_values"],
-        label_column="labels",
-        context_length=512,
-        full_series=True,
-    )
-    multi_test_dataset = ClassificationDFDataset(
-        multi_test_df_prep,
+    test_dataset = ClassificationDFDataset(
+        test_df_prep,
         input_columns=["past_values"],
         label_column="labels",
         context_length=512,
@@ -543,17 +507,9 @@ def main():
 
     trainer.train()
 
-    logging.info("STEP 6: Evaluating on Test Sets...")
-
-    # Evaluate Univariate
-    logging.info("--- Evaluating on Univariate Test Set ---")
-    uni_predictions = trainer.predict(uni_test_dataset)
-    evaluate_and_log(uni_predictions, "Univariate", tsp, args.output_dir)
-
-    # Evaluate Multivariate
-    logging.info("--- Evaluating on Multivariate Test Set ---")
-    multi_predictions = trainer.predict(multi_test_dataset)
-    evaluate_and_log(multi_predictions, "Multivariate", tsp, args.output_dir)
+    logging.info("STEP 6: Evaluating on Test Set...")
+    predictions = trainer.predict(test_dataset)
+    evaluate_and_log(predictions, "Combined Test", tsp, args.output_dir)
 
     final_model_path = os.path.join(args.output_dir, "final_model")
     trainer.save_model(final_model_path)

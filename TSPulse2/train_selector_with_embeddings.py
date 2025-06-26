@@ -1,11 +1,11 @@
 # TSPulse2/train_selector_with_embeddings.py
 
 import argparse
+import copy
 import os
 import sys
 
 import joblib
-import lightgbm as lgbm
 import numpy as np
 import pandas as pd
 import torch
@@ -13,38 +13,30 @@ import torch.nn as nn
 import torch.optim as optim
 import xgboost as xgb
 from catboost import CatBoostClassifier
-from pytorch_tabnet.tab_model import TabNetClassifier
-from sklearn.ensemble import (
-    AdaBoostClassifier,
-    BaggingClassifier,
-    ExtraTreesClassifier,
-    GradientBoostingClassifier,
-    RandomForestClassifier,
-    VotingClassifier,
-)
-from sklearn.discriminant_analysis import (
-    LinearDiscriminantAnalysis,
-    QuadraticDiscriminantAnalysis,
-)
-from sklearn.linear_model import LogisticRegression, PassiveAggressiveClassifier
+from sklearn.base import clone
+from sklearn.discriminant_analysis import (LinearDiscriminantAnalysis,
+                                           QuadraticDiscriminantAnalysis)
+from sklearn.ensemble import (AdaBoostClassifier, BaggingClassifier,
+                              ExtraTreesClassifier, GradientBoostingClassifier,
+                              RandomForestClassifier)
+from sklearn.linear_model import (LogisticRegression,
+                                  PassiveAggressiveClassifier)
 from sklearn.metrics import accuracy_score, log_loss
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import StratifiedKFold
+from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
-from sklearn.naive_bayes import GaussianNB
 from sklearn.tree import DecisionTreeClassifier
-from torch.optim.lr_scheduler import ReduceLROnPlateau, CosineAnnealingLR
+from torch.optim.lr_scheduler import CosineAnnealingLR
 from torch.utils.data import DataLoader, TensorDataset
 from tqdm import tqdm
-from sklearn.model_selection import StratifiedKFold
-from sklearn.base import clone
-import copy
 
 sys.path.insert(
     0,
     os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "granite-tsfm")),
 )
-from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
+from tsfm_public.models.tspulse.modeling_tspulse import (
+    TSPulseForClassification)
 
 
 def get_full_decoder_embeddings(model, past_values):
@@ -381,13 +373,13 @@ def process_dataset(dataset_type, args, model, heads_and_files):
     print(f"\nProcessing {dataset_type.upper()} tuning data...")
 
     if dataset_type == "uni":
-        dataset_dir = args.uni_dataset_dir
-        metrics_dir = args.uni_metrics_dir
-        file_list_path = args.uni_tuning_list
+        dataset_dir = "Datasets/TSB-AD-U/"
+        metrics_dir = "eval/metrics/uni-tuning/"
+        file_list_path = "Datasets/File_List/TSB-AD-U-Tuning.csv"
     else:  # multi
-        dataset_dir = args.multi_dataset_dir
-        metrics_dir = args.multi_metrics_dir
-        file_list_path = args.multi_tuning_list
+        dataset_dir = "Datasets/TSB-AD-M/"
+        metrics_dir = "eval/metrics/multi-tuning/"
+        file_list_path = "Datasets/File_List/TSB-AD-M-Tuning.csv"
 
     # --- 1. Load all metric files for the given dataset type ---
     metric_dfs = {}
@@ -497,16 +489,14 @@ def process_dataset(dataset_type, args, model, heads_and_files):
             np.array(batch_data_np), dtype=torch.float32
         ).to(device)
         batch_embeddings = get_full_decoder_embeddings(model, past_values_batch)
-        
+
         X_train.extend(batch_embeddings)
         y_train.extend(batch_labels)
 
     return X_train, y_train
 
 
-def evaluate_performance(
-    model, X_data, y_data, num_classes, device, criterion=None
-):
+def evaluate_performance(model, X_data, y_data, num_classes, device, criterion=None):
     """Helper function to evaluate model performance on a given dataset."""
     if len(X_data) == 0:
         return 0.0, float("inf")
@@ -588,9 +578,16 @@ def perform_cross_validation(
             model_instance = copy.deepcopy(model_prototype).to(device)
             # --- PyTorch Training with optional Mixup Augmentation ---
             # Create a standard dataset. Augmentation will happen in the training loop.
-            train_dataset = TensorDataset(torch.tensor(X_train, dtype=torch.float32), torch.tensor(y_train, dtype=torch.long))
+            train_dataset = TensorDataset(
+                torch.tensor(X_train, dtype=torch.float32),
+                torch.tensor(y_train, dtype=torch.long),
+            )
 
-            train_dataloader = DataLoader(train_dataset, batch_size=min(args.batch_size, len(X_train)), shuffle=True)
+            train_dataloader = DataLoader(
+                train_dataset,
+                batch_size=min(args.batch_size, len(X_train)),
+                shuffle=True,
+            )
             criterion = nn.CrossEntropyLoss()
             optimizer = optim.AdamW(
                 model_instance.parameters(),
@@ -599,16 +596,20 @@ def perform_cross_validation(
             )
             scheduler = CosineAnnealingLR(optimizer, T_max=args.num_epochs)
 
-            pbar_epochs = tqdm(range(args.num_epochs), desc="Training Epochs", leave=False)
+            pbar_epochs = tqdm(
+                range(args.num_epochs), desc="Training Epochs", leave=False
+            )
             for epoch in pbar_epochs:
                 model_instance.train()
                 for batch_X, batch_y in train_dataloader:
                     batch_X, batch_y = batch_X.to(device), batch_y.to(device)
                     optimizer.zero_grad()
-                    
+
                     if args.augment:
                         # Apply mixup to the batch
-                        mixed_batch_X, y_a, y_b, lam = mixup_data(batch_X, batch_y, alpha=0.4)
+                        mixed_batch_X, y_a, y_b, lam = mixup_data(
+                            batch_X, batch_y, alpha=0.4
+                        )
                         outputs = model_instance(mixed_batch_X)
                         loss = mixup_criterion(criterion, outputs, y_a, y_b, lam)
                     else:
@@ -633,7 +634,14 @@ def perform_cross_validation(
             model_instance.fit(X_train_aug, y_train_aug)
             trained_model = model_instance
 
-        acc, _ = evaluate_performance(trained_model, X_val, y_val, num_classes, device, criterion=nn.CrossEntropyLoss())
+        acc, _ = evaluate_performance(
+            trained_model,
+            X_val,
+            y_val,
+            num_classes,
+            device,
+            criterion=nn.CrossEntropyLoss(),
+        )
         fold_accuracies.append(acc)
 
     return np.mean(fold_accuracies), np.std(fold_accuracies)
@@ -661,8 +669,8 @@ def mixup_criterion(criterion, pred, y_a, y_b, lam):
 
 def main(args):
     """
-    Trains specialist models to select the best TSPulse head for univariate and
-    multivariate data separately.
+    Trains a single specialist model on combined uni- and multivariate data
+    to select the best TSPulse head. Reports separate evaluation metrics.
     """
     set_seed(args.seed)
 
@@ -677,8 +685,9 @@ def main(args):
     label_encoder = {head_name: i for i, head_name in enumerate(all_head_names)}
 
     # Initialize the model for embedding extraction
-    model = TSPulseForReconstruction.from_pretrained(
-        args.model_name,
+    model = TSPulseForClassification.from_pretrained(
+        "ibm-granite/granite-timeseries-tspulse-r1",
+        revision="tspulse-block-dualhead-512-p16-r1",
         ignore_mismatched_sizes=True,
     )
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -689,172 +698,224 @@ def main(args):
     X_uni, y_uni = process_dataset("uni", args, model, heads_and_files)
     X_multi, y_multi = process_dataset("multi", args, model, heads_and_files)
 
-    if not (X_uni or X_multi):
+    if not X_uni and not X_multi:
         print("Fatal Error: No training data could be generated. Exiting.")
         return
 
-    # --- Prepare for Training ---
+    # --- Prepare and Combine Datasets ---
     X_uni_np, y_uni_np = np.array(X_uni), np.array(y_uni)
     X_multi_np, y_multi_np = np.array(X_multi), np.array(y_multi)
 
+    # Combine datasets for training
+    if len(X_uni_np) > 0 and len(X_multi_np) > 0:
+        X_combined_np = np.concatenate((X_uni_np, X_multi_np), axis=0)
+        y_combined_np = np.concatenate((y_uni_np, y_multi_np), axis=0)
+    elif len(X_uni_np) > 0:
+        X_combined_np = X_uni_np
+        y_combined_np = y_uni_np
+    else:  # Only multi data exists
+        X_combined_np = X_multi_np
+        y_combined_np = y_multi_np
+
     print(f"\nTotal univariate instances: {len(y_uni_np)}")
     print(f"Total multivariate instances: {len(y_multi_np)}")
+    print(f"Total combined instances for training: {len(y_combined_np)}")
 
     # --- Architectures ---
-    input_dim = X_uni_np.shape[1] if len(X_uni_np) > 0 else X_multi_np.shape[1]
+    input_dim = X_combined_np.shape[1]
     num_classes = len(all_head_names)
 
     architectures = {
-        "BestOfBreedMLP": lambda: BestOfBreedMLP(input_dim=input_dim, num_classes=num_classes),
+        "BestOfBreedMLP": lambda: BestOfBreedMLP(
+            input_dim=input_dim, num_classes=num_classes
+        ),
         "MLP": lambda: MLP(input_dim=input_dim, num_classes=num_classes),
         "ResMLP": lambda: ResMLP(input_dim=input_dim, num_classes=num_classes),
         "SkipMLP": lambda: SkipMLP(input_dim=input_dim, num_classes=num_classes),
         "CNN1D": lambda: CNN1DClassifier(input_dim=input_dim, num_classes=num_classes),
-        "Encoder": lambda: EncoderClassifier(input_dim=input_dim, num_classes=num_classes),
-        "RandomForest": lambda: RandomForestClassifier(random_state=args.seed, n_jobs=-1, n_estimators=200),
-        "XGBoost": lambda: xgb.XGBClassifier(random_state=args.seed, eval_metric="mlogloss"),
-        "CatBoost": lambda: CatBoostClassifier(random_state=args.seed, verbose=0, iterations=500, learning_rate=0.05),
-        "ExtraTrees": lambda: ExtraTreesClassifier(random_state=args.seed, n_jobs=-1, n_estimators=200),
-        "GradientBoosting": lambda: GradientBoostingClassifier(random_state=args.seed, verbose=1),
+        "Encoder": lambda: EncoderClassifier(
+            input_dim=input_dim, num_classes=num_classes
+        ),
+        "RandomForest": lambda: RandomForestClassifier(
+            random_state=args.seed, n_jobs=-1, n_estimators=200
+        ),
+        "XGBoost": lambda: xgb.XGBClassifier(
+            random_state=args.seed, eval_metric="mlogloss"
+        ),
+        "CatBoost": lambda: CatBoostClassifier(
+            random_state=args.seed, verbose=0, iterations=500, learning_rate=0.05
+        ),
+        "ExtraTrees": lambda: ExtraTreesClassifier(
+            random_state=args.seed, n_jobs=-1, n_estimators=200
+        ),
+        "GradientBoosting": lambda: GradientBoostingClassifier(
+            random_state=args.seed, verbose=1
+        ),
         "AdaBoost": lambda: AdaBoostClassifier(random_state=args.seed),
         "SVC": lambda: SVC(random_state=args.seed, probability=True),
         "KNN": lambda: KNeighborsClassifier(n_jobs=-1),
-        "LogisticRegression": lambda: LogisticRegression(random_state=args.seed, max_iter=1000),
+        "LogisticRegression": lambda: LogisticRegression(
+            random_state=args.seed, max_iter=1000
+        ),
         "GaussianNB": lambda: GaussianNB(),
         "LDA": lambda: LinearDiscriminantAnalysis(),
         "DecisionTree": lambda: DecisionTreeClassifier(random_state=args.seed),
         "ExtraTrees": lambda: ExtraTreesClassifier(random_state=args.seed, n_jobs=-1),
         "QDA": lambda: QuadraticDiscriminantAnalysis(),
         "Bagging": lambda: BaggingClassifier(random_state=args.seed, n_jobs=-1),
-        "PassiveAggressive": lambda: PassiveAggressiveClassifier(random_state=args.seed),
+        "PassiveAggressive": lambda: PassiveAggressiveClassifier(
+            random_state=args.seed
+        ),
     }
 
-    # --- Process each data type separately ---
-    for data_type, X_data, y_data in [
-        # ("univariate", X_uni_np, y_uni_np),
-        ("multivariate", X_multi_np, y_multi_np),
-    ]:
-        if len(X_data) == 0:
-            print(f"\nNo data for {data_type} specialist model. Skipping.")
-            continue
+    if args.model_to_use not in architectures:
+        print(f"Error: model '{args.model_to_use}' is not a valid choice.")
+        print(f"Valid choices are: {list(architectures.keys())}")
+        sys.exit(1)
 
-        print(f"\n--- Finding Best Specialist for {data_type.upper()} Data ---")
-        performances = []
-        for model_name, model_builder in architectures.items():
-            try:
-                model_prototype = model_builder()
-                mean_acc, std_dev = perform_cross_validation(
-                    model_name,
-                    model_prototype,
-                    X_data,
-                    y_data,
-                    3,  # n_splits
-                    data_type,
-                    args,
-                    device,
-                    num_classes,
-                )
-                if mean_acc > 0:  # Only add models that could be trained
-                    performances.append(
-                        {"model_name": model_name, "accuracy": mean_acc, "std_dev": std_dev}
-                    )
-            except Exception as e:
-                print(f"Failed to train/evaluate {model_name} for {data_type} data. Error: {e}")
+    model_name = args.model_to_use
+    model_builder = architectures[model_name]
 
-        if not performances:
-            print(f"No models could be successfully trained for {data_type} data.")
-            continue
+    print(f"\n--- Training Specialist '{model_name}' on COMBINED Data ---")
 
-        performances.sort(key=lambda x: x["accuracy"], reverse=True)
-        print(f"\n--- {data_type.upper()} Specialist Performance Summary ---")
-        for perf in performances:
-            print(
-                f"Model: {perf['model_name']:<20} | CV Accuracy: {perf['accuracy']:.4f} \u00B1 {perf['std_dev']:.4f}"
-            )
+    try:
+        model_prototype = model_builder()
+        mean_acc, std_dev = perform_cross_validation(
+            model_name,
+            model_prototype,
+            X_combined_np,
+            y_combined_np,
+            3,  # n_splits
+            "combined",
+            args,
+            device,
+            num_classes,
+        )
+        if mean_acc == 0:
+            print(f"CV for {model_name} failed. Skipping final training.")
+            return
 
-        best_model_name = performances[0]["model_name"]
-        print(f"\nRetraining best specialist ({best_model_name}) on all {data_type} data...")
+        print(f"\n--- Combined Specialist '{model_name}' CV Performance ---")
+        print(
+            f"Model: {model_name:<20} | CV Accuracy: {mean_acc:.4f} \u00b1 {std_dev:.4f}"
+        )
+    except Exception as e:
+        print(f"Failed to cross-validate {model_name}. Error: {e}")
+        return
 
-        best_model_builder = architectures[best_model_name]
-        final_model = best_model_builder()
-        
-        if isinstance(final_model, nn.Module):
-            # Full training for PyTorch model
-            final_model = final_model.to(device).train()
-            # Full training loop for PyTorch model
-            batch_size = min(args.batch_size, len(X_data))
-            full_train_dataset = TensorDataset(
-                torch.tensor(X_data, dtype=torch.float32),
-                torch.tensor(y_data, dtype=torch.long),
-            )
-            full_train_dataloader = DataLoader(full_train_dataset, batch_size=batch_size, shuffle=True)
-            optimizer = optim.AdamW(final_model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
-            scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.num_epochs)
-            criterion = nn.CrossEntropyLoss()
+    print(f"\nRetraining specialist ({model_name}) on all combined data...")
 
-            pbar_final = tqdm(range(args.num_epochs), desc=f"Final Training {best_model_name}")
-            pbar_epochs = tqdm(range(args.num_epochs), desc="Training Epochs", leave=False)
-            for epoch in pbar_epochs:
-                for batch_X, batch_y in full_train_dataloader:
-                    batch_X, batch_y = batch_X.to(device), batch_y.to(device)
-                    optimizer.zero_grad()
-                    outputs = final_model(batch_X)
-                    loss = criterion(outputs, batch_y)
-                    loss.backward()
-                    optimizer.step()
-                scheduler.step()
-            trained_model = final_model
+    final_model = model_builder()
 
-        else:  # sklearn
-            final_model.fit(X_data, y_data)
-            trained_model = final_model
+    if isinstance(final_model, nn.Module):
+        # Full training for PyTorch model
+        final_model = final_model.to(device).train()
+        batch_size = min(args.batch_size, len(X_combined_np))
+        full_train_dataset = TensorDataset(
+            torch.tensor(X_combined_np, dtype=torch.float32),
+            torch.tensor(y_combined_np, dtype=torch.long),
+        )
+        full_train_dataloader = DataLoader(
+            full_train_dataset, batch_size=batch_size, shuffle=True
+        )
+        optimizer = optim.AdamW(
+            final_model.parameters(),
+            lr=args.learning_rate,
+            weight_decay=args.weight_decay,
+        )
+        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+            optimizer, T_max=args.num_epochs
+        )
+        criterion = nn.CrossEntropyLoss()
 
-        # Save the specialist model
-        output_dir = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", args.output_model_dir)), data_type)
-        os.makedirs(output_dir, exist_ok=True)
-        joblib.dump(label_encoder, os.path.join(output_dir, "embedding_selector_encoder.joblib"))
-        model_path = os.path.join(output_dir, "embedding_selector_model.joblib" if not isinstance(trained_model, nn.Module) else "embedding_selector_model.pt")
-        
-        if isinstance(trained_model, nn.Module):
-            torch.save(trained_model.cpu().state_dict(), model_path)
-        else:
-            joblib.dump(trained_model, model_path)
-        print(f"{data_type.capitalize()} specialist model saved to: {model_path}")
+        pbar_epochs = tqdm(
+            range(args.num_epochs),
+            desc=f"Final Training {model_name}",
+            leave=False,
+        )
+        for epoch in pbar_epochs:
+            for batch_X, batch_y in full_train_dataloader:
+                batch_X, batch_y = batch_X.to(device), batch_y.to(device)
+                optimizer.zero_grad()
+                outputs = final_model(batch_X)
+                loss = criterion(outputs, batch_y)
+                loss.backward()
+                optimizer.step()
+            scheduler.step()
+        trained_model = final_model
+    else:  # sklearn
+        final_model.fit(X_combined_np, y_combined_np)
+        trained_model = final_model
+
+    # --- Final Evaluation ---
+    print("\n--- Final Model Performance ---")
+    final_criterion = (
+        nn.CrossEntropyLoss() if isinstance(trained_model, nn.Module) else None
+    )
+
+    if len(X_uni_np) > 0:
+        uni_acc, uni_loss = evaluate_performance(
+            trained_model, X_uni_np, y_uni_np, num_classes, device, final_criterion
+        )
+        print(f"Final Univariate Accuracy: {uni_acc:.4f} (Loss: {uni_loss:.4f})")
+    else:
+        print("Skipping univariate evaluation (no data).")
+
+    if len(X_multi_np) > 0:
+        multi_acc, multi_loss = evaluate_performance(
+            trained_model, X_multi_np, y_multi_np, num_classes, device, final_criterion
+        )
+        print(f"Final Multivariate Accuracy: {multi_acc:.4f} (Loss: {multi_loss:.4f})")
+    else:
+        print("Skipping multivariate evaluation (no data).")
+
+    # Save the combined model
+    output_dir = os.path.join(
+        os.path.abspath(
+            os.path.join(os.path.dirname(__file__), "..", args.output_model_dir)
+        ),
+        "combined",
+    )
+    os.makedirs(output_dir, exist_ok=True)
+    joblib.dump(
+        label_encoder, os.path.join(output_dir, "embedding_selector_encoder.joblib")
+    )
+    model_path = os.path.join(
+        output_dir,
+        (
+            "embedding_selector_model.joblib"
+            if not isinstance(trained_model, nn.Module)
+            else "embedding_selector_model.pt"
+        ),
+    )
+
+    if isinstance(trained_model, nn.Module):
+        torch.save(trained_model.cpu().state_dict(), model_path)
+    else:
+        joblib.dump(trained_model, model_path)
+    print(f"Combined specialist model saved to: {model_path}")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Train specialist head selectors using TSPulse embeddings.")
-    # --- File Paths ---
-    parser.add_argument(
-        "--model_name", type=str, default="ibm-granite/granite-timeseries-tspulse-r1"
-    )
-    parser.add_argument("--uni_dataset_dir", type=str, default="Datasets/TSB-AD-U/")
-    parser.add_argument("--multi_dataset_dir", type=str, default="Datasets/TSB-AD-M/")
-    parser.add_argument(
-        "--uni_metrics_dir", type=str, default="eval/metrics/uni-tuning/"
-    )
-    parser.add_argument(
-        "--multi_metrics_dir", type=str, default="eval/metrics/multi-tuning/"
-    )
-    parser.add_argument(
-        "--uni_tuning_list", type=str, default="Datasets/File_List/TSB-AD-U-Tuning.csv"
-    )
-    parser.add_argument(
-        "--multi_tuning_list",
-        type=str,
-        default="Datasets/File_List/TSB-AD-M-Tuning.csv",
+    parser = argparse.ArgumentParser(
+        description="Train specialist head selectors using TSPulse embeddings."
     )
     parser.add_argument("--output_model_dir", type=str, default="trained_selectors/")
-
-    # --- Training Hyperparameters ---
-    parser.add_argument("--learning_rate", type=float, default=1e-3)
-    parser.add_argument("--num_epochs", type=int, default=100)
-    parser.add_argument("--batch_size", type=int, default=16)
-    parser.add_argument("--patience", type=int, default=15)
-    parser.add_argument("--weight_decay", type=float, default=1e-4)
-    parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--augment", action="store_false", help="Enable data augmentation for training.")
+    parser.add_argument(
+        "--model_to_use",
+        type=str,
+        default="GradientBoosting",
+        help="The specific model architecture to train.",
+    )
 
     args = parser.parse_args()
-    main(args)
 
+    # Hardcode hyperparameters that are no longer command-line arguments
+    args.learning_rate = 1e-3
+    args.num_epochs = 100
+    args.batch_size = 16
+    args.weight_decay = 1e-4
+    args.seed = 2024
+    args.augment = True  # Augmentation is now always enabled
+
+    main(args)
