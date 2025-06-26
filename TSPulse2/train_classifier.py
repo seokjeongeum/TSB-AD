@@ -27,6 +27,7 @@ from sklearn.utils.class_weight import compute_class_weight
 from tqdm.auto import tqdm
 from transformers import (EarlyStoppingCallback, Trainer, TrainingArguments,
                           set_seed)
+from transformers.trainer_utils import get_last_checkpoint
 
 sys.path.insert(
     0,
@@ -653,7 +654,15 @@ def main():
         class_weights=class_weights_tensor,  # Pass the weights
     )
 
-    trainer.train(resume_from_checkpoint=not args.fresh_start)
+    resume_from_checkpoint = None
+    if not args.fresh_start:
+        resume_from_checkpoint = get_last_checkpoint(training_args.output_dir)
+        if resume_from_checkpoint:
+            logging.info(f"Resuming training from checkpoint: {resume_from_checkpoint}")
+        else:
+            logging.info("No checkpoint found. Starting training from scratch.")
+
+    trainer.train(resume_from_checkpoint=resume_from_checkpoint)
 
     logging.info("STEP 6: Evaluating on Test Set...")
     predictions = trainer.predict(test_dataset)
