@@ -26,9 +26,7 @@ sys.path.insert(
 )
 from tsfm_public.toolkit.ad_helpers import AnomalyScoreMethods
 from tsfm_public.toolkit.time_series_anomaly_detection_pipeline import (
-    TimeSeriesAnomalyDetectionPipeline,
-    score_smoothing,
-)
+    TimeSeriesAnomalyDetectionPipeline, score_smoothing)
 
 
 class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
@@ -208,7 +206,7 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
 
         model_outputs_ = {}
         for k, v in model_outputs.items():
-            score = self._model_processor.adjust_boundary(v, **extra_kwargs)
+            score = self._model_processor.adjust_boundary(k, v, **extra_kwargs)
             model_outputs_[k] = score_smoothing(
                 score, smoothing_window_size=smoothing_window_size
             )

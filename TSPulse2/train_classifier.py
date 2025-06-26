@@ -13,11 +13,8 @@ It adapts the logic from the tspulse_classification.ipynb notebook to:
 
 import argparse
 import logging
-import math
 import os
-import re
 import sys
-from functools import lru_cache
 from typing import Dict, List
 
 import numpy as np
@@ -25,9 +22,9 @@ import pandas as pd
 import torch
 from joblib import Parallel, delayed
 from sklearn.metrics import accuracy_score, classification_report
-from torch.utils.data import Dataset
 from tqdm.auto import tqdm
-from transformers import EarlyStoppingCallback, Trainer, TrainingArguments, set_seed
+from transformers import (EarlyStoppingCallback, Trainer, TrainingArguments,
+                          set_seed)
 
 sys.path.insert(
     0,
@@ -36,9 +33,8 @@ sys.path.insert(
 from tsfm_public.models.tspulse import TSPulseForClassification
 from tsfm_public.toolkit.dataset import ClassificationDFDataset
 from tsfm_public.toolkit.lr_finder import optimal_lr_finder
-from tsfm_public.toolkit.time_series_classification_preprocessor import (
-    TimeSeriesClassificationPreprocessor,
-)
+from tsfm_public.toolkit.time_series_classification_preprocessor import \
+    TimeSeriesClassificationPreprocessor
 
 # --- Configuration ---
 SEED = 2024
@@ -367,10 +363,9 @@ def main():
     train_size = int(0.8 * len(df_full))
     val_size = int(0.1 * len(df_full))
 
-    train_df = df_full[:train_size]
-    eval_df = df_full[train_size : train_size + val_size]
-    # Use a combined test set for final evaluation
-    test_df = df_full[train_size + val_size :]
+    train_df = df_full[:train_size].reset_index(drop=True)
+    eval_df = df_full[train_size : train_size + val_size].reset_index(drop=True)
+    test_df = df_full[train_size + val_size :].reset_index(drop=True)
 
     if train_df.empty or eval_df.empty or test_df.empty:
         logging.error("Dataset splitting resulted in empty datasets. Exiting.")
@@ -460,7 +455,7 @@ def main():
     # 5. Train Model
     logging.info("STEP 5: Training Model...")
 
-    batch_size = 2048  # Use a constant batch size
+    batch_size = 1  # Use a constant batch size
     logging.info("Finding optimal learning rate...")
     lr, model = optimal_lr_finder(
         model,

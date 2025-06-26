@@ -1,23 +1,20 @@
-# TSB_AD/Run_Detector_M.py
+# -*- coding: utf-8 -*-
+# Author: Qinghua Liu <liu.11085@osu.edu>
+# License: Apache-2.0 License
 
-import argparse
-import logging
-import os
-import random
-import time
-
-import numpy as np
 import pandas as pd
+import numpy as np
 import torch
-from joblib import Parallel, delayed
-from tqdm import tqdm
+import random, argparse, time, os, logging
+import sys
 
-from TSB_AD.HP_list import Optimal_Multi_algo_HP_dict
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from TSB_AD.evaluation.metrics import get_metrics
-from TSB_AD.model_wrapper import *
 from TSB_AD.utils.slidingWindows import find_length_rank
+from TSB_AD.model_wrapper import *
+from TSB_AD.HP_list import Optimal_Multi_algo_HP_dict
 
-# Seeding
+# seeding
 seed = 2024
 torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
@@ -27,92 +24,86 @@ random.seed(seed)
 torch.backends.cudnn.benchmark = False
 torch.backends.cudnn.deterministic = True
 
-def process_single_file(filename, args, optimal_hp):
-    """
-    Processes a single file: runs the anomaly detector, saves the score,
-    and returns the evaluation metrics as a list.
-    This function is designed to be called in parallel.
-    """
-    target_dir = os.path.join(args.score_dir, args.AD_Name)
-    
-    if os.path.exists(os.path.join(target_dir, filename.split('.')[0] + '.npy')):
-        return None
+print("CUDA available: ", torch.cuda.is_available())
+print("cuDNN version: ", torch.backends.cudnn.version())
 
-    try:
-        print(f"Processing: {filename} by {args.AD_Name}")
+if __name__ == '__main__':
+
+    Start_T = time.time()
+    ## ArgumentParser
+    parser = argparse.ArgumentParser(description='Generating Anomaly Score')
+    # parser.add_argument('--dataset_dir', type=str, default='../Datasets/TSB-AD-M/')
+    parser.add_argument('--dataset_dir', type=str, default='Datasets/TSB-AD-M/')
+    # parser.add_argument('--file_lsit', type=str, default='../Datasets/File_List/TSB-AD-M-Eva.csv')
+    parser.add_argument('--file_lsit', type=str, default='Datasets/File_List/TSB-AD-M.csv')
+    parser.add_argument('--score_dir', type=str, default='eval/score/multi/')
+    parser.add_argument('--save_dir', type=str, default='eval/metrics/multi/')
+    # parser.add_argument('--save', type=bool, default=False)
+    parser.add_argument('--save', type=bool, default=True)
+    # parser.add_argument('--AD_Name', type=str, default='IForest')
+    parser.add_argument('--AD_Name', type=str, default='TSPulse2')
+    args = parser.parse_args()
+
+
+    target_dir = os.path.join(args.score_dir, args.AD_Name)
+    os.makedirs(args.save_dir, exist_ok = True)
+    os.makedirs(target_dir, exist_ok = True)
+    logging.basicConfig(filename=f'{target_dir}/000_run_{args.AD_Name}.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s',force=True)
+
+    file_list = pd.read_csv(args.file_lsit)['file_name'].values
+    Optimal_Det_HP = Optimal_Multi_algo_HP_dict[args.AD_Name]
+    print('Optimal_Det_HP: ', Optimal_Det_HP)
+
+    write_csv = []
+    for filename in file_list:
+        if os.path.exists(target_dir+'/'+filename.split('.')[0]+'.npy'): continue
+        print('Processing:{} by {}'.format(filename, args.AD_Name))
+
         file_path = os.path.join(args.dataset_dir, filename)
         df = pd.read_csv(file_path).dropna()
         data = df.iloc[:, 0:-1].values.astype(float)
         label = df['Label'].astype(int).to_numpy()
+        # print('data: ', data.shape)
+        # print('label: ', label.shape)
 
-        slidingWindow = find_length_rank(data[:, 0].reshape(-1, 1), rank=1)
-        
+        feats = data.shape[1]
+        slidingWindow = find_length_rank(data[:,0].reshape(-1, 1), rank=1)
+        train_index = filename.split('.')[0].split('_')[-3]
+        data_train = data[:int(train_index), :]
+
         start_time = time.time()
-        
-        if args.AD_Name in Unsupervise_AD_Pool:
-            output = run_Unsupervise_AD(args.AD_Name, data, **optimal_hp)
+
+        if args.AD_Name in Semisupervise_AD_Pool:
+            output = run_Semisupervise_AD(args.AD_Name, data_train, data, **Optimal_Det_HP)
+        elif args.AD_Name in Unsupervise_AD_Pool:
+            output = run_Unsupervise_AD(args.AD_Name, data, **Optimal_Det_HP)
         else:
-            raise Exception(f"{args.AD_Name} is not defined in Unsupervise_AD_Pool")
-        
-        run_time = time.time() - start_time
+            raise Exception(f"{args.AD_Name} is not defined")
 
-        if not isinstance(output, np.ndarray):
-            logging.error(f'At {filename}: ' + str(output))
-            return None
+        end_time = time.time()
+        run_time = end_time - start_time
 
-        logging.info(f'Success at {filename} | Time: {run_time:.3f}s | Length: {len(label)}')
-        np.save(os.path.join(target_dir, filename.split('.')[0] + '.npy'), output)
+        if isinstance(output, np.ndarray):
+            logging.info(f'Success at {filename} using {args.AD_Name} | Time cost: {run_time:.3f}s at length {len(label)}')
+            np.save(target_dir+'/'+filename.split('.')[0]+'.npy', output)
+        else:
+            logging.error(f'At {filename}: '+output)
 
+        ### whether to save the evaluation result
         if args.save:
-            evaluation_result = get_metrics(output, label, slidingWindow=slidingWindow)
-            metrics_list = list(evaluation_result.values())
-            metrics_list.insert(0, run_time)
-            metrics_list.insert(0, filename)
-            return metrics_list
-        return None
+            try:
+                evaluation_result = get_metrics(output, label, slidingWindow=slidingWindow)
+                print('evaluation_result: ', evaluation_result)
+                list_w = list(evaluation_result.values())
+            except:
+                list_w = [0]*9
+            list_w.insert(0, run_time)
+            list_w.insert(0, filename)
+            write_csv.append(list_w)
 
-    except Exception as e:
-        logging.error(f"Failed to process file {filename}. Error: {e}", exc_info=True)
-        return None
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Generating Anomaly Score')
-    parser.add_argument('--dataset_dir', type=str, default='Datasets/TSB-AD-M/')
-    parser.add_argument('--file_list', type=str, default='Datasets/File_List/TSB-AD-M.csv')
-    parser.add_argument('--score_dir', type=str, default='eval/score/multi/')
-    parser.add_argument('--save_dir', type=str, default='eval/metrics/multi/')
-    parser.add_argument('--save', type=bool, default=True)
-    parser.add_argument('--AD_Name', type=str, default='TSPulse2')
-    args = parser.parse_args()
-
-    target_dir = os.path.join(args.score_dir, args.AD_Name)
-    os.makedirs(target_dir, exist_ok=True)
-    os.makedirs(args.save_dir, exist_ok=True)
-    logging.basicConfig(filename=f'{target_dir}/000_run_{args.AD_Name}.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', force=True)
-
-    print("CUDA available: ", torch.cuda.is_available())
-    print("cuDNN version: ", torch.backends.cudnn.version())
-
-    file_list = pd.read_csv(args.file_list)['file_name'].values
-    Optimal_Det_HP = Optimal_Multi_algo_HP_dict[args.AD_Name]
-    print(f'Optimal Hyperparameters for {args.AD_Name}: {Optimal_Det_HP}')
-
-    # --- Parallel Execution ---
-    results = Parallel(n_jobs=-1)(
-        delayed(process_single_file)(filename, args, Optimal_Det_HP) 
-        for filename in tqdm(file_list, desc=f"Running {args.AD_Name} on Multivariate data")
-    )
-    
-    # --- Aggregate and Save Results ---
-    write_csv = [res for res in results if res is not None]
-
-    if args.save and write_csv:
-        col_w = ['AUC-PR','AUC-ROC','VUS-PR','VUS-ROC','Standard-F1','PA-F1','Event-based-F1','R-based-F1','Affiliation-F']
-        col_w.insert(0, 'Time')
-        col_w.insert(0, 'file')
-        w_csv = pd.DataFrame(write_csv, columns=col_w)
-        w_csv.to_csv(f'{args.save_dir}/{args.AD_Name}.csv', index=False, float_format="%.5f")
-        print(f"Results saved to {args.save_dir}/{args.AD_Name}.csv")
-    else:
-        print("No new results to save.") 
+            ## Temp Save
+            col_w = list(evaluation_result.keys())
+            col_w.insert(0, 'Time')
+            col_w.insert(0, 'file')
+            w_csv = pd.DataFrame(write_csv, columns=col_w)
+            w_csv.to_csv(f'{args.save_dir}/{args.AD_Name}.csv', index=False)

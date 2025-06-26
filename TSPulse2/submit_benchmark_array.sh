@@ -90,7 +90,7 @@ echo "=========================================================="
 COMMAND="python -u \"${PROJECT_ROOT}/benchmark_exp/${CURRENT_SCRIPT}\" \
   --AD_Name=\"${CURRENT_AD_NAME}\" \
   --dataset_dir=\"${CURRENT_DATA_DIR}\" \
-  --file_list=\"${CURRENT_FILE_LIST}\" \
+  --file_lsit=\"${CURRENT_FILE_LIST}\" \
   --save True"
 
 echo "Executing command: $COMMAND"
