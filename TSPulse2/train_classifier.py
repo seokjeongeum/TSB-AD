@@ -392,6 +392,7 @@ class TrainerWithWeightedLoss(Trainer):
 
         # Use a new loss function with the calculated weights
         loss_fct = torch.nn.CrossEntropyLoss(weight=self.class_weights)
+        # loss_fct = torch.nn.CrossEntropyLoss()
         loss = loss_fct(logits, labels)
 
         # --- Custom Logic to Compute and Log Training Accuracy ---
@@ -438,7 +439,7 @@ def main():
     parser.add_argument(
         "--batch_size",
         type=int,
-        default=16384,
+        default=16,
         help="Batch size for training and evaluation.",
     )
 
@@ -607,6 +608,7 @@ def main():
     # Freeze backbone
     for param in model.backbone.parameters():
         param.requires_grad = False
+        # param.requires_grad = True
     for param in model.backbone.time_encoding.parameters():
         param.requires_grad = True
     for param in model.backbone.fft_encoding.parameters():
@@ -620,6 +622,8 @@ def main():
         model,
         train_dataset,
         batch_size=args.batch_size,
+        plot_lr_finder=True,
+        plot_save_dir=os.path.join(args.output_dir, "lr_finder"),
     )
     logging.info(f"Using learning rate found by LR finder: {lr}")
 
