@@ -15,12 +15,9 @@ sys.path.insert(
 )
 from tsfm_public.models.tspulse import TSPulseForClassification
 from tsfm_public.toolkit.time_series_anomaly_detection_pipeline import (
-    TimeSeriesAnomalyDetectionPipeline,
-    score_smoothing,
-)
-from tsfm_public.toolkit.time_series_classification_pipeline import (
-    TimeSeriesClassificationPipeline,
-)
+    TimeSeriesAnomalyDetectionPipeline, score_smoothing)
+from tsfm_public.toolkit.time_series_classification_pipeline import \
+    TimeSeriesClassificationPipeline
 
 
 class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
@@ -195,14 +192,16 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
             if mode_selected is not None:
                 for i, col_name in enumerate(target_columns):
                     # FIX 2: Assign the scalar string, which pandas will broadcast.
-                    final_model_outputs[f"{col_name}_selected_mode"] = mode_selected[0, i]
+                    final_model_outputs[f"{col_name}_selected_mode"] = mode_selected[
+                        0, i
+                    ]
             final_model_outputs.update(anomaly_score=score.mean(axis=1))
         else:
             final_model_outputs.update(anomaly_score=score.ravel())
             if mode_selected is not None:
                 # FIX 2: Assign the scalar string, which pandas will broadcast.
                 final_model_outputs.update(selected_mode=mode_selected.ravel()[0])
-        
+
         for k, v in final_model_outputs.items():
             result[k] = v
 

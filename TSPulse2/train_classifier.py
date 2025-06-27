@@ -14,8 +14,8 @@ It adapts the logic from the tspulse_classification.ipynb notebook to:
 import argparse
 import logging
 import os
-import sys
 import re
+import sys
 from typing import Dict, List
 
 import joblib
@@ -37,11 +37,10 @@ sys.path.insert(
 from tsfm_public.models.tspulse import TSPulseForClassification
 from tsfm_public.toolkit.dataset import ClassificationDFDataset
 from tsfm_public.toolkit.lr_finder import optimal_lr_finder
+from tsfm_public.toolkit.time_series_classification_pipeline import \
+    TimeSeriesClassificationPipeline
 from tsfm_public.toolkit.time_series_classification_preprocessor import \
     TimeSeriesClassificationPreprocessor
-from tsfm_public.toolkit.time_series_classification_pipeline import (
-    TimeSeriesClassificationPipeline,
-)
 
 # --- Configuration ---
 SEED = 2024
@@ -172,7 +171,9 @@ def get_base_multivariate_file(univariate_filename: str, multi_base_names: list)
     return None
 
 
-def get_base_multivariate_file_map(univariate_files: list, multi_base_names: list) -> dict:
+def get_base_multivariate_file_map(
+    univariate_files: list, multi_base_names: list
+) -> dict:
     """
     Efficiently finds the original multivariate base filename for a list of derived univariate filenames
     using a single compiled regular expression.
@@ -437,7 +438,7 @@ def main():
     parser.add_argument(
         "--batch_size",
         type=int,
-        default=1,
+        default=16384,
         help="Batch size for training and evaluation.",
     )
 
@@ -598,16 +599,6 @@ def main():
         **config_dict,
     )
 
-    # If batch size is 1, skip training and save the initialized model directly.
-    # The preprocessor is already saved before this step.
-    if args.batch_size == 1:
-        logging.info(
-            "Batch size is 1. Skipping training and saving initialized model..."
-        )
-        model.save_pretrained(final_model_path)
-        logging.info(f"Initialized model saved to {final_model_path}")
-        return
-
     # # Compile the model if using PyTorch 2.0+
     # if hasattr(torch, "compile"):
     #     logging.info("Compiling the model with torch.compile...")
@@ -679,7 +670,7 @@ def main():
 
     trainer.train(resume_from_checkpoint=resume_from_checkpoint)
 
-    logging.info("STEP 6: Evaluating on Test Set...")
+    logging.info("STEP 6: Evaluating on Validation Set (as requested)...")
     # The trainer loaded the best model at the end of training, so we use that.
     best_model = trainer.model
     device = best_model.device
@@ -689,13 +680,13 @@ def main():
         model=best_model, feature_extractor=tsp, device=device
     )
 
-    if not test_df.empty:
+    if not eval_df.empty:
         logging.info(
-            "Running evaluation on the test set using the classification pipeline..."
+            "Running evaluation on the validation set using the classification pipeline..."
         )
         # The pipeline expects a DataFrame with a 'past_values' column.
-        # Our `test_df` has this structure.
-        predictions_df = classification_pipeline(test_df.copy())
+        # Our `eval_df` has this structure.
+        predictions_df = classification_pipeline(eval_df.copy())
 
         # The pipeline adds a 'labels_prediction' column.
         true_labels = predictions_df["labels"]
@@ -711,7 +702,7 @@ def main():
         )
         label_distribution = pd.Series(true_labels).value_counts()
 
-        dataset_name = "Combined Test"
+        dataset_name = "Validation"  # Changed from "Combined Test"
         logging.info(f"\n\n--- {dataset_name} Set Evaluation ---")
         logging.info(f"Accuracy: {accuracy:.4f}")
         logging.info(
@@ -720,16 +711,18 @@ def main():
         logging.info("Classification Report:\n" + report)
 
         results_file = os.path.join(
-            args.output_dir, f"test_results_{dataset_name.lower().replace(' ', '_')}.txt"
+            args.output_dir,
+            f"evaluation_results_{dataset_name.lower()}_set.txt",
         )
         with open(results_file, "w") as f:
-            f.write(f"Test Accuracy: {accuracy:.4f}\n\n")
+            f.write(f"Final Evaluation Accuracy ({dataset_name} Set): {accuracy:.4f}\n\n")
             f.write("Ground Truth Label Distribution:\n")
             f.write(label_distribution.to_string() + "\n\n")
             f.write("Classification Report:\n")
             f.write(report)
     else:
-        logging.warning("Test dataframe is empty. Skipping final evaluation.")
+        logging.warning("Validation dataframe is empty. Skipping final evaluation.")
+
     trainer.save_model(final_model_path)
     logging.info(f"Final model saved to {final_model_path}")
 
