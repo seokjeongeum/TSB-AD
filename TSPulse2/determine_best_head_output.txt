@@ -1,0 +1,697 @@
+
+================================================================================
+STARTING UNIVARIATE WORKFLOW
+================================================================================
+
+[STEP 1] Loading all metric data from univariate directory...
+(Source: /workspaces/TSB-AD/eval/metrics/uni)
+
+[STEP 2] Splitting data into Tuning and Evaluation sets...
+Found 48 tuning records and 350 evaluation records.
+
+[STEP 3] Determining best heads from univariate tuning data...
+
+--- Tuning Results ---
+Best head per dataset (ZS only):
+dataset
+Exathlon       ensemble
+IOPS               time
+LTDB               time
+MGAB               time
+MITDB               fft
+MSL                 fft
+NAB                 fft
+NEK                 fft
+OPPORTUNITY    ensemble
+SED            ensemble
+SMAP               time
+SMD              future
+SVDB                fft
+Stock          ensemble
+TAO                time
+TODS           ensemble
+UCR                time
+WSD            ensemble
+YAHOO            future
+
+Determined Fallback (ZS only): 'fft'
+
+Best head per dataset (including scaled_ensemble):
+dataset
+Exathlon       scaled_ensemble
+IOPS                      time
+LTDB           scaled_ensemble
+MGAB                      time
+MITDB                      fft
+MSL            scaled_ensemble
+NAB                        fft
+NEK            scaled_ensemble
+OPPORTUNITY    scaled_ensemble
+SED                   ensemble
+SMAP                      time
+SMD                     future
+SVDB                       fft
+Stock                 ensemble
+TAO                       time
+TODS                  ensemble
+UCR                       time
+WSD                   ensemble
+YAHOO          scaled_ensemble
+
+Determined Fallback (with ensemble): 'fft'
+
+[STEP 3.5] Verifying head alignment on univariate evaluation data (per series)...
+
+--- Alignment Summary (Per-Series) ---
+Alignment of Paper's Choice vs. ActualBestHead_Eval_TSPulse_Only: 88 / 346 (25.43%)
+Alignment of Reproduced TSPulse-Only Choice vs. ActualBestHead_Eval_TSPulse_Only: 76 / 346 (21.97%)
+Alignment of Reproduced With-Scaled-Ensemble Choice vs. ActualBestHead_Eval_With_Scaled_Ensemble: 55 / 346 (15.90%)
+
+--- Detailed Per-Series Comparison ---
+                                                          Dataset ActualBestHead_Eval_TSPulse_Only ActualBestHead_Eval_With_Scaled_Ensemble PaperChoice ReproducedChoice_TSPulse_Only ReproducedChoice_With_Scaled_Ensemble
+file                                                                                                                                                                                                                       
+001_NAB_id_1_Facility_tr_1007_1st_2014                        NAB                         ensemble                                 ensemble    ensemble                           fft                                   fft
+002_NAB_id_2_WebService_tr_1500_1st_4106                      NAB                             time                          scaled_ensemble    ensemble                           fft                                   fft
+005_NAB_id_5_Traffic_tr_594_1st_1645                          NAB                              fft                          scaled_ensemble    ensemble                           fft                                   fft
+006_NAB_id_6_Traffic_tr_2579_1st_5839                         NAB                           future                                   future    ensemble                           fft                                   fft
+008_NAB_id_8_Synthetic_tr_1007_1st_2734                       NAB                           future                                   future    ensemble                           fft                                   fft
+009_NAB_id_9_Traffic_tr_500_1st_438                           NAB                             time                                     time    ensemble                           fft                                   fft
+010_NAB_id_10_WebService_tr_500_1st_271                       NAB                           future                                   future    ensemble                           fft                                   fft
+011_NAB_id_11_Facility_tr_1007_1st_1526                       NAB                         ensemble                                 ensemble    ensemble                           fft                                   fft
+013_NAB_id_13_Traffic_tr_623_1st_2084                         NAB                           future                          scaled_ensemble    ensemble                           fft                                   fft
+014_NAB_id_14_WebService_tr_500_1st_1045                      NAB                           future                                   future    ensemble                           fft                                   fft
+015_NAB_id_15_Synthetic_tr_1007_1st_2787                      NAB                           future                                   future    ensemble                           fft                                   fft
+016_NAB_id_16_Environment_tr_1816_1st_3540                    NAB                           future                                   future    ensemble                           fft                                   fft
+017_NAB_id_17_Synthetic_tr_1007_1st_1805                      NAB                              fft                                      fft    ensemble                           fft                                   fft
+018_NAB_id_18_Facility_tr_500_1st_669                         NAB                         ensemble                          scaled_ensemble    ensemble                           fft                                   fft
+019_NAB_id_19_Facility_tr_1007_1st_1171                       NAB                           future                                   future    ensemble                           fft                                   fft
+020_NAB_id_20_Synthetic_tr_1007_1st_2679                      NAB                           future                                   future    ensemble                           fft                                   fft
+022_NAB_id_22_Facility_tr_1007_1st_2980                       NAB                         ensemble                                 ensemble    ensemble                           fft                                   fft
+023_NAB_id_23_Facility_tr_4512_1st_16551                      NAB                         ensemble                                 ensemble    ensemble                           fft                                   fft
+024_NAB_id_24_Synthetic_tr_1007_1st_2787                      NAB                             time                          scaled_ensemble    ensemble                           fft                                   fft
+025_NAB_id_25_WebService_tr_3958_1st_4614                     NAB                              fft                                      fft    ensemble                           fft                                   fft
+026_NAB_id_26_Traffic_tr_624_1st_2261                         NAB                           future                          scaled_ensemble    ensemble                           fft                                   fft
+027_NAB_id_27_Facility_tr_757_1st_2582                        NAB                         ensemble                          scaled_ensemble    ensemble                           fft                                   fft
+028_NAB_id_28_Facility_tr_1007_1st_3447                       NAB                              fft                          scaled_ensemble    ensemble                           fft                                   fft
+032_WSD_id_4_WebService_tr_4559_1st_11822                     WSD                         ensemble                                 ensemble    ensemble                      ensemble                              ensemble
+039_WSD_id_11_WebService_tr_1746_1st_1846                     WSD                              fft                                      fft    ensemble                      ensemble                              ensemble
+040_WSD_id_12_WebService_tr_4559_1st_9714                     WSD                           future                                   future    ensemble                      ensemble                              ensemble
+043_WSD_id_15_WebService_tr_4521_1st_6828                     WSD                           future                          scaled_ensemble    ensemble                      ensemble                              ensemble
+049_WSD_id_21_WebService_tr_4297_1st_7097                     WSD                         ensemble                                 ensemble    ensemble                      ensemble                              ensemble
+054_WSD_id_26_WebService_tr_2409_1st_2509                     WSD                             time                                     time    ensemble                      ensemble                              ensemble
+058_WSD_id_30_WebService_tr_1136_1st_1236                     WSD                         ensemble                                 ensemble    ensemble                      ensemble                              ensemble
+060_WSD_id_32_WebService_tr_4576_1st_4766                     WSD                         ensemble                          scaled_ensemble    ensemble                      ensemble                              ensemble
+068_WSD_id_40_WebService_tr_4549_1st_13322                    WSD                             time                          scaled_ensemble    ensemble                      ensemble                              ensemble
+074_WSD_id_46_WebService_tr_990_1st_1090                      WSD                         ensemble                                 ensemble    ensemble                      ensemble                              ensemble
+089_WSD_id_61_WebService_tr_1010_1st_1110                     WSD                           future                          scaled_ensemble    ensemble                      ensemble                              ensemble
+094_WSD_id_66_WebService_tr_3309_1st_3914                     WSD                             time                                     time    ensemble                      ensemble                              ensemble
+099_WSD_id_71_WebService_tr_4559_1st_14411                    WSD                              fft                                      fft    ensemble                      ensemble                              ensemble
+106_WSD_id_78_WebService_tr_3363_1st_3463                     WSD                             time                                     time    ensemble                      ensemble                              ensemble
+113_WSD_id_85_WebService_tr_500_1st_335                       WSD                           future                                   future    ensemble                      ensemble                              ensemble
+117_WSD_id_89_WebService_tr_3251_1st_3351                     WSD                           future                                   future    ensemble                      ensemble                              ensemble
+125_WSD_id_97_WebService_tr_2217_1st_2317                     WSD                              fft                                      fft    ensemble                      ensemble                              ensemble
+130_WSD_id_102_WebService_tr_2362_1st_2462                    WSD                              fft                                      fft    ensemble                      ensemble                              ensemble
+137_WSD_id_109_WebService_tr_4559_1st_14404                   WSD                         ensemble                                 ensemble    ensemble                      ensemble                              ensemble
+139_WSD_id_111_WebService_tr_1701_1st_1801                    WSD                             time                                     time    ensemble                      ensemble                              ensemble
+140_MSL_id_1_Sensor_tr_530_1st_630                            MSL                         ensemble                                 ensemble        time                           fft                       scaled_ensemble
+141_MSL_id_2_Sensor_tr_500_1st_550                            MSL                             time                                     time        time                           fft                       scaled_ensemble
+143_MSL_id_4_Sensor_tr_980_1st_3550                           MSL                           future                                   future        time                           fft                       scaled_ensemble
+144_MSL_id_5_Sensor_tr_1525_1st_4590                          MSL                             time                                     time        time                           fft                       scaled_ensemble
+145_MSL_id_6_Sensor_tr_530_1st_630                            MSL                         ensemble                                 ensemble        time                           fft                       scaled_ensemble
+147_MSL_id_8_Sensor_tr_590_1st_690                            MSL                             time                                     time        time                           fft                       scaled_ensemble
+148_MSL_id_9_Sensor_tr_883_1st_1238                           MSL                         ensemble                                 ensemble        time                           fft                       scaled_ensemble
+149_Stock_id_1_Finance_tr_500_1st_7                         Stock                         ensemble                                 ensemble      future                      ensemble                              ensemble
+151_Stock_id_3_Finance_tr_500_1st_62                        Stock                              fft                                      fft      future                      ensemble                              ensemble
+155_Stock_id_7_Finance_tr_500_1st_18                        Stock                              fft                                      fft      future                      ensemble                              ensemble
+156_Stock_id_8_Finance_tr_500_1st_24                        Stock                         ensemble                                 ensemble      future                      ensemble                              ensemble
+160_Stock_id_12_Finance_tr_500_1st_14                       Stock                              fft                          scaled_ensemble      future                      ensemble                              ensemble
+162_Stock_id_14_Finance_tr_500_1st_4                        Stock                           future                                   future      future                      ensemble                              ensemble
+165_Stock_id_17_Finance_tr_500_1st_7                        Stock                             time                                     time      future                      ensemble                              ensemble
+166_Stock_id_18_Finance_tr_500_1st_18                       Stock                              fft                                      fft      future                      ensemble                              ensemble
+170_MITDB_id_1_Medical_tr_17675_1st_17775                   MITDB                             time                                     time    ensemble                           fft                                   fft
+171_MITDB_id_2_Medical_tr_50000_1st_88864                   MITDB                         ensemble                                 ensemble    ensemble                           fft                                   fft
+172_MITDB_id_3_Medical_tr_27274_1st_27374                   MITDB                           future                                   future    ensemble                           fft                                   fft
+173_MITDB_id_4_Medical_tr_13620_1st_13720                   MITDB                             time                          scaled_ensemble    ensemble                           fft                                   fft
+175_MITDB_id_6_Medical_tr_27274_1st_27374                   MITDB                           future                                   future    ensemble                           fft                                   fft
+176_MITDB_id_7_Medical_tr_6232_1st_6332                     MITDB                           future                          scaled_ensemble    ensemble                           fft                                   fft
+177_MITDB_id_8_Medical_tr_17675_1st_17775                   MITDB                         ensemble                                 ensemble    ensemble                           fft                                   fft
+178_SMD_id_1_Facility_tr_6000_1st_10609                       SMD                              fft                                      fft         fft                        future                                future
+179_SMD_id_2_Facility_tr_5925_1st_17580                       SMD                              fft                          scaled_ensemble         fft                        future                                future
+180_SMD_id_3_Facility_tr_5925_1st_17580                       SMD                              fft                          scaled_ensemble         fft                        future                                future
+181_SMD_id_4_Facility_tr_5000_1st_15144                       SMD                             time                                     time         fft                        future                                future
+183_SMD_id_6_Facility_tr_5925_1st_17580                       SMD                             time                                     time         fft                        future                                future
+184_SMD_id_7_Facility_tr_7119_1st_15849                       SMD                              fft                          scaled_ensemble         fft                        future                                future
+185_SMD_id_8_Facility_tr_5000_1st_15144                       SMD                           future                                   future         fft                        future                                future
+187_SMD_id_10_Facility_tr_5000_1st_15849                      SMD                             time                                     time         fft                        future                                future
+188_SMD_id_11_Facility_tr_500_1st_392                         SMD                         ensemble                          scaled_ensemble         fft                        future                                future
+189_SMD_id_12_Facility_tr_5925_1st_17580                      SMD                              fft                                      fft         fft                        future                                future
+190_SMD_id_13_Facility_tr_7119_1st_15849                      SMD                           future                                   future         fft                        future                                future
+191_SMD_id_14_Facility_tr_4596_1st_4696                       SMD                         ensemble                                 ensemble         fft                        future                                future
+192_SMD_id_15_Facility_tr_5925_1st_17580                      SMD                             time                                     time         fft                        future                                future
+194_SMD_id_17_Facility_tr_5925_1st_17580                      SMD                             time                                     time         fft                        future                                future
+195_SMD_id_18_Facility_tr_5925_1st_17580                      SMD                         ensemble                                 ensemble         fft                        future                                future
+196_SMD_id_19_Facility_tr_7174_1st_21230                      SMD                           future                          scaled_ensemble         fft                        future                                future
+197_SMD_id_20_Facility_tr_5000_1st_15144                      SMD                           future                                   future         fft                        future                                future
+198_SMD_id_21_Facility_tr_5925_1st_17580                      SMD                             time                                     time         fft                        future                                future
+199_SMD_id_22_Facility_tr_5925_1st_17580                      SMD                         ensemble                          scaled_ensemble         fft                        future                                future
+201_SMD_id_24_Facility_tr_7174_1st_21230                      SMD                         ensemble                                 ensemble         fft                        future                                future
+202_SMD_id_25_Facility_tr_6250_1st_21230                      SMD                             time                                     time         fft                        future                                future
+203_SMD_id_26_Facility_tr_7174_1st_21230                      SMD                         ensemble                                 ensemble         fft                        future                                future
+204_SMD_id_27_Facility_tr_5000_1st_15144                      SMD                             time                                     time         fft                        future                                future
+205_SMD_id_28_Facility_tr_5925_1st_17580                      SMD                         ensemble                                 ensemble         fft                        future                                future
+206_SMD_id_29_Facility_tr_6250_1st_21230                      SMD                             time                                     time         fft                        future                                future
+207_SMD_id_30_Facility_tr_7174_1st_21230                      SMD                           future                                   future         fft                        future                                future
+208_SMD_id_31_Facility_tr_5000_1st_15144                      SMD                              fft                                      fft         fft                        future                                future
+209_SMD_id_32_Facility_tr_5925_1st_17580                      SMD                           future                                   future         fft                        future                                future
+211_SMD_id_34_Facility_tr_5925_1st_17580                      SMD                             time                                     time         fft                        future                                future
+212_SMD_id_35_Facility_tr_5925_1st_17580                      SMD                              fft                                      fft         fft                        future                                future
+213_SMD_id_36_Facility_tr_5925_1st_17580                      SMD                             time                                     time         fft                        future                                future
+214_SMD_id_37_Facility_tr_5925_1st_17580                      SMD                         ensemble                          scaled_ensemble         fft                        future                                future
+215_SMD_id_38_Facility_tr_5925_1st_17580                      SMD                         ensemble                                 ensemble         fft                        future                                future
+216_LTDB_id_1_Medical_tr_500_1st_266                         LTDB                             time                                     time         fft                          time                       scaled_ensemble
+218_LTDB_id_3_Medical_tr_500_1st_266                         LTDB                           future                                   future         fft                          time                       scaled_ensemble
+219_LTDB_id_4_Medical_tr_3618_1st_3718                       LTDB                             time                                     time         fft                          time                       scaled_ensemble
+220_LTDB_id_5_Medical_tr_500_1st_26                          LTDB                              fft                                      fft         fft                          time                       scaled_ensemble
+221_LTDB_id_6_Medical_tr_500_1st_26                          LTDB                           future                                   future         fft                          time                       scaled_ensemble
+222_LTDB_id_7_Medical_tr_3618_1st_3718                       LTDB                              fft                          scaled_ensemble         fft                          time                       scaled_ensemble
+223_LTDB_id_8_Medical_tr_4456_1st_4556                       LTDB                             time                                     time         fft                          time                       scaled_ensemble
+224_LTDB_id_9_Medical_tr_4456_1st_4556                       LTDB                             time                                     time         fft                          time                       scaled_ensemble
+225_MGAB_id_1_Synthetic_tr_25000_1st_38478                   MGAB                         ensemble                                 ensemble      future                          time                                  time
+226_MGAB_id_2_Synthetic_tr_20000_1st_45134                   MGAB                             time                                     time      future                          time                                  time
+227_MGAB_id_3_Synthetic_tr_25000_1st_44340                   MGAB                             time                                     time      future                          time                                  time
+228_MGAB_id_4_Synthetic_tr_25000_1st_38948                   MGAB                         ensemble                                 ensemble      future                          time                                  time
+229_MGAB_id_5_Synthetic_tr_25000_1st_33098                   MGAB                           future                                   future      future                          time                                  time
+231_MGAB_id_7_Synthetic_tr_25000_1st_35544                   MGAB                         ensemble                          scaled_ensemble      future                          time                                  time
+232_MGAB_id_8_Synthetic_tr_25000_1st_32708                   MGAB                             time                          scaled_ensemble      future                          time                                  time
+233_MGAB_id_9_Synthetic_tr_25000_1st_41300                   MGAB                              fft                                      fft      future                          time                                  time
+234_SED_id_1_Medical_tr_3740_1st_3840                         SED                           future                                   future      future                      ensemble                              ensemble
+236_SED_id_3_Medical_tr_3740_1st_3840                         SED                           future                          scaled_ensemble      future                      ensemble                              ensemble
+237_SVDB_id_1_Medical_tr_11587_1st_11687                     SVDB                         ensemble                                 ensemble         fft                           fft                                   fft
+238_SVDB_id_2_Medical_tr_25000_1st_71963                     SVDB                             time                                     time         fft                           fft                                   fft
+239_SVDB_id_3_Medical_tr_50000_1st_106634                    SVDB                           future                                   future         fft                           fft                                   fft
+240_SVDB_id_4_Medical_tr_18462_1st_18562                     SVDB                             time                                     time         fft                           fft                                   fft
+241_SVDB_id_5_Medical_tr_11587_1st_11687                     SVDB                           future                                   future         fft                           fft                                   fft
+243_SVDB_id_7_Medical_tr_11393_1st_11493                     SVDB                             time                                     time         fft                           fft                                   fft
+244_SVDB_id_8_Medical_tr_17803_1st_17903                     SVDB                             time                                     time         fft                           fft                                   fft
+245_SVDB_id_9_Medical_tr_12607_1st_12707                     SVDB                           future                                   future         fft                           fft                                   fft
+246_SVDB_id_10_Medical_tr_20100_1st_68460                    SVDB                         ensemble                                 ensemble         fft                           fft                                   fft
+247_SVDB_id_11_Medical_tr_20100_1st_23611                    SVDB                         ensemble                          scaled_ensemble         fft                           fft                                   fft
+248_SVDB_id_12_Medical_tr_18462_1st_18562                    SVDB                             time                                     time         fft                           fft                                   fft
+249_SVDB_id_13_Medical_tr_50000_1st_54982                    SVDB                              fft                                      fft         fft                           fft                                   fft
+250_SVDB_id_14_Medical_tr_50000_1st_107354                   SVDB                           future                                   future         fft                           fft                                   fft
+251_SVDB_id_15_Medical_tr_5421_1st_5521                      SVDB                              fft                                      fft         fft                           fft                                   fft
+253_SVDB_id_17_Medical_tr_17803_1st_17903                    SVDB                              fft                                      fft         fft                           fft                                   fft
+254_SVDB_id_18_Medical_tr_30824_1st_30924                    SVDB                           future                          scaled_ensemble         fft                           fft                                   fft
+255_SVDB_id_19_Medical_tr_50000_1st_54982                    SVDB                              fft                          scaled_ensemble         fft                           fft                                   fft
+256_SVDB_id_20_Medical_tr_6264_1st_6364                      SVDB                         ensemble                                 ensemble         fft                           fft                                   fft
+257_TAO_id_1_Environment_tr_500_1st_3                         TAO                           future                                   future      future                          time                                  time
+258_TAO_id_2_Environment_tr_500_1st_4                         TAO                              fft                                      fft      future                          time                                  time
+260_IOPS_id_1_WebService_tr_5000_1st_11804                   IOPS                           future                                   future        time                          time                                  time
+261_IOPS_id_2_WebService_tr_2178_1st_2278                    IOPS                             time                                     time        time                          time                                  time
+262_IOPS_id_3_WebService_tr_7028_1st_7128                    IOPS                           future                                   future        time                          time                                  time
+263_IOPS_id_4_WebService_tr_3482_1st_3582                    IOPS                           future                                   future        time                          time                                  time
+264_IOPS_id_5_WebService_tr_11665_1st_11765                  IOPS                         ensemble                                 ensemble        time                          time                                  time
+266_IOPS_id_7_WebService_tr_4010_1st_4110                    IOPS                             time                                     time        time                          time                                  time
+267_IOPS_id_8_WebService_tr_1534_1st_1882                    IOPS                           future                                   future        time                          time                                  time
+268_IOPS_id_9_WebService_tr_6216_1st_6316                    IOPS                           future                                   future        time                          time                                  time
+269_IOPS_id_10_WebService_tr_1216_1st_1728                   IOPS                             time                          scaled_ensemble        time                          time                                  time
+271_IOPS_id_12_WebService_tr_500_1st_341                     IOPS                             time                                     time        time                          time                                  time
+272_IOPS_id_13_WebService_tr_3442_1st_3542                   IOPS                              fft                                      fft        time                          time                                  time
+273_IOPS_id_14_WebService_tr_5569_1st_5669                   IOPS                         ensemble                                 ensemble        time                          time                                  time
+274_IOPS_id_15_WebService_tr_4591_1st_4691                   IOPS                             time                          scaled_ensemble        time                          time                                  time
+275_IOPS_id_16_WebService_tr_1482_1st_1582                   IOPS                         ensemble                          scaled_ensemble        time                          time                                  time
+276_IOPS_id_17_WebService_tr_19197_1st_19297                 IOPS                         ensemble                                 ensemble        time                          time                                  time
+277_NEK_id_1_WebService_tr_500_1st_17                         NEK                         ensemble                                 ensemble    ensemble                           fft                       scaled_ensemble
+278_NEK_id_2_WebService_tr_500_1st_64                         NEK                         ensemble                                 ensemble    ensemble                           fft                       scaled_ensemble
+279_NEK_id_3_WebService_tr_500_1st_974                        NEK                              fft                                      fft    ensemble                           fft                       scaled_ensemble
+281_NEK_id_5_WebService_tr_500_1st_974                        NEK                         ensemble                                 ensemble    ensemble                           fft                       scaled_ensemble
+282_NEK_id_6_WebService_tr_500_1st_64                         NEK                           future                                   future    ensemble                           fft                       scaled_ensemble
+283_NEK_id_7_WebService_tr_500_1st_777                        NEK                           future                          scaled_ensemble    ensemble                           fft                       scaled_ensemble
+284_NEK_id_8_WebService_tr_500_1st_976                        NEK                             time                                     time    ensemble                           fft                       scaled_ensemble
+285_NEK_id_9_WebService_tr_500_1st_780                        NEK                           future                                   future    ensemble                           fft                       scaled_ensemble
+287_TODS_id_1_Synthetic_tr_500_1st_11                        TODS                              fft                                      fft        time                      ensemble                              ensemble
+288_TODS_id_2_Synthetic_tr_500_1st_65                        TODS                             time                          scaled_ensemble        time                      ensemble                              ensemble
+289_TODS_id_3_Synthetic_tr_500_1st_26                        TODS                           future                                   future        time                      ensemble                              ensemble
+290_TODS_id_4_Synthetic_tr_500_1st_26                        TODS                              fft                                      fft        time                      ensemble                              ensemble
+292_TODS_id_6_Synthetic_tr_500_1st_11                        TODS                           future                                   future        time                      ensemble                              ensemble
+293_TODS_id_7_Synthetic_tr_500_1st_7                         TODS                             time                                     time        time                      ensemble                              ensemble
+294_TODS_id_8_Synthetic_tr_500_1st_200                       TODS                              fft                                      fft        time                      ensemble                              ensemble
+295_TODS_id_9_Synthetic_tr_1250_1st_2046                     TODS                             time                                     time        time                      ensemble                              ensemble
+296_TODS_id_10_Synthetic_tr_500_1st_26                       TODS                             time                                     time        time                      ensemble                              ensemble
+297_TODS_id_11_Synthetic_tr_500_1st_7                        TODS                           future                                   future        time                      ensemble                              ensemble
+298_TODS_id_12_Synthetic_tr_500_1st_0                        TODS                              fft                                      fft        time                      ensemble                              ensemble
+299_TODS_id_13_Synthetic_tr_500_1st_65                       TODS                              fft                                      fft        time                      ensemble                              ensemble
+301_TODS_id_15_Synthetic_tr_500_1st_245                      TODS                              fft                                      fft        time                      ensemble                              ensemble
+304_UCR_id_2_Medical_tr_2499_1st_7000                         UCR                         ensemble                                 ensemble        time                          time                                  time
+307_UCR_id_5_Facility_tr_29895_1st_39240                      UCR                              fft                                      fft        time                          time                                  time
+309_UCR_id_7_Medical_tr_3000_1st_5948                         UCR                           future                                   future        time                          time                                  time
+310_UCR_id_8_HumanActivity_tr_2631_1st_8285                   UCR                              fft                                      fft        time                          time                                  time
+311_UCR_id_9_HumanActivity_tr_16000_1st_38400                 UCR                         ensemble                          scaled_ensemble        time                          time                                  time
+313_UCR_id_11_Sensor_tr_2827_1st_4711                         UCR                             time                                     time        time                          time                                  time
+315_UCR_id_13_HumanActivity_tr_16000_1st_33070                UCR                           future                          scaled_ensemble        time                          time                                  time
+316_UCR_id_14_Sensor_tr_2833_1st_5988                         UCR                           future                          scaled_ensemble        time                          time                                  time
+319_UCR_id_17_Environment_tr_6166_1st_19280                   UCR                             time                          scaled_ensemble        time                          time                                  time
+326_UCR_id_24_Medical_tr_1875_1st_4187                        UCR                         ensemble                          scaled_ensemble        time                          time                                  time
+331_UCR_id_29_Facility_tr_50000_1st_837400                    UCR                             time                                     time        time                          time                                  time
+332_UCR_id_30_Facility_tr_13750_1st_52600                     UCR                             time                          scaled_ensemble        time                          time                                  time
+334_UCR_id_32_HumanActivity_tr_1671_1st_2764                  UCR                             time                                     time        time                          time                                  time
+339_UCR_id_37_Sensor_tr_2750_1st_5400                         UCR                             time                                     time        time                          time                                  time
+341_UCR_id_39_HumanActivity_tr_48812_1st_128430               UCR                           future                                   future        time                          time                                  time
+344_UCR_id_42_Sensor_tr_2851_1st_5365                         UCR                             time                                     time        time                          time                                  time
+346_UCR_id_44_Medical_tr_7456_1st_17390                       UCR                              fft                                      fft        time                          time                                  time
+349_UCR_id_47_Facility_tr_29954_1st_74900                     UCR                         ensemble                                 ensemble        time                          time                                  time
+355_UCR_id_53_HumanActivity_tr_48750_1st_143411               UCR                         ensemble                                 ensemble        time                          time                                  time
+358_UCR_id_56_Facility_tr_10500_1st_29080                     UCR                         ensemble                                 ensemble        time                          time                                  time
+361_UCR_id_59_Medical_tr_3000_1st_7175                        UCR                              fft                                      fft        time                          time                                  time
+364_UCR_id_62_Sensor_tr_2833_1st_5988                         UCR                           future                                   future        time                          time                                  time
+369_UCR_id_67_Sensor_tr_2750_1st_5400                         UCR                         ensemble                                 ensemble        time                          time                                  time
+371_UCR_id_69_Medical_tr_1853_1st_6200                        UCR                             time                          scaled_ensemble        time                          time                                  time
+373_UCR_id_71_Sensor_tr_2827_1st_5988                         UCR                              fft                          scaled_ensemble        time                          time                                  time
+381_UCR_id_79_HumanActivity_tr_16000_1st_31200                UCR                         ensemble                          scaled_ensemble        time                          time                                  time
+382_UCR_id_80_Medical_tr_7500_1st_11800                       UCR                              fft                                      fft        time                          time                                  time
+385_UCR_id_83_Environment_tr_2046_1st_6006                    UCR                             time                                     time        time                          time                                  time
+387_UCR_id_85_Environment_tr_2046_1st_5549                    UCR                             time                                     time        time                          time                                  time
+391_UCR_id_89_Medical_tr_1875_1st_5759                        UCR                           future                                   future        time                          time                                  time
+393_UCR_id_91_Environment_tr_2046_1st_4852                    UCR                              fft                                      fft        time                          time                                  time
+396_UCR_id_94_Medical_tr_1875_1st_5607                        UCR                         ensemble                                 ensemble        time                          time                                  time
+400_UCR_id_98_Environment_tr_2046_1st_5391                    UCR                           future                                   future        time                          time                                  time
+401_UCR_id_99_HumanActivity_tr_1671_1st_5920                  UCR                              fft                                      fft        time                          time                                  time
+405_UCR_id_103_Sensor_tr_2827_1st_5988                        UCR                         ensemble                                 ensemble        time                          time                                  time
+406_UCR_id_104_Facility_tr_20000_1st_67950                    UCR                              fft                                      fft        time                          time                                  time
+411_UCR_id_109_Environment_tr_2046_1st_4852                   UCR                             time                                     time        time                          time                                  time
+415_UCR_id_113_Medical_tr_3000_1st_8612                       UCR                              fft                          scaled_ensemble        time                          time                                  time
+417_UCR_id_115_Sensor_tr_2750_1st_5400                        UCR                             time                                     time        time                          time                                  time
+419_UCR_id_117_Facility_tr_3000_1st_6168                      UCR                              fft                                      fft        time                          time                                  time
+420_UCR_id_118_Facility_tr_13750_1st_52600                    UCR                             time                                     time        time                          time                                  time
+421_UCR_id_119_HumanActivity_tr_48750_1st_130700              UCR                             time                                     time        time                          time                                  time
+426_UCR_id_124_Sensor_tr_2827_1st_4711                        UCR                           future                                   future        time                          time                                  time
+430_UCR_id_128_HumanActivity_tr_12500_1st_46500               UCR                         ensemble                                 ensemble        time                          time                                  time
+432_UCR_id_130_Facility_tr_23000_1st_26970                    UCR                             time                                     time        time                          time                                  time
+436_UCR_id_134_Medical_tr_1875_1st_4526                       UCR                           future                                   future        time                          time                                  time
+437_UCR_id_135_Medical_tr_2499_1st_8000                       UCR                              fft                          scaled_ensemble        time                          time                                  time
+439_UCR_id_137_HumanActivity_tr_48750_1st_110800              UCR                              fft                                      fft        time                          time                                  time
+445_UCR_id_143_Environment_tr_6166_1st_19280                  UCR                              fft                                      fft        time                          time                                  time
+449_UCR_id_147_Sensor_tr_2847_1st_9330                        UCR                              fft                                      fft        time                          time                                  time
+452_UCR_id_150_Facility_tr_10000_1st_35774                    UCR                           future                                   future        time                          time                                  time
+459_UCR_id_157_HumanActivity_tr_50000_1st_110260              UCR                             time                                     time        time                          time                                  time
+463_UCR_id_161_Environment_tr_2046_1st_6006                   UCR                           future                                   future        time                          time                                  time
+467_UCR_id_165_Environment_tr_6166_1st_19280                  UCR                           future                                   future        time                          time                                  time
+471_UCR_id_169_Facility_tr_10000_1st_35774                    UCR                           future                                   future        time                          time                                  time
+473_UCR_id_171_HumanActivity_tr_2617_1st_7290                 UCR                           future                                   future        time                          time                                  time
+474_UCR_id_172_Environment_tr_2046_1st_6520                   UCR                             time                                     time        time                          time                                  time
+493_UCR_id_191_Sensor_tr_2847_1st_9330                        UCR                           future                                   future        time                          time                                  time
+494_UCR_id_192_Facility_tr_22500_1st_72150                    UCR                           future                                   future        time                          time                                  time
+495_UCR_id_193_Environment_tr_2046_1st_6520                   UCR                             time                                     time        time                          time                                  time
+496_UCR_id_194_Environment_tr_2046_1st_5391                   UCR                             time                                     time        time                          time                                  time
+499_UCR_id_197_Environment_tr_2046_1st_5703                   UCR                           future                                   future        time                          time                                  time
+500_UCR_id_198_Facility_tr_7482_1st_23357                     UCR                             time                                     time        time                          time                                  time
+504_UCR_id_202_Environment_tr_2046_1st_5549                   UCR                           future                                   future        time                          time                                  time
+506_UCR_id_204_Environment_tr_2046_1st_5549                   UCR                             time                                     time        time                          time                                  time
+516_UCR_id_214_HumanActivity_tr_2108_1st_4702                 UCR                           future                          scaled_ensemble        time                          time                                  time
+517_UCR_id_215_Facility_tr_7482_1st_24005                     UCR                             time                                     time        time                          time                                  time
+525_UCR_id_223_Facility_tr_50000_1st_250720                   UCR                             time                                     time        time                          time                                  time
+526_UCR_id_224_Sensor_tr_2827_1st_4711                        UCR                           future                                   future        time                          time                                  time
+530_UCR_id_228_HumanActivity_tr_16250_1st_38500               UCR                              fft                                      fft        time                          time                                  time
+531_SMAP_id_1_Sensor_tr_1811_1st_4510                        SMAP                              fft                                      fft        time                          time                                  time
+532_SMAP_id_2_Sensor_tr_2075_1st_5550                        SMAP                              fft                          scaled_ensemble        time                          time                                  time
+533_SMAP_id_3_Sensor_tr_2052_1st_5300                        SMAP                              fft                                      fft        time                          time                                  time
+534_SMAP_id_4_Sensor_tr_1968_1st_4370                        SMAP                           future                          scaled_ensemble        time                          time                                  time
+536_SMAP_id_6_Sensor_tr_2160_1st_5600                        SMAP                           future                                   future        time                          time                                  time
+537_SMAP_id_7_Sensor_tr_2077_1st_5394                        SMAP                           future                          scaled_ensemble        time                          time                                  time
+538_SMAP_id_8_Sensor_tr_2007_1st_3650                        SMAP                              fft                                      fft        time                          time                                  time
+539_SMAP_id_9_Sensor_tr_1857_1st_4270                        SMAP                              fft                                      fft        time                          time                                  time
+540_SMAP_id_10_Sensor_tr_2051_1st_4575                       SMAP                              fft                                      fft        time                          time                                  time
+541_SMAP_id_11_Sensor_tr_1832_1st_5300                       SMAP                              fft                                      fft        time                          time                                  time
+542_SMAP_id_12_Sensor_tr_1908_1st_4690                       SMAP                           future                                   future        time                          time                                  time
+544_SMAP_id_14_Sensor_tr_1978_1st_4450                       SMAP                           future                                   future        time                          time                                  time
+545_SMAP_id_15_Sensor_tr_1173_1st_2750                       SMAP                              fft                                      fft        time                          time                                  time
+546_SMAP_id_16_Sensor_tr_2117_1st_4770                       SMAP                             time                                     time        time                          time                                  time
+547_SMAP_id_17_Sensor_tr_2133_1st_5400                       SMAP                         ensemble                                 ensemble        time                          time                                  time
+548_SMAP_id_18_Sensor_tr_2094_1st_5600                       SMAP                         ensemble                                 ensemble        time                          time                                  time
+549_SMAP_id_19_Sensor_tr_1998_1st_2098                       SMAP                           future                                   future        time                          time                                  time
+551_YAHOO_id_1_Synthetic_tr_500_1st_893                     YAHOO                              fft                                      fft      future                        future                       scaled_ensemble
+552_YAHOO_id_2_Synthetic_tr_500_1st_893                     YAHOO                         ensemble                                 ensemble      future                        future                       scaled_ensemble
+555_YAHOO_id_5_WebService_tr_500_1st_730                    YAHOO                           future                                   future      future                        future                       scaled_ensemble
+558_YAHOO_id_8_WebService_tr_500_1st_1125                   YAHOO                         ensemble                                 ensemble      future                        future                       scaled_ensemble
+562_YAHOO_id_12_Synthetic_tr_500_1st_893                    YAHOO                             time                                     time      future                        future                       scaled_ensemble
+570_YAHOO_id_20_Synthetic_tr_500_1st_658                    YAHOO                              fft                                      fft      future                        future                       scaled_ensemble
+571_YAHOO_id_21_Synthetic_tr_500_1st_623                    YAHOO                           future                                   future      future                        future                       scaled_ensemble
+579_YAHOO_id_29_WebService_tr_500_1st_1342                  YAHOO                              fft                                      fft      future                        future                       scaled_ensemble
+603_YAHOO_id_53_Synthetic_tr_500_1st_893                    YAHOO                              fft                                      fft      future                        future                       scaled_ensemble
+644_YAHOO_id_94_WebService_tr_500_1st_1078                  YAHOO                             time                                     time      future                        future                       scaled_ensemble
+645_YAHOO_id_95_WebService_tr_500_1st_1047                  YAHOO                         ensemble                                 ensemble      future                        future                       scaled_ensemble
+649_YAHOO_id_99_WebService_tr_500_1st_1386                  YAHOO                             time                                     time      future                        future                       scaled_ensemble
+657_YAHOO_id_107_WebService_tr_500_1st_1260                 YAHOO                              fft                                      fft      future                        future                       scaled_ensemble
+658_YAHOO_id_108_Synthetic_tr_500_1st_893                   YAHOO                              fft                                      fft      future                        future                       scaled_ensemble
+672_YAHOO_id_122_WebService_tr_500_1st_857                  YAHOO                         ensemble                                 ensemble      future                        future                       scaled_ensemble
+680_YAHOO_id_130_Synthetic_tr_500_1st_893                   YAHOO                         ensemble                                 ensemble      future                        future                       scaled_ensemble
+689_YAHOO_id_139_WebService_tr_500_1st_1073                 YAHOO                             time                                     time      future                        future                       scaled_ensemble
+693_YAHOO_id_143_WebService_tr_500_1st_1003                 YAHOO                         ensemble                                 ensemble      future                        future                       scaled_ensemble
+701_YAHOO_id_151_Synthetic_tr_500_1st_893                   YAHOO                              fft                                      fft      future                        future                       scaled_ensemble
+723_YAHOO_id_173_WebService_tr_500_1st_1214                 YAHOO                         ensemble                                 ensemble      future                        future                       scaled_ensemble
+724_YAHOO_id_174_WebService_tr_500_1st_1030                 YAHOO                         ensemble                                 ensemble      future                        future                       scaled_ensemble
+734_YAHOO_id_184_WebService_tr_500_1st_768                  YAHOO                              fft                          scaled_ensemble      future                        future                       scaled_ensemble
+741_YAHOO_id_191_WebService_tr_500_1st_1114                 YAHOO                              fft                                      fft      future                        future                       scaled_ensemble
+755_YAHOO_id_205_Synthetic_tr_500_1st_893                   YAHOO                              fft                          scaled_ensemble      future                        future                       scaled_ensemble
+762_YAHOO_id_212_WebService_tr_500_1st_1055                 YAHOO                              fft                          scaled_ensemble      future                        future                       scaled_ensemble
+780_YAHOO_id_230_Synthetic_tr_500_1st_893                   YAHOO                           future                                   future      future                        future                       scaled_ensemble
+788_YAHOO_id_238_WebService_tr_500_1st_973                  YAHOO                             time                                     time      future                        future                       scaled_ensemble
+797_YAHOO_id_247_Synthetic_tr_500_1st_893                   YAHOO                           future                                   future      future                        future                       scaled_ensemble
+806_YAHOO_id_256_Synthetic_tr_500_1st_893                   YAHOO                         ensemble                                 ensemble      future                        future                       scaled_ensemble
+807_YAHOO_id_257_WebService_tr_500_1st_1210                 YAHOO                              fft                          scaled_ensemble      future                        future                       scaled_ensemble
+810_Exathlon_id_1_Facility_tr_10766_1st_12590            Exathlon                             time                                     time         fft                      ensemble                       scaled_ensemble
+811_Exathlon_id_2_Facility_tr_10766_1st_12590            Exathlon                           future                                   future         fft                      ensemble                       scaled_ensemble
+812_Exathlon_id_3_Facility_tr_10766_1st_12590            Exathlon                         ensemble                                 ensemble         fft                      ensemble                       scaled_ensemble
+814_Exathlon_id_5_Facility_tr_10766_1st_12590            Exathlon                           future                                   future         fft                      ensemble                       scaled_ensemble
+815_Exathlon_id_6_Facility_tr_10766_1st_12590            Exathlon                             time                                     time         fft                      ensemble                       scaled_ensemble
+816_Exathlon_id_7_Facility_tr_10766_1st_12590            Exathlon                         ensemble                                 ensemble         fft                      ensemble                       scaled_ensemble
+817_Exathlon_id_8_Facility_tr_10766_1st_12590            Exathlon                              fft                          scaled_ensemble         fft                      ensemble                       scaled_ensemble
+818_Exathlon_id_9_Facility_tr_11665_1st_13484            Exathlon                             time                          scaled_ensemble         fft                      ensemble                       scaled_ensemble
+819_Exathlon_id_10_Facility_tr_10766_1st_12590           Exathlon                           future                                   future         fft                      ensemble                       scaled_ensemble
+820_Exathlon_id_11_Facility_tr_11665_1st_13484           Exathlon                           future                                   future         fft                      ensemble                       scaled_ensemble
+821_Exathlon_id_12_Facility_tr_6985_1st_7085             Exathlon                         ensemble                                 ensemble         fft                      ensemble                       scaled_ensemble
+822_Exathlon_id_13_Facility_tr_10766_1st_12590           Exathlon                              fft                                      fft         fft                      ensemble                       scaled_ensemble
+823_Exathlon_id_14_Facility_tr_10766_1st_12590           Exathlon                              fft                                      fft         fft                      ensemble                       scaled_ensemble
+824_Exathlon_id_15_Facility_tr_10766_1st_12590           Exathlon                         ensemble                                 ensemble         fft                      ensemble                       scaled_ensemble
+826_Exathlon_id_17_Facility_tr_11665_1st_13484           Exathlon                         ensemble                                 ensemble         fft                      ensemble                       scaled_ensemble
+827_Exathlon_id_18_Facility_tr_10766_1st_12590           Exathlon                           future                          scaled_ensemble         fft                      ensemble                       scaled_ensemble
+828_Exathlon_id_19_Facility_tr_11663_1st_13482           Exathlon                             time                          scaled_ensemble         fft                      ensemble                       scaled_ensemble
+829_Exathlon_id_20_Facility_tr_10766_1st_12590           Exathlon                         ensemble                                 ensemble         fft                      ensemble                       scaled_ensemble
+830_Exathlon_id_21_Facility_tr_10766_1st_12590           Exathlon                             time                                     time         fft                      ensemble                       scaled_ensemble
+831_Exathlon_id_22_Facility_tr_11665_1st_13484           Exathlon                              fft                                      fft         fft                      ensemble                       scaled_ensemble
+832_Exathlon_id_23_Facility_tr_10766_1st_12590           Exathlon                             time                                     time         fft                      ensemble                       scaled_ensemble
+833_Exathlon_id_24_Facility_tr_10766_1st_12590           Exathlon                             time                                     time         fft                      ensemble                       scaled_ensemble
+834_Exathlon_id_25_Facility_tr_11665_1st_13484           Exathlon                              fft                                      fft         fft                      ensemble                       scaled_ensemble
+835_Exathlon_id_26_Facility_tr_10766_1st_12590           Exathlon                           future                                   future         fft                      ensemble                       scaled_ensemble
+836_Exathlon_id_27_Facility_tr_10766_1st_12590           Exathlon                           future                                   future         fft                      ensemble                       scaled_ensemble
+837_Exathlon_id_28_Facility_tr_8898_1st_8998             Exathlon                              fft                                      fft         fft                      ensemble                       scaled_ensemble
+838_Exathlon_id_29_Facility_tr_10766_1st_12590           Exathlon                         ensemble                                 ensemble         fft                      ensemble                       scaled_ensemble
+839_Exathlon_id_30_Facility_tr_10766_1st_12590           Exathlon                              fft                                      fft         fft                      ensemble                       scaled_ensemble
+840_Exathlon_id_31_Facility_tr_10766_1st_12590           Exathlon                           future                                   future         fft                      ensemble                       scaled_ensemble
+841_Exathlon_id_32_Facility_tr_11663_1st_13482           Exathlon                             time                                     time         fft                      ensemble                       scaled_ensemble
+842_OPPORTUNITY_id_1_HumanActivity_tr_7295_1st_27516  OPPORTUNITY                           future                          scaled_ensemble    ensemble                      ensemble                       scaled_ensemble
+843_OPPORTUNITY_id_2_HumanActivity_tr_808_1st_908     OPPORTUNITY                           future                                   future    ensemble                      ensemble                       scaled_ensemble
+844_OPPORTUNITY_id_3_HumanActivity_tr_500_1st_566     OPPORTUNITY                           future                                   future    ensemble                      ensemble                       scaled_ensemble
+845_OPPORTUNITY_id_4_HumanActivity_tr_7295_1st_27516  OPPORTUNITY                             time                                     time    ensemble                      ensemble                       scaled_ensemble
+846_OPPORTUNITY_id_5_HumanActivity_tr_2085_1st_2185   OPPORTUNITY                           future                                   future    ensemble                      ensemble                       scaled_ensemble
+847_OPPORTUNITY_id_6_HumanActivity_tr_808_1st_908     OPPORTUNITY                           future                                   future    ensemble                      ensemble                       scaled_ensemble
+848_OPPORTUNITY_id_7_HumanActivity_tr_1477_1st_1577   OPPORTUNITY                             time                                     time    ensemble                      ensemble                       scaled_ensemble
+849_OPPORTUNITY_id_8_HumanActivity_tr_1100_1st_1200   OPPORTUNITY                             time                                     time    ensemble                      ensemble                       scaled_ensemble
+850_OPPORTUNITY_id_9_HumanActivity_tr_895_1st_995     OPPORTUNITY                           future                                   future    ensemble                      ensemble                       scaled_ensemble
+851_OPPORTUNITY_id_10_HumanActivity_tr_6213_1st_7311  OPPORTUNITY                              fft                                      fft    ensemble                      ensemble                       scaled_ensemble
+853_OPPORTUNITY_id_12_HumanActivity_tr_808_1st_908    OPPORTUNITY                         ensemble                                 ensemble    ensemble                      ensemble                       scaled_ensemble
+854_OPPORTUNITY_id_13_HumanActivity_tr_1477_1st_1577  OPPORTUNITY                           future                                   future    ensemble                      ensemble                       scaled_ensemble
+855_OPPORTUNITY_id_14_HumanActivity_tr_808_1st_908    OPPORTUNITY                             time                                     time    ensemble                      ensemble                       scaled_ensemble
+856_OPPORTUNITY_id_15_HumanActivity_tr_808_1st_908    OPPORTUNITY                         ensemble                                 ensemble    ensemble                      ensemble                       scaled_ensemble
+857_OPPORTUNITY_id_16_HumanActivity_tr_500_1st_566    OPPORTUNITY                              fft                                      fft    ensemble                      ensemble                       scaled_ensemble
+858_OPPORTUNITY_id_17_HumanActivity_tr_808_1st_908    OPPORTUNITY                              fft                                      fft    ensemble                      ensemble                       scaled_ensemble
+859_OPPORTUNITY_id_18_HumanActivity_tr_895_1st_995    OPPORTUNITY                         ensemble                          scaled_ensemble    ensemble                      ensemble                       scaled_ensemble
+860_OPPORTUNITY_id_19_HumanActivity_tr_808_1st_908    OPPORTUNITY                              fft                                      fft    ensemble                      ensemble                       scaled_ensemble
+861_OPPORTUNITY_id_20_HumanActivity_tr_2085_1st_2185  OPPORTUNITY                         ensemble                                 ensemble    ensemble                      ensemble                       scaled_ensemble
+862_OPPORTUNITY_id_21_HumanActivity_tr_500_1st_566    OPPORTUNITY                           future                                   future    ensemble                      ensemble                       scaled_ensemble
+863_OPPORTUNITY_id_22_HumanActivity_tr_808_1st_908    OPPORTUNITY                              fft                                      fft    ensemble                      ensemble                       scaled_ensemble
+865_OPPORTUNITY_id_24_HumanActivity_tr_2085_1st_2185  OPPORTUNITY                             time                                     time    ensemble                      ensemble                       scaled_ensemble
+866_OPPORTUNITY_id_25_HumanActivity_tr_6213_1st_7311  OPPORTUNITY                             time                                     time    ensemble                      ensemble                       scaled_ensemble
+867_OPPORTUNITY_id_26_HumanActivity_tr_808_1st_908    OPPORTUNITY                             time                                     time    ensemble                      ensemble                       scaled_ensemble
+868_OPPORTUNITY_id_27_HumanActivity_tr_2085_1st_2185  OPPORTUNITY                         ensemble                                 ensemble    ensemble                      ensemble                       scaled_ensemble
+869_OPPORTUNITY_id_28_HumanActivity_tr_500_1st_566    OPPORTUNITY                           future                                   future    ensemble                      ensemble                       scaled_ensemble
+870_OPPORTUNITY_id_29_HumanActivity_tr_1477_1st_1577  OPPORTUNITY                         ensemble                                 ensemble    ensemble                      ensemble                       scaled_ensemble
+
+[STEP 4] Applying strategies to univariate evaluation set...
+
+--- Final Evaluation Scores (using empirically best fallback) ---
+VUS-PR using ZS-only strategy:      0.485715
+VUS-PR using with-ensemble strategy: 0.483310
+
+[STEP 5] Analyzing all possible fallback heads on the univariate evaluation set...
+
+--- Fallback Analysis for ZS-only Strategy ---
+               Resulting VUS-PR
+Fallback Head                  
+time                   0.486072
+ensemble               0.485995
+fft                    0.485715
+future                 0.483320
+
+--- Fallback Analysis for with-ensemble Strategy ---
+                 Resulting VUS-PR
+Fallback Head                    
+time                     0.483667
+ensemble                 0.483590
+fft                      0.483310
+scaled_ensemble          0.482530
+future                   0.480915
+
+================================================================================
+STARTING MULTIVARIATE WORKFLOW
+================================================================================
+
+[STEP 1] Loading all metric data from multivariate directory...
+(Source: /workspaces/TSB-AD/eval/metrics/multi)
+
+[STEP 2] Splitting data into Tuning and Evaluation sets...
+Found 20 tuning records and 180 evaluation records.
+
+[STEP 3] Determining best heads from multivariate tuning data...
+
+--- Tuning Results ---
+Best head per dataset (ZS only):
+dataset
+CATSv2           future
+Exathlon       ensemble
+GHL                 fft
+LTDB           ensemble
+MITDB            future
+MSL                time
+OPPORTUNITY    ensemble
+SMAP             future
+SMD              future
+SVDB                fft
+TAO                 fft
+
+Determined Fallback (ZS only): 'ensemble'
+
+Best head per dataset (including scaled_ensemble):
+dataset
+CATSv2                  future
+Exathlon              ensemble
+GHL            scaled_ensemble
+LTDB                  ensemble
+MITDB                   future
+MSL                       time
+OPPORTUNITY           ensemble
+SMAP           scaled_ensemble
+SMD                     future
+SVDB                       fft
+TAO                        fft
+
+Determined Fallback (with ensemble): 'ensemble'
+
+[STEP 3.5] Verifying head alignment on multivariate evaluation data (per series)...
+
+--- Alignment Summary (Per-Series) ---
+Alignment of Paper's Choice vs. ActualBestHead_Eval_TSPulse_Only: 48 / 173 (27.75%)
+Alignment of Reproduced TSPulse-Only Choice vs. ActualBestHead_Eval_TSPulse_Only: 43 / 173 (24.86%)
+Alignment of Reproduced With-Scaled-Ensemble Choice vs. ActualBestHead_Eval_With_Scaled_Ensemble: 25 / 173 (14.45%)
+
+--- Detailed Per-Series Comparison ---
+                                                         Dataset ActualBestHead_Eval_TSPulse_Only ActualBestHead_Eval_With_Scaled_Ensemble PaperChoice ReproducedChoice_TSPulse_Only ReproducedChoice_With_Scaled_Ensemble
+file                                                                                                                                                                                                                      
+002_MSL_id_1_Sensor_tr_500_1st_900                           MSL                              fft                                      fft        time                          time                                  time
+003_MSL_id_2_Sensor_tr_883_1st_1238                          MSL                              fft                                      fft        time                          time                                  time
+005_MSL_id_4_Sensor_tr_855_1st_2700                          MSL                         ensemble                                 ensemble        time                          time                                  time
+006_MSL_id_5_Sensor_tr_1150_1st_1250                         MSL                           future                          scaled_ensemble        time                          time                                  time
+007_MSL_id_6_Sensor_tr_980_1st_3550                          MSL                           future                          scaled_ensemble        time                          time                                  time
+008_MSL_id_7_Sensor_tr_656_1st_1630                          MSL                         ensemble                          scaled_ensemble        time                          time                                  time
+009_MSL_id_8_Sensor_tr_714_1st_1390                          MSL                             time                                     time        time                          time                                  time
+010_MSL_id_9_Sensor_tr_554_1st_1172                          MSL                             time                          scaled_ensemble        time                          time                                  time
+012_MSL_id_11_Sensor_tr_539_1st_940                          MSL                             time                                     time        time                          time                                  time
+013_MSL_id_12_Sensor_tr_554_1st_1200                         MSL                           future                                   future        time                          time                                  time
+014_MSL_id_13_Sensor_tr_1525_1st_4575                        MSL                           future                                   future        time                          time                                  time
+015_MSL_id_14_Sensor_tr_575_1st_1250                         MSL                              fft                                      fft        time                          time                                  time
+016_MSL_id_15_Sensor_tr_500_1st_780                          MSL                             time                                     time        time                          time                                  time
+017_MSL_id_16_Sensor_tr_512_1st_1850                         MSL                             time                                     time        time                          time                                  time
+019_MITDB_id_1_Medical_tr_37500_1st_103211                 MITDB                              fft                                      fft    ensemble                        future                                future
+020_MITDB_id_2_Medical_tr_50000_1st_52315                  MITDB                              fft                                      fft    ensemble                        future                                future
+021_MITDB_id_3_Medical_tr_50000_1st_57595                  MITDB                           future                                   future    ensemble                        future                                future
+022_MITDB_id_4_Medical_tr_50000_1st_54253                  MITDB                              fft                                      fft    ensemble                        future                                future
+024_MITDB_id_6_Medical_tr_50000_1st_58118                  MITDB                           future                          scaled_ensemble    ensemble                        future                                future
+025_MITDB_id_7_Medical_tr_37500_1st_88864                  MITDB                              fft                                      fft    ensemble                        future                                future
+026_MITDB_id_8_Medical_tr_30495_1st_30595                  MITDB                              fft                          scaled_ensemble    ensemble                        future                                future
+027_MITDB_id_9_Medical_tr_25000_1st_52255                  MITDB                             time                                     time    ensemble                        future                                future
+029_MITDB_id_11_Medical_tr_50000_1st_518037                MITDB                         ensemble                                 ensemble    ensemble                        future                                future
+030_MITDB_id_12_Medical_tr_50000_1st_84572                 MITDB                             time                                     time    ensemble                        future                                future
+031_MITDB_id_13_Medical_tr_50000_1st_79433                 MITDB                              fft                          scaled_ensemble    ensemble                        future                                future
+032_GHL_id_1_Sensor_tr_50000_1st_65001                       GHL                         ensemble                                 ensemble         fft                           fft                       scaled_ensemble
+033_GHL_id_2_Sensor_tr_50000_1st_51001                       GHL                             time                                     time         fft                           fft                       scaled_ensemble
+034_GHL_id_3_Sensor_tr_50000_1st_122001                      GHL                              fft                                      fft         fft                           fft                       scaled_ensemble
+035_GHL_id_4_Sensor_tr_50000_1st_90001                       GHL                              fft                                      fft         fft                           fft                       scaled_ensemble
+036_GHL_id_5_Sensor_tr_50000_1st_67147                       GHL                           future                          scaled_ensemble         fft                           fft                       scaled_ensemble
+037_GHL_id_6_Sensor_tr_50000_1st_80001                       GHL                           future                                   future         fft                           fft                       scaled_ensemble
+038_GHL_id_7_Sensor_tr_50000_1st_100001                      GHL                              fft                                      fft         fft                           fft                       scaled_ensemble
+039_GHL_id_8_Sensor_tr_50000_1st_63030                       GHL                           future                                   future         fft                           fft                       scaled_ensemble
+041_GHL_id_10_Sensor_tr_50000_1st_57001                      GHL                              fft                                      fft         fft                           fft                       scaled_ensemble
+042_GHL_id_11_Sensor_tr_50000_1st_150001                     GHL                              fft                                      fft         fft                           fft                       scaled_ensemble
+043_GHL_id_12_Sensor_tr_39938_1st_40038                      GHL                             time                                     time         fft                           fft                       scaled_ensemble
+044_GHL_id_13_Sensor_tr_50000_1st_145001                     GHL                         ensemble                                 ensemble         fft                           fft                       scaled_ensemble
+045_GHL_id_14_Sensor_tr_50000_1st_85076                      GHL                             time                                     time         fft                           fft                       scaled_ensemble
+046_GHL_id_15_Sensor_tr_50000_1st_156462                     GHL                         ensemble                                 ensemble         fft                           fft                       scaled_ensemble
+047_GHL_id_16_Sensor_tr_50000_1st_77001                      GHL                              fft                          scaled_ensemble         fft                           fft                       scaled_ensemble
+048_GHL_id_17_Sensor_tr_50000_1st_154001                     GHL                              fft                                      fft         fft                           fft                       scaled_ensemble
+050_GHL_id_19_Sensor_tr_43750_1st_55001                      GHL                         ensemble                                 ensemble         fft                           fft                       scaled_ensemble
+051_GHL_id_20_Sensor_tr_50000_1st_75110                      GHL                           future                                   future         fft                           fft                       scaled_ensemble
+052_GHL_id_21_Sensor_tr_50000_1st_98001                      GHL                         ensemble                                 ensemble         fft                           fft                       scaled_ensemble
+053_GHL_id_22_Sensor_tr_50000_1st_126448                     GHL                              fft                                      fft         fft                           fft                       scaled_ensemble
+054_GHL_id_23_Sensor_tr_50000_1st_135001                     GHL                             time                          scaled_ensemble         fft                           fft                       scaled_ensemble
+055_GHL_id_24_Sensor_tr_50000_1st_118124                     GHL                              fft                                      fft         fft                           fft                       scaled_ensemble
+056_GHL_id_25_Sensor_tr_50000_1st_105568                     GHL                              fft                                      fft         fft                           fft                       scaled_ensemble
+057_SMD_id_1_Facility_tr_4529_1st_4629                       SMD                         ensemble                                 ensemble    ensemble                        future                                future
+058_SMD_id_2_Facility_tr_1087_1st_1187                       SMD                           future                          scaled_ensemble    ensemble                        future                                future
+059_SMD_id_3_Facility_tr_757_1st_857                         SMD                             time                                     time    ensemble                        future                                future
+060_SMD_id_4_Facility_tr_7176_1st_10609                      SMD                           future                          scaled_ensemble    ensemble                        future                                future
+061_SMD_id_5_Facility_tr_7176_1st_15144                      SMD                         ensemble                          scaled_ensemble    ensemble                        future                                future
+063_SMD_id_7_Facility_tr_5923_1st_6506                       SMD                             time                                     time    ensemble                        future                                future
+064_SMD_id_8_Facility_tr_2272_1st_2372                       SMD                         ensemble                                 ensemble    ensemble                        future                                future
+065_SMD_id_9_Facility_tr_737_1st_837                         SMD                             time                                     time    ensemble                        future                                future
+066_SMD_id_10_Facility_tr_2634_1st_2734                      SMD                             time                          scaled_ensemble    ensemble                        future                                future
+067_SMD_id_11_Facility_tr_1980_1st_2080                      SMD                             time                                     time    ensemble                        future                                future
+068_SMD_id_12_Facility_tr_1099_1st_1199                      SMD                              fft                          scaled_ensemble    ensemble                        future                                future
+069_SMD_id_13_Facility_tr_5925_1st_12760                     SMD                             time                                     time    ensemble                        future                                future
+070_SMD_id_14_Facility_tr_1070_1st_1170                      SMD                             time                          scaled_ensemble    ensemble                        future                                future
+071_SMD_id_15_Facility_tr_1109_1st_1209                      SMD                              fft                                      fft    ensemble                        future                                future
+073_SMD_id_17_Facility_tr_5926_1st_10620                     SMD                              fft                          scaled_ensemble    ensemble                        future                                future
+074_SMD_id_18_Facility_tr_7174_1st_21230                     SMD                              fft                                      fft    ensemble                        future                                future
+075_SMD_id_19_Facility_tr_564_1st_664                        SMD                              fft                                      fft    ensemble                        future                                future
+076_SMD_id_20_Facility_tr_5925_1st_17580                     SMD                         ensemble                                 ensemble    ensemble                        future                                future
+077_SMD_id_21_Facility_tr_3026_1st_3126                      SMD                           future                                   future    ensemble                        future                                future
+078_SMD_id_22_Facility_tr_500_1st_326                        SMD                         ensemble                                 ensemble    ensemble                        future                                future
+079_LTDB_id_1_Medical_tr_3618_1st_3718                      LTDB                              fft                                      fft        time                      ensemble                              ensemble
+080_LTDB_id_2_Medical_tr_500_1st_266                        LTDB                             time                          scaled_ensemble        time                      ensemble                              ensemble
+081_LTDB_id_3_Medical_tr_500_1st_26                         LTDB                             time                          scaled_ensemble        time                      ensemble                              ensemble
+083_LTDB_id_5_Medical_tr_15502_1st_15602                    LTDB                         ensemble                                 ensemble        time                      ensemble                              ensemble
+084_SVDB_id_1_Medical_tr_12973_1st_13073                    SVDB                             time                          scaled_ensemble         fft                           fft                                   fft
+085_SVDB_id_2_Medical_tr_50000_1st_54982                    SVDB                         ensemble                                 ensemble         fft                           fft                                   fft
+086_SVDB_id_3_Medical_tr_533_1st_633                        SVDB                              fft                                      fft         fft                           fft                                   fft
+087_SVDB_id_4_Medical_tr_5421_1st_5521                      SVDB                              fft                          scaled_ensemble         fft                           fft                                   fft
+088_SVDB_id_5_Medical_tr_500_1st_168                        SVDB                             time                                     time         fft                           fft                                   fft
+089_SVDB_id_6_Medical_tr_50000_1st_83083                    SVDB                         ensemble                                 ensemble         fft                           fft                                   fft
+091_SVDB_id_8_Medical_tr_500_1st_126                        SVDB                           future                                   future         fft                           fft                                   fft
+092_SVDB_id_9_Medical_tr_2674_1st_2774                      SVDB                             time                                     time         fft                           fft                                   fft
+093_SVDB_id_10_Medical_tr_500_1st_37                        SVDB                              fft                                      fft         fft                           fft                                   fft
+094_SVDB_id_11_Medical_tr_20100_1st_23611                   SVDB                             time                          scaled_ensemble         fft                           fft                                   fft
+095_SVDB_id_12_Medical_tr_6264_1st_6364                     SVDB                           future                                   future         fft                           fft                                   fft
+096_SVDB_id_13_Medical_tr_500_1st_444                       SVDB                              fft                                      fft         fft                           fft                                   fft
+097_SVDB_id_14_Medical_tr_1031_1st_1131                     SVDB                             time                          scaled_ensemble         fft                           fft                                   fft
+098_SVDB_id_15_Medical_tr_500_1st_303                       SVDB                           future                                   future         fft                           fft                                   fft
+099_SVDB_id_16_Medical_tr_1115_1st_1215                     SVDB                           future                                   future         fft                           fft                                   fft
+100_SVDB_id_17_Medical_tr_17803_1st_17903                   SVDB                         ensemble                                 ensemble         fft                           fft                                   fft
+101_SVDB_id_18_Medical_tr_1851_1st_1951                     SVDB                             time                                     time         fft                           fft                                   fft
+102_SVDB_id_19_Medical_tr_50000_1st_107354                  SVDB                         ensemble                                 ensemble         fft                           fft                                   fft
+103_SVDB_id_20_Medical_tr_12167_1st_12267                   SVDB                              fft                                      fft         fft                           fft                                   fft
+104_SVDB_id_21_Medical_tr_50000_1st_106634                  SVDB                             time                                     time         fft                           fft                                   fft
+105_SVDB_id_22_Medical_tr_500_1st_417                       SVDB                              fft                                      fft         fft                           fft                                   fft
+106_SVDB_id_23_Medical_tr_37500_1st_121963                  SVDB                              fft                                      fft         fft                           fft                                   fft
+108_SVDB_id_25_Medical_tr_1238_1st_1338                     SVDB                              fft                          scaled_ensemble         fft                           fft                                   fft
+109_SVDB_id_26_Medical_tr_1038_1st_1138                     SVDB                              fft                                      fft         fft                           fft                                   fft
+110_SVDB_id_27_Medical_tr_30824_1st_30924                   SVDB                             time                                     time         fft                           fft                                   fft
+111_SVDB_id_28_Medical_tr_1791_1st_1891                     SVDB                         ensemble                                 ensemble         fft                           fft                                   fft
+112_SVDB_id_29_Medical_tr_8226_1st_8326                     SVDB                           future                                   future         fft                           fft                                   fft
+114_SVDB_id_31_Medical_tr_25000_1st_63090                   SVDB                             time                                     time         fft                           fft                                   fft
+116_TAO_id_1_Environment_tr_500_1st_3                        TAO                             time                                     time      future                           fft                                   fft
+117_TAO_id_2_Environment_tr_500_1st_1                        TAO                              fft                                      fft      future                           fft                                   fft
+118_TAO_id_3_Environment_tr_500_1st_7                        TAO                             time                          scaled_ensemble      future                           fft                                   fft
+119_TAO_id_4_Environment_tr_500_1st_1                        TAO                           future                                   future      future                           fft                                   fft
+121_TAO_id_6_Environment_tr_500_1st_7                        TAO                         ensemble                                 ensemble      future                           fft                                   fft
+122_TAO_id_7_Environment_tr_500_1st_19                       TAO                              fft                                      fft      future                           fft                                   fft
+123_TAO_id_8_Environment_tr_500_1st_62                       TAO                           future                                   future      future                           fft                                   fft
+124_TAO_id_9_Environment_tr_500_1st_1                        TAO                         ensemble                                 ensemble      future                           fft                                   fft
+125_TAO_id_10_Environment_tr_500_1st_9                       TAO                         ensemble                          scaled_ensemble      future                           fft                                   fft
+127_TAO_id_12_Environment_tr_500_1st_24                      TAO                              fft                          scaled_ensemble      future                           fft                                   fft
+128_TAO_id_13_Environment_tr_500_1st_7                       TAO                         ensemble                                 ensemble      future                           fft                                   fft
+129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901  OPPORTUNITY                              fft                          scaled_ensemble         fft                      ensemble                              ensemble
+130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145  OPPORTUNITY                         ensemble                                 ensemble         fft                      ensemble                              ensemble
+132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995    OPPORTUNITY                              fft                                      fft         fft                      ensemble                              ensemble
+133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500  OPPORTUNITY                              fft                          scaled_ensemble         fft                      ensemble                              ensemble
+134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577  OPPORTUNITY                             time                                     time         fft                      ensemble                              ensemble
+135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185  OPPORTUNITY                             time                                     time         fft                      ensemble                              ensemble
+136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595  OPPORTUNITY                             time                                     time         fft                      ensemble                              ensemble
+138_CATSv2_id_1_Sensor_tr_16568_1st_16668                 CATSv2                             time                          scaled_ensemble      future                        future                                future
+139_CATSv2_id_2_Sensor_tr_5592_1st_5692                   CATSv2                              fft                                      fft      future                        future                                future
+141_CATSv2_id_4_Sensor_tr_41727_1st_41827                 CATSv2                              fft                                      fft      future                        future                                future
+142_CATSv2_id_5_Sensor_tr_30704_1st_30804                 CATSv2                              fft                                      fft      future                        future                                future
+143_CATSv2_id_6_Sensor_tr_50000_1st_60232                 CATSv2                             time                                     time      future                        future                                future
+144_SMAP_id_1_Sensor_tr_2052_1st_5300                       SMAP                              fft                                      fft    ensemble                        future                       scaled_ensemble
+145_SMAP_id_2_Sensor_tr_2133_1st_5400                       SMAP                           future                                   future    ensemble                        future                       scaled_ensemble
+146_SMAP_id_3_Sensor_tr_2128_1st_5000                       SMAP                             time                                     time    ensemble                        future                       scaled_ensemble
+147_SMAP_id_4_Sensor_tr_2160_1st_6449                       SMAP                           future                                   future    ensemble                        future                       scaled_ensemble
+148_SMAP_id_5_Sensor_tr_2011_1st_5060                       SMAP                              fft                                      fft    ensemble                        future                       scaled_ensemble
+150_SMAP_id_7_Sensor_tr_2077_1st_5394                       SMAP                             time                                     time    ensemble                        future                       scaled_ensemble
+151_SMAP_id_8_Sensor_tr_1971_1st_4870                       SMAP                             time                                     time    ensemble                        future                       scaled_ensemble
+152_SMAP_id_9_Sensor_tr_2073_1st_5600                       SMAP                              fft                                      fft    ensemble                        future                       scaled_ensemble
+153_SMAP_id_10_Sensor_tr_1840_1st_4030                      SMAP                              fft                                      fft    ensemble                        future                       scaled_ensemble
+154_SMAP_id_11_Sensor_tr_2117_1st_4770                      SMAP                             time                                     time    ensemble                        future                       scaled_ensemble
+155_SMAP_id_12_Sensor_tr_1907_1st_4800                      SMAP                              fft                                      fft    ensemble                        future                       scaled_ensemble
+156_SMAP_id_13_Sensor_tr_1173_1st_2750                      SMAP                             time                                     time    ensemble                        future                       scaled_ensemble
+157_SMAP_id_14_Sensor_tr_2126_1st_5000                      SMAP                           future                                   future    ensemble                        future                       scaled_ensemble
+158_SMAP_id_15_Sensor_tr_2075_1st_5610                      SMAP                             time                                     time    ensemble                        future                       scaled_ensemble
+159_SMAP_id_16_Sensor_tr_1757_1st_2650                      SMAP                         ensemble                                 ensemble    ensemble                        future                       scaled_ensemble
+160_SMAP_id_17_Sensor_tr_1832_1st_5300                      SMAP                           future                                   future    ensemble                        future                       scaled_ensemble
+161_SMAP_id_18_Sensor_tr_2075_1st_5550                      SMAP                             time                          scaled_ensemble    ensemble                        future                       scaled_ensemble
+162_SMAP_id_19_Sensor_tr_1908_1st_4690                      SMAP                         ensemble                          scaled_ensemble    ensemble                        future                       scaled_ensemble
+163_SMAP_id_20_Sensor_tr_2051_1st_4575                      SMAP                           future                                   future    ensemble                        future                       scaled_ensemble
+165_SMAP_id_22_Sensor_tr_2129_1st_5000                      SMAP                             time                                     time    ensemble                        future                       scaled_ensemble
+166_SMAP_id_23_Sensor_tr_1113_1st_1890                      SMAP                              fft                                      fft    ensemble                        future                       scaled_ensemble
+167_SMAP_id_24_Sensor_tr_2094_1st_5600                      SMAP                             time                                     time    ensemble                        future                       scaled_ensemble
+168_SMAP_id_25_Sensor_tr_1998_1st_2098                      SMAP                         ensemble                          scaled_ensemble    ensemble                        future                       scaled_ensemble
+169_SMAP_id_26_Sensor_tr_1811_1st_4510                      SMAP                             time                                     time    ensemble                        future                       scaled_ensemble
+170_SMAP_id_27_Sensor_tr_2160_1st_4690                      SMAP                           future                                   future    ensemble                        future                       scaled_ensemble
+174_Exathlon_id_1_Facility_tr_10766_1st_12590           Exathlon                             time                                     time         fft                      ensemble                              ensemble
+175_Exathlon_id_2_Facility_tr_10684_1st_10784           Exathlon                         ensemble                                 ensemble         fft                      ensemble                              ensemble
+176_Exathlon_id_3_Facility_tr_10766_1st_12590           Exathlon                              fft                                      fft         fft                      ensemble                              ensemble
+177_Exathlon_id_4_Facility_tr_11665_1st_13484           Exathlon                             time                                     time         fft                      ensemble                              ensemble
+179_Exathlon_id_6_Facility_tr_11665_1st_13484           Exathlon                              fft                                      fft         fft                      ensemble                              ensemble
+180_Exathlon_id_7_Facility_tr_10766_1st_12590           Exathlon                         ensemble                                 ensemble         fft                      ensemble                              ensemble
+181_Exathlon_id_8_Facility_tr_11663_1st_13482           Exathlon                             time                                     time         fft                      ensemble                              ensemble
+182_Exathlon_id_9_Facility_tr_10766_1st_12590           Exathlon                           future                                   future         fft                      ensemble                              ensemble
+183_Exathlon_id_10_Facility_tr_11665_1st_13484          Exathlon                             time                                     time         fft                      ensemble                              ensemble
+184_Exathlon_id_11_Facility_tr_11665_1st_13484          Exathlon                              fft                                      fft         fft                      ensemble                              ensemble
+185_Exathlon_id_12_Facility_tr_11665_1st_13484          Exathlon                             time                                     time         fft                      ensemble                              ensemble
+186_Exathlon_id_13_Facility_tr_10766_1st_12590          Exathlon                           future                                   future         fft                      ensemble                              ensemble
+187_Exathlon_id_14_Facility_tr_6193_1st_6293            Exathlon                              fft                          scaled_ensemble         fft                      ensemble                              ensemble
+188_Exathlon_id_15_Facility_tr_12538_1st_12638          Exathlon                              fft                                      fft         fft                      ensemble                              ensemble
+189_Exathlon_id_16_Facility_tr_11663_1st_13482          Exathlon                         ensemble                          scaled_ensemble         fft                      ensemble                              ensemble
+190_Exathlon_id_17_Facility_tr_12538_1st_12638          Exathlon                           future                                   future         fft                      ensemble                              ensemble
+191_Exathlon_id_18_Facility_tr_11665_1st_13484          Exathlon                           future                          scaled_ensemble         fft                      ensemble                              ensemble
+192_Exathlon_id_19_Facility_tr_11665_1st_13484          Exathlon                              fft                                      fft         fft                      ensemble                              ensemble
+193_Exathlon_id_20_Facility_tr_8898_1st_8998            Exathlon                              fft                                      fft         fft                      ensemble                              ensemble
+194_Exathlon_id_21_Facility_tr_6985_1st_7085            Exathlon                              fft                          scaled_ensemble         fft                      ensemble                              ensemble
+196_Exathlon_id_23_Facility_tr_11665_1st_13484          Exathlon                           future                                   future         fft                      ensemble                              ensemble
+197_Exathlon_id_24_Facility_tr_10766_1st_12590          Exathlon                             time                                     time         fft                      ensemble                              ensemble
+198_Exathlon_id_25_Facility_tr_12538_1st_12638          Exathlon                           future                                   future         fft                      ensemble                              ensemble
+199_Exathlon_id_26_Facility_tr_12538_1st_12638          Exathlon                           future                          scaled_ensemble         fft                      ensemble                              ensemble
+200_Exathlon_id_27_Facility_tr_10766_1st_12590          Exathlon                           future                          scaled_ensemble         fft                      ensemble                              ensemble
+
+[STEP 4] Applying strategies to multivariate evaluation set...
+
+--- Final Evaluation Scores (using empirically best fallback) ---
+VUS-PR using ZS-only strategy:      0.498966
+VUS-PR using with-ensemble strategy: 0.477697
+
+[STEP 5] Analyzing all possible fallback heads on the multivariate evaluation set...
+
+--- Fallback Analysis for ZS-only Strategy ---
+               Resulting VUS-PR
+Fallback Head                  
+time                   0.500176
+ensemble               0.498966
+future                 0.492439
+fft                    0.491774
+
+--- Fallback Analysis for with-ensemble Strategy ---
+                 Resulting VUS-PR
+Fallback Head                    
+time                     0.478907
+ensemble                 0.477697
+scaled_ensemble          0.471769
+future                   0.471170
+fft                      0.470505

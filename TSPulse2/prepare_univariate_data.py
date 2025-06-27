@@ -6,6 +6,58 @@ import pandas as pd
 from tqdm import tqdm
 
 
+def rename_incorrectly_named_files(dest_dir, file_list_path):
+    """
+    Renames files in the destination directory. This does two things:
+    1. Ensures the separator between base name and feature name is a hyphen.
+    2. Replaces all underscores in the feature part of the filename with hyphens.
+    """
+    if not os.path.exists(dest_dir):
+        return
+
+    try:
+        source_df = pd.read_csv(file_list_path)
+        base_names = [os.path.splitext(f)[0] for f in source_df["file_name"].tolist()]
+        base_names.sort(key=len, reverse=True)  # Handle overlapping names
+    except FileNotFoundError:
+        print(
+            f"Error: Source file list not found at {file_list_path}, skipping rename."
+        )
+        return
+
+    print(f"Sanitizing filenames in '{dest_dir}'...")
+    renamed_count = 0
+    files_in_dest = os.listdir(dest_dir)
+
+    for filename in tqdm(files_in_dest, desc="Sanitizing"):
+        matched_base = None
+        for base in base_names:
+            if filename.startswith(base + "_") or filename.startswith(base + "-"):
+                matched_base = base
+                break
+
+        if matched_base:
+            # Extract feature part (everything after base name and separator)
+            feature_part_with_ext = filename[len(matched_base) + 1 :]
+            name_part, ext_part = os.path.splitext(feature_part_with_ext)
+
+            # Sanitize by replacing all underscores with hyphens
+            sanitized_name = name_part.replace("_", "-")
+            sanitized_feature = sanitized_name + ext_part
+
+            # Construct the new filename with a hyphen separator
+            new_filename = f"{matched_base}-{sanitized_feature}"
+
+            if new_filename != filename:
+                source_path = os.path.join(dest_dir, filename)
+                dest_path = os.path.join(dest_dir, new_filename)
+                os.rename(source_path, dest_path)
+                renamed_count += 1
+
+    if renamed_count > 0:
+        print(f"Renamed {renamed_count} files.")
+
+
 def convert_multivariate_to_univariate(source_dir, dest_dir, file_list_path):
     """
     Converts all multivariate CSV files from a source directory into multiple
@@ -29,6 +81,8 @@ def convert_multivariate_to_univariate(source_dir, dest_dir, file_list_path):
         return
 
     new_univariate_files = []
+    created_count = 0
+    skipped_count = 0
 
     print(f"Converting files from '{source_dir}' to '{dest_dir}'...")
     for filename in tqdm(source_files, desc="Converting files"):
@@ -50,26 +104,32 @@ def convert_multivariate_to_univariate(source_dir, dest_dir, file_list_path):
         base_name = os.path.splitext(filename)[0]
 
         for col in feature_columns:
-            # Sanitize column name to be filesystem-friendly, replacing dots with hyphens
+            # Sanitize column name to be filesystem-friendly
             sanitized_col_name = (
-                "".join(c for c in col if c.isalnum() or c in ("_", "-", "."))
-                .replace(".", "-")
+                "".join(c for c in col if c.isalnum() or c in ("_", "-"))
+                .replace("_", "-")  # Also replace underscores with hyphens
                 .rstrip()
             )
 
-            # Create a new DataFrame for the univariate series
-            univariate_df = pd.DataFrame({"value": df[col], "Label": label_series})
-
             # Define the new filename using a hyphen as a separator
             new_filename = f"{base_name}-{sanitized_col_name}.csv"
-
             dest_path = os.path.join(dest_dir, new_filename)
-            univariate_df.to_csv(dest_path, index=False)
 
+            # The file list should contain all generated files, even if they already exist.
             new_univariate_files.append(new_filename)
 
+            # Skip creating the file if it already exists
+            if os.path.exists(dest_path):
+                skipped_count += 1
+                continue
+
+            # Create a new DataFrame for the univariate series with 'Data' and 'Label' columns
+            univariate_df = pd.DataFrame({"Data": df[col], "Label": label_series})
+            univariate_df.to_csv(dest_path, index=False)
+            created_count += 1
+
     # Create a new file list for the generated univariate files
-    new_file_list_df = pd.DataFrame({"file_name": new_univariate_files})
+    new_file_list_df = pd.DataFrame({"file_name": sorted(new_univariate_files)})
 
     # Save the new file list in the same directory as the original
     file_list_dir = os.path.dirname(file_list_path)
@@ -81,7 +141,8 @@ def convert_multivariate_to_univariate(source_dir, dest_dir, file_list_path):
     new_file_list_df.to_csv(new_file_list_path, index=False)
 
     print("\nConversion complete.")
-    print(f"{len(new_univariate_files)} univariate files created.")
+    print(f"{created_count} new univariate files created.")
+    print(f"{skipped_count} files already existed and were skipped.")
     print(f"New file list saved to: {new_file_list_path}")
 
 
@@ -109,10 +170,8 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    # Before running, you might want to delete the old output directory
-    # import shutil
-    # if os.path.exists(args.dest_dir):
-    #     print(f"Removing old directory: {args.dest_dir}")
-    #     shutil.rmtree(args.dest_dir)
+    # First, rename any incorrectly named files from a previous run.
+    rename_incorrectly_named_files(args.dest_dir, args.file_list)
 
+    # Now, proceed with the conversion.
     convert_multivariate_to_univariate(args.source_dir, args.dest_dir, args.file_list)

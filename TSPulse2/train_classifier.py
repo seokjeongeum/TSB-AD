@@ -18,6 +18,7 @@ import sys
 import re
 from typing import Dict, List
 
+import joblib
 import numpy as np
 import pandas as pd
 import torch
@@ -38,6 +39,9 @@ from tsfm_public.toolkit.dataset import ClassificationDFDataset
 from tsfm_public.toolkit.lr_finder import optimal_lr_finder
 from tsfm_public.toolkit.time_series_classification_preprocessor import \
     TimeSeriesClassificationPreprocessor
+from tsfm_public.toolkit.time_series_classification_pipeline import (
+    TimeSeriesClassificationPipeline,
+)
 
 # --- Configuration ---
 SEED = 2024
@@ -430,6 +434,12 @@ def main():
         action="store_true",
         help="Start training from scratch, overwriting existing checkpoints. Default is to resume.",
     )
+    parser.add_argument(
+        "--batch_size",
+        type=int,
+        default=1,
+        help="Batch size for training and evaluation.",
+    )
 
     args = parser.parse_args()
     os.makedirs(args.output_dir, exist_ok=True)
@@ -455,16 +465,13 @@ def main():
 
     # Load and split data using the new logic
     uni_train_val_samples, uni_test_samples = load_split_and_process_data("uni")
-    multi_train_val_samples, multi_test_samples = load_split_and_process_data("multi")
     (
         multi_as_uni_train_val_samples,
         multi_as_uni_test_samples,
     ) = load_split_and_process_data("multi_as_uni", multi_file_lists=multi_file_lists)
 
-    all_train_val_samples = (
-        uni_train_val_samples + multi_train_val_samples + multi_as_uni_train_val_samples
-    )
-    all_test_samples = uni_test_samples + multi_test_samples + multi_as_uni_test_samples
+    all_train_val_samples = uni_train_val_samples + multi_as_uni_train_val_samples
+    all_test_samples = uni_test_samples + multi_as_uni_test_samples
 
     if not all_train_val_samples:
         logging.error(
@@ -525,7 +532,13 @@ def main():
     logging.info("Transforming datasets with the fitted preprocessor...")
     train_df_prep = tsp.preprocess(train_df)
     eval_df_prep = tsp.preprocess(eval_df)
-    test_df_prep = tsp.preprocess(test_df)
+
+    final_model_path = os.path.join(args.output_dir, "final_model")
+    os.makedirs(final_model_path, exist_ok=True)
+    # Save the preprocessor used for training
+    preprocessor_path = os.path.join(final_model_path, "preprocessor.joblib")
+    joblib.dump(tsp, preprocessor_path)
+    logging.info(f"Preprocessor saved to {preprocessor_path}")
 
     # Calculate class weights for handling imbalance
     class_labels = tsp.label_encoder.classes_
@@ -551,13 +564,6 @@ def main():
     )
     eval_dataset = ClassificationDFDataset(
         eval_df_prep,
-        input_columns=["past_values"],
-        label_column="labels",
-        context_length=512,
-        full_series=True,
-    )
-    test_dataset = ClassificationDFDataset(
-        test_df_prep,
         input_columns=["past_values"],
         label_column="labels",
         context_length=512,
@@ -592,6 +598,16 @@ def main():
         **config_dict,
     )
 
+    # If batch size is 1, skip training and save the initialized model directly.
+    # The preprocessor is already saved before this step.
+    if args.batch_size == 1:
+        logging.info(
+            "Batch size is 1. Skipping training and saving initialized model..."
+        )
+        model.save_pretrained(final_model_path)
+        logging.info(f"Initialized model saved to {final_model_path}")
+        return
+
     # # Compile the model if using PyTorch 2.0+
     # if hasattr(torch, "compile"):
     #     logging.info("Compiling the model with torch.compile...")
@@ -608,12 +624,11 @@ def main():
     # 5. Train Model
     logging.info("STEP 5: Training Model...")
 
-    batch_size = 2**14  # Use a constant batch size
     logging.info("Finding optimal learning rate...")
     lr, model = optimal_lr_finder(
         model,
         train_dataset,
-        batch_size=batch_size,
+        batch_size=args.batch_size,
     )
     logging.info(f"Using learning rate found by LR finder: {lr}")
 
@@ -626,8 +641,8 @@ def main():
         # Set both strategies to 'epoch' for clean, aggregated logging
         eval_strategy="epoch",
         logging_strategy="epoch",
-        per_device_train_batch_size=batch_size,
-        per_device_eval_batch_size=batch_size,
+        per_device_train_batch_size=args.batch_size,
+        per_device_eval_batch_size=args.batch_size,
         # --- SPEEDUP CONFIGS ---
         gradient_accumulation_steps=4,  # Simulate effective batch size
         dataloader_num_workers=os.cpu_count(),
@@ -665,10 +680,56 @@ def main():
     trainer.train(resume_from_checkpoint=resume_from_checkpoint)
 
     logging.info("STEP 6: Evaluating on Test Set...")
-    predictions = trainer.predict(test_dataset)
-    evaluate_and_log(predictions, "Combined Test", tsp, args.output_dir)
+    # The trainer loaded the best model at the end of training, so we use that.
+    best_model = trainer.model
+    device = best_model.device
 
-    final_model_path = os.path.join(args.output_dir, "final_model")
+    # Align evaluation with the inference pipeline for consistency
+    classification_pipeline = TimeSeriesClassificationPipeline(
+        model=best_model, feature_extractor=tsp, device=device
+    )
+
+    if not test_df.empty:
+        logging.info(
+            "Running evaluation on the test set using the classification pipeline..."
+        )
+        # The pipeline expects a DataFrame with a 'past_values' column.
+        # Our `test_df` has this structure.
+        predictions_df = classification_pipeline(test_df.copy())
+
+        # The pipeline adds a 'labels_prediction' column.
+        true_labels = predictions_df["labels"]
+        pred_labels = predictions_df["labels_prediction"]
+
+        accuracy = accuracy_score(true_labels, pred_labels)
+        report = classification_report(
+            true_labels,
+            pred_labels,
+            labels=tsp.label_encoder.classes_,
+            digits=4,
+            zero_division=0,
+        )
+        label_distribution = pd.Series(true_labels).value_counts()
+
+        dataset_name = "Combined Test"
+        logging.info(f"\n\n--- {dataset_name} Set Evaluation ---")
+        logging.info(f"Accuracy: {accuracy:.4f}")
+        logging.info(
+            f"Ground Truth Label Distribution:\n{label_distribution.to_string()}"
+        )
+        logging.info("Classification Report:\n" + report)
+
+        results_file = os.path.join(
+            args.output_dir, f"test_results_{dataset_name.lower().replace(' ', '_')}.txt"
+        )
+        with open(results_file, "w") as f:
+            f.write(f"Test Accuracy: {accuracy:.4f}\n\n")
+            f.write("Ground Truth Label Distribution:\n")
+            f.write(label_distribution.to_string() + "\n\n")
+            f.write("Classification Report:\n")
+            f.write(report)
+    else:
+        logging.warning("Test dataframe is empty. Skipping final evaluation.")
     trainer.save_model(final_model_path)
     logging.info(f"Final model saved to {final_model_path}")
 

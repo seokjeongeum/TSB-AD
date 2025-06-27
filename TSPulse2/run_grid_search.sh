@@ -50,6 +50,11 @@ MASK_RATIOS=(0.0 0.3)
 HEAD_GATED_ATTENTION_ACTIVATIONS=("softmax" "sigmoid")
 CHANNEL_VIRTUAL_EXPAND_SCALES=(1 2)
 
+# Set a batch size for all runs in this grid search.
+# The default in train_classifier.py is now 1, which can be slow for a grid search.
+# Adjust this value based on your available GPU memory.
+BATCH_SIZE=16384
+
 # 2. Generate All Combinations
 declare -a PARAMS
 for reduce_d in "${HEAD_REDUCE_D_MODELS[@]}"; do
@@ -105,12 +110,14 @@ echo "  Decoder Mode: $CURRENT_DECODER"
 echo "  Mask Ratio: $CURRENT_MASK"
 echo "  Head Gated Attention Activation: $CURRENT_HEAD_ACT"
 echo "  Channel Virtual Expand Scale: $CURRENT_EXPAND_SCALE"
+echo "  Batch Size: $BATCH_SIZE"
 echo "  Output Dir: $CURRENT_OUTPUT_DIR"
 echo "=========================================================="
 
 # Construct and run the final python command
 COMMAND="python -u TSPulse2/train_classifier.py \
   --output_dir=\"${CURRENT_OUTPUT_DIR}\" \
+  --batch_size=${BATCH_SIZE} \
   --head_reduce_d_model=${CURRENT_REDUCE_D} \
   --decoder_mode=\"${CURRENT_DECODER}\" \
   --mask_ratio=${CURRENT_MASK} \

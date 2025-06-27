@@ -1,6 +1,7 @@
 import os
 import glob
 import pandas as pd
+import sys
 
 
 def get_head_name_from_filename(filepath):
@@ -19,6 +20,16 @@ def get_dataset_name_from_file(filename):
         return filename.split("_")[1]
     except IndexError:
         return "Unknown"
+
+
+def load_file_set(filepath: str) -> set:
+    """Loads a list of files and returns a set of sanitized filenames."""
+    if not os.path.exists(filepath):
+        print(f"Warning: File list not found at {filepath}")
+        return set()
+    df = pd.read_csv(filepath)
+    # The 'file' column in the metrics df is sanitized (no .csv), so we sanitize here too.
+    return {os.path.splitext(f)[0] for f in df["file_name"]}
 
 
 def load_all_metrics(metrics_path):
@@ -53,8 +64,41 @@ def load_all_metrics(metrics_path):
         return pd.DataFrame()
 
     merged_df = pd.concat(all_dfs, axis=1)
-    merged_df["dataset"] = merged_df.index.to_series().apply(get_dataset_name_from_file)
+
+    # Sanitize the index to remove file extensions, matching the tuning file lists.
+    merged_df.index = merged_df.index.map(
+        lambda x: os.path.splitext(x)[0] if isinstance(x, str) else x
+    )
+
+    merged_df["dataset"] = merged_df.index.to_series().apply(
+        get_dataset_name_from_file
+    )
     return merged_df
+
+
+def load_paper_best_heads(filepath: str, head_name_map: dict) -> pd.Series:
+    """
+    Loads the best head choices from the paper's supplementary CSV file,
+    maps the head names to match our internal representation, and returns a
+    Series mapping Dataset -> Best Head.
+    """
+    if not os.path.exists(filepath):
+        print(f"Warning: Paper's best head file not found at {filepath}")
+        return pd.Series(dtype=str)
+    df = pd.read_csv(filepath)
+    df["Best_TSPulse_Output"] = df["Best_TSPulse_Output"].map(head_name_map)
+    return df.set_index("Dataset")["Best_TSPulse_Output"]
+
+
+def get_best_head_per_file(df, heads_to_consider):
+    """Determines the head with the maximum VUS-PR score for each file (row)."""
+    valid_heads = [h for h in heads_to_consider if h in df.columns]
+    if not valid_heads or df.empty:
+        return pd.Series(dtype=str)
+
+    # For each row (file), find the column name (head) with the max value.
+    best_heads = df[valid_heads].idxmax(axis=1)
+    return best_heads
 
 
 def calculate_best_heads_per_dataset(df, heads_to_consider):
@@ -93,19 +137,34 @@ def apply_strategy_and_evaluate(eval_df, best_heads_map, fallback_head):
     return pd.Series(scores).mean()
 
 
-def run_analysis_workflow(tuning_path, eval_path, workflow_name):
+def run_analysis_workflow(
+    metrics_path, tuning_files, eval_files, paper_best_heads, workflow_name
+):
     """Executes the full tuning and evaluation workflow for a given variant (uni/multi)."""
     print("\n" + "=" * 80)
     print(f"STARTING {workflow_name.upper()} WORKFLOW")
     print("=" * 80)
 
-    # --- Step 1: Determine Best Heads from Tuning Data ---
-    print(f"\n[STEP 1] Determining best heads from {workflow_name} tuning data...")
-    print(f"(Source: {tuning_path})")
+    # --- Step 1: Load all metric data from the source directory ---
+    print(f"\n[STEP 1] Loading all metric data from {workflow_name} directory...")
+    print(f"(Source: {metrics_path})")
+    all_data = load_all_metrics(metrics_path)
+    if all_data.empty:
+        print(f"Error: No data found at {metrics_path}. Cannot proceed.")
+        return
 
-    tuning_data = load_all_metrics(tuning_path)
+    # --- Step 2: Split into Tuning and Evaluation sets based on the file lists ---
+    print("\n[STEP 2] Splitting data into Tuning and Evaluation sets...")
+    tuning_data = all_data[all_data.index.isin(tuning_files)]
+    eval_data = all_data[all_data.index.isin(eval_files)]
+    print(
+        f"Found {len(tuning_data)} tuning records and {len(eval_data)} evaluation records."
+    )
+
+    # --- Step 3: Determine Best Heads from Tuning Data ---
+    print(f"\n[STEP 3] Determining best heads from {workflow_name} tuning data...")
     if tuning_data.empty:
-        print(f"Error: No tuning data found at {tuning_path}. Cannot proceed.")
+        print("Error: No tuning data identified after split. Cannot determine strategy.")
         return
 
     base_heads = [
@@ -129,12 +188,94 @@ def run_analysis_workflow(tuning_path, eval_path, workflow_name):
     print(best_heads_map_all.to_string())
     print(f"\nDetermined Fallback (with ensemble): '{fallback_head_all}'")
 
-    # --- Step 2: Apply Learned Strategies to Evaluation Set ---
-    print(f"\n[STEP 2] Applying strategies to {workflow_name} evaluation set...")
-    print(f"(Source: {eval_path})")
-    eval_data = load_all_metrics(eval_path)
+    # --- Step 3.5: Alignment Analysis ---
+    print(
+        f"\n[STEP 3.5] Verifying head alignment on {workflow_name} evaluation data (per series)..."
+    )
+
+    # Calculate two versions of the "actual" best head on the evaluation data
+    actual_best_ts_only = get_best_head_per_file(eval_data, base_heads)
+    actual_best_with_ensemble = get_best_head_per_file(eval_data, all_heads)
+
+    if actual_best_ts_only.empty or actual_best_with_ensemble.empty:
+        print(
+            "Could not determine actual best heads per series on eval set. Skipping alignment."
+        )
+    else:
+        # Create a summary dataframe, indexed by series (file).
+        comparison_df = pd.DataFrame(
+            {
+                "ActualBestHead_Eval_TSPulse_Only": actual_best_ts_only,
+                "ActualBestHead_Eval_With_Scaled_Ensemble": actual_best_with_ensemble,
+            }
+        )
+        comparison_df["Dataset"] = comparison_df.index.map(eval_data["dataset"])
+
+        # Map all choices to the per-series frame
+        comparison_df["PaperChoice"] = comparison_df["Dataset"].map(paper_best_heads)
+        comparison_df["ReproducedChoice_TSPulse_Only"] = comparison_df[
+            "Dataset"
+        ].map(best_heads_map_base)
+        comparison_df["ReproducedChoice_With_Scaled_Ensemble"] = comparison_df[
+            "Dataset"
+        ].map(best_heads_map_all)
+
+        # Drop series where a mapping couldn't be made for fair comparison
+        comparison_df.dropna(
+            subset=[
+                "PaperChoice",
+                "ReproducedChoice_TSPulse_Only",
+                "ReproducedChoice_With_Scaled_Ensemble",
+            ],
+            inplace=True,
+        )
+
+        # --- Calculate Alignments ---
+        align_paper = (
+            comparison_df["ActualBestHead_Eval_TSPulse_Only"]
+            == comparison_df["PaperChoice"]
+        )
+        align_reproduced_ts_only = (
+            comparison_df["ActualBestHead_Eval_TSPulse_Only"]
+            == comparison_df["ReproducedChoice_TSPulse_Only"]
+        )
+        align_reproduced_with_ensemble = (
+            comparison_df["ActualBestHead_Eval_With_Scaled_Ensemble"]
+            == comparison_df["ReproducedChoice_With_Scaled_Ensemble"]
+        )
+
+        total_series = len(comparison_df)
+
+        print("\n--- Alignment Summary (Per-Series) ---")
+        if total_series > 0:
+            print(
+                f"Alignment of Paper's Choice vs. ActualBestHead_Eval_TSPulse_Only: {align_paper.sum()} / {total_series} ({align_paper.mean():.2%})"
+            )
+            print(
+                f"Alignment of Reproduced TSPulse-Only Choice vs. ActualBestHead_Eval_TSPulse_Only: {align_reproduced_ts_only.sum()} / {total_series} ({align_reproduced_ts_only.mean():.2%})"
+            )
+            print(
+                f"Alignment of Reproduced With-Scaled-Ensemble Choice vs. ActualBestHead_Eval_With_Scaled_Ensemble: {align_reproduced_with_ensemble.sum()} / {total_series} ({align_reproduced_with_ensemble.mean():.2%})"
+            )
+        else:
+            print("No series available for comparison after mapping choices.")
+
+        print("\n--- Detailed Per-Series Comparison ---")
+        display_cols = [
+            "Dataset",
+            "ActualBestHead_Eval_TSPulse_Only",
+            "ActualBestHead_Eval_With_Scaled_Ensemble",
+            "PaperChoice",
+            "ReproducedChoice_TSPulse_Only",
+            "ReproducedChoice_With_Scaled_Ensemble",
+        ]
+        display_cols_exist = [c for c in display_cols if c in comparison_df.columns]
+        print(comparison_df[display_cols_exist].to_string())
+
+    # --- Step 4: Apply Learned Strategies to Evaluation Set ---
+    print(f"\n[STEP 4] Applying strategies to {workflow_name} evaluation set...")
     if eval_data.empty:
-        print(f"Error: No evaluation data found at {eval_path}. Cannot proceed.")
+        print("Warning: No evaluation data to apply strategy to. Skipping evaluation.")
         return
 
     print("\n--- Final Evaluation Scores (using empirically best fallback) ---")
@@ -148,9 +289,9 @@ def run_analysis_workflow(tuning_path, eval_path, workflow_name):
     )
     print(f"VUS-PR using with-ensemble strategy: {vus_pr_all:.6f}")
 
-    # --- Step 3: Comprehensive Fallback Analysis on Evaluation Set ---
+    # --- Step 5: Comprehensive Fallback Analysis on Evaluation Set ---
     print(
-        f"\n[STEP 3] Analyzing all possible fallback heads on the {workflow_name} evaluation set..."
+        f"\n[STEP 5] Analyzing all possible fallback heads on the {workflow_name} evaluation set..."
     )
 
     # Fallback analysis for Strategy 1
@@ -198,15 +339,86 @@ def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.abspath(os.path.join(script_dir, ".."))
 
-    uni_tuning_path = os.path.join(project_root, "eval", "metrics", "uni-tuning")
-    uni_eval_path = os.path.join(project_root, "eval", "metrics", "uni")
+    # --- Head Name Mapping ---
+    # Maps head names from the paper's CSVs to the names used in this script
+    head_name_map = {
+        "Headtime": "time",
+        "Headfft": "fft",
+        "Headfuture": "future",
+        "Headensemble": "ensemble",
+        "Head_scaled_ensemble": "scaled_ensemble",
+    }
 
-    multi_tuning_path = os.path.join(project_root, "eval", "metrics", "multi-tuning")
-    multi_eval_path = os.path.join(project_root, "eval", "metrics", "multi")
+    # Define paths to metric directories
+    uni_metrics_path = os.path.join(project_root, "eval", "metrics", "uni")
+    multi_metrics_path = os.path.join(project_root, "eval", "metrics", "multi")
 
-    run_analysis_workflow(uni_tuning_path, uni_eval_path, "univariate")
-    run_analysis_workflow(multi_tuning_path, multi_eval_path, "multivariate")
+    # Define paths for the TUNING file lists
+    uni_tuning_list_path = os.path.join(
+        project_root, "Datasets", "File_List", "TSB-AD-U-Tuning.csv"
+    )
+    multi_tuning_list_path = os.path.join(
+        project_root, "Datasets", "File_List", "TSB-AD-M-Tuning.csv"
+    )
+
+    # Define paths for the EVALUATION file lists
+    uni_eval_list_path = os.path.join(
+        project_root, "Datasets", "File_List", "TSB-AD-U-Eva.csv"
+    )
+    multi_eval_list_path = os.path.join(
+        project_root, "Datasets", "File_List", "TSB-AD-M-Eva.csv"
+    )
+
+    # Define paths for the paper's provided BEST HEADS file lists
+    uni_paper_heads_path = os.path.join(
+        script_dir, "TSPulse_Output_Selection_Univariate.csv"
+    )
+    multi_paper_heads_path = os.path.join(
+        script_dir, "TSPulse_Output_Selection_Multivariate.csv"
+    )
+
+    # Load the sets of filenames for both sets
+    uni_tuning_files = load_file_set(uni_tuning_list_path)
+    multi_tuning_files = load_file_set(multi_tuning_list_path)
+    uni_eval_files = load_file_set(uni_eval_list_path)
+    multi_eval_files = load_file_set(multi_eval_list_path)
+    uni_paper_heads = load_paper_best_heads(uni_paper_heads_path, head_name_map)
+    multi_paper_heads = load_paper_best_heads(multi_paper_heads_path, head_name_map)
+
+    run_analysis_workflow(
+        uni_metrics_path,
+        uni_tuning_files,
+        uni_eval_files,
+        uni_paper_heads,
+        "univariate",
+    )
+    run_analysis_workflow(
+        multi_metrics_path,
+        multi_tuning_files,
+        multi_eval_files,
+        multi_paper_heads,
+        "multivariate",
+    )
 
 
 if __name__ == "__main__":
-    main()
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_filename = os.path.join(script_dir, "determine_best_head_output.txt")
+    original_stdout = sys.stdout
+
+    print(f"Starting analysis. Output will be saved to: {output_filename}")
+
+    with open(output_filename, "w") as f:
+        # Redirect stdout to the file
+        sys.stdout = f
+        try:
+            main()
+        except Exception as e:
+            # Still print exceptions to the file
+            print(f"An error occurred during analysis: {e}", file=f)
+            raise # Optionally re-raise the exception
+        finally:
+            # Restore stdout
+            sys.stdout = original_stdout
+
+    print("Analysis complete.")
