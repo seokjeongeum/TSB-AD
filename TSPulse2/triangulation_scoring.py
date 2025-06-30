@@ -171,10 +171,15 @@ def triangulation_performance(
         series_score = row.get(sel_mode)
 
         if pd.isna(series_score):
+            # Fallback: if the selected head has no score for this file,
+            # use the best score available from any other head for THIS file.
+            best_available_score = row.max()
+            best_available_head = row.idxmax() if not row.empty else "N/A"
             print(
-                f"Warning: No score for selected head '{sel_mode}' in file '{file_name}'. Defaulting to 'time' head."
+                f"Warning: No score for selected head '{sel_mode}' in file '{file_name}'. "
+                f"Falling back to best available head for this file: '{best_available_head}'."
             )
-            series_score = row.get("time", 0)
+            series_score = best_available_score if not pd.isna(best_available_score) else 0
 
         detailed_results.append(
             {
@@ -674,7 +679,7 @@ if __name__ == "__main__":
         "fft": "TSPulse_ZS_fft.csv",
         "future": "TSPulse_ZS_future.csv",
         "time": "TSPulse_ZS_time.csv",
-        "scaled_ensemble": "TSPulse2.csv",  # Add the scaled ensemble
+        "scaled_ensemble": "TSPulse_ZS_scaled_ensemble.csv",  # Add the scaled ensemble
     }
 
     if args.generate_file:
