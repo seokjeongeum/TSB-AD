@@ -98,9 +98,12 @@ def triangulation_performance(
         else:
             unified_df = unified_df.join(df, how="outer")
 
+    if unified_df is None:
+        raise ValueError("No metric files were found and unified_df is None. Aborting.")
+
     # 3. Split into tuning and evaluation sets
-    tuning_df = unified_df[unified_df.index.isin(split_files["tuning"])]
-    eval_df = unified_df[unified_df.index.isin(split_files["eval"])]
+    tuning_df = unified_df[unified_df.index.isin(list(split_files["tuning"]))]
+    eval_df = unified_df[unified_df.index.isin(list(split_files["eval"]))]
 
     print(
         f"Found {len(tuning_df)} records for tuning and {len(eval_df)} for evaluation."
@@ -285,8 +288,8 @@ def compute_best_channel_performance(
     df = df.dropna(subset=["parent", "group", "channel_name"])
 
     # 4. Split into tuning and evaluation sets
-    tuning_df = df[df["parent"].isin(split_files["tuning"])].copy()
-    eval_df = df[df["parent"].isin(split_files["eval"])].copy()
+    tuning_df = df[df["parent"].isin(list(split_files["tuning"]))].copy()
+    eval_df = df[df["parent"].isin(list(split_files["eval"]))].copy()
 
     if tuning_df.empty:
         print(
@@ -344,6 +347,176 @@ def compute_best_channel_performance(
     )
 
     return final_score, final_details_df, group_to_best_channel_map
+
+
+def compute_best_head_and_channel_strategy(
+    root_directory: str,
+    metric: str,
+    split_files: Dict[str, Set[str]],
+    base_data_path: str,
+    heads_to_load: Dict[str, str],
+    unknown_group_fallback_head: str,
+    triangulation_best_head_map: Dict[str, str],
+):
+    """
+    Learns the best (head, channel) combination from the tuning set and applies it.
+    """
+    # 1. Load all `multi_as_uni` metrics for all heads and combine them
+    all_uni_metrics = []
+    for head, filename in heads_to_load.items():
+        metric_file_path = os.path.join(root_directory, "multi_as_uni", filename)
+        if os.path.exists(metric_file_path):
+            try:
+                df = pd.read_csv(metric_file_path)
+                df["file"] = df["file"].apply(
+                    lambda x: x if str(x).endswith(".csv") else f"{x}.csv"
+                )
+                df["head"] = head
+                all_uni_metrics.append(df)
+            except Exception as e:
+                print(
+                    f"Warning: Could not load or process {metric_file_path}. Error: {e}"
+                )
+
+    if not all_uni_metrics:
+        print("\nWarning: No 'multi_as_uni' metric files found. Skipping Scenario 4.")
+        return None, None, None
+
+    combined_df = pd.concat(all_uni_metrics, ignore_index=True)
+
+    # 2. Add parent, group, and channel info
+    multi_file_list_path = os.path.join(base_data_path, "File_List", "TSB-AD-M.csv")
+    multi_full_df = pd.read_csv(multi_file_list_path)
+    multi_base_names = sorted(
+        [os.path.splitext(f)[0] for f in multi_full_df["file_name"]],
+        key=len,
+        reverse=True,
+    )
+
+    def get_parent_map(univariate_files, parents):
+        base_name_pattern = "|".join(re.escape(b) for b in parents)
+        base_name_regex = re.compile(f"^({base_name_pattern})-")
+        mapping = {}
+        for f in univariate_files:
+            f_base = os.path.splitext(f)[0]
+            match = base_name_regex.match(f_base)
+            if match:
+                mapping[f] = match.group(1) + ".csv"
+        return mapping
+
+    uni_to_multi_map = get_parent_map(combined_df["file"], multi_base_names)
+    combined_df["parent"] = combined_df["file"].map(uni_to_multi_map)
+    combined_df["parent_base"] = combined_df["parent"].apply(
+        lambda x: os.path.splitext(x)[0] if pd.notna(x) else None
+    )
+    combined_df["channel_name"] = combined_df.apply(
+        lambda row: os.path.splitext(row["file"])[0][len(row["parent_base"]) + 1 :]
+        if pd.notna(row["parent_base"])
+        else None,
+        axis=1,
+    )
+    combined_df["group"] = combined_df["parent"].apply(
+        lambda x: os.path.splitext(x)[0].split("_")[1] if pd.notna(x) else None
+    )
+    combined_df = combined_df.dropna(subset=["parent", "group", "channel_name"])
+
+    # 3. Split into tuning and evaluation sets
+    tuning_df = combined_df[
+        combined_df["parent"].isin(list(split_files["tuning"]))
+    ].copy()
+    eval_df = combined_df[combined_df["parent"].isin(list(split_files["eval"]))].copy()
+
+    if tuning_df.empty:
+        print("Warning: Tuning set is empty for Scenario 4. Skipping.")
+        return None, None, None
+
+    # 4. Find best (head, channel) for each group on the tuning set
+    group_scores = (
+        tuning_df.groupby(["group", "head", "channel_name"])[metric]
+        .mean()
+        .reset_index()
+    )
+    best_strategies_df = group_scores.loc[
+        group_scores.groupby("group")[metric].idxmax()
+    ]
+    best_strategy_map = best_strategies_df.set_index("group")[
+        ["head", "channel_name"]
+    ].to_dict("index")
+
+    # 5. Load multivariate data for fallback
+    all_multi_metrics = {}
+    for head, filename in heads_to_load.items():
+        fpath = os.path.join(root_directory, "multi", filename)
+        if os.path.exists(fpath):
+            df = pd.read_csv(fpath)
+            df["file"] = df["file"].apply(
+                lambda x: x if str(x).endswith(".csv") else f"{x}.csv"
+            )
+            all_multi_metrics[head] = df.set_index("file")[metric]
+
+    # 6. Apply strategy to evaluation set
+    detailed_results = []
+    processed_parents = set()
+
+    for parent_file in eval_df["parent"].unique():
+        if parent_file in processed_parents:
+            continue
+
+        group = (
+            os.path.splitext(parent_file)[0].split("_")[1]
+            if "_" in parent_file
+            else None
+        )
+
+        if not group:
+            continue
+
+        parent_file_channels = eval_df[eval_df["parent"] == parent_file]
+
+        if group in best_strategy_map:
+            # Strategy: Apply learned best (head, channel)
+            strategy = best_strategy_map[group]
+            best_head = strategy["head"]
+            best_channel = strategy["channel_name"]
+
+            target_series = parent_file_channels[
+                (parent_file_channels["head"] == best_head)
+                & (parent_file_channels["channel_name"] == best_channel)
+            ]
+
+            if not target_series.empty:
+                score = target_series.iloc[0][metric]
+                strat = f"Best Channel ({best_head}/{best_channel})"
+            else:
+                # Fallback 1: Chan not present. Use best head from simple triangulation.
+                fallback_head = triangulation_best_head_map.get(group, "time")
+                score = all_multi_metrics.get(fallback_head, {}).get(parent_file, 0)
+                strat = f"Fallback-Triangulation ({fallback_head})"
+
+        else:
+            # Fallback 2: Group is unknown. Use the specified fallback head.
+            score = all_multi_metrics.get(unknown_group_fallback_head, {}).get(
+                parent_file, 0
+            )
+            strat = f"Fallback-Unknown Group ({unknown_group_fallback_head})"
+
+        detailed_results.append(
+            {
+                "parent": parent_file,
+                "group": group,
+                "strategy": strat,
+                metric: score,
+            }
+        )
+        processed_parents.add(parent_file)
+
+    if not detailed_results:
+        return 0.0, pd.DataFrame(), best_strategy_map
+
+    results_df = pd.DataFrame(detailed_results)
+    final_score = results_df[metric].mean()
+
+    return final_score, results_df, best_strategy_map
 
 
 if __name__ == "__main__":
@@ -478,17 +651,17 @@ if __name__ == "__main__":
                 print("Learned Best Channel per Group:")
                 print(pd.Series(best_channel_map, name="selected_channel"))
 
-                if best_channel_details is not None and not best_channel_details.empty:
-                    print("\n--- Details of Evaluation Set Files Used ---")
-                    with pd.option_context(
-                        "display.max_rows",
-                        None,
-                        "display.max_columns",
-                        None,
-                        "display.width",
-                        1000,
-                    ):
-                        print(best_channel_details)
+                # if best_channel_details is not None and not best_channel_details.empty:
+                #     print("\n--- Details of Evaluation Set Files Used ---")
+                #     with pd.option_context(
+                #         "display.max_rows",
+                #         None,
+                #         "display.max_columns",
+                #         None,
+                #         "display.width",
+                #         1000,
+                #     ):
+                #         print(best_channel_details)
 
                 print(
                     f"\nFinal Score (Best Channel Strategy): {best_channel_score:0.3f}"
@@ -503,5 +676,68 @@ if __name__ == "__main__":
         print("Summary of Best Channel by Group Strategy")
         print("=" * 80)
         summary_df = pd.DataFrame(scenario_3_results).set_index("head")
+        print(summary_df.to_string(float_format="%.3f"))
+        print("=" * 80)
+
+        # SCENARIO 4: Best Head and Channel Strategy with Fallback Experiments
+        print("\n" + "=" * 80)
+        print("SCENARIO 4: Best Head/Channel with Fallback Experiments for Unknown Groups")
+        print("=" * 80)
+
+        fallback_heads_to_test = list(heads_for_scenario_3.keys())
+        s4_results_list = []
+        triangulation_best_heads = result_scaled["tuning"]["best"].to_dict()
+
+        # We only need to print the learned strategy map once, as it's the same
+        # for all fallback experiments. Run once just to get the map.
+        _, _, s4_map = compute_best_head_and_channel_strategy(
+            root_directory=args.root_directory,
+            metric=args.metric,
+            split_files=split_files,
+            base_data_path=args.data_directory,
+            heads_to_load=heads_for_scenario_3,
+            unknown_group_fallback_head=fallback_heads_to_test[
+                0
+            ],  # Dummy for first run
+            triangulation_best_head_map=triangulation_best_heads,
+        )
+
+        if s4_map:
+            print(
+                "Learned Best (Head, Channel) Strategy per Group (used across all S4 experiments):"
+            )
+            pretty_map = {
+                k: f"{v['head']} / {v['channel_name']}" for k, v in s4_map.items()
+            }
+            print(pd.Series(pretty_map, name="best_strategy"))
+            print("-" * 80)
+
+        # Now, run for each fallback head and gather results
+        for i, fallback_head in enumerate(fallback_heads_to_test):
+            score, details, _ = compute_best_head_and_channel_strategy(
+                root_directory=args.root_directory,
+                metric=args.metric,
+                split_files=split_files,
+                base_data_path=args.data_directory,
+                heads_to_load=heads_for_scenario_3,
+                unknown_group_fallback_head=fallback_head,
+                triangulation_best_head_map=triangulation_best_heads,
+            )
+
+            if score is not None:
+                s4_results_list.append(
+                    {"fallback_head": fallback_head, "score": score}
+                )
+                # Print detailed results only for the first experiment run
+                if i == 0 and details is not None and not details.empty:
+                    print(f"\n--- Details for First Fallback Head: {fallback_head.upper()} ---")
+                    with pd.option_context(
+                        "display.max_rows", None, "display.width", 1000
+                    ):
+                        print(details.sort_values(by="group"))
+                    print("-" * 80)
+
+        print("\nSummary of Scenario 4: Final Scores by Fallback Head")
+        summary_df = pd.DataFrame(s4_results_list).set_index("fallback_head")
         print(summary_df.to_string(float_format="%.3f"))
         print("=" * 80)
