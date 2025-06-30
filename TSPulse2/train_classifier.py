@@ -730,6 +730,48 @@ def main():
     trainer.save_model(final_model_path)
     logging.info(f"Final model saved to {final_model_path}")
 
+    # ==============================================================================
+    # START: ADD THIS BLOCK TO CREATE THE SUMMARY FILE FOR THE AGGREGATOR SCRIPT
+    # ==============================================================================
+    logging.info("Creating summary.csv for aggregation...")
+
+    # The aggregator expects the columns: Model,CV Accuracy,Final Uni Acc,Final Multi Acc
+    # We will map our available metrics to these columns.
+
+    # Construct the model name from the run's parameters
+    run_id = f"reduce_{args.head_reduce_d_model}_decoder_{args.decoder_mode}_mask_{args.mask_ratio}_headact_{args.head_gated_attention_activation}_expand_{args.channel_virtual_expand_scale}"
+
+    # Get the final validation accuracy.
+    # The 'evaluate_and_log' logic runs on the 'eval_df', which is our validation set.
+    # The 'accuracy' variable from that final evaluation step is what we need.
+    cv_accuracy = accuracy if "accuracy" in locals() else -1.0
+
+    # Since this script combines uni and multi data, we don't have separate final accuracies.
+    # We will put N/A as a placeholder. You can adjust this if you change the logic.
+    final_uni_acc = "N/A"
+    final_multi_acc = "N/A"
+
+    # Create a DataFrame in the exact format the aggregator wants.
+    summary_data = {
+        "Model": [run_id],
+        "CV Accuracy": [f"{cv_accuracy:.4f}"],
+        "Final Uni Acc": [final_uni_acc],
+        "Final Multi Acc": [final_multi_acc],
+    }
+    summary_df = pd.DataFrame(summary_data)
+
+    # Save the summary file inside the run's output directory.
+    # The aggregator script will find it here.
+    summary_path = os.path.join(args.output_dir, "summary.csv")
+
+    # Save without the header, as the aggregator script adds it.
+    summary_df.to_csv(summary_path, index=False, header=False)
+
+    logging.info(f"Successfully saved summary to {summary_path}")
+    # ==============================================================================
+    # END OF ADDED BLOCK
+    # ==============================================================================
+
 
 if __name__ == "__main__":
     main()

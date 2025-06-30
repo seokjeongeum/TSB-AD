@@ -12,25 +12,11 @@
 #SBATCH --job-name=TSPulse_GridSearch_2080Ti # A specific name for this grid search
 #SBATCH --output=slurm_logs/%A_%x_%a.out      # Unique log for each task (%x=job-name, %A=job-id, %a=task-id)
 #SBATCH --error=slurm_logs/%A_%x_%a.err       # Unique error log for each task
-#
-# === CORRECTED RESOURCE REQUESTS for RTX2080Ti ===
-# 1. Specify the correct partition for RTX 2080 Ti GPUs.
-#    Based on the cluster summary table, these are on nodes n[1-6].
-#    The partition is likely named after the GPU type.
-#SBATCH --partition=2080ti
-#
-# 2. Specify the Quality of Service (QOS). For older/standard GPUs,
-#    sometimes no QOS is needed, or a general one like 'hpgpu' is used.
-#    We will start by not specifying a QOS, letting Slurm use the partition's default.
-#    If the job fails to schedule, you can try adding '#SBATCH --qos=hpgpu'.
-#
-# 3. Set a reasonable time limit.
-#SBATCH --time=3-00:00:00
-#
-# 4. Request 1 GPU per task. The --gres flag will select an RTX2080Ti
-#    within the specified partition.
+
+#SBATCH --partition=A100-80GB
+#SBATCH --qos=add_hpgpu
+#SBATCH --time=1-00:00:00
 #SBATCH --gres=gpu:1
-# =================================================
 
 # Set the array size. The total number of combinations is 2*2*2*2*2 = 32.
 #SBATCH --array=1-32
@@ -53,7 +39,7 @@ CHANNEL_VIRTUAL_EXPAND_SCALES=(1 2)
 # Set a batch size for all runs in this grid search.
 # The default in train_classifier.py is now 1, which can be slow for a grid search.
 # Adjust this value based on your available GPU memory.
-BATCH_SIZE=16384
+BATCH_SIZE=8192
 
 # 2. Generate All Combinations
 declare -a PARAMS
