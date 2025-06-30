@@ -9,7 +9,7 @@
 # This version is specifically corrected to run on the RTX2080Ti partition.
 #=========================================================================================
 #
-#SBATCH --job-name=TSPulse_GridSearch_2080Ti # A specific name for this grid search
+#SBATCH --job-name=TSPulse_GridSearch # A specific name for this grid search
 #SBATCH --output=slurm_logs/%A_%x_%a.out      # Unique log for each task (%x=job-name, %A=job-id, %a=task-id)
 #SBATCH --error=slurm_logs/%A_%x_%a.err       # Unique error log for each task
 
@@ -85,7 +85,7 @@ cd "$PROJECT_ROOT"
 
 # 5. Execution
 RUN_ID="reduce_${CURRENT_REDUCE_D}_decoder_${CURRENT_DECODER}_mask_${CURRENT_MASK}_headact_${CURRENT_HEAD_ACT}_expand_${CURRENT_EXPAND_SCALE}"
-CURRENT_OUTPUT_DIR="${PROJECT_ROOT}/TSPulse2/grid_search_results_2080ti/${RUN_ID}"
+CURRENT_OUTPUT_DIR="${PROJECT_ROOT}/TSPulse2/grid_search_results/${RUN_ID}"
 mkdir -p "$CURRENT_OUTPUT_DIR"
 
 echo "=========================================================="

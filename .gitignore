@@ -8,3 +8,5 @@ TSB_AD/models/Series2Graph.py
 Datasets/TSB-AD-M*
 Datasets/TSB-AD-U*
 slurm_logs
+eval/score
+score.zip
