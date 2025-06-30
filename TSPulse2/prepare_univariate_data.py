@@ -159,7 +159,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--dest_dir",
         type=str,
-        default="Datasets/TSB-AD-M-univariate/",
+        default="Datasets/TSB-AD-M/",
         help="Directory to save the new univariate CSV files.",
     )
     parser.add_argument(

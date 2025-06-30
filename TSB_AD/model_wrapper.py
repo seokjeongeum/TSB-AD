@@ -16,6 +16,7 @@ sys.path.insert(
         "granite-tsfm",
     ),
 )
+from TSPulse2.TSPulse2Detector import TSPulse2Detector
 from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
 
 from tsfm_public.models.tspulse.configuration_tspulse import TSPulseConfig
@@ -431,87 +432,60 @@ def run_M2N2(
     return score.ravel()
 
 
-def _prepare_df_for_tspulse(data_np):
-    """
-    Adapter function to convert a numpy array into the DataFrame format
-    required by the TSPulse pipeline. This is a necessary shim because the
-    tsfm-public library's high-level API is DataFrame-based.
-    """
-    if data_np.ndim == 1:
-        data_np = data_np.reshape(-1, 1)
+def _run_tspulse_zs_new(data, prediction_mode, **kwargs):
+    from notebooks.hfdemo.tspulse.anomaly_detection.utility.model import TSAD_Pipeline
 
-    num_channels = data_np.shape[1]
-    # Create generic column names as required by the pipeline
-    target_columns = [f"x_{i}" for i in range(num_channels)]
-    df = pd.DataFrame(data_np, columns=target_columns)
-    # Add a dummy timestamp column, also required by the pipeline
-    df["timestamp"] = pd.to_datetime(
-        pd.date_range(start="2000-01-01", periods=len(df), freq="s")
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+
+    clf = TSAD_Pipeline(
+        num_input_channels=num_input_channels,
+        prediction_mode=prediction_mode,
+        **kwargs,
     )
-    return df, target_columns
+    clf.zero_shot(data)
+    return clf.decision_scores_
 
 
 def run_TSPulse_ZS_ensemble(data, **kwargs):
-    from TSPulse2.TSPulseDetector import TSPulseDetector
-    from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
-
-    kwargs["model_class"] = TSPulseForReconstruction
-    kwargs["pipeline_class"] = TimeSeriesAnomalyDetectionPipeline
-    kwargs["prediction_mode"] = [
-        AnomalyScoreMethods.PREDICTIVE.value,
-        AnomalyScoreMethods.TIME_RECONSTRUCTION.value,
-        AnomalyScoreMethods.FREQUENCY_RECONSTRUCTION.value,
-    ]
-    kwargs["head_min_max_scale"] = False
-    kwargs["llm_selection"] = False
-    clf = TSPulseDetector(**kwargs)
-    clf.fit(data)
-    return clf.decision_function(data)
+    return _run_tspulse_zs_new(data, "forecast+time+fft", **kwargs)
 
 
 def run_TSPulse_ZS_time(data, **kwargs):
-    from TSPulse2.TSPulseDetector import TSPulseDetector
-    from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
-
-    kwargs["model_class"] = TSPulseForReconstruction
-    kwargs["pipeline_class"] = TimeSeriesAnomalyDetectionPipeline
-    kwargs["prediction_mode"] = AnomalyScoreMethods.TIME_RECONSTRUCTION.value
-    kwargs["head_min_max_scale"] = False
-    kwargs["llm_selection"] = False
-    clf = TSPulseDetector(**kwargs)
-    clf.fit(data)
-    return clf.decision_function(data)
+    return _run_tspulse_zs_new(data, "time", **kwargs)
 
 
 def run_TSPulse_ZS_fft(data, **kwargs):
-    from TSPulse2.TSPulseDetector import TSPulseDetector
-    from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
-
-    kwargs["model_class"] = TSPulseForReconstruction
-    kwargs["pipeline_class"] = TimeSeriesAnomalyDetectionPipeline
-    kwargs["prediction_mode"] = AnomalyScoreMethods.FREQUENCY_RECONSTRUCTION.value
-    kwargs["head_min_max_scale"] = False
-    kwargs["llm_selection"] = False
-    clf = TSPulseDetector(**kwargs)
-    clf.fit(data)
-    return clf.decision_function(data)
+    return _run_tspulse_zs_new(data, "fft", **kwargs)
 
 
 def run_TSPulse_ZS_future(data, **kwargs):
-    from TSPulse2.TSPulseDetector import TSPulseDetector
-    from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
-
-    kwargs["model_class"] = TSPulseForReconstruction
-    kwargs["pipeline_class"] = TimeSeriesAnomalyDetectionPipeline
-    kwargs["prediction_mode"] = AnomalyScoreMethods.PREDICTIVE.value
-    kwargs["head_min_max_scale"] = False
-    kwargs["llm_selection"] = False
-    clf = TSPulseDetector(**kwargs)
-    clf.fit(data)
-    return clf.decision_function(data)
+    return _run_tspulse_zs_new(data, "forecast", **kwargs)
 
 
 def _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs):
+
+    def _prepare_df_for_tspulse(data_np):
+        """
+        Adapter function to convert a numpy array into the DataFrame format
+        required by the TSPulse pipeline. This is a necessary shim because the
+        tsfm-public library's high-level API is DataFrame-based.
+        """
+        if data_np.ndim == 1:
+            data_np = data_np.reshape(-1, 1)
+
+        num_channels = data_np.shape[1]
+        # Create generic column names as required by the pipeline
+        target_columns = [f"x_{i}" for i in range(num_channels)]
+        df = pd.DataFrame(data_np, columns=target_columns)
+        # Add a dummy timestamp column, also required by the pipeline
+        df["timestamp"] = pd.to_datetime(
+            pd.date_range(start="2000-01-01", periods=len(df), freq="s")
+        )
+        return df, target_columns
+
     """Helper function to fine-tune and evaluate TSPulse."""
     train_df, target_columns = _prepare_df_for_tspulse(data_train)
     test_df, _ = _prepare_df_for_tspulse(data_test)
@@ -628,20 +602,15 @@ def run_TSPulse_FT_future(data_train, data_test, **kwargs):
 
 
 def run_TSPulse2(data, **kwargs):
-    from TSPulse2.TSPulseDetector import TSPulseDetector
-    from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
-    from TSPulse2.TSPulse2Pipeline import TSPulse2Pipeline
-    from tsfm_public.toolkit.ad_helpers import AnomalyScoreMethods
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
 
-    kwargs["model_class"] = TSPulseForReconstruction
-    kwargs["pipeline_class"] = TSPulse2Pipeline
-    kwargs["prediction_mode"] = [
-        AnomalyScoreMethods.PREDICTIVE.value,
-        AnomalyScoreMethods.TIME_RECONSTRUCTION.value,
-        AnomalyScoreMethods.FREQUENCY_RECONSTRUCTION.value,
-    ]
-    kwargs["head_min_max_scale"] = True
-    kwargs["head_selector"] = True
-    clf = TSPulseDetector(**kwargs)
-    clf.fit(data)
-    return clf.decision_function(data)
+    clf = TSPulse2Detector(
+        num_input_channels=num_input_channels,
+        prediction_mode="forecast+time+fft",
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return clf.decision_scores_

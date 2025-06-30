@@ -13,7 +13,7 @@ sys.path.insert(
         "granite-tsfm",
     ),
 )
-from tsfm_public.models.tspulse import TSPulseForClassification
+from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForClassification
 from tsfm_public.toolkit.time_series_anomaly_detection_pipeline import (
     TimeSeriesAnomalyDetectionPipeline, score_smoothing)
 from tsfm_public.toolkit.time_series_classification_pipeline import \
@@ -28,9 +28,7 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
     def __init__(self, *args, **kwargs):
         # 1. Pop NEW, specific parameters for this pipeline subclass.
         self.head_min_max_scale = kwargs.pop("head_min_max_scale", True)
-        self.head_selector = kwargs.pop(
-            "head_selector", False
-        )  # Default to False, expects a boolean
+        self.head_selector = kwargs.pop("head_selector", False)
 
         # 2. Call the parent's __init__ with all remaining args and kwargs.
         super().__init__(*args, **kwargs)
