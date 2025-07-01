@@ -90,13 +90,18 @@ def triangulation_performance(
     # 2. Create a single unified DataFrame with files as index and heads as columns
     unified_df = None
     for head, df in all_dfs.items():
-        df = df.rename(columns={metric: head})
-        df = df[["file", head]]
-        df = df.set_index("file")
-        if unified_df is None:
-            unified_df = df
+        if metric in df.columns:
+            df = df.rename(columns={metric: head})
+            df = df[["file", head]]
+            df = df.set_index("file")
+            if unified_df is None:
+                unified_df = df
+            else:
+                unified_df = unified_df.join(df, how="outer")
         else:
-            unified_df = unified_df.join(df, how="outer")
+            print(
+                f"Warning: Metric '{metric}' not found in data for head '{head}'. Skipping."
+            )
 
     if unified_df is None:
         raise ValueError("No metric files were found and unified_df is None. Aborting.")
@@ -230,11 +235,16 @@ def compute_best_channel_by_avg_head_performance(
         if os.path.exists(metric_file_path):
             try:
                 df = pd.read_csv(metric_file_path)
-                df["file"] = df["file"].apply(
-                    lambda x: x if str(x).endswith(".csv") else f"{x}.csv"
-                )
-                df = df[["file", metric]].rename(columns={metric: head})
-                all_uni_metrics.append(df.set_index("file"))
+                if metric in df.columns:
+                    df["file"] = df["file"].apply(
+                        lambda x: x if str(x).endswith(".csv") else f"{x}.csv"
+                    )
+                    df = df[["file", metric]].rename(columns={metric: head})
+                    all_uni_metrics.append(df.set_index("file"))
+                else:
+                    print(
+                        f"Warning: Metric '{metric}' not found in {metric_file_path}. Skipping."
+                    )
             except Exception as e:
                 print(
                     f"Warning: Could not load or process {metric_file_path}. Error: {e}"
@@ -285,23 +295,30 @@ def compute_best_channel_by_avg_head_performance(
     combined_df = combined_df.dropna(subset=["parent", "group", "channel_name"])
 
     # 3. Load multivariate data for fallback
-    all_multi_metrics = []
+    all_multi_metrics = {}
     for head, filename in heads_to_load.items():
         fpath = os.path.join(root_directory, "multi", filename)
         if os.path.exists(fpath):
-            df = pd.read_csv(fpath)[["file", metric]].rename(columns={metric: head})
-            df["file"] = df["file"].apply(
-                lambda x: x if str(x).endswith(".csv") else f"{x}.csv"
-            )
-            all_multi_metrics.append(df.set_index("file"))
+            try:
+                df = pd.read_csv(fpath)
+                if metric in df.columns:
+                    df["file"] = df["file"].apply(
+                        lambda x: x if str(x).endswith(".csv") else f"{x}.csv"
+                    )
+                    all_multi_metrics[head] = df.set_index("file")[metric]
+                else:
+                    print(
+                        f"Warning: Metric '{metric}' not found in {fpath}. Skipping for head '{head}'."
+                    )
+            except Exception as e:
+                print(
+                    f"Warning: Could not process {fpath} for head '{head}'. Error: {e}"
+                )
 
     if not all_multi_metrics:
-        multi_avg_scores_df = pd.DataFrame(columns=["avg_score"])
+        multi_pivoted_df = pd.DataFrame(columns=list(heads_to_load.keys()))
     else:
         multi_pivoted_df = pd.concat(all_multi_metrics, axis=1, join="outer")
-        multi_avg_scores_df = pd.DataFrame(
-            multi_pivoted_df.mean(axis=1), columns=["avg_score"]
-        )
 
     # 4. Split into tuning and evaluation sets
     tuning_df = combined_df[
@@ -340,43 +357,59 @@ def compute_best_channel_by_avg_head_performance(
         if not group:
             continue
 
-        score = np.nan
         strat = "N/A"
+        scores_row = None
 
         if group in group_to_best_channel_map:
             best_channel = group_to_best_channel_map[group]
-            target_series = eval_df[
+            # Find the original univariate filename for the best channel
+            target_series_df = eval_df[
                 (eval_df["parent"] == parent_file)
                 & (eval_df["channel_name"] == best_channel)
             ]
-            if not target_series.empty:
-                score = target_series.iloc[0]["avg_score"]
-                strat = f"Best Channel ({best_channel})"
-            elif parent_file in multi_avg_scores_df.index:
-                score = multi_avg_scores_df.loc[parent_file, "avg_score"]
+            if not target_series_df.empty:
+                uni_filename = target_series_df.iloc[0]["file"]
+                if uni_filename in uni_pivoted_df.index:
+                    scores_row = uni_pivoted_df.loc[uni_filename]
+                    strat = f"Best Channel ({best_channel})"
+
+            # Fallback for best channel if it wasn't found in eval set
+            if scores_row is None and parent_file in multi_pivoted_df.index:
+                scores_row = multi_pivoted_df.loc[parent_file]
                 strat = "Fallback-Multivariate (avg)"
-        elif parent_file in multi_avg_scores_df.index:
-            score = multi_avg_scores_df.loc[parent_file, "avg_score"]
+
+        # Fallback for unknown group
+        elif parent_file in multi_pivoted_df.index:
+            scores_row = multi_pivoted_df.loc[parent_file]
             strat = "Fallback-Unknown Group (avg)"
 
-        if not pd.isna(score):
-            detailed_results.append(
-                {
-                    "parent": parent_file,
-                    "group": group,
-                    "strategy_or_channel": strat,
-                    metric: score,
-                }
-            )
+        if scores_row is not None and not scores_row.empty:
+            record = {
+                "parent": parent_file,
+                "group": group,
+                "strategy_or_channel": strat,
+                metric: scores_row.mean(),  # The final metric is the average of the selected series.
+            }
+            # Add all individual head scores for detailed breakdown
+            for head in heads_to_load.keys():
+                record[head] = scores_row.get(head)
+
+            detailed_results.append(record)
+
         processed_parents.add(parent_file)
 
     if not detailed_results:
-        return 0.0, pd.DataFrame(), group_to_best_channel_map
+        return pd.Series(dtype=float), pd.DataFrame(), group_to_best_channel_map
 
     results_df = pd.DataFrame(detailed_results)
-    final_score = results_df[metric].mean()
 
-    return final_score, results_df, group_to_best_channel_map
+    # Calculate final score for each head by taking the mean of their respective columns
+    head_columns = list(heads_to_load.keys())
+    final_scores_by_head = results_df[head_columns].mean()
+    # Also add the main metric (average of best) to the series for reference
+    final_scores_by_head[metric] = results_df[metric].mean()
+
+    return final_scores_by_head, results_df, group_to_best_channel_map
 
 
 def compute_best_head_and_channel_strategy(
@@ -398,11 +431,16 @@ def compute_best_head_and_channel_strategy(
         if os.path.exists(metric_file_path):
             try:
                 df = pd.read_csv(metric_file_path)
-                df["file"] = df["file"].apply(
-                    lambda x: x if str(x).endswith(".csv") else f"{x}.csv"
-                )
-                df["head"] = head
-                all_uni_metrics.append(df)
+                if metric in df.columns:
+                    df["file"] = df["file"].apply(
+                        lambda x: x if str(x).endswith(".csv") else f"{x}.csv"
+                    )
+                    df["head"] = head
+                    all_uni_metrics.append(df)
+                else:
+                    print(
+                        f"Warning: Metric '{metric}' not found in {metric_file_path}. Skipping."
+                    )
             except Exception as e:
                 print(
                     f"Warning: Could not load or process {metric_file_path}. Error: {e}"
@@ -478,11 +516,21 @@ def compute_best_head_and_channel_strategy(
     for head, filename in heads_to_load.items():
         fpath = os.path.join(root_directory, "multi", filename)
         if os.path.exists(fpath):
-            df = pd.read_csv(fpath)
-            df["file"] = df["file"].apply(
-                lambda x: x if str(x).endswith(".csv") else f"{x}.csv"
-            )
-            all_multi_metrics[head] = df.set_index("file")[metric]
+            try:
+                df = pd.read_csv(fpath)
+                if metric in df.columns:
+                    df["file"] = df["file"].apply(
+                        lambda x: x if str(x).endswith(".csv") else f"{x}.csv"
+                    )
+                    all_multi_metrics[head] = df.set_index("file")[metric]
+                else:
+                    print(
+                        f"Warning: Metric '{metric}' not found in {fpath}. Skipping for head '{head}'."
+                    )
+            except Exception as e:
+                print(
+                    f"Warning: Could not process {fpath} for head '{head}'. Error: {e}"
+                )
 
     # 6. Apply strategy to evaluation set
     detailed_results = []
@@ -748,7 +796,7 @@ if __name__ == "__main__":
         print("=" * 80)
 
         (
-            best_channel_score,
+            final_scores,
             best_channel_details,
             best_channel_map,
         ) = compute_best_channel_by_avg_head_performance(
@@ -759,10 +807,24 @@ if __name__ == "__main__":
             heads_to_load=zs_and_scaled_heads,  # Use same heads as S2 for consistency
         )
 
-        if best_channel_score is not None:
+        if final_scores is not None and not final_scores.empty:
             print("Learned Best Channel per Group (from avg head performance):")
             print(pd.Series(best_channel_map, name="selected_channel"))
-            print(f"\nFinal Score (Best Channel Strategy): {best_channel_score:0.3f}")
+
+            if best_channel_details is not None and not best_channel_details.empty:
+                print("\n--- Detailed Results for Scenario 3 ---")
+                with pd.option_context(
+                    "display.max_rows",
+                    None,
+                    "display.max_columns",
+                    None,
+                    "display.width",
+                    1000,
+                ):
+                    print(best_channel_details.set_index("parent").sort_index())
+
+            print("\n--- Final Scores by Head (Best Channel Strategy) ---")
+            print(final_scores.to_string(float_format="%.3f"))
 
         # SCENARIO 4: Best Head and Channel Strategy with Fallback Experiments
         print("\n" + "=" * 80)

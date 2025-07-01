@@ -27,10 +27,11 @@ from .utils.slidingWindows import find_length_rank
 Unsupervise_AD_Pool = ['FFT', 'SR', 'NORMA', 'Series2Graph', 'Sub_IForest', 'IForest', 'LOF', 'Sub_LOF', 'POLY', 'MatrixProfile', 'Sub_PCA', 'PCA', 'HBOS', 
                         'Sub_HBOS', 'KNN', 'Sub_KNN','KMeansAD', 'KMeansAD_U', 'KShapeAD', 'COPOD', 'CBLOF', 'COF', 'EIF', 'RobustPCA', 'Lag_Llama', 'TimesFM', 'Chronos', 'MOMENT_ZS',
                         'TSPulse_ZS_ensemble', 'TSPulse_ZS_time', 'TSPulse_ZS_fft', 'TSPulse_ZS_forecast', 'TSPulse_ZS_scaled_ensemble',
-                        'TSPulse2', 'TSPulse2_ablate_channel_selection', 'TSPulse2_ablate_head_selection', 'TSPulse2_ablate_head_scale']
+                        'TSPulse2_ablate_channel_selection', 'TSPulse2_ablate_head_selection', 'TSPulse2_ablate_head_scale']
 Semisupervise_AD_Pool = ['Left_STAMPi', 'SAND', 'MCD', 'Sub_MCD', 'OCSVM', 'Sub_OCSVM', 'AutoEncoder', 'CNN', 'LSTMAD', 'TranAD', 'USAD', 'OmniAnomaly', 
                         'AnomalyTransformer', 'TimesNet', 'FITS', 'Donut', 'OFA', 'MOMENT_FT', 'M2N2',
                         'TSPulse_FT_ensemble', 'TSPulse_FT_time', 'TSPulse_FT_fft', 'TSPulse_FT_future', 'TSPulse_FT_scaled_ensemble',
+                        'TSPulse2', 
                         ]
 
 def run_Unsupervise_AD(model_name, data, **kwargs):
@@ -616,20 +617,6 @@ def run_TSPulse_FT_future(data_train, data_test, **kwargs):
     prediction_mode = AnomalyScoreMethods.PREDICTIVE.value
     return _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs)
 
-
-def run_TSPulse2(data, **kwargs):
-    if data.ndim == 1:
-        num_input_channels = 1
-    else:
-        num_input_channels = data.shape[1]
-    clf = TSPulse2Detector(
-        num_input_channels=num_input_channels,
-        prediction_mode="forecast+time+fft",
-        **kwargs,
-    )
-    clf.zero_shot(data)
-    return clf.decision_scores_
-
 def run_TSPulse2_ablate_channel_selection(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
@@ -668,4 +655,21 @@ def run_TSPulse2_ablate_head_scale(data, **kwargs):
     )
     clf.zero_shot(data)
     return clf.decision_scores_
+
+
+def run_TSPulse2(data_train,data_test, **kwargs):
+    if data_test.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data_test.shape[1]
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=kwargs.get("prediction_mode", "forecast+time+fft"),
+        **kwargs,
+    )
+    clf.fit(data_train)
+    return clf.decision_function(data_test)
 
