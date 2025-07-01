@@ -7,22 +7,26 @@ import tempfile
 import pandas as pd
 import logging
 
+from sklearn.preprocessing import MinMaxScaler
 from transformers import Trainer, TrainingArguments, EarlyStoppingCallback
+
+from .utils.slidingWindows import find_length_rank
+from TSPulse2.TSPulse2Detector import TSPulse2Detector
 
 sys.path.insert(
     0,
     os.path.join(
-        os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")),
+        os.path.abspath(os.path.join(os.path.dirname(__file__), "..")),
         "granite-tsfm",
     ),
 )
-from TSPulse2.TSPulse2Detector import TSPulse2Detector
+
+from notebooks.hfdemo.tspulse.anomaly_detection.utility.model import TSAD_Pipeline
 from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
 
 from tsfm_public.models.tspulse.configuration_tspulse import TSPulseConfig
 from tsfm_public.toolkit.dataset import ForecastDFDataset
 from tsfm_public.toolkit.time_series_anomaly_detection_pipeline import TimeSeriesAnomalyDetectionPipeline, AnomalyScoreMethods
-from .utils.slidingWindows import find_length_rank
 
 Unsupervise_AD_Pool = ['FFT', 'SR', 'NORMA', 'Series2Graph', 'Sub_IForest', 'IForest', 'LOF', 'Sub_LOF', 'POLY', 'MatrixProfile', 'Sub_PCA', 'PCA', 'HBOS', 
                         'Sub_HBOS', 'KNN', 'Sub_KNN','KMeansAD', 'KMeansAD_U', 'KShapeAD', 'COPOD', 'CBLOF', 'COF', 'EIF', 'RobustPCA', 'Lag_Llama', 'TimesFM', 'Chronos', 'MOMENT_ZS',
@@ -434,8 +438,6 @@ def run_M2N2(
 
 
 def _run_tspulse_zs_new(data, prediction_mode, **kwargs):
-    from notebooks.hfdemo.tspulse.anomaly_detection.utility.model import TSAD_Pipeline
-
     if data.ndim == 1:
         num_input_channels = 1
     else:
@@ -443,11 +445,14 @@ def _run_tspulse_zs_new(data, prediction_mode, **kwargs):
 
     clf = TSAD_Pipeline(
         num_input_channels=num_input_channels,
+        batch_size=128,
+        aggr_win_size=96,
+        smoothing_window=8,
         prediction_mode=prediction_mode,
-        **kwargs,
     )
     clf.zero_shot(data)
-    return clf.decision_scores_
+    score = clf.decision_scores_
+    return MinMaxScaler(feature_range=(0, 1)).fit_transform(score.reshape(-1, 1)).ravel()
 
 
 def run_TSPulse_ZS_ensemble(data, **kwargs):

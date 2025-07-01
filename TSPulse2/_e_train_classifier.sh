@@ -101,7 +101,7 @@ echo "  Output Dir: $CURRENT_OUTPUT_DIR"
 echo "=========================================================="
 
 # Construct and run the final python command
-COMMAND="python -u TSPulse2/train_classifier.py \
+COMMAND="python -u TSPulse2/_e_train_classifier.py \
   --output_dir=\"${CURRENT_OUTPUT_DIR}\" \
   --batch_size=${BATCH_SIZE} \
   --head_reduce_d_model=${CURRENT_REDUCE_D} \

@@ -35,19 +35,20 @@ if __name__ == '__main__':
     # parser.add_argument('--dataset_dir', type=str, default='../Datasets/TSB-AD-U/')
     parser.add_argument('--dataset_dir', type=str, default='Datasets/TSB-AD-U/')
     # parser.add_argument('--file_lsit', type=str, default='../Datasets/File_List/TSB-AD-U-Eva.csv')
-    parser.add_argument('--file_lsit', type=str, default='Datasets/File_List/TSB-AD-U.csv')
+    parser.add_argument('--file_lsit', type=str, default='Datasets/File_List/TSB-AD-U-Eva.csv')
     parser.add_argument('--score_dir', type=str, default='eval/score/uni/')
     parser.add_argument('--save_dir', type=str, default='eval/metrics/uni/')
     # parser.add_argument('--save', type=bool, default=False)
     parser.add_argument('--save', type=bool, default=True)
     # parser.add_argument('--AD_Name', type=str, default='IForest')
-    parser.add_argument('--AD_Name', type=str, default='TSPulse2_ablate_head_scale')
+    parser.add_argument('--AD_Name', type=str, default='TSPulse_ZS_ensemble')
     args = parser.parse_args()
 
 
     target_dir = os.path.join(args.score_dir, args.AD_Name)
-    os.makedirs(args.save_dir, exist_ok = True)
+    os.makedirs(args.score_dir, exist_ok = True)
     os.makedirs(target_dir, exist_ok = True)
+    os.makedirs(args.save_dir, exist_ok = True)
     logging.basicConfig(filename=f'{target_dir}/000_run_{args.AD_Name}.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s',force=True)
 
     file_list = pd.read_csv(args.file_lsit)['file_name'].values
