@@ -670,14 +670,14 @@ if __name__ == "__main__":
     zs_heads_only = {
         "ensemble": "TSPulse_ZS_ensemble.csv",
         "fft": "TSPulse_ZS_fft.csv",
-        "future": "TSPulse_ZS_future.csv",
+        "forecast": "TSPulse_ZS_forecast.csv",
         "time": "TSPulse_ZS_time.csv",
     }
 
     zs_and_scaled_heads = {
         "ensemble": "TSPulse_ZS_ensemble.csv",
         "fft": "TSPulse_ZS_fft.csv",
-        "future": "TSPulse_ZS_future.csv",
+        "forecast": "TSPulse_ZS_forecast.csv",
         "time": "TSPulse_ZS_time.csv",
         "scaled_ensemble": "TSPulse_ZS_scaled_ensemble.csv",  # Add the scaled ensemble
     }

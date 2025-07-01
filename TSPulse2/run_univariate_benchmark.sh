@@ -34,7 +34,7 @@ AD_NAMES=(
     "TSPulse_ZS_ensemble"
     "TSPulse_ZS_time"
     "TSPulse_ZS_fft"
-    "TSPulse_ZS_future"
+    "TSPulse_ZS_forecast"
 )
 
 # --- Static Parameters for all tasks ---

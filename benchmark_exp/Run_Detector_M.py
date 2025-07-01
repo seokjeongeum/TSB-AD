@@ -35,7 +35,7 @@ if __name__ == '__main__':
     # parser.add_argument('--dataset_dir', type=str, default='../Datasets/TSB-AD-M/')
     parser.add_argument('--dataset_dir', type=str, default='Datasets/TSB-AD-M/')
     # parser.add_argument('--file_lsit', type=str, default='../Datasets/File_List/TSB-AD-M-Eva.csv')
-    parser.add_argument('--file_lsit', type=str, default='Datasets/File_List/TSPulse2-M-Eva.csv')
+    parser.add_argument('--file_lsit', type=str, default='Datasets/File_List/TSB-AD-M-Eva.csv')
     parser.add_argument('--score_dir', type=str, default='eval/score/multi/')
     parser.add_argument('--save_dir', type=str, default='eval/metrics/multi/')
     # parser.add_argument('--save', type=bool, default=False)

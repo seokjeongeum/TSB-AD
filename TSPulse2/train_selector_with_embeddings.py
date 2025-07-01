@@ -728,7 +728,7 @@ def main(args):
     heads_and_files = {
         "TSPulse_ZS_time": "TSPulse_ZS_time.csv",
         "TSPulse_ZS_fft": "TSPulse_ZS_fft.csv",
-        "TSPulse_ZS_future": "TSPulse_ZS_future.csv",
+        "TSPulse_ZS_forecast": "TSPulse_ZS_forecast.csv",
         "TSPulse_ZS_ensemble": "TSPulse_ZS_ensemble.csv",
         "TSPulse2": "TSPulse2.csv",
     }

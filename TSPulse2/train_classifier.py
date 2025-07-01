@@ -64,9 +64,9 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 EVA_METRIC_FILES = {
     "ensemble": "TSPulse_ZS_ensemble.csv",
     "fft": "TSPulse_ZS_fft.csv",
-    "future": "TSPulse_ZS_future.csv",
+    "forecast": "TSPulse_ZS_forecast.csv",
     "time": "TSPulse_ZS_time.csv",
-    "scaled_ensemble": "TSPulse2.csv",
+    "scaled_ensemble": "TSPulse_ZS_scaled_ensemble.csv",
 }
 
 # The TUNING_METRIC_FILES dictionary is no longer needed as we will use a unified approach.

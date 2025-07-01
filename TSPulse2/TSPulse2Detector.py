@@ -22,4 +22,6 @@ class TSPulse2Detector(TSAD_Pipeline):
             smoothing_length=smoothing_length,
             least_significant_scale=0.0,
             least_significant_score=1.0,
+            head_min_max_scale=kwargs.get("head_min_max_scale", True),
+            head_selector=kwargs.get("head_selector", True),
         )

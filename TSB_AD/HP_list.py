@@ -114,9 +114,10 @@ Optimal_Multi_algo_HP_dict = {
     'FITS': {'win_size': 100, 'lr': 0.001},
     'OFA': {'win_size': 50},
     'TSPulse_ZS_ensemble': {},
-    'TSPulse_ZS_time': {},
     'TSPulse_ZS_fft': {},
-    'TSPulse_ZS_future': {},
+    'TSPulse_ZS_forecast': {},
+    'TSPulse_ZS_scaled_ensemble': {},
+    'TSPulse_ZS_time': {},
     'TSPulse2': {},
 }
 
@@ -278,8 +279,9 @@ Optimal_Uni_algo_HP_dict = {
     'MOMENT_FT': {'win_size': 64},
     'M2N2': {},
     'TSPulse_ZS_ensemble': {},
-    'TSPulse_ZS_time': {},
     'TSPulse_ZS_fft': {},
-    'TSPulse_ZS_future': {},
+    'TSPulse_ZS_forecast': {},
+    'TSPulse_ZS_scaled_ensemble': {},
+    'TSPulse_ZS_time': {},
     'TSPulse2': {},
 }
