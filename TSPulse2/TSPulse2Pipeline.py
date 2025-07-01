@@ -30,6 +30,8 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
         # 1. Pop NEW, specific parameters for this pipeline subclass.
         self.head_min_max_scale = kwargs.pop("head_min_max_scale", True)
         self.head_selector = kwargs.pop("head_selector", True)
+        if self.head_selector:
+            kwargs["expand_score"] = True
 
         # 2. Call the parent's __init__ with all remaining args and kwargs.
         super().__init__(*args, **kwargs)
