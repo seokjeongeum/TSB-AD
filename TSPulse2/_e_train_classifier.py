@@ -65,8 +65,8 @@ EVA_METRIC_FILES = {
     "ensemble": "TSPulse_ZS_ensemble.csv",
     "fft": "TSPulse_ZS_fft.csv",
     "forecast": "TSPulse_ZS_forecast.csv",
-    "time": "TSPulse_ZS_time.csv",
     "scaled_ensemble": "TSPulse_ZS_scaled_ensemble.csv",
+    "time": "TSPulse_ZS_time.csv",
 }
 
 # The TUNING_METRIC_FILES dictionary is no longer needed as we will use a unified approach.
@@ -677,10 +677,8 @@ def main():
     #     logging.info("Compiling the model with torch.compile...")
     #     model = torch.compile(model)
 
-    # Freeze backbone
     for param in model.backbone.parameters():
-        param.requires_grad = False
-        # param.requires_grad = True
+        param.requires_grad = True
     for param in model.backbone.time_encoding.parameters():
         param.requires_grad = True
     for param in model.backbone.fft_encoding.parameters():
