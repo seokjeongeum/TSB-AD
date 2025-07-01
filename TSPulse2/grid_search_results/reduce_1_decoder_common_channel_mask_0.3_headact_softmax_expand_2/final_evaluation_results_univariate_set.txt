@@ -1,0 +1,22 @@
+Final Evaluation Accuracy (Univariate Set): 0.1271
+
+Ground Truth Label Distribution:
+labels
+forecast           298
+fft                132
+ensemble            92
+time                90
+scaled_ensemble     88
+
+Classification Report:
+                 precision    recall  f1-score   support
+
+       ensemble     0.0000    0.0000    0.0000        92
+            fft     0.0000    0.0000    0.0000       132
+       forecast     0.0000    0.0000    0.0000       298
+scaled_ensemble     0.1268    1.0000    0.2251        88
+           time     0.1667    0.0111    0.0208        90
+
+       accuracy                         0.1271       700
+      macro avg     0.0587    0.2022    0.0492       700
+   weighted avg     0.0374    0.1271    0.0310       700

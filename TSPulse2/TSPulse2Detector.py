@@ -1,7 +1,17 @@
-from notebooks.hfdemo.tspulse.anomaly_detection.utility.model import \
-    TSAD_Pipeline
+import os
+import sys
 
 from TSPulse2.TSPulse2Pipeline import TSPulse2Pipeline
+
+sys.path.insert(
+    0,
+    os.path.join(
+        os.path.abspath(os.path.join(os.path.dirname(__file__), "..")),
+        "granite-tsfm",
+    ),
+)
+from notebooks.hfdemo.tspulse.anomaly_detection.utility.model import \
+    TSAD_Pipeline
 
 
 class TSPulse2Detector(TSAD_Pipeline):
