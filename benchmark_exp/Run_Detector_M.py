@@ -93,7 +93,7 @@ if __name__ == '__main__':
         ### whether to save the evaluation result
         if args.save:
             try:
-                evaluation_result = get_metrics(output, label, slidingWindow=slidingWindow)
+                evaluation_result = get_metrics(output, label, slidingWindow=slidingWindow,pred=output > (np.mean(output) + 2.5 * np.std(output)))
                 print('evaluation_result: ', evaluation_result)
                 list_w = list(evaluation_result.values())
             except:
