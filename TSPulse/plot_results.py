@@ -18,7 +18,7 @@ STYLE_MAP = {
     "TSPulse_ZS_ensemble": {"color": "orangered", "linestyle": "-", "linewidth": 2.0, "alpha": 0.9, "zorder": 5},
     "TSPulse_ZS_time": {"color": "dodgerblue", "linestyle": "-", "linewidth": 1.8, "alpha": 0.9, "zorder": 4},
     "TSPulse_ZS_fft": {"color": "forestgreen", "linestyle": "-", "linewidth": 1.8, "alpha": 0.9, "zorder": 3},
-    "TSPulse_ZS_future": {"color": "darkviolet", "linestyle": "-", "linewidth": 1.8, "alpha": 0.9, "zorder": 3},
+    "TSPulse_ZS_forecast": {"color": "darkviolet", "linestyle": "-", "linewidth": 1.8, "alpha": 0.9, "zorder": 3},
 }
 DEFAULT_STYLE = {"color": "darkgoldenrod", "linestyle": "-", "linewidth": 1.5, "alpha": 0.8, "zorder": 3}
 
@@ -36,7 +36,7 @@ def plot_anomaly_scores(file_basename):
         return
 
     # Define the desired order of plots
-    plot_order = ["TSPulse_ZS_ensemble", "TSPulse_ZS_time", "TSPulse_ZS_fft", "TSPulse_ZS_future"]
+    plot_order = ["TSPulse_ZS_ensemble", "TSPulse_ZS_time", "TSPulse_ZS_fft", "TSPulse_ZS_forecast"]
     
     # Load only the scores we intend to plot
     scores_to_plot = {}

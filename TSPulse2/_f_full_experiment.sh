@@ -1,24 +1,25 @@
 #!/bin/bash
 #=========================================================================================
-# Slurm SBATCH Script for a Single Run of Run_Detector_M.py
+# Slurm SBATCH Script for Evaluating TSPulse2 on Different Eva Sets
 #
-# This script executes a single instance of the 'Run_Detector_M.py' script
-# to run the TSPulse2 model on the multivariate dataset.
+# This script uses a Slurm job array to run the TSPulse2 model against
+# two different evaluation file lists: TSPulse2-M-Eva.csv and TSB-AD-M-Eva.csv.
 #=========================================================================================
 
 #-----------------------------------------------------------------------------------------
 # SBATCH Directives
 #-----------------------------------------------------------------------------------------
 # -- Job Details --
-#SBATCH --job-name=Run_TSPulse2_M
-#SBATCH --output=slurm_logs/%j_%x.out      # Log file: jobname_jobid.out
-#SBATCH --error=slurm_logs/%j_%x.err       # Error file: jobname_jobid.err
+#SBATCH --job-name=TSPulse2_Eva_Runs
+#SBATCH --output=slurm_logs/%A_%x_%a.out      # Log file: jobid_jobname_taskid.out
+#SBATCH --error=slurm_logs/%A_%x_%a.err       # Error file: jobid_jobname_taskid.err
 
 # -- Resource Allocation --
 #SBATCH --partition=A100-80GB              # Specify the partition (e.g., A100-80GB)
 #SBATCH --qos=hpgpu                    # Quality of Service (use 'hpgpu' or 'add_hpgpu' as needed)
-#SBATCH --time=3-00:00:00                  # Max runtime: 1 day (Adjusted to avoid QOS limit issues)
+#SBATCH --time=3-00:00:00                  # Max runtime
 #SBATCH --gres=gpu:1                       # Request 1 GPU
+#SBATCH --array=1-7
 
 #=========================================================================================
 # Environment Setup
@@ -33,9 +34,10 @@ PROJECT_ROOT="$SLURM_SUBMIT_DIR"
 export PYTHONPATH="${PROJECT_ROOT}:${PYTHONPATH}"
 
 # --- Logging and Diagnostics ---
-echo "--- SLURM JOB START ---"
+echo "--- SLURM JOB ARRAY TASK START ---"
 echo "Job Name: $SLURM_JOB_NAME"
-echo "Job ID: $SLURM_JOB_ID"
+echo "Job ID: $SLURM_ARRAY_JOB_ID"
+echo "Array Task ID: $SLURM_ARRAY_TASK_ID / $SLURM_ARRAY_TASK_COUNT"
 echo "Host: $(hostname)"
 echo "Start Time: $(date)"
 echo "Project Directory: $PROJECT_ROOT"
@@ -56,30 +58,61 @@ cd "$PROJECT_ROOT"
 echo "Current Directory: $(pwd)"
 
 #=========================================================================================
-# Python Script Execution
+# Experiment Configuration
 #=========================================================================================
 
-# --- Define Parameters for the Python Script ---
-# These arguments will be passed to Run_Detector_M.py.
-# Note: These paths assume the script is run from the project root.
-RUN_SCRIPT_PATH="benchmark_exp/Run_Detector_M.py" # Assumes the script is in the root
-DATA_DIR="${PROJECT_ROOT}/Datasets/TSB-AD-M/"
-# The Python script was modified to use 'TSPulse2-M-Eva.csv' as the default
-FILE_LIST="${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
-AD_MODEL_NAME="TSPulse2"
+# --- Multivariate Configurations ---
+MULTI_FILE_LISTS=(
+    "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
+)
+MULTI_MODELS=("TSPulse2" "TSPulse2_ablate_channel_selection" "TSPulse2_ablate_head_selection" "TSPulse2_ablate_head_scale")
+NUM_MULTI_JOBS=$((${#MULTI_MODELS[@]} ))
 
-# Define output directories to keep results organized
-SCORE_DIR="${PROJECT_ROOT}/eval/score/multi/"
-SAVE_DIR="${PROJECT_ROOT}/eval/metrics/multi/"
+# --- Univariate Configurations ---
+# No "channel_selection" model for univariate, as it's not applicable.
+UNI_MODELS=("TSPulse2" "TSPulse2_ablate_head_selection" "TSPulse2_ablate_head_scale")
+UNI_FILE_LIST="${PROJECT_ROOT}/Datasets/File_List/TSB-AD-U-Eva.csv"
 
+NUM_UNI_JOBS=$((${#UNI_MODELS[@]} ))
+
+# --- Task-specific Parameter Selection ---
+TASK_ID=$SLURM_ARRAY_TASK_ID
+if [ "$TASK_ID" -le "$NUM_MULTI_JOBS" ]; then
+    # This is a MULTIVARIATE task
+    TASK_INDEX=$((TASK_ID - 1))
+    MODEL_INDEX=$((TASK_INDEX ))
+    FILE_LIST_INDEX=$((TASK_INDEX ))
+
+    AD_MODEL_NAME=${MULTI_MODELS[$MODEL_INDEX]}
+    CURRENT_FILE_LIST=${MULTI_FILE_LISTS[$FILE_LIST_INDEX]}
+    RUN_SCRIPT_PATH="benchmark_exp/Run_Detector_M.py"
+    DATA_DIR="${PROJECT_ROOT}/Datasets/TSB-AD-M/"
+
+else
+    # This is a UNIVARIATE task
+    TASK_INDEX=$((TASK_ID - NUM_MULTI_JOBS - 1))
+    MODEL_INDEX=$((TASK_INDEX ))
+    FILE_LIST_INDEX=$((TASK_INDEX ))
+
+    AD_MODEL_NAME=${UNI_MODELS[$MODEL_INDEX]}
+    CURRENT_FILE_LIST=${UNI_FILE_LIST}
+    RUN_SCRIPT_PATH="benchmark_exp/Run_Detector_U.py"
+    DATA_DIR="${PROJECT_ROOT}/Datasets/TSB-AD-U/"
+
+fi
+
+#=========================================================================================
+# Python Script Execution
+#=========================================================================================
 echo "=========================================================="
-echo "Running Python Script: ${RUN_SCRIPT_PATH}"
-echo "Parameters:"
+echo "Running Task ${SLURM_ARRAY_TASK_ID} with Parameters:"
 echo "  Anomaly Detector: ${AD_MODEL_NAME}"
+echo "  Run Script: ${RUN_SCRIPT_PATH}"
 echo "  Dataset Directory: ${DATA_DIR}"
-echo "  File List: ${FILE_LIST}"
-echo "  Score Directory: ${SCORE_DIR}"
-echo "  Metrics Directory: ${SAVE_DIR}"
+echo "  File List: ${CURRENT_FILE_LIST}"
 echo "=========================================================="
 
 # --- Construct and Execute the Command ---
@@ -88,9 +121,7 @@ echo "=========================================================="
 COMMAND="python -u ${RUN_SCRIPT_PATH} \
   --AD_Name=\"${AD_MODEL_NAME}\" \
   --dataset_dir=\"${DATA_DIR}\" \
-  --file_lsit=\"${FILE_LIST}\" \
-  --score_dir=\"${SCORE_DIR}\" \
-  --save_dir=\"${SAVE_DIR}\" \
+  --file_lsit=\"${CURRENT_FILE_LIST}\" \
   --save True"
 
 echo "Executing command: ${COMMAND}"
@@ -99,10 +130,10 @@ eval "$COMMAND"
 # --- Final Checks and Cleanup ---
 # Check the exit code of the Python script
 if [ $? -ne 0 ]; then
-    echo "!!! Python script failed with a non-zero exit code. !!!"
+    echo "!!! Python script failed with a non-zero exit code for task ${SLURM_ARRAY_TASK_ID}. !!!"
     exit 1
 fi
 
 echo "=========================================================="
-echo "Job finished successfully at: $(date)"
+echo "Job Task $SLURM_ARRAY_TASK_ID finished successfully at: $(date)"
 echo "--- SLURM JOB END ---" 

@@ -13,7 +13,8 @@ sys.path.insert(
         "granite-tsfm",
     ),
 )
-from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForClassification
+from tsfm_public.models.tspulse.modeling_tspulse import \
+    TSPulseForClassification
 from tsfm_public.toolkit.time_series_anomaly_detection_pipeline import (
     TimeSeriesAnomalyDetectionPipeline, score_smoothing)
 from tsfm_public.toolkit.time_series_classification_pipeline import \
@@ -28,7 +29,7 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
     def __init__(self, *args, **kwargs):
         # 1. Pop NEW, specific parameters for this pipeline subclass.
         self.head_min_max_scale = kwargs.pop("head_min_max_scale", True)
-        self.head_selector = kwargs.pop("head_selector", False)
+        self.head_selector = kwargs.pop("head_selector", True)
 
         # 2. Call the parent's __init__ with all remaining args and kwargs.
         super().__init__(*args, **kwargs)
@@ -147,11 +148,9 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
 
                 prediction_result = classification_pipeline(channel_df)
                 selected_head_name = prediction_result["labels_prediction"][0]
-
+                selected_key = selected_head_name
                 if selected_head_name == "future":
                     selected_key = "forecast"
-                else:
-                    selected_key = selected_head_name
 
                 print(
                     f"Channel '{target_columns[i]}': Selector chose '{selected_key}' (from '{selected_head_name}')"
