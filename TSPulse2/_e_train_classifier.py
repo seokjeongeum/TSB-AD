@@ -256,8 +256,12 @@ def load_split_and_process_data(
     for head_name in active_heads[1:]:
         common_files.intersection_update(metric_dfs[head_name].index)
     logging.info(
-        f"Found {len(common_files)} common files with metrics for {dataset_type} data."
+        f"[{dataset_type.upper()}] Found {len(common_files)} common files with metrics."
     )
+    if not common_files:
+        logging.warning(
+            f"[{dataset_type.upper()}] Common files set is empty. No data will be loaded."
+        )
 
     # 3. Load file lists to determine train/val and test splits
     if dataset_type == "multi_as_uni":
@@ -278,6 +282,9 @@ def load_split_and_process_data(
                 test_files_set.add(f + ".csv")
             else:
                 train_val_files_set.add(f + ".csv")
+        logging.info(
+            f"[{dataset_type.upper()}] After mapping to base names, found {len(test_files_set)} files for test set and {len(train_val_files_set)} for train/val set."
+        )
     else:
         full_file_list_path = os.path.join(BASE_DATA_PATH, "File_List", full_list_name)
         eva_file_list_path = os.path.join(BASE_DATA_PATH, "File_List", eva_list_name)
@@ -302,7 +309,13 @@ def load_split_and_process_data(
     logging.info(
         f"Found {len(files_to_process_train_val)} files for the training/validation pool."
     )
-    logging.info(f"Found {len(files_to_process_test)} files for the test set.")
+    logging.info(
+        f"[{dataset_type.upper()}] After filtering against common files, {len(files_to_process_test)} files remain for the test set."
+    )
+    if not files_to_process_test and dataset_type == "multi_as_uni":
+        logging.warning(
+            "The multi-as-uni test set is empty after filtering. This will result in 'N/A' for the final multi accuracy."
+        )
 
     # 5. Create metrics_cache for get_best_head
     metrics_cache = {head: df for head, df in metric_dfs.items()}
@@ -345,6 +358,52 @@ def compute_metrics(p):
     """Compute accuracy for classification task."""
     preds = np.argmax(p.predictions[0], axis=1)
     return {"accuracy": accuracy_score(p.label_ids, preds)}
+
+
+def run_final_evaluation(
+    dataset_name: str, test_df: pd.DataFrame, pipeline, output_dir: str
+):
+    """
+    Runs the classification pipeline on a given test dataframe, logs the results,
+    and returns the accuracy score.
+    """
+    if test_df.empty:
+        logging.warning(f"{dataset_name} test dataframe is empty. Skipping evaluation.")
+        return -1.0  # Return -1 to indicate skipped
+
+    logging.info(f"Running final evaluation on the {dataset_name} test set...")
+    predictions_df = pipeline(test_df.copy())
+
+    true_labels = predictions_df["labels"]
+    pred_labels = predictions_df["labels_prediction"]
+
+    accuracy = accuracy_score(true_labels, pred_labels)
+    report = classification_report(
+        true_labels,
+        pred_labels,
+        labels=pipeline.feature_extractor.label_encoder.classes_,
+        digits=4,
+        zero_division=0,
+    )
+    label_distribution = pd.Series(true_labels).value_counts()
+
+    logging.info(f"\n\n--- {dataset_name} Test Set Evaluation ---")
+    logging.info(f"Accuracy: {accuracy:.4f}")
+    logging.info(f"Ground Truth Label Distribution:\n{label_distribution.to_string()}")
+    logging.info("Classification Report:\n" + report)
+
+    results_file = os.path.join(
+        output_dir,
+        f"final_evaluation_results_{dataset_name.lower()}_set.txt",
+    )
+    with open(results_file, "w") as f:
+        f.write(f"Final Evaluation Accuracy ({dataset_name} Set): {accuracy:.4f}\n\n")
+        f.write("Ground Truth Label Distribution:\n")
+        f.write(label_distribution.to_string() + "\n\n")
+        f.write("Classification Report:\n")
+        f.write(report)
+
+    return accuracy
 
 
 def evaluate_and_log(predictions, dataset_name, tsp, output_dir):
@@ -473,28 +532,39 @@ def main():
     ) = load_split_and_process_data("multi_as_uni", multi_file_lists=multi_file_lists)
 
     all_train_val_samples = uni_train_val_samples + multi_as_uni_train_val_samples
-    all_test_samples = uni_test_samples + multi_as_uni_test_samples
+    # Test samples are now kept separate
+    # all_test_samples = uni_test_samples + multi_as_uni_test_samples
 
     if not all_train_val_samples:
         logging.error(
             "Training/validation data loading resulted in an empty dataset. Exiting."
         )
         return
-    if not all_test_samples:
+    if not uni_test_samples and not multi_as_uni_test_samples:
         logging.warning(
-            "Test data loading resulted in an empty dataset. Evaluation will be skipped."
+            "All test data loading resulted in empty datasets. Final evaluation will be skipped."
         )
 
     logging.info(
         f"Loaded {len(all_train_val_samples)} samples for training/validation pool."
     )
-    logging.info(f"Loaded {len(all_test_samples)} samples for test set.")
+    logging.info(f"Loaded {len(uni_test_samples)} samples for univariate test set.")
+    logging.info(
+        f"Loaded {len(multi_as_uni_test_samples)} samples for multivariate-as-univariate test set."
+    )
 
     logging.info("STEP 2: Preparing DataFrame and Splitting Data...")
     df_train_val = create_dataframe_for_preprocessor(all_train_val_samples)
-    df_test = (
-        create_dataframe_for_preprocessor(all_test_samples)
-        if all_test_samples
+
+    # Create separate test dataframes
+    uni_test_df = (
+        create_dataframe_for_preprocessor(uni_test_samples)
+        if uni_test_samples
+        else pd.DataFrame()
+    )
+    multi_as_uni_test_df = (
+        create_dataframe_for_preprocessor(multi_as_uni_test_samples)
+        if multi_as_uni_test_samples
         else pd.DataFrame()
     )
 
@@ -505,13 +575,15 @@ def main():
     train_size = int(0.9 * len(df_train_val))
     train_df = df_train_val[:train_size].reset_index(drop=True)
     eval_df = df_train_val[train_size:].reset_index(drop=True)
-    test_df = df_test.reset_index(drop=True)  # Already separate
+    # test_df is no longer a single combined dataframe
 
     logging.info("--- Training Set Label Distribution ---")
     logging.info(train_df["labels"].value_counts(normalize=True).to_string())
 
     # Combine all data to fit the preprocessor
-    df_full = pd.concat([train_df, eval_df, test_df], ignore_index=True)
+    df_full = pd.concat(
+        [train_df, eval_df, uni_test_df, multi_as_uni_test_df], ignore_index=True
+    )
 
     if train_df.empty or eval_df.empty:
         logging.error(
@@ -731,6 +803,24 @@ def main():
     logging.info(f"Final model saved to {final_model_path}")
 
     # ==============================================================================
+    # START: Final Evaluation on Separate Test Sets
+    # ==============================================================================
+    logging.info("STEP 7: Final Evaluation on Separate Test Sets...")
+
+    final_uni_acc = run_final_evaluation(
+        "Univariate", uni_test_df, classification_pipeline, args.output_dir
+    )
+    final_multi_acc = run_final_evaluation(
+        "Multivariate-as-Univariate",
+        multi_as_uni_test_df,
+        classification_pipeline,
+        args.output_dir,
+    )
+    # ==============================================================================
+    # END: Final Evaluation
+    # ==============================================================================
+
+    # ==============================================================================
     # START: ADD THIS BLOCK TO CREATE THE SUMMARY FILE FOR THE AGGREGATOR SCRIPT
     # ==============================================================================
     logging.info("Creating summary.csv for aggregation...")
@@ -746,17 +836,17 @@ def main():
     # The 'accuracy' variable from that final evaluation step is what we need.
     cv_accuracy = accuracy if "accuracy" in locals() else -1.0
 
-    # Since this script combines uni and multi data, we don't have separate final accuracies.
-    # We will put N/A as a placeholder. You can adjust this if you change the logic.
-    final_uni_acc = "N/A"
-    final_multi_acc = "N/A"
+    # We now have the accuracies from our final evaluation step.
+    # Format them for the CSV file.
+    uni_acc_str = f"{final_uni_acc:.4f}" if final_uni_acc != -1.0 else "N/A"
+    multi_acc_str = f"{final_multi_acc:.4f}" if final_multi_acc != -1.0 else "N/A"
 
     # Create a DataFrame in the exact format the aggregator wants.
     summary_data = {
         "Model": [run_id],
         "CV Accuracy": [f"{cv_accuracy:.4f}"],
-        "Final Uni Acc": [final_uni_acc],
-        "Final Multi Acc": [final_multi_acc],
+        "Final Uni Acc": [uni_acc_str],
+        "Final Multi Acc": [multi_acc_str],
     }
     summary_df = pd.DataFrame(summary_data)
 

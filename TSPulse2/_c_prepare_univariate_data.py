@@ -6,58 +6,6 @@ import pandas as pd
 from tqdm import tqdm
 
 
-def rename_incorrectly_named_files(dest_dir, file_list_path):
-    """
-    Renames files in the destination directory. This does two things:
-    1. Ensures the separator between base name and feature name is a hyphen.
-    2. Replaces all underscores in the feature part of the filename with hyphens.
-    """
-    if not os.path.exists(dest_dir):
-        return
-
-    try:
-        source_df = pd.read_csv(file_list_path)
-        base_names = [os.path.splitext(f)[0] for f in source_df["file_name"].tolist()]
-        base_names.sort(key=len, reverse=True)  # Handle overlapping names
-    except FileNotFoundError:
-        print(
-            f"Error: Source file list not found at {file_list_path}, skipping rename."
-        )
-        return
-
-    print(f"Sanitizing filenames in '{dest_dir}'...")
-    renamed_count = 0
-    files_in_dest = os.listdir(dest_dir)
-
-    for filename in tqdm(files_in_dest, desc="Sanitizing"):
-        matched_base = None
-        for base in base_names:
-            if filename.startswith(base + "_") or filename.startswith(base + "-"):
-                matched_base = base
-                break
-
-        if matched_base:
-            # Extract feature part (everything after base name and separator)
-            feature_part_with_ext = filename[len(matched_base) + 1 :]
-            name_part, ext_part = os.path.splitext(feature_part_with_ext)
-
-            # Sanitize by replacing all underscores with hyphens
-            sanitized_name = name_part.replace("_", "-")
-            sanitized_feature = sanitized_name + ext_part
-
-            # Construct the new filename with a hyphen separator
-            new_filename = f"{matched_base}-{sanitized_feature}"
-
-            if new_filename != filename:
-                source_path = os.path.join(dest_dir, filename)
-                dest_path = os.path.join(dest_dir, new_filename)
-                os.rename(source_path, dest_path)
-                renamed_count += 1
-
-    if renamed_count > 0:
-        print(f"Renamed {renamed_count} files.")
-
-
 def convert_multivariate_to_univariate(source_dir, dest_dir, file_list_path):
     """
     Converts all multivariate CSV files from a source directory into multiple
@@ -169,9 +117,6 @@ if __name__ == "__main__":
         help="Path to the file list of the multivariate data.",
     )
     args = parser.parse_args()
-
-    # First, rename any incorrectly named files from a previous run.
-    rename_incorrectly_named_files(args.dest_dir, args.file_list)
 
     # Now, proceed with the conversion.
     convert_multivariate_to_univariate(args.source_dir, args.dest_dir, args.file_list)

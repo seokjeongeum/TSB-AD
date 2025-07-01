@@ -30,17 +30,17 @@ mkdir -p "${PROJECT_ROOT}/slurm_logs"
 # --- Experiment Configuration ---
 # Each model is run on the same set of generated univariate data.
 AD_NAMES=(
-    "TSPulse2"
     "TSPulse_ZS_ensemble"
-    "TSPulse_ZS_time"
     "TSPulse_ZS_fft"
-    "TSPulse_ZS_future"
+    "TSPulse_ZS_forecast"
+    "TSPulse_ZS_scaled_ensemble"
+    "TSPulse_ZS_time"
 )
 
 # --- Static Parameters for all tasks ---
 # All jobs will run the univariate detector script on the converted data.
 RUN_SCRIPT="Run_Detector_U.py"
-DATA_DIR="${PROJECT_ROOT}/Datasets/TSB-AD-M-univariate/"
+DATA_DIR="${PROJECT_ROOT}/Datasets/TSB-AD-M/"
 FILE_LIST="${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-univariate.csv"
 
 # --- NEW: Output Directory Configuration ---

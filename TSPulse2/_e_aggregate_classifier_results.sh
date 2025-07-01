@@ -12,10 +12,9 @@
 set -e # Exit immediately on error
 
 # Define the base directory where results are stored.
-# This must match the directory used in run_grid_search.sh
 RESULTS_BASE_DIR="TSPulse2/grid_search_results"
-SLURM_SCRIPT="TSPulse2/run_grid_search.sh"
-AGGREGATED_RESULTS_FILE="grid_search_summary.csv"
+SLURM_SCRIPT="TSPulse2/_e_train_classifier.sh"
+AGGREGATED_RESULTS_FILE="${RESULTS_BASE_DIR}/grid_search_summary.csv"
 
 # --- 1. Submit Slurm Job and Wait ---
 echo "Submitting Slurm job array from '${SLURM_SCRIPT}'..."

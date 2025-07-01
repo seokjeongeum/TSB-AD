@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
+import glob
 from tqdm import tqdm
 import sys
 import warnings
@@ -76,11 +77,26 @@ def evaluate_single_algorithm(algorithm_name, data_mode):
     for csv_filename in pbar:
         basename = os.path.splitext(csv_filename)[0]
         pbar.set_postfix_str(basename)
-        
-        data_path = os.path.join(dataset_base_dir, csv_filename)
-        score_path = os.path.join(score_dir, f"{basename}.npy")
 
+        # Find a matching score file, trying exact match first, then a pattern.
+        score_path = None
+        exact_score_path = os.path.join(score_dir, f"{basename}.npy")
+        if os.path.exists(exact_score_path):
+            score_path = exact_score_path
+        else:
+            # Use sorted glob to ensure deterministic behavior if multiple files are found
+            pattern_paths = sorted(glob.glob(os.path.join(score_dir, f"{basename}-*.npy")))
+            if pattern_paths:
+                if len(pattern_paths) > 1:
+                    warnings.warn(f"Multiple score files found for '{basename}'. Using '{os.path.basename(pattern_paths[0])}'.")
+                score_path = pattern_paths[0]
+
+        # If no score file was found, we cannot proceed with this CSV.
+        if not score_path:
+            continue
+        
         try:
+            data_path = os.path.join(dataset_base_dir, csv_filename)
             df = pd.read_csv(data_path).dropna()
             labels = df.iloc[:, -1].values.astype(int)
             data = df.iloc[:, 0:-1].values.astype(float)
@@ -91,9 +107,10 @@ def evaluate_single_algorithm(algorithm_name, data_mode):
 
             metrics_dict = get_metrics(anomaly_scores, labels, slidingWindow=slidingWindow)
             # --- FIX: ALWAYS save the clean basename ---
-            metrics_dict["file"] = basename
+            metrics_dict["file"] = f"{basename}.csv"
             new_results.append(metrics_dict)
         except FileNotFoundError:
+            # This will catch if the data_path is missing, as we already found the score_path
             continue
         except Exception as e:
             print(f"Error processing {basename}: {e}")

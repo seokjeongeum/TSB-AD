@@ -108,7 +108,8 @@ COMMAND="python -u TSPulse2/train_classifier.py \
   --decoder_mode=\"${CURRENT_DECODER}\" \
   --mask_ratio=${CURRENT_MASK} \
   --head_gated_attention_activation=\"${CURRENT_HEAD_ACT}\" \
-  --channel_virtual_expand_scale=${CURRENT_EXPAND_SCALE}"
+  --channel_virtual_expand_scale=${CURRENT_EXPAND_SCALE} \
+  --fresh_start"
 
 echo "Executing command: $COMMAND"
 eval "$COMMAND"
