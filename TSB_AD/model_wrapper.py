@@ -21,15 +21,22 @@ sys.path.insert(
     ),
 )
 from notebooks.hfdemo.tspulse.anomaly_detection.utility.model import TSAD_Pipeline
-
 Unsupervise_AD_Pool = ['FFT', 'SR', 'NORMA', 'Series2Graph', 'Sub_IForest', 'IForest', 'LOF', 'Sub_LOF', 'POLY', 'MatrixProfile', 'Sub_PCA', 'PCA', 'HBOS', 
                         'Sub_HBOS', 'KNN', 'Sub_KNN','KMeansAD', 'KMeansAD_U', 'KShapeAD', 'COPOD', 'CBLOF', 'COF', 'EIF', 'RobustPCA', 'Lag_Llama', 'TimesFM', 'Chronos', 'MOMENT_ZS',
-                        'TSPulse_ZS_ensemble', 'TSPulse_ZS_time', 'TSPulse_ZS_fft', 'TSPulse_ZS_forecast', 'TSPulse_ZS_scaled_ensemble',
-                        'TSPulse2', 'TSPulse2_dimensionality_reduction_ablated']
+    "TSPulse_ZS_ensemble",
+    "TSPulse_ZS_time",
+    "TSPulse_ZS_fft",
+    "TSPulse_ZS_forecast",
+    "TSPulse2",
+    "TSPulse2_dimensionality_reduction_ablated",
+]
 Semisupervise_AD_Pool = ['Left_STAMPi', 'SAND', 'MCD', 'Sub_MCD', 'OCSVM', 'Sub_OCSVM', 'AutoEncoder', 'CNN', 'LSTMAD', 'TranAD', 'USAD', 'OmniAnomaly', 
                         'AnomalyTransformer', 'TimesNet', 'FITS', 'Donut', 'OFA', 'MOMENT_FT', 'M2N2',
-                        'TSPulse_FT_ensemble', 'TSPulse_FT_time', 'TSPulse_FT_fft', 'TSPulse_FT_future', 'TSPulse_FT_scaled_ensemble',
-                        ]
+    "TSPulse_FT_ensemble",
+    "TSPulse_FT_time",
+    "TSPulse_FT_fft",
+    "TSPulse_FT_future",
+]
 
 def run_Unsupervise_AD(model_name, data, **kwargs):
     try:
@@ -444,7 +451,11 @@ def _run_tspulse_zs_new(data, prediction_mode, **kwargs):
         prediction_mode=prediction_mode,
     )
     clf.zero_shot(data)
-    return MinMaxScaler(feature_range=(0, 1)).fit_transform(clf.decision_scores_.ravel().reshape(-1, 1)).ravel()
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
 
 
 def run_TSPulse_ZS_ensemble(data, **kwargs):
@@ -457,22 +468,6 @@ def run_TSPulse_ZS_fft(data, **kwargs):
 
 def run_TSPulse_ZS_forecast(data, **kwargs):
     return _run_tspulse_zs_new(data, "forecast", **kwargs)
-
-
-def run_TSPulse_ZS_scaled_ensemble(data, **kwargs):
-    if data.ndim == 1:
-        num_input_channels = 1
-    else:
-        num_input_channels = data.shape[1]
-    kwargs["head_min_max_scale"] = True
-    kwargs["head_selector"] = False
-    clf = TSPulse2Detector(
-        num_input_channels=num_input_channels,
-        prediction_mode="forecast+time+fft",
-        **kwargs,
-    )
-    clf.zero_shot(data)
-    return MinMaxScaler(feature_range=(0, 1)).fit_transform(clf.decision_scores_.ravel().reshape(-1, 1)).ravel()
 
 
 def run_TSPulse_ZS_time(data, **kwargs):
@@ -490,10 +485,15 @@ def run_TSPulse2(data, **kwargs):
         num_input_channels=num_input_channels,
         smoothing_window=kwargs.get("smoothing_window", 8),
         prediction_mode=kwargs.get("prediction_mode", "forecast+time+fft"),
+        expand_score=kwargs.get("use_dimensionality_reduction", True),
         **kwargs,
     )
     clf.zero_shot(data)
-    return MinMaxScaler(feature_range=(0, 1)).fit_transform(clf.decision_scores_.ravel().reshape(-1, 1)).ravel()
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
 
 
 def run_TSPulse2_dimensionality_reduction_ablated(data, **kwargs):
@@ -507,9 +507,12 @@ def run_TSPulse2_dimensionality_reduction_ablated(data, **kwargs):
         num_input_channels=num_input_channels,
         smoothing_window=kwargs.get("smoothing_window", 8),
         prediction_mode=kwargs.get("prediction_mode", "forecast+time+fft"),
+        expand_score=not kwargs.get("use_dimensionality_reduction", True),
         **kwargs,
     )
     clf.zero_shot(data)
-    return MinMaxScaler(feature_range=(0, 1)).fit_transform(clf.decision_scores_.ravel().reshape(-1, 1)).ravel()
-
-
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )

@@ -84,7 +84,10 @@ Multi_algo_HP_dict = {
     },    
     'OFA': {
         'win_size': [50, 100, 150]
-    } 
+    },
+    'TSPulse2': {
+        'n_components': [1,2,3,4],
+    },
 }
 
 
@@ -120,6 +123,7 @@ Optimal_Multi_algo_HP_dict = {
     'TSPulse2': {
         'use_llm_selection': True,
         'use_dimensionality_reduction': True,
+        'n_components': 2,
     },
     'TSPulse2_dimensionality_reduction_ablated': {
         'use_llm_selection': True,

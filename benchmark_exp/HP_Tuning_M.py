@@ -30,10 +30,12 @@ if __name__ == '__main__':
     Start_T = time.time()
     ## ArgumentParser
     parser = argparse.ArgumentParser(description='HP Tuning')
-    parser.add_argument('--dataset_dir', type=str, default='../Datasets/TSB-AD-M/')
-    parser.add_argument('--file_lsit', type=str, default='../Datasets/File_List/TSB-AD-M-Tuning.csv')
+    # parser.add_argument('--dataset_dir', type=str, default='../Datasets/TSB-AD-M/')
+    parser.add_argument('--dataset_dir', type=str, default='Datasets/TSB-AD-M/')
+    # parser.add_argument('--file_lsit', type=str, default='../Datasets/File_List/TSB-AD-M-Tuning.csv')
+    parser.add_argument('--file_lsit', type=str, default='Datasets/File_List/TSB-AD-M-Tuning.csv')
     parser.add_argument('--save_dir', type=str, default='eval/HP_tuning/multi/')
-    parser.add_argument('--AD_Name', type=str, default='IForest')
+    parser.add_argument('--AD_Name', type=str, default='TSPulse2')
     args = parser.parse_args()
 
     file_list = pd.read_csv(args.file_lsit)['file_name'].values
@@ -55,7 +57,7 @@ if __name__ == '__main__':
         # print('label: ', label.shape)
 
         feats = data.shape[1]
-        slidingWindow = find_length_rank(data[:,0].reshape(-1, 1), rank=1)
+        slidingWindow = find_length_rank(data, rank=1)
         train_index = filename.split('.')[0].split('_')[-3]
         data_train = data[:int(train_index), :]
 
