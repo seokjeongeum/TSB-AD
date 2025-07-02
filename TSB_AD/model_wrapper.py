@@ -25,8 +25,7 @@ from notebooks.hfdemo.tspulse.anomaly_detection.utility.model import TSAD_Pipeli
 Unsupervise_AD_Pool = ['FFT', 'SR', 'NORMA', 'Series2Graph', 'Sub_IForest', 'IForest', 'LOF', 'Sub_LOF', 'POLY', 'MatrixProfile', 'Sub_PCA', 'PCA', 'HBOS', 
                         'Sub_HBOS', 'KNN', 'Sub_KNN','KMeansAD', 'KMeansAD_U', 'KShapeAD', 'COPOD', 'CBLOF', 'COF', 'EIF', 'RobustPCA', 'Lag_Llama', 'TimesFM', 'Chronos', 'MOMENT_ZS',
                         'TSPulse_ZS_ensemble', 'TSPulse_ZS_time', 'TSPulse_ZS_fft', 'TSPulse_ZS_forecast', 'TSPulse_ZS_scaled_ensemble',
-                        'TSPulse2', 
-                        'TSPulse2_ablate_channel_selection', 'TSPulse2_ablate_head_selection', 'TSPulse2_ablate_head_scale']
+                        'TSPulse2', 'TSPulse2_dimensionality_reduction_ablated']
 Semisupervise_AD_Pool = ['Left_STAMPi', 'SAND', 'MCD', 'Sub_MCD', 'OCSVM', 'Sub_OCSVM', 'AutoEncoder', 'CNN', 'LSTMAD', 'TranAD', 'USAD', 'OmniAnomaly', 
                         'AnomalyTransformer', 'TimesNet', 'FITS', 'Donut', 'OFA', 'MOMENT_FT', 'M2N2',
                         'TSPulse_FT_ensemble', 'TSPulse_FT_time', 'TSPulse_FT_fft', 'TSPulse_FT_future', 'TSPulse_FT_scaled_ensemble',
@@ -481,6 +480,23 @@ def run_TSPulse_ZS_time(data, **kwargs):
 
 
 def run_TSPulse2(data, **kwargs):
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=kwargs.get("prediction_mode", "forecast+time+fft"),
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return MinMaxScaler(feature_range=(0, 1)).fit_transform(clf.decision_scores_.ravel().reshape(-1, 1)).ravel()
+
+
+def run_TSPulse2_dimensionality_reduction_ablated(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:

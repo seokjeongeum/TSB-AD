@@ -19,7 +19,7 @@
 #SBATCH --qos=hpgpu                    # Quality of Service (use 'hpgpu' or 'add_hpgpu' as needed)
 #SBATCH --time=3-00:00:00                  # Max runtime
 #SBATCH --gres=gpu:1                       # Request 1 GPU
-#SBATCH --array=1-7
+#SBATCH --array=1-2
 
 #=========================================================================================
 # Environment Setup
@@ -63,17 +63,21 @@ echo "Current Directory: $(pwd)"
 
 # --- Multivariate Configurations ---
 MULTI_FILE_LISTS=(
-    "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
+    # "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva.csv"
     "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva.csv"
-    "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
-    "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
 )
-MULTI_MODELS=("TSPulse2" "TSPulse2_ablate_channel_selection" "TSPulse2_ablate_head_selection" "TSPulse2_ablate_head_scale")
+MULTI_MODELS=(
+    # "TSPulse2" 
+    "TSPulse2_dimensionality_reduction_ablated"
+)
 NUM_MULTI_JOBS=$((${#MULTI_MODELS[@]} ))
 
 # --- Univariate Configurations ---
 # No "channel_selection" model for univariate, as it's not applicable.
-UNI_MODELS=("TSPulse2" "TSPulse2_ablate_head_selection" "TSPulse2_ablate_head_scale")
+UNI_MODELS=(
+    # "TSPulse2" 
+    "TSPulse2_dimensionality_reduction_ablated"
+)
 UNI_FILE_LIST="${PROJECT_ROOT}/Datasets/File_List/TSB-AD-U-Eva.csv"
 
 NUM_UNI_JOBS=$((${#UNI_MODELS[@]} ))

@@ -1,10 +1,13 @@
 import datetime
 import io
+import logging
 import os
 import sys
+import time
 from typing import List, Optional
 
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 import numpy as np
 from dotenv import load_dotenv
 from google import genai
@@ -20,12 +23,14 @@ sys.path.insert(
         "granite-tsfm",
     ),
 )
-from tsfm_public.models.tspulse.modeling_tspulse import \
-    TSPulseForReconstruction
+from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
 from tsfm_public.toolkit.ad_helpers import AnomalyScoreMethods
 from tsfm_public.toolkit.conformal import PostHocProbabilisticProcessor
 from tsfm_public.toolkit.time_series_anomaly_detection_pipeline import (
-    AggregationFunction, TimeSeriesAnomalyDetectionPipeline, score_smoothing)
+    AggregationFunction,
+    TimeSeriesAnomalyDetectionPipeline,
+    score_smoothing,
+)
 
 load_dotenv()
 
@@ -57,6 +62,11 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
             aggregation_length=aggregation_length,
             **kwargs,
         )
+        self.width = 160
+        self.fontsize = 48
+
+    def preprocess(self, input_, **preprocess_parameters):
+        return super().preprocess(input_, **preprocess_parameters)
 
     def _sanitize_parameters(self, **kwargs):
         preprocess_kwargs, forward_kwargs, postprocess_kwargs = (
@@ -64,61 +74,114 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
         )
         if "use_llm_selection" in kwargs:
             postprocess_kwargs["use_llm_selection"] = kwargs["use_llm_selection"]
-        if "safe_title" in kwargs:
-            postprocess_kwargs["safe_title"] = kwargs["safe_title"]
         return preprocess_kwargs, forward_kwargs, postprocess_kwargs
 
-    def _select_head_with_llm(self, scores_dict, target_columns, safe_title=""):
+    def _select_head_with_llm(self, scores_dict, target_columns, raw_data):
+        start_time = time.time()
         if not scores_dict or all(
             not isinstance(v, np.ndarray) or v.size == 0 for v in scores_dict.values()
         ):
-            print(
-                "WARNING: scores_dict is empty or contains no valid data. Skipping LLM call."
-            )
             return list(scores_dict.keys())[0] if scores_dict else "default_key"
         client = genai.Client(
             api_key=os.environ.get("GEMINI_API_KEY"),
         )
 
         model = "gemini-2.5-pro"
-        # 1. Plot the scores
+        # 1. Create subplots: one for raw data, and one for each score comparison
+        num_scores = len(scores_dict)
+        num_plots = num_scores + 1  # Add one for the raw data plot
         fig, axes = plt.subplots(
-            len(scores_dict), 1, figsize=(12, 2 * len(scores_dict)), sharex=True
+            num_plots,
+            1,
+            figsize=(self.width, 6 * num_plots),  # Dynamic height
+            sharex=False,
         )
-        if len(scores_dict) == 1:
-            axes = [axes]
-        for ax, (key, score) in zip(axes, scores_dict.items()):
-            ax.plot(score)
-            ax.set_title(key)
-            ax.grid(True)
-        plt.suptitle(f"Anomaly Scores for {safe_title}")
-        plt.tight_layout(rect=(0, 0.03, 1, 0.95))
+
+        # Configure locator once to be applied to all x-axes
+        locator = mticker.MaxNLocator(nbins=40, prune="both")
+
+        # --- Plot 1: Raw Data Only ---
+        ax_raw = axes[0]
+        ax_raw.set_ylabel("Raw Data Value", color="tab:blue")
+        for col in raw_data.columns:
+            ax_raw.plot(
+                raw_data.index,
+                raw_data[col],
+                color="tab:blue",
+                alpha=0.7,
+                linewidth=3,
+            )
+        ax_raw.tick_params(axis="y", labelcolor="tab:blue", labelsize=self.fontsize)
+        ax_raw.set_title("Raw Data", fontsize=self.fontsize)
+        # Calculate y-axis limits with a 10% padding for better visualization
+        data_min = raw_data.values.min()
+        data_max = raw_data.values.max()
+        data_range = data_max - data_min
+        padding = data_range * 0.1
+        ax_raw.set_ylim(data_min - padding, data_max + padding)
+        ax_raw.set_xlim(raw_data.index.min(), raw_data.index.max())
+        ax_raw.xaxis.set_major_locator(locator)
+        ax_raw.tick_params(axis="x", labelsize=self.fontsize * 0.5)
+
+        # --- Plots 2 to N: Anomaly Scores Only ---
+        for i, (key, score) in enumerate(scores_dict.items()):
+            # Plot on the next subplot
+            ax = axes[i + 1]
+
+            ax.set_ylabel("Anomaly Score", color="tab:orange")
+            ax.plot(
+                raw_data.index,
+                score,
+                color="tab:orange",
+                linestyle="-",
+                linewidth=3,
+            )
+            ax.tick_params(axis="y", labelcolor="tab:orange", labelsize=self.fontsize)
+            ax.set_title(f"Anomaly Score: {key}", fontsize=self.fontsize)
+            ax.set_ylim(-0.1, 1.1)
+            ax.set_xlim(raw_data.index.min(), raw_data.index.max())
+            ax.xaxis.set_major_locator(locator)
+            ax.tick_params(axis="x", labelsize=self.fontsize * 0.5)
+
+        # Set common xlabel for the last plot only
+        axes[-1].set_xlabel("Time", fontsize=self.fontsize)
+
+        plt.suptitle(
+            "Raw Data and Individual Anomaly Scores", y=0.98, fontsize=self.fontsize
+        )
+        fig.tight_layout(rect=(0, 0.03, 1, 0.96))  # Adjust layout
 
         # --- START: DEBUGGING CODE ---
-        # Create a directory to store the debug plots
-        debug_plots_dir = "debug_plots"
-        os.makedirs(debug_plots_dir, exist_ok=True)
+        # Create a directory to store the debug plots and thoughts
+        artifacts_dir = "llm_artifacts"
+        os.makedirs(artifacts_dir, exist_ok=True)
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        debug_plot_path = os.path.join(debug_plots_dir, f"{timestamp}_{safe_title}.png")
+        debug_plot_path = os.path.join(artifacts_dir, f"{timestamp}_plot.png")
 
         # Save the figure to a file
-        plt.savefig(debug_plot_path)
-        print(f"DEBUG: Saved plot for inspection to {debug_plot_path}")
+        plt.savefig(debug_plot_path, bbox_inches="tight", pad_inches=0)
         # --- END: DEBUGGING CODE ---
 
         buf = io.BytesIO()
-        plt.savefig(buf, format="png")
+        plt.savefig(buf, format="png", bbox_inches="tight", pad_inches=0)
         buf.seek(0)
         image_bytes = buf.read()
         plt.close(fig)
 
         # 2. Call LLM
+        plot_order = list(scores_dict.keys())
         prompt = f"""
-Here are several anomaly score time series plots for different methods: {list(scores_dict.keys())}.
-Each plot shows the anomaly score over time. A higher score indicates a higher likelihood of an anomaly.
-Please analyze these plots and select the one that you think best captures the anomalous events.
+The image displays several plots stacked vertically.
+The first plot at the very top shows only the raw time series data (blue line).
+The subsequent plots below it each show a different anomaly score.
+The order of the score plots, from top to bottom, is: {plot_order}.
+
+Please analyze the raw data in the top plot and then examine how well each score plot below highlights the unusual patterns in the raw data. A high score indicates an anomaly, while a low score indicates normal behavior. Your task is to select the score that is most effective at identifying the anomalies.
+
+The available score methods are: {', '.join(scores_dict.keys())}.
 The target columns being analyzed are: {target_columns}.
-Your selection will be used as the final anomaly score.
+
+Based on your analysis, which anomaly score is the best?
 """
         contents: types.ContentListUnion = [
             types.Content(
@@ -133,21 +196,23 @@ Your selection will be used as the final anomaly score.
             ),
         ]
         score_keys = list(scores_dict.keys())
-        generate_content_config = types.GenerateContentConfig(
-            thinking_config=types.ThinkingConfig(
-                thinking_budget=32768, include_thoughts=True
-            ),
-            response_mime_type="application/json",
-            response_schema=types.Schema(
-                type=types.Type.STRING,
-                enum=score_keys,
-            ),
-        )
         response = client.models.generate_content(
             model=model,
             contents=contents,
-            config=generate_content_config,
+            config=types.GenerateContentConfig(
+                temperature=0,
+                thinking_config=types.ThinkingConfig(
+                    thinking_budget=32768, include_thoughts=True
+                ),
+                media_resolution=types.MediaResolution.MEDIA_RESOLUTION_UNSPECIFIED,
+                response_mime_type="application/json",
+                response_schema=types.Schema(
+                    type=types.Type.STRING,
+                    enum=score_keys,
+                ),
+            ),
         )
+
         selected_key = score_keys[0]  # Default to the first key
         if response and response.candidates:
             first_candidate = response.candidates[0]
@@ -184,13 +249,15 @@ Your selection will be used as the final anomaly score.
                                 selected_key = cleaned_text.strip('"')
 
                 if thought_summary:
-                    thoughts_dir = "llm_thoughts"
-                    os.makedirs(thoughts_dir, exist_ok=True)
-                    thought_filename = f"{timestamp}_{safe_title}_thoughts.txt"
-                    thought_save_path = os.path.join(thoughts_dir, thought_filename)
+                    thought_filename = f"{timestamp}_thoughts.txt"
+                    thought_save_path = os.path.join(artifacts_dir, thought_filename)
                     with open(thought_save_path, "w") as f:
                         f.write(thought_summary)
-                    print(f"Saved LLM thoughts to {thought_save_path}")
+        end_time = time.time()
+        print(f"Plotting and LLM selection took {end_time - start_time:.2f} seconds.")
+        logging.info(
+            f"Selected head '{selected_key}' in {end_time - start_time}s"
+        )
         return selected_key
 
     def postprocess(self, model_outputs, **postprocess_parameters):
@@ -199,8 +266,7 @@ Your selection will be used as the final anomaly score.
         expand_score = postprocess_parameters.get("expand_score", False)
         smoothing_window_size = postprocess_parameters.get("smoothing_length", 1)
         target_columns = postprocess_parameters.get("target_columns", [])
-        use_llm_selection = postprocess_parameters.get("use_llm_selection", True)
-        safe_title = postprocess_parameters.get("safe_title", "")
+        use_llm_selection = postprocess_parameters.get("use_llm_selection", False)
 
         report_mode = postprocess_parameters.get("report_mode", False)
         predictive_score_smoothing = postprocess_parameters.get(
@@ -256,10 +322,10 @@ Your selection will be used as the final anomaly score.
         if use_llm_selection:
             all_scores = model_outputs_.copy()
             all_scores["ensemble"] = ensemble_score
+            raw_data_to_plot = result[target_columns]
             selected_key = self._select_head_with_llm(
-                all_scores, target_columns, safe_title
+                all_scores, target_columns, raw_data=raw_data_to_plot
             )
-            print(f"LLM selected score: {selected_key}")
             score = all_scores[selected_key]
         else:
             score = ensemble_score

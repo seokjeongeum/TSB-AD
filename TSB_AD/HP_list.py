@@ -116,26 +116,14 @@ Optimal_Multi_algo_HP_dict = {
     'TSPulse_ZS_ensemble': {},
     'TSPulse_ZS_fft': {},
     'TSPulse_ZS_forecast': {},
-    'TSPulse_ZS_scaled_ensemble': {
-        'head_min_max_scale': True,
-        'head_selector': False,
-    },
     'TSPulse_ZS_time': {},
     'TSPulse2': {
-        'head_min_max_scale': True,
-        'head_selector': True,
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': True,
     },
-    'TSPulse2_ablate_channel_selection': {
-        'head_min_max_scale': True,
-        'head_selector': True,
-    },
-    'TSPulse2_ablate_head_selection': {
-        'head_min_max_scale': True,
-        'head_selector': False,
-    },
-    'TSPulse2_ablate_head_scale': {
-        'head_min_max_scale': False,
-        'head_selector': True,
+    'TSPulse2_dimensionality_reduction_ablated': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': False,
     },
 }
 
@@ -299,24 +287,13 @@ Optimal_Uni_algo_HP_dict = {
     'TSPulse_ZS_ensemble': {},
     'TSPulse_ZS_fft': {},
     'TSPulse_ZS_forecast': {},
-    'TSPulse_ZS_scaled_ensemble': {
-        'head_min_max_scale': True,
-        'head_selector': False,
-    },
     'TSPulse_ZS_time': {},
     'TSPulse2': {
         'use_llm_selection': True,
+        'use_dimensionality_reduction': True,
     },
-    'TSPulse2_ablate_channel_selection': {
-        'head_min_max_scale': True,
-        'head_selector': True,
-    },
-    'TSPulse2_ablate_head_selection': {
-        'head_min_max_scale': True,
-        'head_selector': False,
-    },
-    'TSPulse2_ablate_head_scale': {
-        'head_min_max_scale': False,
-        'head_selector': True,
+    'TSPulse2_dimensionality_reduction_ablated': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': False,
     },
 }
