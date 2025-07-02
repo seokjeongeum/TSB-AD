@@ -1,5 +1,6 @@
 import datetime
 import io
+import logging
 import os
 import sys
 import time
@@ -65,32 +66,6 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
         self.fontsize = 48
 
     def preprocess(self, input_, **preprocess_parameters):
-        start_time = time.time()
-        # --- START: DEBUGGING PLOT ---
-        artifacts_dir = "llm_artifacts"
-        os.makedirs(artifacts_dir, exist_ok=True)
-        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        debug_plot_path = os.path.join(artifacts_dir, f"{timestamp}_raw_input.png")
-
-        try:
-            # Drop the timestamp column to avoid plotting it as a separate subplot.
-            # The remaining plot(s) will utilize the full figure space.
-            input_.drop(columns=["timestamp"], errors="ignore").plot(
-                figsize=(self.width, 7),
-                subplots=True,
-                legend=True,
-                fontsize=self.fontsize,
-            )
-            plt.xlim(input_.index.min(), input_.index.max())
-            plt.suptitle("Raw Input Data to Pipeline")
-            plt.savefig(debug_plot_path, bbox_inches="tight", pad_inches=0)
-            plt.close()
-            print(f"DEBUG: Saved raw input plot to {debug_plot_path}")
-        except Exception as e:
-            print(f"DEBUG: Failed to plot raw input. Reason: {e}")
-        # --- END: DEBUGGING PLOT ---
-        end_time = time.time()
-        print(f"Plotting raw input took {end_time - start_time:.2f} seconds.")
         return super().preprocess(input_, **preprocess_parameters)
 
     def _sanitize_parameters(self, **kwargs):
@@ -106,9 +81,6 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
         if not scores_dict or all(
             not isinstance(v, np.ndarray) or v.size == 0 for v in scores_dict.values()
         ):
-            print(
-                "WARNING: scores_dict is empty or contains no valid data. Skipping LLM call."
-            )
             return list(scores_dict.keys())[0] if scores_dict else "default_key"
         client = genai.Client(
             api_key=os.environ.get("GEMINI_API_KEY"),
@@ -188,7 +160,6 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
 
         # Save the figure to a file
         plt.savefig(debug_plot_path, bbox_inches="tight", pad_inches=0)
-        print(f"DEBUG: Saved plot for inspection to {debug_plot_path}")
         # --- END: DEBUGGING CODE ---
 
         buf = io.BytesIO()
@@ -242,9 +213,6 @@ Based on your analysis, which anomaly score is the best?
             ),
         )
 
-        if response.usage_metadata:
-            print(f"Token count (UNSPECIFIED resolution): {response.usage_metadata}")
-
         selected_key = score_keys[0]  # Default to the first key
         if response and response.candidates:
             first_candidate = response.candidates[0]
@@ -285,9 +253,11 @@ Based on your analysis, which anomaly score is the best?
                     thought_save_path = os.path.join(artifacts_dir, thought_filename)
                     with open(thought_save_path, "w") as f:
                         f.write(thought_summary)
-                    print(f"Saved LLM thoughts to {thought_save_path}")
         end_time = time.time()
         print(f"Plotting and LLM selection took {end_time - start_time:.2f} seconds.")
+        logging.info(
+            f"Selected head '{selected_key}' in {end_time - start_time}s"
+        )
         return selected_key
 
     def postprocess(self, model_outputs, **postprocess_parameters):
@@ -356,7 +326,6 @@ Based on your analysis, which anomaly score is the best?
             selected_key = self._select_head_with_llm(
                 all_scores, target_columns, raw_data=raw_data_to_plot
             )
-            print(f"LLM selected score: {selected_key}")
             score = all_scores[selected_key]
         else:
             score = ensemble_score
