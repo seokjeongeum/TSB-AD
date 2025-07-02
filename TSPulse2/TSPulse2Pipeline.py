@@ -1,8 +1,18 @@
+import datetime
+import io
 import os
 import sys
 from typing import List, Optional
 
-# Use relative paths for local imports
+import matplotlib.pyplot as plt
+import numpy as np
+from dotenv import load_dotenv
+from google import genai
+from google.genai import types
+from sklearn.preprocessing import MinMaxScaler
+
+from TSPulse2.TSPulse2ADUtility import TSPulse2ADUtility
+
 sys.path.insert(
     0,
     os.path.join(
@@ -12,11 +22,12 @@ sys.path.insert(
 )
 from tsfm_public.models.tspulse.modeling_tspulse import \
     TSPulseForReconstruction
+from tsfm_public.toolkit.ad_helpers import AnomalyScoreMethods
 from tsfm_public.toolkit.conformal import PostHocProbabilisticProcessor
 from tsfm_public.toolkit.time_series_anomaly_detection_pipeline import (
-    AggregationFunction, TimeSeriesAnomalyDetectionPipeline)
+    AggregationFunction, TimeSeriesAnomalyDetectionPipeline, score_smoothing)
 
-from TSPulse2.TSPulse2ADUtility import TSPulse2ADUtility
+load_dotenv()
 
 
 class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
@@ -40,10 +51,240 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
             probabilistic_processor=probabilistic_processor,
             **kwargs,
         )
-        if kwargs.get("fuse_reconstruction", True):
-            self._model_processor = TSPulse2ADUtility(
-                model,
-                mode=prediction_mode,
-                aggregation_length=aggregation_length,
-                **kwargs,
+        self._model_processor = TSPulse2ADUtility(
+            model,
+            mode=prediction_mode,
+            aggregation_length=aggregation_length,
+            **kwargs,
+        )
+
+    def _sanitize_parameters(self, **kwargs):
+        preprocess_kwargs, forward_kwargs, postprocess_kwargs = (
+            super()._sanitize_parameters(**kwargs)
+        )
+        if "use_llm_selection" in kwargs:
+            postprocess_kwargs["use_llm_selection"] = kwargs["use_llm_selection"]
+        if "safe_title" in kwargs:
+            postprocess_kwargs["safe_title"] = kwargs["safe_title"]
+        return preprocess_kwargs, forward_kwargs, postprocess_kwargs
+
+    def _select_head_with_llm(self, scores_dict, target_columns, safe_title=""):
+        if not scores_dict or all(
+            not isinstance(v, np.ndarray) or v.size == 0 for v in scores_dict.values()
+        ):
+            print(
+                "WARNING: scores_dict is empty or contains no valid data. Skipping LLM call."
             )
+            return list(scores_dict.keys())[0] if scores_dict else "default_key"
+        client = genai.Client(
+            api_key=os.environ.get("GEMINI_API_KEY"),
+        )
+
+        model = "gemini-2.5-pro"
+        # 1. Plot the scores
+        fig, axes = plt.subplots(
+            len(scores_dict), 1, figsize=(12, 2 * len(scores_dict)), sharex=True
+        )
+        if len(scores_dict) == 1:
+            axes = [axes]
+        for ax, (key, score) in zip(axes, scores_dict.items()):
+            ax.plot(score)
+            ax.set_title(key)
+            ax.grid(True)
+        plt.suptitle(f"Anomaly Scores for {safe_title}")
+        plt.tight_layout(rect=(0, 0.03, 1, 0.95))
+
+        # --- START: DEBUGGING CODE ---
+        # Create a directory to store the debug plots
+        debug_plots_dir = "debug_plots"
+        os.makedirs(debug_plots_dir, exist_ok=True)
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        debug_plot_path = os.path.join(debug_plots_dir, f"{timestamp}_{safe_title}.png")
+
+        # Save the figure to a file
+        plt.savefig(debug_plot_path)
+        print(f"DEBUG: Saved plot for inspection to {debug_plot_path}")
+        # --- END: DEBUGGING CODE ---
+
+        buf = io.BytesIO()
+        plt.savefig(buf, format="png")
+        buf.seek(0)
+        image_bytes = buf.read()
+        plt.close(fig)
+
+        # 2. Call LLM
+        prompt = f"""
+Here are several anomaly score time series plots for different methods: {list(scores_dict.keys())}.
+Each plot shows the anomaly score over time. A higher score indicates a higher likelihood of an anomaly.
+Please analyze these plots and select the one that you think best captures the anomalous events.
+The target columns being analyzed are: {target_columns}.
+Your selection will be used as the final anomaly score.
+"""
+        contents: types.ContentListUnion = [
+            types.Content(
+                role="user",
+                parts=[
+                    types.Part.from_bytes(
+                        mime_type="image/png",
+                        data=image_bytes,
+                    ),
+                    types.Part.from_text(text=prompt),
+                ],
+            ),
+        ]
+        score_keys = list(scores_dict.keys())
+        generate_content_config = types.GenerateContentConfig(
+            thinking_config=types.ThinkingConfig(
+                thinking_budget=32768, include_thoughts=True
+            ),
+            response_mime_type="application/json",
+            response_schema=types.Schema(
+                type=types.Type.STRING,
+                enum=score_keys,
+            ),
+        )
+        response = client.models.generate_content(
+            model=model,
+            contents=contents,
+            config=generate_content_config,
+        )
+        selected_key = score_keys[0]  # Default to the first key
+        if response and response.candidates:
+            first_candidate = response.candidates[0]
+            if first_candidate.content and first_candidate.content.parts:
+                thought_summary = ""
+                for part in first_candidate.content.parts:
+                    if hasattr(part, "thought") and part.thought:
+                        thought_summary += f"Thought: {part.thought}\n"
+                    if hasattr(part, "text") and part.text:
+                        # The response is JSON, so we need to handle it as such.
+                        # The actual text is inside the JSON structure.
+                        cleaned_text = part.text.strip()
+                        if cleaned_text:
+                            thought_summary += f"Output Part: {cleaned_text}\n"
+                            # Assuming the model returns a JSON string like '{"value": "ensemble"}'
+                            # or just the string '"ensemble"'.
+                            import json
+
+                            try:
+                                # Handles '{"key": "value"}' and '"value"'
+                                json_response = json.loads(cleaned_text)
+                                if isinstance(json_response, dict):
+                                    # Heuristic to find the value
+                                    if len(json_response) == 1:
+                                        selected_key = list(json_response.values())[0]
+                                    elif "value" in json_response:
+                                        selected_key = json_response["value"]
+                                    elif "selection" in json_response:
+                                        selected_key = json_response["selection"]
+                                else:
+                                    selected_key = json_response
+                            except (json.JSONDecodeError, TypeError):
+                                # Fallback for plain string that is not valid JSON
+                                selected_key = cleaned_text.strip('"')
+
+                if thought_summary:
+                    thoughts_dir = "llm_thoughts"
+                    os.makedirs(thoughts_dir, exist_ok=True)
+                    thought_filename = f"{timestamp}_{safe_title}_thoughts.txt"
+                    thought_save_path = os.path.join(thoughts_dir, thought_filename)
+                    with open(thought_save_path, "w") as f:
+                        f.write(thought_summary)
+                    print(f"Saved LLM thoughts to {thought_save_path}")
+        return selected_key
+
+    def postprocess(self, model_outputs, **postprocess_parameters):
+        mangled_name = "_TimeSeriesAnomalyDetectionPipeline__context_memory"
+        result = getattr(self, mangled_name)["data"].copy()
+        expand_score = postprocess_parameters.get("expand_score", False)
+        smoothing_window_size = postprocess_parameters.get("smoothing_length", 1)
+        target_columns = postprocess_parameters.get("target_columns", [])
+        use_llm_selection = postprocess_parameters.get("use_llm_selection", True)
+        safe_title = postprocess_parameters.get("safe_title", "")
+
+        report_mode = postprocess_parameters.get("report_mode", False)
+        predictive_score_smoothing = postprocess_parameters.get(
+            "predictive_score_smoothing", False
+        )
+        if not isinstance(smoothing_window_size, int):
+            try:
+                smoothing_window_size = int(smoothing_window_size)
+            except ValueError:
+                smoothing_window_size = 1
+
+        # adjust scoring and smooth
+        extra_kwargs = {}
+        if "reference" in getattr(self, mangled_name):
+            data = getattr(self, mangled_name)["reference"]
+            if len(target_columns) > 0:
+                data = data[target_columns]
+            extra_kwargs["reference"] = data.values
+
+        model_outputs_ = {}
+        for k in model_outputs:
+            score = model_outputs[k]
+            score = self._model_processor.adjust_boundary(k, score, **extra_kwargs)
+            if not predictive_score_smoothing and (
+                k == AnomalyScoreMethods.PREDICTIVE.value
+            ):  # Skip Smoothing For 1 Lookahead forecast
+                model_outputs_[k] = score
+            elif k == AnomalyScoreMethods.PROBABILISTIC.value:
+                model_outputs_[k] = score_smoothing(
+                    score, smoothing_window_size=1
+                )  # no smoothing of p-value scores across time
+            else:
+                model_outputs_[k] = score_smoothing(
+                    score, smoothing_window_size=smoothing_window_size
+                )
+            model_outputs_[k] = (
+                MinMaxScaler(feature_range=(0, 1))
+                .fit_transform(model_outputs_[k].reshape(-1, 1))
+                .ravel()
+            )
+
+        # aggregate scores and expand
+        score = np.stack([score_ for _, score_ in model_outputs_.items()], axis=0)
+        mode_selected = None
+        if report_mode and (self.select_function is not None):
+            keys = [key for key, _ in model_outputs_.items()]
+            sel_index = self.select_function(score, axis=0)
+            mode_selected = np.asarray([keys[z] for z in sel_index.ravel()]).reshape(
+                sel_index.shape
+            )
+        ensemble_score = self.aggr_function(score, axis=0)
+
+        if use_llm_selection:
+            all_scores = model_outputs_.copy()
+            all_scores["ensemble"] = ensemble_score
+            selected_key = self._select_head_with_llm(
+                all_scores, target_columns, safe_title
+            )
+            print(f"LLM selected score: {selected_key}")
+            score = all_scores[selected_key]
+        else:
+            score = ensemble_score
+
+        expand_score = (len(target_columns) > 1) and expand_score
+        model_outputs = {}
+        if expand_score:
+            if len(target_columns) != score.shape[-1]:
+                raise RuntimeError(
+                    f"Error: inconsistent state, with target columns {target_columns}"
+                )
+            for i, col_name in enumerate(target_columns):
+                model_outputs[f"{col_name}_anomaly_score"] = score[..., i]
+
+            if mode_selected is not None:
+                for i, col_name in enumerate(target_columns):
+                    model_outputs[f"{col_name}_selected_mode"] = mode_selected[..., i]
+
+        else:
+            model_outputs.update(anomaly_score=score.ravel())
+            if mode_selected is not None:
+                model_outputs.update(selected_mode=mode_selected.ravel())
+
+        # populate dataframe
+        for k in model_outputs:
+            result[k] = model_outputs[k]
+        setattr(self, mangled_name, {})
+        return result

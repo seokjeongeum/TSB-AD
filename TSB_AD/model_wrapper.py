@@ -20,22 +20,16 @@ sys.path.insert(
         "granite-tsfm",
     ),
 )
-
 from notebooks.hfdemo.tspulse.anomaly_detection.utility.model import TSAD_Pipeline
-from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
-
-from tsfm_public.models.tspulse.configuration_tspulse import TSPulseConfig
-from tsfm_public.toolkit.dataset import ForecastDFDataset
-from tsfm_public.toolkit.time_series_anomaly_detection_pipeline import TimeSeriesAnomalyDetectionPipeline, AnomalyScoreMethods
 
 Unsupervise_AD_Pool = ['FFT', 'SR', 'NORMA', 'Series2Graph', 'Sub_IForest', 'IForest', 'LOF', 'Sub_LOF', 'POLY', 'MatrixProfile', 'Sub_PCA', 'PCA', 'HBOS', 
                         'Sub_HBOS', 'KNN', 'Sub_KNN','KMeansAD', 'KMeansAD_U', 'KShapeAD', 'COPOD', 'CBLOF', 'COF', 'EIF', 'RobustPCA', 'Lag_Llama', 'TimesFM', 'Chronos', 'MOMENT_ZS',
                         'TSPulse_ZS_ensemble', 'TSPulse_ZS_time', 'TSPulse_ZS_fft', 'TSPulse_ZS_forecast', 'TSPulse_ZS_scaled_ensemble',
+                        'TSPulse2', 
                         'TSPulse2_ablate_channel_selection', 'TSPulse2_ablate_head_selection', 'TSPulse2_ablate_head_scale']
 Semisupervise_AD_Pool = ['Left_STAMPi', 'SAND', 'MCD', 'Sub_MCD', 'OCSVM', 'Sub_OCSVM', 'AutoEncoder', 'CNN', 'LSTMAD', 'TranAD', 'USAD', 'OmniAnomaly', 
                         'AnomalyTransformer', 'TimesNet', 'FITS', 'Donut', 'OFA', 'MOMENT_FT', 'M2N2',
                         'TSPulse_FT_ensemble', 'TSPulse_FT_time', 'TSPulse_FT_fft', 'TSPulse_FT_future', 'TSPulse_FT_scaled_ensemble',
-                        'TSPulse2', 
                         ]
 
 def run_Unsupervise_AD(model_name, data, **kwargs):
@@ -451,8 +445,7 @@ def _run_tspulse_zs_new(data, prediction_mode, **kwargs):
         prediction_mode=prediction_mode,
     )
     clf.zero_shot(data)
-    score = clf.decision_scores_
-    return MinMaxScaler(feature_range=(0, 1)).fit_transform(score.reshape(-1, 1)).ravel()
+    return MinMaxScaler(feature_range=(0, 1)).fit_transform(clf.decision_scores_.ravel().reshape(-1, 1)).ravel()
 
 
 def run_TSPulse_ZS_ensemble(data, **kwargs):
@@ -480,193 +473,18 @@ def run_TSPulse_ZS_scaled_ensemble(data, **kwargs):
         **kwargs,
     )
     clf.zero_shot(data)
-    return clf.decision_scores_
+    return MinMaxScaler(feature_range=(0, 1)).fit_transform(clf.decision_scores_.ravel().reshape(-1, 1)).ravel()
 
 
 def run_TSPulse_ZS_time(data, **kwargs):
     return _run_tspulse_zs_new(data, "time", **kwargs)
 
 
-def _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs):
-
-    def _prepare_df_for_tspulse(data_np):
-        """
-        Adapter function to convert a numpy array into the DataFrame format
-        required by the TSPulse pipeline. This is a necessary shim because the
-        tsfm-public library's high-level API is DataFrame-based.
-        """
-        if data_np.ndim == 1:
-            data_np = data_np.reshape(-1, 1)
-
-        num_channels = data_np.shape[1]
-        # Create generic column names as required by the pipeline
-        target_columns = [f"x_{i}" for i in range(num_channels)]
-        df = pd.DataFrame(data_np, columns=target_columns)
-        # Add a dummy timestamp column, also required by the pipeline
-        df["timestamp"] = pd.to_datetime(
-            pd.date_range(start="2000-01-01", periods=len(df), freq="s")
-        )
-        return df, target_columns
-
-    """Helper function to fine-tune and evaluate TSPulse."""
-    train_df, target_columns = _prepare_df_for_tspulse(data_train)
-    test_df, _ = _prepare_df_for_tspulse(data_test)
-    num_channels = len(target_columns)
-
-    config = TSPulseConfig.from_pretrained("ibm-granite/granite-timeseries-tspulse-r1")
-    config.decoder_mode = "mix_channel"
-    config.free_channel_flow = True
-    if config.num_input_channels != num_channels:
-        config.num_input_channels = num_channels
-        config.num_channels_layerwise = [num_channels] * config.num_layers
-        config.decoder_num_channels_layerwise = [
-            num_channels
-        ] * config.decoder_num_layers
-
-    model = TSPulseForReconstruction.from_pretrained(
-        "ibm-granite/granite-timeseries-tspulse-r1",
-        config=config,
-        ignore_mismatched_sizes=True,
-        device_map="auto",
-    )
-
-    for name, param in model.named_parameters():
-        if name.startswith("backbone."):
-            param.requires_grad = False
-        else:
-            param.requires_grad = True
-
-    val_split_point = int(len(train_df) * 0.8)
-    train_split_df = train_df.iloc[:val_split_point]
-    val_df = train_df.iloc[val_split_point:]
-
-    context_length = model.config.context_length
-    train_dataset = ForecastDFDataset(
-        train_split_df, target_columns=target_columns, context_length=context_length
-    )
-    eval_dataset = ForecastDFDataset(
-        val_df, target_columns=target_columns, context_length=context_length
-    )
-
-    output_dir = tempfile.mkdtemp()
-    training_args = TrainingArguments(
-        output_dir=output_dir,
-        num_train_epochs=kwargs.get("num_train_epochs", 10),
-        per_device_train_batch_size=kwargs.get("per_device_train_batch_size", 32),
-        per_device_eval_batch_size=kwargs.get("per_device_eval_batch_size", 32),
-        learning_rate=kwargs.get("learning_rate", 1e-4),
-        evaluation_strategy="epoch",
-        save_strategy="epoch",
-        load_best_model_at_end=True,
-        metric_for_best_model="eval_loss",
-        greater_is_better=False,
-        report_to="none",
-        disable_tqdm=True,
-    )
-
-    trainer = Trainer(
-        model=model,
-        args=training_args,
-        train_dataset=train_dataset,
-        eval_dataset=eval_dataset,
-        callbacks=[
-            EarlyStoppingCallback(
-                early_stopping_patience=kwargs.get("early_stopping_patience", 3)
-            )
-        ],
-    )
-
-    trainer.train()
-    finetuned_model = trainer.model
-
-    pipeline = TimeSeriesAnomalyDetectionPipeline(
-        finetuned_model,
-        timestamp_column="timestamp",
-        target_columns=target_columns,
-        prediction_mode=prediction_mode,
-        aggregation_length=kwargs.get("aggregation_length", 96),
-        aggr_function=kwargs.get("aggr_function", "max"),
-        smoothing_length=kwargs.get("smoothing_length", 16),
-    )
-    result = pipeline(
-        test_df,
-        batch_size=256,
-        report_mode=True,
-        predictive_score_smoothing=True,
-        expand_score=True,
-    )
-    shutil.rmtree(output_dir)
-    return result["anomaly_score"].values
-
-
-def run_TSPulse_FT_ensemble(data_train, data_test, **kwargs):
-    prediction_mode = [
-        AnomalyScoreMethods.PREDICTIVE.value,
-        AnomalyScoreMethods.TIME_RECONSTRUCTION.value,
-        AnomalyScoreMethods.FREQUENCY_RECONSTRUCTION.value,
-    ]
-    return _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs)
-
-
-def run_TSPulse_FT_time(data_train, data_test, **kwargs):
-    prediction_mode = AnomalyScoreMethods.TIME_RECONSTRUCTION.value
-    return _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs)
-
-
-def run_TSPulse_FT_fft(data_train, data_test, **kwargs):
-    prediction_mode = AnomalyScoreMethods.FREQUENCY_RECONSTRUCTION.value
-    return _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs)
-
-
-def run_TSPulse_FT_future(data_train, data_test, **kwargs):
-    prediction_mode = AnomalyScoreMethods.PREDICTIVE.value
-    return _run_ts_pulse_ft(data_train, data_test, prediction_mode, **kwargs)
-
-def run_TSPulse2_ablate_channel_selection(data, **kwargs):
+def run_TSPulse2(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
-    clf = TSPulse2Detector(
-        num_input_channels=num_input_channels,
-        prediction_mode="forecast+time+fft",
-        **kwargs,
-    )
-    clf.zero_shot(data)
-    return clf.decision_scores_
-
-def run_TSPulse2_ablate_head_selection(data, **kwargs):
-    if data.ndim == 1:
-        num_input_channels = 1
-    else:
-        num_input_channels = data.shape[1]
-    clf = TSPulse2Detector(
-        num_input_channels=num_input_channels,
-        prediction_mode="forecast+time+fft",
-        **kwargs,
-    )
-    clf.zero_shot(data)
-    return clf.decision_scores_
-
-def run_TSPulse2_ablate_head_scale(data, **kwargs):
-    if data.ndim == 1:
-        num_input_channels = 1
-    else:
-        num_input_channels = data.shape[1]
-    clf = TSPulse2Detector(
-        num_input_channels=num_input_channels,
-        prediction_mode="forecast+time+fft",
-        **kwargs,
-    )
-    clf.zero_shot(data)
-    return clf.decision_scores_
-
-
-def run_TSPulse2(data_train,data_test, **kwargs):
-    if data_test.ndim == 1:
-        num_input_channels = 1
-    else:
-        num_input_channels = data_test.shape[1]
     clf = TSPulse2Detector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
@@ -675,6 +493,7 @@ def run_TSPulse2(data_train,data_test, **kwargs):
         prediction_mode=kwargs.get("prediction_mode", "forecast+time+fft"),
         **kwargs,
     )
-    clf.fit(data_train)
-    return clf.decision_function(data_test)
+    clf.zero_shot(data)
+    return MinMaxScaler(feature_range=(0, 1)).fit_transform(clf.decision_scores_.ravel().reshape(-1, 1)).ravel()
+
 

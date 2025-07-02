@@ -305,8 +305,7 @@ Optimal_Uni_algo_HP_dict = {
     },
     'TSPulse_ZS_time': {},
     'TSPulse2': {
-        'head_min_max_scale': True,
-        'head_selector': True,
+        'use_llm_selection': True,
     },
     'TSPulse2_ablate_channel_selection': {
         'head_min_max_scale': True,

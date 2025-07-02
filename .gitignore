@@ -10,3 +10,5 @@ Datasets/TSB-AD-U*
 slurm_logs
 eval/score
 score.zip
+.secrets.sh
+debug_plots

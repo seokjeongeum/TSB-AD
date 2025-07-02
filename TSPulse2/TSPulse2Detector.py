@@ -42,6 +42,7 @@ class TSPulse2Detector(TSAD_Pipeline):
             smoothing_length=smoothing_window,
             least_significant_scale=0.0,
             least_significant_score=1.0,
+            **kwargs,
         )
 
     def fit(self, X, y=None):

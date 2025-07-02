@@ -30,3 +30,4 @@ lightgbm
 xgboost
 catboost
 pytorch-tabnet
+python-dotenv

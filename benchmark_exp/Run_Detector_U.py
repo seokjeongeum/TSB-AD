@@ -41,7 +41,7 @@ if __name__ == '__main__':
     # parser.add_argument('--save', type=bool, default=False)
     parser.add_argument('--save', type=bool, default=True)
     # parser.add_argument('--AD_Name', type=str, default='IForest')
-    parser.add_argument('--AD_Name', type=str, default='TSPulse_ZS_ensemble')
+    parser.add_argument('--AD_Name', type=str, default='TSPulse2')
     args = parser.parse_args()
 
 
@@ -68,7 +68,7 @@ if __name__ == '__main__':
         # print('label: ', label.shape)
 
         feats = data.shape[1]
-        slidingWindow = find_length_rank(data[:,0].reshape(-1, 1), rank=1)
+        slidingWindow = find_length_rank(data, rank=1)
         train_index = filename.split('.')[0].split('_')[-3]
         data_train = data[:int(train_index), :]
 
