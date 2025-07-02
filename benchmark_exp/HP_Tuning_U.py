@@ -36,6 +36,8 @@ if __name__ == '__main__':
     parser.add_argument('--AD_Name', type=str, default='IForest')
     args = parser.parse_args()
 
+    os.makedirs(args.save_dir, exist_ok=True)
+
     file_list = pd.read_csv(args.file_lsit)['file_name'].values
 
     Det_HP = Uni_algo_HP_dict[args.AD_Name]

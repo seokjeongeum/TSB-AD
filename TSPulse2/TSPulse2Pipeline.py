@@ -182,6 +182,10 @@ Based on your analysis, which anomaly score is the best for channel '{target_cha
 
         selected_key = score_keys[0]  # Default
         if response and response.candidates:
+            if hasattr(response, "usage_metadata"):
+                logging.info(
+                    f"LLM token count for '{target_channel_name}': {response.usage_metadata}"
+                )
             first_candidate = response.candidates[0]
             if first_candidate.content and first_candidate.content.parts:
                 thought_summary = ""

@@ -19,7 +19,7 @@
 #SBATCH --qos=hpgpu                    # Quality of Service (use 'hpgpu' or 'add_hpgpu' as needed)
 #SBATCH --time=3-00:00:00                  # Max runtime
 #SBATCH --gres=gpu:1                       # Request 1 GPU
-#SBATCH --array=1-2
+#SBATCH --array=1-16
 
 #=========================================================================================
 # Environment Setup
@@ -63,20 +63,44 @@ echo "Current Directory: $(pwd)"
 
 # --- Multivariate Configurations ---
 MULTI_FILE_LISTS=(
-    # "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva.csv"
-    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 1.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 2.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 3.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 4.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 5.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 6.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 7.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 8.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 9.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 10.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 11.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 12.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
 )
 MULTI_MODELS=(
-    # "TSPulse2" 
+    "TSPulse2" 
     "TSPulse2_dimensionality_reduction_ablated"
+    "TSPulse2_dimensionality_reduction_ablated"
+    "TSPulse2_dimensionality_reduction_ablated"
+    "TSPulse2_dimensionality_reduction_ablated"
+    "TSPulse2_dimensionality_reduction_ablated"
+    "TSPulse2_dimensionality_reduction_ablated"
+    "TSPulse2_dimensionality_reduction_ablated"
+    "TSPulse2_dimensionality_reduction_ablated"
+    "TSPulse2_dimensionality_reduction_ablated"
+    "TSPulse2_dimensionality_reduction_ablated"
+    "TSPulse2_dimensionality_reduction_ablated"
+    "TSPulse2_dimensionality_reduction_ablated"
+    "TSPulse2_llm_selection_ablated"
 )
 NUM_MULTI_JOBS=$((${#MULTI_MODELS[@]} ))
 
 # --- Univariate Configurations ---
 # No "channel_selection" model for univariate, as it's not applicable.
 UNI_MODELS=(
-    # "TSPulse2" 
-    "TSPulse2_dimensionality_reduction_ablated"
+    "TSPulse2" 
+    "TSPulse2_llm_selection_ablated"
 )
 UNI_FILE_LIST="${PROJECT_ROOT}/Datasets/File_List/TSB-AD-U-Eva.csv"
 

@@ -54,7 +54,9 @@ class TSPulse2Detector(TSAD_Pipeline):
 
     def decision_function(self, X):
         if self.kwargs.get("use_dimensionality_reduction", True):
-            n_components = self.kwargs.get("n_components", 2)
+            n_components = min(
+                self.kwargs.get("n_components", 2), X.shape[0], X.shape[1]
+            )
             self.pca = PCA(n_components=n_components)
             X = self.pca.fit_transform(X)
             self._headers = [f"x{i + 1}" for i in range(n_components)]

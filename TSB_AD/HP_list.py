@@ -126,8 +126,13 @@ Optimal_Multi_algo_HP_dict = {
         'n_components': 2,
     },
     'TSPulse2_dimensionality_reduction_ablated': {
-        'use_llm_selection': True,
+        'use_llm_selection': False,
         'use_dimensionality_reduction': False,
+    },
+    'TSPulse2_llm_selection_ablated': {
+        'use_llm_selection': False,
+        'use_dimensionality_reduction': True,
+        'n_components': 2,
     },
 }
 
@@ -294,10 +299,8 @@ Optimal_Uni_algo_HP_dict = {
     'TSPulse_ZS_time': {},
     'TSPulse2': {
         'use_llm_selection': True,
-        'use_dimensionality_reduction': True,
     },
-    'TSPulse2_dimensionality_reduction_ablated': {
-        'use_llm_selection': True,
-        'use_dimensionality_reduction': False,
+    'TSPulse2_llm_selection_ablated': {
+        'use_llm_selection': False,
     },
 }

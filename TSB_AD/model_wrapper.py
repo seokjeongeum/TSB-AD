@@ -516,3 +516,25 @@ def run_TSPulse2_dimensionality_reduction_ablated(data, **kwargs):
         .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
         .ravel()
     )
+
+
+def run_TSPulse2_llm_selection_ablated(data, **kwargs):
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=kwargs.get("prediction_mode", "forecast+time+fft"),
+        expand_score=kwargs.get("use_dimensionality_reduction", True),
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
