@@ -43,19 +43,6 @@ def compare_and_summarize(my_file_path, bench_file_paths):
     Loads, merges, and calculates differences between your result CSV
     and a union of benchmark CSVs.
     """
-    if not os.path.exists(my_file_path):
-        print(f"SKIPPING: Your run file not found at '{my_file_path}'")
-        return None, None
-
-    if not bench_file_paths:
-        print(f"SKIPPING: No benchmark files found for the pattern near '{my_file_path}'")
-        return None, None
-
-    print(f"\nComparing:")
-    print(f"  - Your Run:    {os.path.basename(my_file_path)}")
-    print(f"  - Benchmarks (Union):")
-    for bench_path in bench_file_paths:
-        print(f"    - {os.path.basename(bench_path)}")
 
 
     # Load the CSV files into pandas DataFrames
@@ -79,7 +66,6 @@ def compare_and_summarize(my_file_path, bench_file_paths):
     df_merged = pd.merge(df_my, df_bench, on="file", suffixes=("_my", "_bench"))
 
     if df_merged.empty:
-        print("  -> No common 'file' entries found between the two CSVs.")
         return None, None
 
     # --- Calculate the difference in performance (Your Run - Benchmark Run) ---
@@ -99,25 +85,6 @@ def compare_and_summarize(my_file_path, bench_file_paths):
         "Avg_VUS-ROC_Improvement": df_merged["VUS-ROC_Improvement"].mean(),
         "Common_Files": len(df_merged),
     }
-
-    # --- Filter and display rows with VUS-PR differences ---
-    # Treat differences smaller than 1e-6 as negligible
-    df_diff = df_merged[df_merged["VUS-PR_Improvement"].abs() >= 9e-4]
-
-    if not df_diff.empty:
-        print("\nDetailed comparison (only showing VUS-PR differences >= 9e-4):")
-        display_cols = [
-            "file",
-            "VUS-PR_my",
-            "VUS-PR_bench",
-            "VUS-PR_Improvement",
-            "VUS-ROC_my",
-            "VUS-ROC_bench",
-            "VUS-ROC_Improvement",
-        ]
-        print(df_diff[display_cols].to_string())
-    else:
-        print("\n-> No significant VUS-PR differences found for this comparison.")
 
     return summary, df_merged
 
@@ -151,9 +118,6 @@ if __name__ == "__main__":
                     output_dir, f"comparison_{data_type}_{algo}.csv"
                 )
                 detailed_df.to_csv(output_filename, index=False)
-                print(f"\n-> Detailed comparison saved to '{output_filename}'")
-
-            print("-" * 70)
 
     # --- Display Final Summary Table ---
     if all_summaries:
@@ -172,8 +136,6 @@ if __name__ == "__main__":
         # Treat small improvement values as zero for clarity in the final summary
         for col in ["Avg_VUS-PR_Improvement", "Avg_VUS-ROC_Improvement"]:
             df_final_summary.loc[df_final_summary[col].abs() < 9e-4, col] = 0
-
-        print("\n" * 2)
         print("=" * 80)
         print(" " * 25 + "OVERALL PERFORMANCE SUMMARY")
         print("=" * 80)
