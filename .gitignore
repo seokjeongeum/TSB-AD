@@ -11,4 +11,4 @@ slurm_logs
 eval/score
 score.zip
 .env
-debug_plots
+llm_artifacts
