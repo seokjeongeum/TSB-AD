@@ -192,7 +192,7 @@ Based on your analysis, which anomaly score is the best for channel '{target_cha
                 for part in first_candidate.content.parts:
                     if hasattr(part, "thought") and part.thought:
                         thought_summary += f"Thought: {part.thought}\n"
-                    if hasattr(part, "text") and part.text:
+                    elif hasattr(part, "text") and part.text:
                         cleaned_text = part.text.strip()
                         if cleaned_text:
                             thought_summary += f"Output Part: {cleaned_text}\n"

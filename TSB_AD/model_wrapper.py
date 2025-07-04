@@ -479,12 +479,13 @@ def run_TSPulse2(data, **kwargs):
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
     clf = TSPulse2Detector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
         num_input_channels=num_input_channels,
         smoothing_window=kwargs.get("smoothing_window", 8),
-        prediction_mode=kwargs.get("prediction_mode", "forecast+time+fft"),
+        prediction_mode=prediction_mode,
         expand_score=kwargs.get("use_dimensionality_reduction", True),
         **kwargs,
     )
@@ -501,12 +502,13 @@ def run_TSPulse2_dimensionality_reduction_ablated(data, **kwargs):
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
     clf = TSPulse2Detector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
         num_input_channels=num_input_channels,
         smoothing_window=kwargs.get("smoothing_window", 8),
-        prediction_mode=kwargs.get("prediction_mode", "forecast+time+fft"),
+        prediction_mode=prediction_mode,
         expand_score=not kwargs.get("use_dimensionality_reduction", True),
         **kwargs,
     )
@@ -523,12 +525,13 @@ def run_TSPulse2_llm_selection_ablated_ensemble(data, **kwargs):
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
     clf = TSPulse2Detector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
         num_input_channels=num_input_channels,
         smoothing_window=kwargs.get("smoothing_window", 8),
-        prediction_mode=kwargs.get("prediction_mode", "forecast+time+fft"),
+        prediction_mode=prediction_mode,
         expand_score=kwargs.get("use_dimensionality_reduction", True),
         **kwargs,
     )
