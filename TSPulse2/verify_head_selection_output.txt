@@ -1,7 +1,0 @@
-Loading results from: uni, multi
-Loading results from: uni-tuning, multi-tuning
-Warning: Directory not found, skipping: /home/seokjeongeum/TSB-AD/eval/metrics/uni-tuning
-Warning: Directory not found, skipping: /home/seokjeongeum/TSB-AD/eval/metrics/multi-tuning
-
-
-######################### UNIVARIATE RESULTS #########################

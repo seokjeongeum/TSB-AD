@@ -1,7 +1,9 @@
 import os
 import sys
+import logging
 
 from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
 from TSPulse2.TSPulse2Pipeline import TSPulse2Pipeline
 
@@ -54,11 +56,16 @@ class TSPulse2Detector(TSAD_Pipeline):
 
     def decision_function(self, X):
         if self.kwargs.get("use_dimensionality_reduction", True):
+            # Standardize the data before applying PCA
+            scaler = StandardScaler()
+            X_scaled = scaler.fit_transform(X)
+
             n_components = min(
-                self.kwargs.get("n_components", 2), X.shape[0], X.shape[1]
+                self.kwargs.get("n_components", 2), X_scaled.shape[0], X_scaled.shape[1]
             )
+            logging.info(f"n_components: {n_components}")
             self.pca = PCA(n_components=n_components)
-            X = self.pca.fit_transform(X)
+            X = self.pca.fit_transform(X_scaled)
             self._headers = [f"x{i + 1}" for i in range(n_components)]
             super().__init__(
                 batch_size=self.batch_size,

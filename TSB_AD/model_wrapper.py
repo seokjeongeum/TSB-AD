@@ -518,7 +518,7 @@ def run_TSPulse2_dimensionality_reduction_ablated(data, **kwargs):
     )
 
 
-def run_TSPulse2_llm_selection_ablated(data, **kwargs):
+def run_TSPulse2_llm_selection_ablated_ensemble(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:

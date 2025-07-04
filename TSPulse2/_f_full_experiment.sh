@@ -64,18 +64,15 @@ echo "Current Directory: $(pwd)"
 # --- Multivariate Configurations ---
 MULTI_FILE_LISTS=(
     "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
-    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 1.csv"
-    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 2.csv"
-    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 3.csv"
-    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 4.csv"
-    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 5.csv"
-    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 6.csv"
-    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 7.csv"
-    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 8.csv"
-    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 9.csv"
-    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 10.csv"
-    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 11.csv"
-    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva 12.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva_1.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva_2.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva_3.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva_4.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva_5.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva_6.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
     "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
 )
 MULTI_MODELS=(
@@ -86,13 +83,10 @@ MULTI_MODELS=(
     "TSPulse2_dimensionality_reduction_ablated"
     "TSPulse2_dimensionality_reduction_ablated"
     "TSPulse2_dimensionality_reduction_ablated"
-    "TSPulse2_dimensionality_reduction_ablated"
-    "TSPulse2_dimensionality_reduction_ablated"
-    "TSPulse2_dimensionality_reduction_ablated"
-    "TSPulse2_dimensionality_reduction_ablated"
-    "TSPulse2_dimensionality_reduction_ablated"
-    "TSPulse2_dimensionality_reduction_ablated"
-    "TSPulse2_llm_selection_ablated"
+    "TSPulse2_llm_selection_ablated_ensemble"
+    "TSPulse2_llm_selection_ablated_fft"
+    "TSPulse2_llm_selection_ablated_forecast"
+    "TSPulse2_llm_selection_ablated_time"
 )
 NUM_MULTI_JOBS=$((${#MULTI_MODELS[@]} ))
 
@@ -100,7 +94,10 @@ NUM_MULTI_JOBS=$((${#MULTI_MODELS[@]} ))
 # No "channel_selection" model for univariate, as it's not applicable.
 UNI_MODELS=(
     "TSPulse2" 
-    "TSPulse2_llm_selection_ablated"
+    "TSPulse2_llm_selection_ablated_ensemble"
+    "TSPulse2_llm_selection_ablated_fft"
+    "TSPulse2_llm_selection_ablated_forecast"
+    "TSPulse2_llm_selection_ablated_time"
 )
 UNI_FILE_LIST="${PROJECT_ROOT}/Datasets/File_List/TSB-AD-U-Eva.csv"
 

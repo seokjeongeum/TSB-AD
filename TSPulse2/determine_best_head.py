@@ -2,18 +2,17 @@ import os
 import glob
 import pandas as pd
 import sys
+from typing import Dict, List, Set, Tuple
 
 
-def get_head_name_from_filename(filepath):
+def get_head_name_from_filename(filepath: str) -> str:
     """Extracts a clean head name from the CSV filename."""
     basename = os.path.basename(filepath)
-    if "TSPulse2.csv" in basename:
-        return "scaled_ensemble"
     # Extracts 'time' from 'TSPulse_ZS_time.csv' and handles potential .csv.gz
     return basename.replace("TSPulse_ZS_", "").replace(".csv", "").replace(".gz", "")
 
 
-def get_dataset_name_from_file(filename):
+def get_dataset_name_from_file(filename: str) -> str:
     """Extracts the dataset name from the formatted file string."""
     try:
         # Format: 001_NAB_id_1_...
@@ -22,7 +21,7 @@ def get_dataset_name_from_file(filename):
         return "Unknown"
 
 
-def load_file_set(filepath: str) -> set:
+def load_file_set(filepath: str) -> Set[str]:
     """Loads a list of files and returns a set of sanitized filenames."""
     if not os.path.exists(filepath):
         print(f"Warning: File list not found at {filepath}")
@@ -32,7 +31,7 @@ def load_file_set(filepath: str) -> set:
     return {os.path.splitext(f)[0] for f in df["file_name"]}
 
 
-def load_all_metrics(metrics_path):
+def load_all_metrics(metrics_path: str) -> pd.DataFrame:
     """Loads and merges VUS-PR scores from all relevant CSV files in a given directory."""
     all_dfs = []
 
@@ -43,9 +42,8 @@ def load_all_metrics(metrics_path):
     glob_pattern = os.path.join(metrics_path, "TSPulse*.csv*")
     all_metric_files = glob.glob(glob_pattern)
 
-    metric_files = [
-        f for f in all_metric_files if "TSPulse2_0623.csv" not in os.path.basename(f)
-    ]
+    # Filter out any files we want to exclude
+    metric_files = [f for f in all_metric_files if "TSPulse2_0623.csv" not in os.path.basename(f)]
 
     if not metric_files:
         print(f"No metric files found in {metrics_path} after exclusion.")
@@ -53,8 +51,12 @@ def load_all_metrics(metrics_path):
 
     for f in metric_files:
         try:
-            df = pd.read_csv(f, usecols=["file", "VUS-PR"])
+            # The type checker struggles with usecols, but this is valid pandas code.
+            df = pd.read_csv(f, usecols=["file", "VUS-PR"]) # type: ignore
             head_name = get_head_name_from_filename(f)
+            # Skip if it's a head we don't want to include
+            if head_name == "TSPulse2": # This was previously the scaled_ensemble
+                continue
             df = df.rename(columns={"VUS-PR": head_name}).set_index("file")
             all_dfs.append(df)
         except Exception as e:
@@ -76,21 +78,7 @@ def load_all_metrics(metrics_path):
     return merged_df
 
 
-def load_paper_best_heads(filepath: str, head_name_map: dict) -> pd.Series:
-    """
-    Loads the best head choices from the paper's supplementary CSV file,
-    maps the head names to match our internal representation, and returns a
-    Series mapping Dataset -> Best Head.
-    """
-    if not os.path.exists(filepath):
-        print(f"Warning: Paper's best head file not found at {filepath}")
-        return pd.Series(dtype=str)
-    df = pd.read_csv(filepath)
-    df["Best_TSPulse_Output"] = df["Best_TSPulse_Output"].map(head_name_map)
-    return df.set_index("Dataset")["Best_TSPulse_Output"]
-
-
-def get_best_head_per_file(df, heads_to_consider):
+def get_best_head_per_file(df: pd.DataFrame, heads_to_consider: List[str]) -> pd.Series:
     """Determines the head with the maximum VUS-PR score for each file (row)."""
     valid_heads = [h for h in heads_to_consider if h in df.columns]
     if not valid_heads or df.empty:
@@ -98,47 +86,64 @@ def get_best_head_per_file(df, heads_to_consider):
 
     # For each row (file), find the column name (head) with the max value.
     best_heads = df[valid_heads].idxmax(axis=1)
+    assert isinstance(best_heads, pd.Series)
     return best_heads
 
 
-def calculate_best_heads_per_dataset(df, heads_to_consider):
+def calculate_best_heads_per_dataset(
+    df: pd.DataFrame, heads_to_consider: List[str]
+) -> Tuple[pd.Series, str]:
     """Determines the best performing head for each dataset and the best overall fallback head."""
     valid_heads = [h for h in heads_to_consider if h in df.columns]
     if not valid_heads:
-        return pd.Series(dtype=str), None
+        return pd.Series(dtype=str), ""
 
     dataset_mean_scores = df.groupby("dataset")[valid_heads].mean()
+    assert isinstance(dataset_mean_scores, pd.DataFrame)
     best_heads_map = dataset_mean_scores.idxmax(axis=1)
-    overall_best_head = dataset_mean_scores.mean().idxmax()
-
+    overall_best_head_series = dataset_mean_scores.mean()
+    assert isinstance(overall_best_head_series, pd.Series)
+    overall_best_head = overall_best_head_series.idxmax()
+    
+    assert isinstance(overall_best_head, str)
+    assert isinstance(best_heads_map, pd.Series)
     return best_heads_map, overall_best_head
 
 
-def apply_strategy_and_evaluate(eval_df, best_heads_map, fallback_head):
+def apply_strategy_and_evaluate(
+    eval_df: pd.DataFrame, best_heads_map: pd.Series, fallback_head: str
+) -> float:
     """Calculates the overall VUS-PR by applying the learned best head strategy."""
-    if eval_df.empty or best_heads_map.empty or fallback_head is None:
+    if eval_df.empty or best_heads_map.empty or not fallback_head:
         return 0.0
 
     eval_df_copy = eval_df.copy()
+    assert isinstance(eval_df_copy, pd.DataFrame)
     eval_df_copy["chosen_head"] = (
-        eval_df_copy["dataset"].map(best_heads_map).fillna(fallback_head)
+        eval_df_copy["dataset"].map(best_heads_map).fillna(fallback_head) # type: ignore
     )
 
     scores = []
     for idx, row in eval_df_copy.iterrows():
         head_to_use = row["chosen_head"]
         score = row.get(head_to_use)
-        if pd.notna(score):
+        # This check ensures we only operate on scalar numeric values.
+        if isinstance(score, (int, float)) and pd.notna(score):
             scores.append(score)
 
     if not scores:
         return 0.0
 
-    return pd.Series(scores).mean()
+    result = pd.Series(scores).mean()
+    assert isinstance(result, float)
+    return result
 
 
 def run_analysis_workflow(
-    metrics_path, tuning_files, eval_files, paper_best_heads, workflow_name
+    metrics_path: str,
+    tuning_files: Set[str],
+    eval_files: Set[str],
+    workflow_name: str,
 ):
     """Executes the full tuning and evaluation workflow for a given variant (uni/multi)."""
     print("\n" + "=" * 80)
@@ -156,7 +161,9 @@ def run_analysis_workflow(
     # --- Step 2: Split into Tuning and Evaluation sets based on the file lists ---
     print("\n[STEP 2] Splitting data into Tuning and Evaluation sets...")
     tuning_data = all_data[all_data.index.isin(tuning_files)]
+    assert isinstance(tuning_data, pd.DataFrame)
     eval_data = all_data[all_data.index.isin(eval_files)]
+    assert isinstance(eval_data, pd.DataFrame)
     print(
         f"Found {len(tuning_data)} tuning records and {len(eval_data)} evaluation records."
     )
@@ -167,110 +174,91 @@ def run_analysis_workflow(
         print("Error: No tuning data identified after split. Cannot determine strategy.")
         return
 
-    base_heads = [
-        col for col in tuning_data.columns if col not in ["dataset", "scaled_ensemble"]
-    ]
+    # Now there is only one set of heads to consider.
     all_heads = [col for col in tuning_data.columns if col != "dataset"]
 
-    best_heads_map_base, fallback_head_base = calculate_best_heads_per_dataset(
-        tuning_data, base_heads
-    )
-    best_heads_map_all, fallback_head_all = calculate_best_heads_per_dataset(
+    best_heads_map, fallback_head = calculate_best_heads_per_dataset(
         tuning_data, all_heads
     )
 
     print("\n--- Tuning Results ---")
-    print("Best head per dataset (ZS only):")
-    print(best_heads_map_base.to_string())
-    print(f"\nDetermined Fallback (ZS only): '{fallback_head_base}'")
-
-    print("\nBest head per dataset (including scaled_ensemble):")
-    print(best_heads_map_all.to_string())
-    print(f"\nDetermined Fallback (with ensemble): '{fallback_head_all}'")
+    print("Best head per dataset:")
+    print(best_heads_map.to_string())
+    print(f"\nDetermined Fallback: '{fallback_head}'")
 
     # --- Step 3.5: Alignment Analysis ---
     print(
         f"\n[STEP 3.5] Verifying head alignment on {workflow_name} evaluation data (per series)..."
     )
 
-    # Calculate two versions of the "actual" best head on the evaluation data
-    actual_best_ts_only = get_best_head_per_file(eval_data, base_heads)
-    actual_best_with_ensemble = get_best_head_per_file(eval_data, all_heads)
+    # Calculate the "actual" best head on the evaluation data
+    actual_best_head = get_best_head_per_file(eval_data, all_heads)
+    oracle_score = 0.0
 
-    if actual_best_ts_only.empty or actual_best_with_ensemble.empty:
+    if actual_best_head.empty:
         print(
             "Could not determine actual best heads per series on eval set. Skipping alignment."
         )
     else:
         # Create a summary dataframe, indexed by series (file).
         comparison_df = pd.DataFrame(
-            {
-                "ActualBestHead_Eval_TSPulse_Only": actual_best_ts_only,
-                "ActualBestHead_Eval_With_Scaled_Ensemble": actual_best_with_ensemble,
-            }
+            {"ActualBestHead_Eval": actual_best_head}
         )
-        comparison_df["Dataset"] = comparison_df.index.map(eval_data["dataset"])
+        comparison_df["Dataset"] = comparison_df.index.map(eval_data["dataset"]) # type: ignore
 
-        # Map all choices to the per-series frame
-        comparison_df["PaperChoice"] = comparison_df["Dataset"].map(paper_best_heads)
-        comparison_df["ReproducedChoice_TSPulse_Only"] = comparison_df[
-            "Dataset"
-        ].map(best_heads_map_base)
-        comparison_df["ReproducedChoice_With_Scaled_Ensemble"] = comparison_df[
-            "Dataset"
-        ].map(best_heads_map_all)
+        # Map our reproduced choices to the per-series frame. This will have NaNs
+        # for datasets in the eval set that were not in the tuning set.
+        comparison_df["ReproducedChoice"] = comparison_df["Dataset"].map(best_heads_map) # type: ignore
 
-        # Drop series where a mapping couldn't be made for fair comparison
-        comparison_df.dropna(
-            subset=[
-                "PaperChoice",
-                "ReproducedChoice_TSPulse_Only",
-                "ReproducedChoice_With_Scaled_Ensemble",
-            ],
-            inplace=True,
+        # --- Add VUS-PR scores for comparison ---
+        # Get score for the 'oracle' best head
+        comparison_df['ActualBestHead_VUSPR'] = comparison_df.apply(
+            lambda row: eval_data.loc[row.name, row['ActualBestHead_Eval']], axis=1
         )
+        # Get score for our chosen head, handling cases where the choice is NaN
+        comparison_df['ReproducedChoice_VUSPR'] = comparison_df.apply(
+            lambda row: eval_data.loc[row.name, row['ReproducedChoice']] if pd.notna(row['ReproducedChoice']) else pd.NA,
+            axis=1
+        )
+        # Calculate the performance difference
+        comparison_df['VUSPR_Diff'] = comparison_df['ReproducedChoice_VUSPR'] - comparison_df['ActualBestHead_VUSPR']
 
-        # --- Calculate Alignments ---
-        align_paper = (
-            comparison_df["ActualBestHead_Eval_TSPulse_Only"]
-            == comparison_df["PaperChoice"]
-        )
-        align_reproduced_ts_only = (
-            comparison_df["ActualBestHead_Eval_TSPulse_Only"]
-            == comparison_df["ReproducedChoice_TSPulse_Only"]
-        )
-        align_reproduced_with_ensemble = (
-            comparison_df["ActualBestHead_Eval_With_Scaled_Ensemble"]
-            == comparison_df["ReproducedChoice_With_Scaled_Ensemble"]
+        # For a fair alignment calculation, we can only consider series where a choice was made
+        valid_comparison_df = comparison_df
+        oracle_score = valid_comparison_df['ActualBestHead_VUSPR'].mean()
+
+        # --- Calculate Alignment ---
+        align_reproduced = (
+            valid_comparison_df["ActualBestHead_Eval"]
+            == valid_comparison_df["ReproducedChoice"]
         )
 
-        total_series = len(comparison_df)
+        total_series = len(valid_comparison_df)
+        avg_vuspr_diff = valid_comparison_df['VUSPR_Diff'].mean()
 
-        print("\n--- Alignment Summary (Per-Series) ---")
+        print("\n--- Alignment Summary (Per-Series where a choice could be mapped) ---")
         if total_series > 0:
             print(
-                f"Alignment of Paper's Choice vs. ActualBestHead_Eval_TSPulse_Only: {align_paper.sum()} / {total_series} ({align_paper.mean():.2%})"
+                f"Alignment of Reproduced Choice vs. ActualBestHead_Eval: {align_reproduced.sum()} / {total_series} ({align_reproduced.mean():.2%})"
             )
-            print(
-                f"Alignment of Reproduced TSPulse-Only Choice vs. ActualBestHead_Eval_TSPulse_Only: {align_reproduced_ts_only.sum()} / {total_series} ({align_reproduced_ts_only.mean():.2%})"
-            )
-            print(
-                f"Alignment of Reproduced With-Scaled-Ensemble Choice vs. ActualBestHead_Eval_With_Scaled_Ensemble: {align_reproduced_with_ensemble.sum()} / {total_series} ({align_reproduced_with_ensemble.mean():.2%})"
-            )
+            print(f"Average VUS-PR Difference (Reproduced - Actual): {avg_vuspr_diff:.4f}")
         else:
             print("No series available for comparison after mapping choices.")
 
         print("\n--- Detailed Per-Series Comparison ---")
         display_cols = [
             "Dataset",
-            "ActualBestHead_Eval_TSPulse_Only",
-            "ActualBestHead_Eval_With_Scaled_Ensemble",
-            "PaperChoice",
-            "ReproducedChoice_TSPulse_Only",
-            "ReproducedChoice_With_Scaled_Ensemble",
+            "ActualBestHead_Eval",
+            "ReproducedChoice",
+            "ActualBestHead_VUSPR",
+            "ReproducedChoice_VUSPR",
+            "VUSPR_Diff",
         ]
         display_cols_exist = [c for c in display_cols if c in comparison_df.columns]
-        print(comparison_df[display_cols_exist].to_string())
+        print(comparison_df[display_cols_exist].to_string(float_format="{:.4f}".format)) # type: ignore
+        # Sort by the difference to highlight the biggest wins/losses
+        print("\n--- Sorted by VUS-PR Difference ---")
+        print(comparison_df[display_cols_exist].sort_values(by="VUSPR_Diff").to_string(float_format="{:.4f}".format)) # type: ignore
 
     # --- Step 4: Apply Learned Strategies to Evaluation Set ---
     print(f"\n[STEP 4] Applying strategies to {workflow_name} evaluation set...")
@@ -279,57 +267,33 @@ def run_analysis_workflow(
         return
 
     print("\n--- Final Evaluation Scores (using empirically best fallback) ---")
-    vus_pr_base = apply_strategy_and_evaluate(
-        eval_data.copy(), best_heads_map_base, fallback_head_base
+    vus_pr_score = apply_strategy_and_evaluate(
+        eval_data.copy(), best_heads_map, fallback_head
     )
-    print(f"VUS-PR using ZS-only strategy:      {vus_pr_base:.6f}")
-
-    vus_pr_all = apply_strategy_and_evaluate(
-        eval_data.copy(), best_heads_map_all, fallback_head_all
-    )
-    print(f"VUS-PR using with-ensemble strategy: {vus_pr_all:.6f}")
+    print(f"VUS-PR using the derived strategy: {vus_pr_score:.6f}")
+    if oracle_score > 0:
+        print(f"VUS-PR using 'oracle' best head for every series: {oracle_score:.6f}")
 
     # --- Step 5: Comprehensive Fallback Analysis on Evaluation Set ---
     print(
         f"\n[STEP 5] Analyzing all possible fallback heads on the {workflow_name} evaluation set..."
     )
 
-    # Fallback analysis for Strategy 1
-    fallback_results_base = []
-    available_base_heads = [h for h in base_heads if h in eval_data.columns]
-    for fallback in available_base_heads:
+    fallback_results = []
+    available_heads = [h for h in all_heads if h in eval_data.columns]
+    for fallback in available_heads:
         vus_pr = apply_strategy_and_evaluate(
-            eval_data.copy(), best_heads_map_base, fallback
+            eval_data.copy(), best_heads_map, fallback
         )
-        fallback_results_base.append(
+        fallback_results.append(
             {"Fallback Head": fallback, "Resulting VUS-PR": vus_pr}
         )
 
-    if fallback_results_base:
-        print("\n--- Fallback Analysis for ZS-only Strategy ---")
-        results_df_base = pd.DataFrame(fallback_results_base).set_index("Fallback Head")
+    if fallback_results:
+        print("\n--- Fallback Analysis ---")
+        results_df = pd.DataFrame(fallback_results).set_index("Fallback Head")
         print(
-            results_df_base.sort_values(
-                by="Resulting VUS-PR", ascending=False
-            ).to_string(float_format="%.6f")
-        )
-
-    # Fallback analysis for Strategy 2
-    fallback_results_all = []
-    available_all_heads = [h for h in all_heads if h in eval_data.columns]
-    for fallback in available_all_heads:
-        vus_pr = apply_strategy_and_evaluate(
-            eval_data.copy(), best_heads_map_all, fallback
-        )
-        fallback_results_all.append(
-            {"Fallback Head": fallback, "Resulting VUS-PR": vus_pr}
-        )
-
-    if fallback_results_all:
-        print("\n--- Fallback Analysis for with-ensemble Strategy ---")
-        results_df_all = pd.DataFrame(fallback_results_all).set_index("Fallback Head")
-        print(
-            results_df_all.sort_values(
+            results_df.sort_values(
                 by="Resulting VUS-PR", ascending=False
             ).to_string(float_format="%.6f")
         )
@@ -338,16 +302,6 @@ def run_analysis_workflow(
 def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.abspath(os.path.join(script_dir, ".."))
-
-    # --- Head Name Mapping ---
-    # Maps head names from the paper's CSVs to the names used in this script
-    head_name_map = {
-        "Headtime": "time",
-        "Headfft": "fft",
-        "Headfuture": "future",
-        "Headensemble": "ensemble",
-        "Head_scaled_ensemble": "scaled_ensemble",
-    }
 
     # Define paths to metric directories
     uni_metrics_path = os.path.join(project_root, "eval", "metrics", "uni")
@@ -369,34 +323,22 @@ def main():
         project_root, "Datasets", "File_List", "TSB-AD-M-Eva.csv"
     )
 
-    # Define paths for the paper's provided BEST HEADS file lists
-    uni_paper_heads_path = os.path.join(
-        script_dir, "TSPulse_Output_Selection_Univariate.csv"
-    )
-    multi_paper_heads_path = os.path.join(
-        script_dir, "TSPulse_Output_Selection_Multivariate.csv"
-    )
-
     # Load the sets of filenames for both sets
     uni_tuning_files = load_file_set(uni_tuning_list_path)
     multi_tuning_files = load_file_set(multi_tuning_list_path)
     uni_eval_files = load_file_set(uni_eval_list_path)
     multi_eval_files = load_file_set(multi_eval_list_path)
-    uni_paper_heads = load_paper_best_heads(uni_paper_heads_path, head_name_map)
-    multi_paper_heads = load_paper_best_heads(multi_paper_heads_path, head_name_map)
 
     run_analysis_workflow(
         uni_metrics_path,
         uni_tuning_files,
         uni_eval_files,
-        uni_paper_heads,
         "univariate",
     )
     run_analysis_workflow(
         multi_metrics_path,
         multi_tuning_files,
         multi_eval_files,
-        multi_paper_heads,
         "multivariate",
     )
 

@@ -1,0 +1,721 @@
+parent,group,strategy,VUS-PR,fallback_head_tested
+001_Genesis_id_1_Sensor_tr_4055_1st_15538.csv,Genesis,Fallback-Unknown Group (ensemble),0.0099339099912006,ensemble
+002_MSL_id_1_Sensor_tr_500_1st_900.csv,MSL,Best Channel (time/0),0.5811829122920101,ensemble
+003_MSL_id_2_Sensor_tr_883_1st_1238.csv,MSL,Best Channel (time/0),0.9231988043494836,ensemble
+005_MSL_id_4_Sensor_tr_855_1st_2700.csv,MSL,Best Channel (time/0),0.1174996998035531,ensemble
+006_MSL_id_5_Sensor_tr_1150_1st_1250.csv,MSL,Best Channel (time/0),0.1077723494987902,ensemble
+007_MSL_id_6_Sensor_tr_980_1st_3550.csv,MSL,Best Channel (time/0),0.9766562742619926,ensemble
+008_MSL_id_7_Sensor_tr_656_1st_1630.csv,MSL,Best Channel (time/0),0.8230873762123426,ensemble
+009_MSL_id_8_Sensor_tr_714_1st_1390.csv,MSL,Best Channel (time/0),0.5728959870869116,ensemble
+010_MSL_id_9_Sensor_tr_554_1st_1172.csv,MSL,Best Channel (time/0),0.1110184048358639,ensemble
+012_MSL_id_11_Sensor_tr_539_1st_940.csv,MSL,Best Channel (time/0),0.9316311766301192,ensemble
+013_MSL_id_12_Sensor_tr_554_1st_1200.csv,MSL,Best Channel (time/0),0.7321926436196924,ensemble
+014_MSL_id_13_Sensor_tr_1525_1st_4575.csv,MSL,Best Channel (time/0),0.9993170666209396,ensemble
+015_MSL_id_14_Sensor_tr_575_1st_1250.csv,MSL,Best Channel (time/0),0.0778560807282502,ensemble
+016_MSL_id_15_Sensor_tr_500_1st_780.csv,MSL,Best Channel (time/0),0.817057598569785,ensemble
+017_MSL_id_16_Sensor_tr_512_1st_1850.csv,MSL,Best Channel (time/0),0.8564947501060675,ensemble
+018_Daphnet_id_1_HumanActivity_tr_9693_1st_20732.csv,Daphnet,Fallback-Unknown Group (ensemble),0.3492513646856368,ensemble
+019_MITDB_id_1_Medical_tr_37500_1st_103211.csv,MITDB,Fallback-S1 Best Head (ensemble),0.1841790977088077,ensemble
+020_MITDB_id_2_Medical_tr_50000_1st_52315.csv,MITDB,Best Channel (ensemble/V1),0.0043622633364697,ensemble
+021_MITDB_id_3_Medical_tr_50000_1st_57595.csv,MITDB,Fallback-S1 Best Head (ensemble),0.021740337025349,ensemble
+022_MITDB_id_4_Medical_tr_50000_1st_54253.csv,MITDB,Best Channel (ensemble/V1),0.0742994307636353,ensemble
+024_MITDB_id_6_Medical_tr_50000_1st_58118.csv,MITDB,Best Channel (ensemble/V1),0.0611064485745624,ensemble
+025_MITDB_id_7_Medical_tr_37500_1st_88864.csv,MITDB,Best Channel (ensemble/V1),0.0656587097511717,ensemble
+026_MITDB_id_8_Medical_tr_30495_1st_30595.csv,MITDB,Fallback-S1 Best Head (ensemble),0.1968188995126605,ensemble
+027_MITDB_id_9_Medical_tr_25000_1st_52255.csv,MITDB,Fallback-S1 Best Head (ensemble),0.0066685660196297,ensemble
+029_MITDB_id_11_Medical_tr_50000_1st_518037.csv,MITDB,Best Channel (ensemble/V1),0.286749326019684,ensemble
+030_MITDB_id_12_Medical_tr_50000_1st_84572.csv,MITDB,Best Channel (ensemble/V1),0.0578570933289751,ensemble
+031_MITDB_id_13_Medical_tr_50000_1st_79433.csv,MITDB,Fallback-S1 Best Head (ensemble),0.0233886201003708,ensemble
+032_GHL_id_1_Sensor_tr_50000_1st_65001.csv,GHL,Best Channel (fft/dL-rand),0.018109989630804,ensemble
+033_GHL_id_2_Sensor_tr_50000_1st_51001.csv,GHL,Best Channel (fft/dL-rand),0.0120277219175498,ensemble
+034_GHL_id_3_Sensor_tr_50000_1st_122001.csv,GHL,Best Channel (fft/dL-rand),0.0205692941991979,ensemble
+035_GHL_id_4_Sensor_tr_50000_1st_90001.csv,GHL,Best Channel (fft/dL-rand),0.0206389027767661,ensemble
+036_GHL_id_5_Sensor_tr_50000_1st_67147.csv,GHL,Best Channel (fft/dL-rand),0.0234253751713074,ensemble
+037_GHL_id_6_Sensor_tr_50000_1st_80001.csv,GHL,Best Channel (fft/dL-rand),0.0306892332554614,ensemble
+038_GHL_id_7_Sensor_tr_50000_1st_100001.csv,GHL,Best Channel (fft/dL-rand),0.0116368384206644,ensemble
+039_GHL_id_8_Sensor_tr_50000_1st_63030.csv,GHL,Best Channel (fft/dL-rand),0.0096956810306576,ensemble
+041_GHL_id_10_Sensor_tr_50000_1st_57001.csv,GHL,Best Channel (fft/dL-rand),0.0473873791987586,ensemble
+042_GHL_id_11_Sensor_tr_50000_1st_150001.csv,GHL,Best Channel (fft/dL-rand),0.0128051727782937,ensemble
+043_GHL_id_12_Sensor_tr_39938_1st_40038.csv,GHL,Best Channel (fft/dL-rand),0.0292511046330466,ensemble
+044_GHL_id_13_Sensor_tr_50000_1st_145001.csv,GHL,Best Channel (fft/dL-rand),0.0103381905259611,ensemble
+045_GHL_id_14_Sensor_tr_50000_1st_85076.csv,GHL,Best Channel (fft/dL-rand),0.0112247901458508,ensemble
+046_GHL_id_15_Sensor_tr_50000_1st_156462.csv,GHL,Best Channel (fft/dL-rand),0.0238190222815089,ensemble
+047_GHL_id_16_Sensor_tr_50000_1st_77001.csv,GHL,Best Channel (fft/dL-rand),0.021020014847301,ensemble
+048_GHL_id_17_Sensor_tr_50000_1st_154001.csv,GHL,Best Channel (fft/dL-rand),0.0203318557220218,ensemble
+050_GHL_id_19_Sensor_tr_43750_1st_55001.csv,GHL,Best Channel (fft/dL-rand),0.02145517733228,ensemble
+051_GHL_id_20_Sensor_tr_50000_1st_75110.csv,GHL,Best Channel (fft/dL-rand),0.0066039085383715,ensemble
+052_GHL_id_21_Sensor_tr_50000_1st_98001.csv,GHL,Best Channel (fft/dL-rand),0.0058344348295775,ensemble
+053_GHL_id_22_Sensor_tr_50000_1st_126448.csv,GHL,Best Channel (fft/dL-rand),0.0823592759550228,ensemble
+054_GHL_id_23_Sensor_tr_50000_1st_135001.csv,GHL,Best Channel (fft/dL-rand),0.0180403050006408,ensemble
+055_GHL_id_24_Sensor_tr_50000_1st_118124.csv,GHL,Best Channel (fft/dL-rand),0.0082224155673365,ensemble
+056_GHL_id_25_Sensor_tr_50000_1st_105568.csv,GHL,Best Channel (fft/dL-rand),0.0413534729398606,ensemble
+057_SMD_id_1_Facility_tr_4529_1st_4629.csv,SMD,Best Channel (ensemble/11),0.1282064697671031,ensemble
+058_SMD_id_2_Facility_tr_1087_1st_1187.csv,SMD,Best Channel (ensemble/11),0.6670003304345427,ensemble
+059_SMD_id_3_Facility_tr_757_1st_857.csv,SMD,Best Channel (ensemble/11),0.1289458693093823,ensemble
+060_SMD_id_4_Facility_tr_7176_1st_10609.csv,SMD,Best Channel (ensemble/11),0.1798455853648134,ensemble
+061_SMD_id_5_Facility_tr_7176_1st_15144.csv,SMD,Best Channel (ensemble/11),0.0752966296174376,ensemble
+063_SMD_id_7_Facility_tr_5923_1st_6506.csv,SMD,Best Channel (ensemble/11),0.1867055535161534,ensemble
+064_SMD_id_8_Facility_tr_2272_1st_2372.csv,SMD,Best Channel (ensemble/11),0.4815457135345589,ensemble
+065_SMD_id_9_Facility_tr_737_1st_837.csv,SMD,Best Channel (ensemble/11),0.2844566296540693,ensemble
+066_SMD_id_10_Facility_tr_2634_1st_2734.csv,SMD,Best Channel (ensemble/11),0.0658464617574498,ensemble
+067_SMD_id_11_Facility_tr_1980_1st_2080.csv,SMD,Best Channel (ensemble/11),0.0516269591027085,ensemble
+068_SMD_id_12_Facility_tr_1099_1st_1199.csv,SMD,Best Channel (ensemble/11),0.0121031028703859,ensemble
+069_SMD_id_13_Facility_tr_5925_1st_12760.csv,SMD,Best Channel (ensemble/11),0.3990610325626892,ensemble
+070_SMD_id_14_Facility_tr_1070_1st_1170.csv,SMD,Best Channel (ensemble/11),0.0586647652473743,ensemble
+071_SMD_id_15_Facility_tr_1109_1st_1209.csv,SMD,Best Channel (ensemble/11),0.0230821286482682,ensemble
+073_SMD_id_17_Facility_tr_5926_1st_10620.csv,SMD,Best Channel (ensemble/11),0.0138162914141181,ensemble
+074_SMD_id_18_Facility_tr_7174_1st_21230.csv,SMD,Best Channel (ensemble/11),0.3754619520856852,ensemble
+075_SMD_id_19_Facility_tr_564_1st_664.csv,SMD,Best Channel (ensemble/11),0.0320492182309277,ensemble
+076_SMD_id_20_Facility_tr_5925_1st_17580.csv,SMD,Best Channel (ensemble/11),0.354934765088081,ensemble
+077_SMD_id_21_Facility_tr_3026_1st_3126.csv,SMD,Best Channel (ensemble/11),0.4138745080544911,ensemble
+078_SMD_id_22_Facility_tr_500_1st_326.csv,SMD,Best Channel (ensemble/11),0.0417132744924729,ensemble
+079_LTDB_id_1_Medical_tr_3618_1st_3718.csv,LTDB,Best Channel (fft/ECG1),0.930116741338235,ensemble
+080_LTDB_id_2_Medical_tr_500_1st_266.csv,LTDB,Best Channel (fft/ECG1),0.1636271549235526,ensemble
+081_LTDB_id_3_Medical_tr_500_1st_26.csv,LTDB,Best Channel (fft/ECG1),0.6824389159416573,ensemble
+083_LTDB_id_5_Medical_tr_15502_1st_15602.csv,LTDB,Best Channel (fft/ECG1),0.0032360407400636,ensemble
+084_SVDB_id_1_Medical_tr_12973_1st_13073.csv,SVDB,Best Channel (fft/ECG2),0.2139565415159053,ensemble
+085_SVDB_id_2_Medical_tr_50000_1st_54982.csv,SVDB,Best Channel (fft/ECG2),0.2903441734890737,ensemble
+086_SVDB_id_3_Medical_tr_533_1st_633.csv,SVDB,Best Channel (fft/ECG2),0.0797352972755956,ensemble
+087_SVDB_id_4_Medical_tr_5421_1st_5521.csv,SVDB,Best Channel (fft/ECG2),0.5352871741787468,ensemble
+088_SVDB_id_5_Medical_tr_500_1st_168.csv,SVDB,Best Channel (fft/ECG2),0.3906252716488139,ensemble
+089_SVDB_id_6_Medical_tr_50000_1st_83083.csv,SVDB,Best Channel (fft/ECG2),0.0583762940073631,ensemble
+091_SVDB_id_8_Medical_tr_500_1st_126.csv,SVDB,Best Channel (fft/ECG2),0.3688481037562522,ensemble
+092_SVDB_id_9_Medical_tr_2674_1st_2774.csv,SVDB,Best Channel (fft/ECG2),0.1295354071926876,ensemble
+093_SVDB_id_10_Medical_tr_500_1st_37.csv,SVDB,Best Channel (fft/ECG2),0.4010998616384834,ensemble
+094_SVDB_id_11_Medical_tr_20100_1st_23611.csv,SVDB,Best Channel (fft/ECG2),0.0399011976128385,ensemble
+095_SVDB_id_12_Medical_tr_6264_1st_6364.csv,SVDB,Best Channel (fft/ECG2),0.1439955675526575,ensemble
+096_SVDB_id_13_Medical_tr_500_1st_444.csv,SVDB,Best Channel (fft/ECG2),0.1333503843324815,ensemble
+097_SVDB_id_14_Medical_tr_1031_1st_1131.csv,SVDB,Best Channel (fft/ECG2),0.8802063220714557,ensemble
+098_SVDB_id_15_Medical_tr_500_1st_303.csv,SVDB,Best Channel (fft/ECG2),0.2810815630594186,ensemble
+099_SVDB_id_16_Medical_tr_1115_1st_1215.csv,SVDB,Best Channel (fft/ECG2),0.4156784828929868,ensemble
+100_SVDB_id_17_Medical_tr_17803_1st_17903.csv,SVDB,Best Channel (fft/ECG2),0.0493584695585101,ensemble
+101_SVDB_id_18_Medical_tr_1851_1st_1951.csv,SVDB,Best Channel (fft/ECG2),0.149942879692514,ensemble
+102_SVDB_id_19_Medical_tr_50000_1st_107354.csv,SVDB,Best Channel (fft/ECG2),0.4145473778503825,ensemble
+103_SVDB_id_20_Medical_tr_12167_1st_12267.csv,SVDB,Best Channel (fft/ECG2),0.0348103322435029,ensemble
+104_SVDB_id_21_Medical_tr_50000_1st_106634.csv,SVDB,Best Channel (fft/ECG2),0.1043851113470885,ensemble
+105_SVDB_id_22_Medical_tr_500_1st_417.csv,SVDB,Best Channel (fft/ECG2),0.5596134009200815,ensemble
+106_SVDB_id_23_Medical_tr_37500_1st_121963.csv,SVDB,Best Channel (fft/ECG2),0.4934557721921555,ensemble
+108_SVDB_id_25_Medical_tr_1238_1st_1338.csv,SVDB,Best Channel (fft/ECG2),0.3841902201071796,ensemble
+109_SVDB_id_26_Medical_tr_1038_1st_1138.csv,SVDB,Best Channel (fft/ECG2),0.4359053974018985,ensemble
+110_SVDB_id_27_Medical_tr_30824_1st_30924.csv,SVDB,Best Channel (fft/ECG2),0.2976264454224979,ensemble
+111_SVDB_id_28_Medical_tr_1791_1st_1891.csv,SVDB,Best Channel (fft/ECG2),0.4310127873426155,ensemble
+112_SVDB_id_29_Medical_tr_8226_1st_8326.csv,SVDB,Best Channel (fft/ECG2),0.014666347235569,ensemble
+114_SVDB_id_31_Medical_tr_25000_1st_63090.csv,SVDB,Best Channel (fft/ECG2),0.0214680026780908,ensemble
+115_PSM_id_1_Facility_tr_50000_1st_129872.csv,PSM,Fallback-Unknown Group (ensemble),0.1383872673314994,ensemble
+116_TAO_id_1_Environment_tr_500_1st_3.csv,TAO,Best Channel (forecast/col-0),0.9928903961348678,ensemble
+117_TAO_id_2_Environment_tr_500_1st_1.csv,TAO,Best Channel (forecast/col-0),0.9812039680531478,ensemble
+118_TAO_id_3_Environment_tr_500_1st_7.csv,TAO,Best Channel (forecast/col-0),0.9595303094947604,ensemble
+119_TAO_id_4_Environment_tr_500_1st_1.csv,TAO,Best Channel (forecast/col-0),0.995486039917064,ensemble
+121_TAO_id_6_Environment_tr_500_1st_7.csv,TAO,Best Channel (forecast/col-0),0.9953828146695628,ensemble
+122_TAO_id_7_Environment_tr_500_1st_19.csv,TAO,Best Channel (forecast/col-0),0.9831964844284082,ensemble
+123_TAO_id_8_Environment_tr_500_1st_62.csv,TAO,Best Channel (forecast/col-0),0.9916291901446868,ensemble
+124_TAO_id_9_Environment_tr_500_1st_1.csv,TAO,Best Channel (forecast/col-0),0.9889399606906024,ensemble
+125_TAO_id_10_Environment_tr_500_1st_9.csv,TAO,Best Channel (forecast/col-0),0.9991289186859502,ensemble
+127_TAO_id_12_Environment_tr_500_1st_24.csv,TAO,Best Channel (forecast/col-0),0.9907316826332908,ensemble
+128_TAO_id_13_Environment_tr_500_1st_7.csv,TAO,Best Channel (forecast/col-0),0.9953828146695628,ensemble
+129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.475162458616098,ensemble
+130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.499404196043074,ensemble
+132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.5489706691210684,ensemble
+133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.8061134804333848,ensemble
+134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.3873132498322761,ensemble
+135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.3106304078613714,ensemble
+136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.3318506581905601,ensemble
+137_CreditCard_id_1_Finance_tr_500_1st_541.csv,CreditCard,Fallback-Unknown Group (ensemble),0.0042083566182391,ensemble
+138_CATSv2_id_1_Sensor_tr_16568_1st_16668.csv,CATSv2,Best Channel (time/bso2),0.0247666165703072,ensemble
+139_CATSv2_id_2_Sensor_tr_5592_1st_5692.csv,CATSv2,Best Channel (time/bso2),0.0336570229235004,ensemble
+141_CATSv2_id_4_Sensor_tr_41727_1st_41827.csv,CATSv2,Best Channel (time/bso2),0.0748073965144144,ensemble
+142_CATSv2_id_5_Sensor_tr_30704_1st_30804.csv,CATSv2,Best Channel (time/bso2),0.1340744725718597,ensemble
+143_CATSv2_id_6_Sensor_tr_50000_1st_60232.csv,CATSv2,Best Channel (time/bso2),0.0753891804958283,ensemble
+144_SMAP_id_1_Sensor_tr_2052_1st_5300.csv,SMAP,Best Channel (ensemble/0),0.999879429691978,ensemble
+145_SMAP_id_2_Sensor_tr_2133_1st_5400.csv,SMAP,Best Channel (ensemble/0),0.1569149429517837,ensemble
+146_SMAP_id_3_Sensor_tr_2128_1st_5000.csv,SMAP,Best Channel (ensemble/0),0.0315614653704494,ensemble
+147_SMAP_id_4_Sensor_tr_2160_1st_6449.csv,SMAP,Best Channel (ensemble/0),0.0255563439128777,ensemble
+148_SMAP_id_5_Sensor_tr_2011_1st_5060.csv,SMAP,Best Channel (ensemble/0),0.8542959275909436,ensemble
+150_SMAP_id_7_Sensor_tr_2077_1st_5394.csv,SMAP,Best Channel (ensemble/0),0.9981598712876116,ensemble
+151_SMAP_id_8_Sensor_tr_1971_1st_4870.csv,SMAP,Best Channel (ensemble/0),0.9900855884570866,ensemble
+152_SMAP_id_9_Sensor_tr_2073_1st_5600.csv,SMAP,Best Channel (ensemble/0),0.2907205869636041,ensemble
+153_SMAP_id_10_Sensor_tr_1840_1st_4030.csv,SMAP,Best Channel (ensemble/0),0.8058171416793973,ensemble
+154_SMAP_id_11_Sensor_tr_2117_1st_4770.csv,SMAP,Best Channel (ensemble/0),0.0497524576963708,ensemble
+155_SMAP_id_12_Sensor_tr_1907_1st_4800.csv,SMAP,Best Channel (ensemble/0),0.5383049095566086,ensemble
+156_SMAP_id_13_Sensor_tr_1173_1st_2750.csv,SMAP,Best Channel (ensemble/0),0.761987308434832,ensemble
+157_SMAP_id_14_Sensor_tr_2126_1st_5000.csv,SMAP,Best Channel (ensemble/0),0.0320819149006545,ensemble
+158_SMAP_id_15_Sensor_tr_2075_1st_5610.csv,SMAP,Best Channel (ensemble/0),0.8123485564943427,ensemble
+159_SMAP_id_16_Sensor_tr_1757_1st_2650.csv,SMAP,Best Channel (ensemble/0),0.6602504234194982,ensemble
+160_SMAP_id_17_Sensor_tr_1832_1st_5300.csv,SMAP,Best Channel (ensemble/0),0.3995609673141943,ensemble
+161_SMAP_id_18_Sensor_tr_2075_1st_5550.csv,SMAP,Best Channel (ensemble/0),0.5944465527212941,ensemble
+162_SMAP_id_19_Sensor_tr_1908_1st_4690.csv,SMAP,Best Channel (ensemble/0),0.7190446224106981,ensemble
+163_SMAP_id_20_Sensor_tr_2051_1st_4575.csv,SMAP,Best Channel (ensemble/0),0.8288767967732276,ensemble
+165_SMAP_id_22_Sensor_tr_2129_1st_5000.csv,SMAP,Best Channel (ensemble/0),0.0452940339544899,ensemble
+166_SMAP_id_23_Sensor_tr_1113_1st_1890.csv,SMAP,Best Channel (ensemble/0),0.7166853876729702,ensemble
+167_SMAP_id_24_Sensor_tr_2094_1st_5600.csv,SMAP,Best Channel (ensemble/0),0.885279234485522,ensemble
+168_SMAP_id_25_Sensor_tr_1998_1st_2098.csv,SMAP,Best Channel (ensemble/0),0.9754905022878156,ensemble
+169_SMAP_id_26_Sensor_tr_1811_1st_4510.csv,SMAP,Best Channel (ensemble/0),0.9677585420676624,ensemble
+170_SMAP_id_27_Sensor_tr_2160_1st_4690.csv,SMAP,Best Channel (ensemble/0),0.9034969772771292,ensemble
+171_SWaT_id_1_Sensor_tr_3749_1st_9522.csv,SWaT,Fallback-Unknown Group (ensemble),0.1614160961676457,ensemble
+172_SWaT_id_2_Sensor_tr_23700_1st_23800.csv,SWaT,Fallback-Unknown Group (ensemble),0.0908431631281328,ensemble
+173_GECCO_id_1_Sensor_tr_16165_1st_16265.csv,GECCO,Fallback-Unknown Group (ensemble),0.1749126109610111,ensemble
+174_Exathlon_id_1_Facility_tr_10766_1st_12590.csv,Exathlon,Fallback-S1 Best Head (fft),0.9930262784292904,ensemble
+175_Exathlon_id_2_Facility_tr_10684_1st_10784.csv,Exathlon,Fallback-S1 Best Head (fft),0.0962514348833313,ensemble
+176_Exathlon_id_3_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,ensemble
+177_Exathlon_id_4_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,ensemble
+179_Exathlon_id_6_Facility_tr_11665_1st_13484.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9636808093514372,ensemble
+180_Exathlon_id_7_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,ensemble
+181_Exathlon_id_8_Facility_tr_11663_1st_13482.csv,Exathlon,Fallback-S1 Best Head (fft),0.9867367252119266,ensemble
+182_Exathlon_id_9_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,ensemble
+183_Exathlon_id_10_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,ensemble
+184_Exathlon_id_11_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,ensemble
+185_Exathlon_id_12_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,ensemble
+186_Exathlon_id_13_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,ensemble
+187_Exathlon_id_14_Facility_tr_6193_1st_6293.csv,Exathlon,Fallback-S1 Best Head (fft),0.9610465408202528,ensemble
+188_Exathlon_id_15_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,ensemble
+189_Exathlon_id_16_Facility_tr_11663_1st_13482.csv,Exathlon,Fallback-S1 Best Head (fft),0.9867367252119266,ensemble
+190_Exathlon_id_17_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,ensemble
+191_Exathlon_id_18_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,ensemble
+192_Exathlon_id_19_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,ensemble
+193_Exathlon_id_20_Facility_tr_8898_1st_8998.csv,Exathlon,Fallback-S1 Best Head (fft),0.1204999504538004,ensemble
+194_Exathlon_id_21_Facility_tr_6985_1st_7085.csv,Exathlon,Fallback-S1 Best Head (fft),0.9709446741197912,ensemble
+196_Exathlon_id_23_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,ensemble
+197_Exathlon_id_24_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,ensemble
+198_Exathlon_id_25_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,ensemble
+199_Exathlon_id_26_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,ensemble
+200_Exathlon_id_27_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,ensemble
+001_Genesis_id_1_Sensor_tr_4055_1st_15538.csv,Genesis,Fallback-Unknown Group (fft),0.0099372343846064,fft
+002_MSL_id_1_Sensor_tr_500_1st_900.csv,MSL,Best Channel (time/0),0.5811829122920101,fft
+003_MSL_id_2_Sensor_tr_883_1st_1238.csv,MSL,Best Channel (time/0),0.9231988043494836,fft
+005_MSL_id_4_Sensor_tr_855_1st_2700.csv,MSL,Best Channel (time/0),0.1174996998035531,fft
+006_MSL_id_5_Sensor_tr_1150_1st_1250.csv,MSL,Best Channel (time/0),0.1077723494987902,fft
+007_MSL_id_6_Sensor_tr_980_1st_3550.csv,MSL,Best Channel (time/0),0.9766562742619926,fft
+008_MSL_id_7_Sensor_tr_656_1st_1630.csv,MSL,Best Channel (time/0),0.8230873762123426,fft
+009_MSL_id_8_Sensor_tr_714_1st_1390.csv,MSL,Best Channel (time/0),0.5728959870869116,fft
+010_MSL_id_9_Sensor_tr_554_1st_1172.csv,MSL,Best Channel (time/0),0.1110184048358639,fft
+012_MSL_id_11_Sensor_tr_539_1st_940.csv,MSL,Best Channel (time/0),0.9316311766301192,fft
+013_MSL_id_12_Sensor_tr_554_1st_1200.csv,MSL,Best Channel (time/0),0.7321926436196924,fft
+014_MSL_id_13_Sensor_tr_1525_1st_4575.csv,MSL,Best Channel (time/0),0.9993170666209396,fft
+015_MSL_id_14_Sensor_tr_575_1st_1250.csv,MSL,Best Channel (time/0),0.0778560807282502,fft
+016_MSL_id_15_Sensor_tr_500_1st_780.csv,MSL,Best Channel (time/0),0.817057598569785,fft
+017_MSL_id_16_Sensor_tr_512_1st_1850.csv,MSL,Best Channel (time/0),0.8564947501060675,fft
+018_Daphnet_id_1_HumanActivity_tr_9693_1st_20732.csv,Daphnet,Fallback-Unknown Group (fft),0.3495797910884103,fft
+019_MITDB_id_1_Medical_tr_37500_1st_103211.csv,MITDB,Fallback-S1 Best Head (ensemble),0.1841790977088077,fft
+020_MITDB_id_2_Medical_tr_50000_1st_52315.csv,MITDB,Best Channel (ensemble/V1),0.0043622633364697,fft
+021_MITDB_id_3_Medical_tr_50000_1st_57595.csv,MITDB,Fallback-S1 Best Head (ensemble),0.021740337025349,fft
+022_MITDB_id_4_Medical_tr_50000_1st_54253.csv,MITDB,Best Channel (ensemble/V1),0.0742994307636353,fft
+024_MITDB_id_6_Medical_tr_50000_1st_58118.csv,MITDB,Best Channel (ensemble/V1),0.0611064485745624,fft
+025_MITDB_id_7_Medical_tr_37500_1st_88864.csv,MITDB,Best Channel (ensemble/V1),0.0656587097511717,fft
+026_MITDB_id_8_Medical_tr_30495_1st_30595.csv,MITDB,Fallback-S1 Best Head (ensemble),0.1968188995126605,fft
+027_MITDB_id_9_Medical_tr_25000_1st_52255.csv,MITDB,Fallback-S1 Best Head (ensemble),0.0066685660196297,fft
+029_MITDB_id_11_Medical_tr_50000_1st_518037.csv,MITDB,Best Channel (ensemble/V1),0.286749326019684,fft
+030_MITDB_id_12_Medical_tr_50000_1st_84572.csv,MITDB,Best Channel (ensemble/V1),0.0578570933289751,fft
+031_MITDB_id_13_Medical_tr_50000_1st_79433.csv,MITDB,Fallback-S1 Best Head (ensemble),0.0233886201003708,fft
+032_GHL_id_1_Sensor_tr_50000_1st_65001.csv,GHL,Best Channel (fft/dL-rand),0.018109989630804,fft
+033_GHL_id_2_Sensor_tr_50000_1st_51001.csv,GHL,Best Channel (fft/dL-rand),0.0120277219175498,fft
+034_GHL_id_3_Sensor_tr_50000_1st_122001.csv,GHL,Best Channel (fft/dL-rand),0.0205692941991979,fft
+035_GHL_id_4_Sensor_tr_50000_1st_90001.csv,GHL,Best Channel (fft/dL-rand),0.0206389027767661,fft
+036_GHL_id_5_Sensor_tr_50000_1st_67147.csv,GHL,Best Channel (fft/dL-rand),0.0234253751713074,fft
+037_GHL_id_6_Sensor_tr_50000_1st_80001.csv,GHL,Best Channel (fft/dL-rand),0.0306892332554614,fft
+038_GHL_id_7_Sensor_tr_50000_1st_100001.csv,GHL,Best Channel (fft/dL-rand),0.0116368384206644,fft
+039_GHL_id_8_Sensor_tr_50000_1st_63030.csv,GHL,Best Channel (fft/dL-rand),0.0096956810306576,fft
+041_GHL_id_10_Sensor_tr_50000_1st_57001.csv,GHL,Best Channel (fft/dL-rand),0.0473873791987586,fft
+042_GHL_id_11_Sensor_tr_50000_1st_150001.csv,GHL,Best Channel (fft/dL-rand),0.0128051727782937,fft
+043_GHL_id_12_Sensor_tr_39938_1st_40038.csv,GHL,Best Channel (fft/dL-rand),0.0292511046330466,fft
+044_GHL_id_13_Sensor_tr_50000_1st_145001.csv,GHL,Best Channel (fft/dL-rand),0.0103381905259611,fft
+045_GHL_id_14_Sensor_tr_50000_1st_85076.csv,GHL,Best Channel (fft/dL-rand),0.0112247901458508,fft
+046_GHL_id_15_Sensor_tr_50000_1st_156462.csv,GHL,Best Channel (fft/dL-rand),0.0238190222815089,fft
+047_GHL_id_16_Sensor_tr_50000_1st_77001.csv,GHL,Best Channel (fft/dL-rand),0.021020014847301,fft
+048_GHL_id_17_Sensor_tr_50000_1st_154001.csv,GHL,Best Channel (fft/dL-rand),0.0203318557220218,fft
+050_GHL_id_19_Sensor_tr_43750_1st_55001.csv,GHL,Best Channel (fft/dL-rand),0.02145517733228,fft
+051_GHL_id_20_Sensor_tr_50000_1st_75110.csv,GHL,Best Channel (fft/dL-rand),0.0066039085383715,fft
+052_GHL_id_21_Sensor_tr_50000_1st_98001.csv,GHL,Best Channel (fft/dL-rand),0.0058344348295775,fft
+053_GHL_id_22_Sensor_tr_50000_1st_126448.csv,GHL,Best Channel (fft/dL-rand),0.0823592759550228,fft
+054_GHL_id_23_Sensor_tr_50000_1st_135001.csv,GHL,Best Channel (fft/dL-rand),0.0180403050006408,fft
+055_GHL_id_24_Sensor_tr_50000_1st_118124.csv,GHL,Best Channel (fft/dL-rand),0.0082224155673365,fft
+056_GHL_id_25_Sensor_tr_50000_1st_105568.csv,GHL,Best Channel (fft/dL-rand),0.0413534729398606,fft
+057_SMD_id_1_Facility_tr_4529_1st_4629.csv,SMD,Best Channel (ensemble/11),0.1282064697671031,fft
+058_SMD_id_2_Facility_tr_1087_1st_1187.csv,SMD,Best Channel (ensemble/11),0.6670003304345427,fft
+059_SMD_id_3_Facility_tr_757_1st_857.csv,SMD,Best Channel (ensemble/11),0.1289458693093823,fft
+060_SMD_id_4_Facility_tr_7176_1st_10609.csv,SMD,Best Channel (ensemble/11),0.1798455853648134,fft
+061_SMD_id_5_Facility_tr_7176_1st_15144.csv,SMD,Best Channel (ensemble/11),0.0752966296174376,fft
+063_SMD_id_7_Facility_tr_5923_1st_6506.csv,SMD,Best Channel (ensemble/11),0.1867055535161534,fft
+064_SMD_id_8_Facility_tr_2272_1st_2372.csv,SMD,Best Channel (ensemble/11),0.4815457135345589,fft
+065_SMD_id_9_Facility_tr_737_1st_837.csv,SMD,Best Channel (ensemble/11),0.2844566296540693,fft
+066_SMD_id_10_Facility_tr_2634_1st_2734.csv,SMD,Best Channel (ensemble/11),0.0658464617574498,fft
+067_SMD_id_11_Facility_tr_1980_1st_2080.csv,SMD,Best Channel (ensemble/11),0.0516269591027085,fft
+068_SMD_id_12_Facility_tr_1099_1st_1199.csv,SMD,Best Channel (ensemble/11),0.0121031028703859,fft
+069_SMD_id_13_Facility_tr_5925_1st_12760.csv,SMD,Best Channel (ensemble/11),0.3990610325626892,fft
+070_SMD_id_14_Facility_tr_1070_1st_1170.csv,SMD,Best Channel (ensemble/11),0.0586647652473743,fft
+071_SMD_id_15_Facility_tr_1109_1st_1209.csv,SMD,Best Channel (ensemble/11),0.0230821286482682,fft
+073_SMD_id_17_Facility_tr_5926_1st_10620.csv,SMD,Best Channel (ensemble/11),0.0138162914141181,fft
+074_SMD_id_18_Facility_tr_7174_1st_21230.csv,SMD,Best Channel (ensemble/11),0.3754619520856852,fft
+075_SMD_id_19_Facility_tr_564_1st_664.csv,SMD,Best Channel (ensemble/11),0.0320492182309277,fft
+076_SMD_id_20_Facility_tr_5925_1st_17580.csv,SMD,Best Channel (ensemble/11),0.354934765088081,fft
+077_SMD_id_21_Facility_tr_3026_1st_3126.csv,SMD,Best Channel (ensemble/11),0.4138745080544911,fft
+078_SMD_id_22_Facility_tr_500_1st_326.csv,SMD,Best Channel (ensemble/11),0.0417132744924729,fft
+079_LTDB_id_1_Medical_tr_3618_1st_3718.csv,LTDB,Best Channel (fft/ECG1),0.930116741338235,fft
+080_LTDB_id_2_Medical_tr_500_1st_266.csv,LTDB,Best Channel (fft/ECG1),0.1636271549235526,fft
+081_LTDB_id_3_Medical_tr_500_1st_26.csv,LTDB,Best Channel (fft/ECG1),0.6824389159416573,fft
+083_LTDB_id_5_Medical_tr_15502_1st_15602.csv,LTDB,Best Channel (fft/ECG1),0.0032360407400636,fft
+084_SVDB_id_1_Medical_tr_12973_1st_13073.csv,SVDB,Best Channel (fft/ECG2),0.2139565415159053,fft
+085_SVDB_id_2_Medical_tr_50000_1st_54982.csv,SVDB,Best Channel (fft/ECG2),0.2903441734890737,fft
+086_SVDB_id_3_Medical_tr_533_1st_633.csv,SVDB,Best Channel (fft/ECG2),0.0797352972755956,fft
+087_SVDB_id_4_Medical_tr_5421_1st_5521.csv,SVDB,Best Channel (fft/ECG2),0.5352871741787468,fft
+088_SVDB_id_5_Medical_tr_500_1st_168.csv,SVDB,Best Channel (fft/ECG2),0.3906252716488139,fft
+089_SVDB_id_6_Medical_tr_50000_1st_83083.csv,SVDB,Best Channel (fft/ECG2),0.0583762940073631,fft
+091_SVDB_id_8_Medical_tr_500_1st_126.csv,SVDB,Best Channel (fft/ECG2),0.3688481037562522,fft
+092_SVDB_id_9_Medical_tr_2674_1st_2774.csv,SVDB,Best Channel (fft/ECG2),0.1295354071926876,fft
+093_SVDB_id_10_Medical_tr_500_1st_37.csv,SVDB,Best Channel (fft/ECG2),0.4010998616384834,fft
+094_SVDB_id_11_Medical_tr_20100_1st_23611.csv,SVDB,Best Channel (fft/ECG2),0.0399011976128385,fft
+095_SVDB_id_12_Medical_tr_6264_1st_6364.csv,SVDB,Best Channel (fft/ECG2),0.1439955675526575,fft
+096_SVDB_id_13_Medical_tr_500_1st_444.csv,SVDB,Best Channel (fft/ECG2),0.1333503843324815,fft
+097_SVDB_id_14_Medical_tr_1031_1st_1131.csv,SVDB,Best Channel (fft/ECG2),0.8802063220714557,fft
+098_SVDB_id_15_Medical_tr_500_1st_303.csv,SVDB,Best Channel (fft/ECG2),0.2810815630594186,fft
+099_SVDB_id_16_Medical_tr_1115_1st_1215.csv,SVDB,Best Channel (fft/ECG2),0.4156784828929868,fft
+100_SVDB_id_17_Medical_tr_17803_1st_17903.csv,SVDB,Best Channel (fft/ECG2),0.0493584695585101,fft
+101_SVDB_id_18_Medical_tr_1851_1st_1951.csv,SVDB,Best Channel (fft/ECG2),0.149942879692514,fft
+102_SVDB_id_19_Medical_tr_50000_1st_107354.csv,SVDB,Best Channel (fft/ECG2),0.4145473778503825,fft
+103_SVDB_id_20_Medical_tr_12167_1st_12267.csv,SVDB,Best Channel (fft/ECG2),0.0348103322435029,fft
+104_SVDB_id_21_Medical_tr_50000_1st_106634.csv,SVDB,Best Channel (fft/ECG2),0.1043851113470885,fft
+105_SVDB_id_22_Medical_tr_500_1st_417.csv,SVDB,Best Channel (fft/ECG2),0.5596134009200815,fft
+106_SVDB_id_23_Medical_tr_37500_1st_121963.csv,SVDB,Best Channel (fft/ECG2),0.4934557721921555,fft
+108_SVDB_id_25_Medical_tr_1238_1st_1338.csv,SVDB,Best Channel (fft/ECG2),0.3841902201071796,fft
+109_SVDB_id_26_Medical_tr_1038_1st_1138.csv,SVDB,Best Channel (fft/ECG2),0.4359053974018985,fft
+110_SVDB_id_27_Medical_tr_30824_1st_30924.csv,SVDB,Best Channel (fft/ECG2),0.2976264454224979,fft
+111_SVDB_id_28_Medical_tr_1791_1st_1891.csv,SVDB,Best Channel (fft/ECG2),0.4310127873426155,fft
+112_SVDB_id_29_Medical_tr_8226_1st_8326.csv,SVDB,Best Channel (fft/ECG2),0.014666347235569,fft
+114_SVDB_id_31_Medical_tr_25000_1st_63090.csv,SVDB,Best Channel (fft/ECG2),0.0214680026780908,fft
+115_PSM_id_1_Facility_tr_50000_1st_129872.csv,PSM,Fallback-Unknown Group (fft),0.1383188888933527,fft
+116_TAO_id_1_Environment_tr_500_1st_3.csv,TAO,Best Channel (forecast/col-0),0.9928903961348678,fft
+117_TAO_id_2_Environment_tr_500_1st_1.csv,TAO,Best Channel (forecast/col-0),0.9812039680531478,fft
+118_TAO_id_3_Environment_tr_500_1st_7.csv,TAO,Best Channel (forecast/col-0),0.9595303094947604,fft
+119_TAO_id_4_Environment_tr_500_1st_1.csv,TAO,Best Channel (forecast/col-0),0.995486039917064,fft
+121_TAO_id_6_Environment_tr_500_1st_7.csv,TAO,Best Channel (forecast/col-0),0.9953828146695628,fft
+122_TAO_id_7_Environment_tr_500_1st_19.csv,TAO,Best Channel (forecast/col-0),0.9831964844284082,fft
+123_TAO_id_8_Environment_tr_500_1st_62.csv,TAO,Best Channel (forecast/col-0),0.9916291901446868,fft
+124_TAO_id_9_Environment_tr_500_1st_1.csv,TAO,Best Channel (forecast/col-0),0.9889399606906024,fft
+125_TAO_id_10_Environment_tr_500_1st_9.csv,TAO,Best Channel (forecast/col-0),0.9991289186859502,fft
+127_TAO_id_12_Environment_tr_500_1st_24.csv,TAO,Best Channel (forecast/col-0),0.9907316826332908,fft
+128_TAO_id_13_Environment_tr_500_1st_7.csv,TAO,Best Channel (forecast/col-0),0.9953828146695628,fft
+129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.475162458616098,fft
+130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.499404196043074,fft
+132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.5489706691210684,fft
+133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.8061134804333848,fft
+134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.3873132498322761,fft
+135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.3106304078613714,fft
+136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.3318506581905601,fft
+137_CreditCard_id_1_Finance_tr_500_1st_541.csv,CreditCard,Fallback-Unknown Group (fft),0.0042083566182391,fft
+138_CATSv2_id_1_Sensor_tr_16568_1st_16668.csv,CATSv2,Best Channel (time/bso2),0.0247666165703072,fft
+139_CATSv2_id_2_Sensor_tr_5592_1st_5692.csv,CATSv2,Best Channel (time/bso2),0.0336570229235004,fft
+141_CATSv2_id_4_Sensor_tr_41727_1st_41827.csv,CATSv2,Best Channel (time/bso2),0.0748073965144144,fft
+142_CATSv2_id_5_Sensor_tr_30704_1st_30804.csv,CATSv2,Best Channel (time/bso2),0.1340744725718597,fft
+143_CATSv2_id_6_Sensor_tr_50000_1st_60232.csv,CATSv2,Best Channel (time/bso2),0.0753891804958283,fft
+144_SMAP_id_1_Sensor_tr_2052_1st_5300.csv,SMAP,Best Channel (ensemble/0),0.999879429691978,fft
+145_SMAP_id_2_Sensor_tr_2133_1st_5400.csv,SMAP,Best Channel (ensemble/0),0.1569149429517837,fft
+146_SMAP_id_3_Sensor_tr_2128_1st_5000.csv,SMAP,Best Channel (ensemble/0),0.0315614653704494,fft
+147_SMAP_id_4_Sensor_tr_2160_1st_6449.csv,SMAP,Best Channel (ensemble/0),0.0255563439128777,fft
+148_SMAP_id_5_Sensor_tr_2011_1st_5060.csv,SMAP,Best Channel (ensemble/0),0.8542959275909436,fft
+150_SMAP_id_7_Sensor_tr_2077_1st_5394.csv,SMAP,Best Channel (ensemble/0),0.9981598712876116,fft
+151_SMAP_id_8_Sensor_tr_1971_1st_4870.csv,SMAP,Best Channel (ensemble/0),0.9900855884570866,fft
+152_SMAP_id_9_Sensor_tr_2073_1st_5600.csv,SMAP,Best Channel (ensemble/0),0.2907205869636041,fft
+153_SMAP_id_10_Sensor_tr_1840_1st_4030.csv,SMAP,Best Channel (ensemble/0),0.8058171416793973,fft
+154_SMAP_id_11_Sensor_tr_2117_1st_4770.csv,SMAP,Best Channel (ensemble/0),0.0497524576963708,fft
+155_SMAP_id_12_Sensor_tr_1907_1st_4800.csv,SMAP,Best Channel (ensemble/0),0.5383049095566086,fft
+156_SMAP_id_13_Sensor_tr_1173_1st_2750.csv,SMAP,Best Channel (ensemble/0),0.761987308434832,fft
+157_SMAP_id_14_Sensor_tr_2126_1st_5000.csv,SMAP,Best Channel (ensemble/0),0.0320819149006545,fft
+158_SMAP_id_15_Sensor_tr_2075_1st_5610.csv,SMAP,Best Channel (ensemble/0),0.8123485564943427,fft
+159_SMAP_id_16_Sensor_tr_1757_1st_2650.csv,SMAP,Best Channel (ensemble/0),0.6602504234194982,fft
+160_SMAP_id_17_Sensor_tr_1832_1st_5300.csv,SMAP,Best Channel (ensemble/0),0.3995609673141943,fft
+161_SMAP_id_18_Sensor_tr_2075_1st_5550.csv,SMAP,Best Channel (ensemble/0),0.5944465527212941,fft
+162_SMAP_id_19_Sensor_tr_1908_1st_4690.csv,SMAP,Best Channel (ensemble/0),0.7190446224106981,fft
+163_SMAP_id_20_Sensor_tr_2051_1st_4575.csv,SMAP,Best Channel (ensemble/0),0.8288767967732276,fft
+165_SMAP_id_22_Sensor_tr_2129_1st_5000.csv,SMAP,Best Channel (ensemble/0),0.0452940339544899,fft
+166_SMAP_id_23_Sensor_tr_1113_1st_1890.csv,SMAP,Best Channel (ensemble/0),0.7166853876729702,fft
+167_SMAP_id_24_Sensor_tr_2094_1st_5600.csv,SMAP,Best Channel (ensemble/0),0.885279234485522,fft
+168_SMAP_id_25_Sensor_tr_1998_1st_2098.csv,SMAP,Best Channel (ensemble/0),0.9754905022878156,fft
+169_SMAP_id_26_Sensor_tr_1811_1st_4510.csv,SMAP,Best Channel (ensemble/0),0.9677585420676624,fft
+170_SMAP_id_27_Sensor_tr_2160_1st_4690.csv,SMAP,Best Channel (ensemble/0),0.9034969772771292,fft
+171_SWaT_id_1_Sensor_tr_3749_1st_9522.csv,SWaT,Fallback-Unknown Group (fft),0.1613077371728178,fft
+172_SWaT_id_2_Sensor_tr_23700_1st_23800.csv,SWaT,Fallback-Unknown Group (fft),0.0908205561487801,fft
+173_GECCO_id_1_Sensor_tr_16165_1st_16265.csv,GECCO,Fallback-Unknown Group (fft),0.1761543770322538,fft
+174_Exathlon_id_1_Facility_tr_10766_1st_12590.csv,Exathlon,Fallback-S1 Best Head (fft),0.9930262784292904,fft
+175_Exathlon_id_2_Facility_tr_10684_1st_10784.csv,Exathlon,Fallback-S1 Best Head (fft),0.0962514348833313,fft
+176_Exathlon_id_3_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,fft
+177_Exathlon_id_4_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,fft
+179_Exathlon_id_6_Facility_tr_11665_1st_13484.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9636808093514372,fft
+180_Exathlon_id_7_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,fft
+181_Exathlon_id_8_Facility_tr_11663_1st_13482.csv,Exathlon,Fallback-S1 Best Head (fft),0.9867367252119266,fft
+182_Exathlon_id_9_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,fft
+183_Exathlon_id_10_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,fft
+184_Exathlon_id_11_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,fft
+185_Exathlon_id_12_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,fft
+186_Exathlon_id_13_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,fft
+187_Exathlon_id_14_Facility_tr_6193_1st_6293.csv,Exathlon,Fallback-S1 Best Head (fft),0.9610465408202528,fft
+188_Exathlon_id_15_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,fft
+189_Exathlon_id_16_Facility_tr_11663_1st_13482.csv,Exathlon,Fallback-S1 Best Head (fft),0.9867367252119266,fft
+190_Exathlon_id_17_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,fft
+191_Exathlon_id_18_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,fft
+192_Exathlon_id_19_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,fft
+193_Exathlon_id_20_Facility_tr_8898_1st_8998.csv,Exathlon,Fallback-S1 Best Head (fft),0.1204999504538004,fft
+194_Exathlon_id_21_Facility_tr_6985_1st_7085.csv,Exathlon,Fallback-S1 Best Head (fft),0.9709446741197912,fft
+196_Exathlon_id_23_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,fft
+197_Exathlon_id_24_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,fft
+198_Exathlon_id_25_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,fft
+199_Exathlon_id_26_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,fft
+200_Exathlon_id_27_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,fft
+001_Genesis_id_1_Sensor_tr_4055_1st_15538.csv,Genesis,Fallback-Unknown Group (forecast),0.0075982115572001,forecast
+002_MSL_id_1_Sensor_tr_500_1st_900.csv,MSL,Best Channel (time/0),0.5811829122920101,forecast
+003_MSL_id_2_Sensor_tr_883_1st_1238.csv,MSL,Best Channel (time/0),0.9231988043494836,forecast
+005_MSL_id_4_Sensor_tr_855_1st_2700.csv,MSL,Best Channel (time/0),0.1174996998035531,forecast
+006_MSL_id_5_Sensor_tr_1150_1st_1250.csv,MSL,Best Channel (time/0),0.1077723494987902,forecast
+007_MSL_id_6_Sensor_tr_980_1st_3550.csv,MSL,Best Channel (time/0),0.9766562742619926,forecast
+008_MSL_id_7_Sensor_tr_656_1st_1630.csv,MSL,Best Channel (time/0),0.8230873762123426,forecast
+009_MSL_id_8_Sensor_tr_714_1st_1390.csv,MSL,Best Channel (time/0),0.5728959870869116,forecast
+010_MSL_id_9_Sensor_tr_554_1st_1172.csv,MSL,Best Channel (time/0),0.1110184048358639,forecast
+012_MSL_id_11_Sensor_tr_539_1st_940.csv,MSL,Best Channel (time/0),0.9316311766301192,forecast
+013_MSL_id_12_Sensor_tr_554_1st_1200.csv,MSL,Best Channel (time/0),0.7321926436196924,forecast
+014_MSL_id_13_Sensor_tr_1525_1st_4575.csv,MSL,Best Channel (time/0),0.9993170666209396,forecast
+015_MSL_id_14_Sensor_tr_575_1st_1250.csv,MSL,Best Channel (time/0),0.0778560807282502,forecast
+016_MSL_id_15_Sensor_tr_500_1st_780.csv,MSL,Best Channel (time/0),0.817057598569785,forecast
+017_MSL_id_16_Sensor_tr_512_1st_1850.csv,MSL,Best Channel (time/0),0.8564947501060675,forecast
+018_Daphnet_id_1_HumanActivity_tr_9693_1st_20732.csv,Daphnet,Fallback-Unknown Group (forecast),0.3345557713226016,forecast
+019_MITDB_id_1_Medical_tr_37500_1st_103211.csv,MITDB,Fallback-S1 Best Head (ensemble),0.1841790977088077,forecast
+020_MITDB_id_2_Medical_tr_50000_1st_52315.csv,MITDB,Best Channel (ensemble/V1),0.0043622633364697,forecast
+021_MITDB_id_3_Medical_tr_50000_1st_57595.csv,MITDB,Fallback-S1 Best Head (ensemble),0.021740337025349,forecast
+022_MITDB_id_4_Medical_tr_50000_1st_54253.csv,MITDB,Best Channel (ensemble/V1),0.0742994307636353,forecast
+024_MITDB_id_6_Medical_tr_50000_1st_58118.csv,MITDB,Best Channel (ensemble/V1),0.0611064485745624,forecast
+025_MITDB_id_7_Medical_tr_37500_1st_88864.csv,MITDB,Best Channel (ensemble/V1),0.0656587097511717,forecast
+026_MITDB_id_8_Medical_tr_30495_1st_30595.csv,MITDB,Fallback-S1 Best Head (ensemble),0.1968188995126605,forecast
+027_MITDB_id_9_Medical_tr_25000_1st_52255.csv,MITDB,Fallback-S1 Best Head (ensemble),0.0066685660196297,forecast
+029_MITDB_id_11_Medical_tr_50000_1st_518037.csv,MITDB,Best Channel (ensemble/V1),0.286749326019684,forecast
+030_MITDB_id_12_Medical_tr_50000_1st_84572.csv,MITDB,Best Channel (ensemble/V1),0.0578570933289751,forecast
+031_MITDB_id_13_Medical_tr_50000_1st_79433.csv,MITDB,Fallback-S1 Best Head (ensemble),0.0233886201003708,forecast
+032_GHL_id_1_Sensor_tr_50000_1st_65001.csv,GHL,Best Channel (fft/dL-rand),0.018109989630804,forecast
+033_GHL_id_2_Sensor_tr_50000_1st_51001.csv,GHL,Best Channel (fft/dL-rand),0.0120277219175498,forecast
+034_GHL_id_3_Sensor_tr_50000_1st_122001.csv,GHL,Best Channel (fft/dL-rand),0.0205692941991979,forecast
+035_GHL_id_4_Sensor_tr_50000_1st_90001.csv,GHL,Best Channel (fft/dL-rand),0.0206389027767661,forecast
+036_GHL_id_5_Sensor_tr_50000_1st_67147.csv,GHL,Best Channel (fft/dL-rand),0.0234253751713074,forecast
+037_GHL_id_6_Sensor_tr_50000_1st_80001.csv,GHL,Best Channel (fft/dL-rand),0.0306892332554614,forecast
+038_GHL_id_7_Sensor_tr_50000_1st_100001.csv,GHL,Best Channel (fft/dL-rand),0.0116368384206644,forecast
+039_GHL_id_8_Sensor_tr_50000_1st_63030.csv,GHL,Best Channel (fft/dL-rand),0.0096956810306576,forecast
+041_GHL_id_10_Sensor_tr_50000_1st_57001.csv,GHL,Best Channel (fft/dL-rand),0.0473873791987586,forecast
+042_GHL_id_11_Sensor_tr_50000_1st_150001.csv,GHL,Best Channel (fft/dL-rand),0.0128051727782937,forecast
+043_GHL_id_12_Sensor_tr_39938_1st_40038.csv,GHL,Best Channel (fft/dL-rand),0.0292511046330466,forecast
+044_GHL_id_13_Sensor_tr_50000_1st_145001.csv,GHL,Best Channel (fft/dL-rand),0.0103381905259611,forecast
+045_GHL_id_14_Sensor_tr_50000_1st_85076.csv,GHL,Best Channel (fft/dL-rand),0.0112247901458508,forecast
+046_GHL_id_15_Sensor_tr_50000_1st_156462.csv,GHL,Best Channel (fft/dL-rand),0.0238190222815089,forecast
+047_GHL_id_16_Sensor_tr_50000_1st_77001.csv,GHL,Best Channel (fft/dL-rand),0.021020014847301,forecast
+048_GHL_id_17_Sensor_tr_50000_1st_154001.csv,GHL,Best Channel (fft/dL-rand),0.0203318557220218,forecast
+050_GHL_id_19_Sensor_tr_43750_1st_55001.csv,GHL,Best Channel (fft/dL-rand),0.02145517733228,forecast
+051_GHL_id_20_Sensor_tr_50000_1st_75110.csv,GHL,Best Channel (fft/dL-rand),0.0066039085383715,forecast
+052_GHL_id_21_Sensor_tr_50000_1st_98001.csv,GHL,Best Channel (fft/dL-rand),0.0058344348295775,forecast
+053_GHL_id_22_Sensor_tr_50000_1st_126448.csv,GHL,Best Channel (fft/dL-rand),0.0823592759550228,forecast
+054_GHL_id_23_Sensor_tr_50000_1st_135001.csv,GHL,Best Channel (fft/dL-rand),0.0180403050006408,forecast
+055_GHL_id_24_Sensor_tr_50000_1st_118124.csv,GHL,Best Channel (fft/dL-rand),0.0082224155673365,forecast
+056_GHL_id_25_Sensor_tr_50000_1st_105568.csv,GHL,Best Channel (fft/dL-rand),0.0413534729398606,forecast
+057_SMD_id_1_Facility_tr_4529_1st_4629.csv,SMD,Best Channel (ensemble/11),0.1282064697671031,forecast
+058_SMD_id_2_Facility_tr_1087_1st_1187.csv,SMD,Best Channel (ensemble/11),0.6670003304345427,forecast
+059_SMD_id_3_Facility_tr_757_1st_857.csv,SMD,Best Channel (ensemble/11),0.1289458693093823,forecast
+060_SMD_id_4_Facility_tr_7176_1st_10609.csv,SMD,Best Channel (ensemble/11),0.1798455853648134,forecast
+061_SMD_id_5_Facility_tr_7176_1st_15144.csv,SMD,Best Channel (ensemble/11),0.0752966296174376,forecast
+063_SMD_id_7_Facility_tr_5923_1st_6506.csv,SMD,Best Channel (ensemble/11),0.1867055535161534,forecast
+064_SMD_id_8_Facility_tr_2272_1st_2372.csv,SMD,Best Channel (ensemble/11),0.4815457135345589,forecast
+065_SMD_id_9_Facility_tr_737_1st_837.csv,SMD,Best Channel (ensemble/11),0.2844566296540693,forecast
+066_SMD_id_10_Facility_tr_2634_1st_2734.csv,SMD,Best Channel (ensemble/11),0.0658464617574498,forecast
+067_SMD_id_11_Facility_tr_1980_1st_2080.csv,SMD,Best Channel (ensemble/11),0.0516269591027085,forecast
+068_SMD_id_12_Facility_tr_1099_1st_1199.csv,SMD,Best Channel (ensemble/11),0.0121031028703859,forecast
+069_SMD_id_13_Facility_tr_5925_1st_12760.csv,SMD,Best Channel (ensemble/11),0.3990610325626892,forecast
+070_SMD_id_14_Facility_tr_1070_1st_1170.csv,SMD,Best Channel (ensemble/11),0.0586647652473743,forecast
+071_SMD_id_15_Facility_tr_1109_1st_1209.csv,SMD,Best Channel (ensemble/11),0.0230821286482682,forecast
+073_SMD_id_17_Facility_tr_5926_1st_10620.csv,SMD,Best Channel (ensemble/11),0.0138162914141181,forecast
+074_SMD_id_18_Facility_tr_7174_1st_21230.csv,SMD,Best Channel (ensemble/11),0.3754619520856852,forecast
+075_SMD_id_19_Facility_tr_564_1st_664.csv,SMD,Best Channel (ensemble/11),0.0320492182309277,forecast
+076_SMD_id_20_Facility_tr_5925_1st_17580.csv,SMD,Best Channel (ensemble/11),0.354934765088081,forecast
+077_SMD_id_21_Facility_tr_3026_1st_3126.csv,SMD,Best Channel (ensemble/11),0.4138745080544911,forecast
+078_SMD_id_22_Facility_tr_500_1st_326.csv,SMD,Best Channel (ensemble/11),0.0417132744924729,forecast
+079_LTDB_id_1_Medical_tr_3618_1st_3718.csv,LTDB,Best Channel (fft/ECG1),0.930116741338235,forecast
+080_LTDB_id_2_Medical_tr_500_1st_266.csv,LTDB,Best Channel (fft/ECG1),0.1636271549235526,forecast
+081_LTDB_id_3_Medical_tr_500_1st_26.csv,LTDB,Best Channel (fft/ECG1),0.6824389159416573,forecast
+083_LTDB_id_5_Medical_tr_15502_1st_15602.csv,LTDB,Best Channel (fft/ECG1),0.0032360407400636,forecast
+084_SVDB_id_1_Medical_tr_12973_1st_13073.csv,SVDB,Best Channel (fft/ECG2),0.2139565415159053,forecast
+085_SVDB_id_2_Medical_tr_50000_1st_54982.csv,SVDB,Best Channel (fft/ECG2),0.2903441734890737,forecast
+086_SVDB_id_3_Medical_tr_533_1st_633.csv,SVDB,Best Channel (fft/ECG2),0.0797352972755956,forecast
+087_SVDB_id_4_Medical_tr_5421_1st_5521.csv,SVDB,Best Channel (fft/ECG2),0.5352871741787468,forecast
+088_SVDB_id_5_Medical_tr_500_1st_168.csv,SVDB,Best Channel (fft/ECG2),0.3906252716488139,forecast
+089_SVDB_id_6_Medical_tr_50000_1st_83083.csv,SVDB,Best Channel (fft/ECG2),0.0583762940073631,forecast
+091_SVDB_id_8_Medical_tr_500_1st_126.csv,SVDB,Best Channel (fft/ECG2),0.3688481037562522,forecast
+092_SVDB_id_9_Medical_tr_2674_1st_2774.csv,SVDB,Best Channel (fft/ECG2),0.1295354071926876,forecast
+093_SVDB_id_10_Medical_tr_500_1st_37.csv,SVDB,Best Channel (fft/ECG2),0.4010998616384834,forecast
+094_SVDB_id_11_Medical_tr_20100_1st_23611.csv,SVDB,Best Channel (fft/ECG2),0.0399011976128385,forecast
+095_SVDB_id_12_Medical_tr_6264_1st_6364.csv,SVDB,Best Channel (fft/ECG2),0.1439955675526575,forecast
+096_SVDB_id_13_Medical_tr_500_1st_444.csv,SVDB,Best Channel (fft/ECG2),0.1333503843324815,forecast
+097_SVDB_id_14_Medical_tr_1031_1st_1131.csv,SVDB,Best Channel (fft/ECG2),0.8802063220714557,forecast
+098_SVDB_id_15_Medical_tr_500_1st_303.csv,SVDB,Best Channel (fft/ECG2),0.2810815630594186,forecast
+099_SVDB_id_16_Medical_tr_1115_1st_1215.csv,SVDB,Best Channel (fft/ECG2),0.4156784828929868,forecast
+100_SVDB_id_17_Medical_tr_17803_1st_17903.csv,SVDB,Best Channel (fft/ECG2),0.0493584695585101,forecast
+101_SVDB_id_18_Medical_tr_1851_1st_1951.csv,SVDB,Best Channel (fft/ECG2),0.149942879692514,forecast
+102_SVDB_id_19_Medical_tr_50000_1st_107354.csv,SVDB,Best Channel (fft/ECG2),0.4145473778503825,forecast
+103_SVDB_id_20_Medical_tr_12167_1st_12267.csv,SVDB,Best Channel (fft/ECG2),0.0348103322435029,forecast
+104_SVDB_id_21_Medical_tr_50000_1st_106634.csv,SVDB,Best Channel (fft/ECG2),0.1043851113470885,forecast
+105_SVDB_id_22_Medical_tr_500_1st_417.csv,SVDB,Best Channel (fft/ECG2),0.5596134009200815,forecast
+106_SVDB_id_23_Medical_tr_37500_1st_121963.csv,SVDB,Best Channel (fft/ECG2),0.4934557721921555,forecast
+108_SVDB_id_25_Medical_tr_1238_1st_1338.csv,SVDB,Best Channel (fft/ECG2),0.3841902201071796,forecast
+109_SVDB_id_26_Medical_tr_1038_1st_1138.csv,SVDB,Best Channel (fft/ECG2),0.4359053974018985,forecast
+110_SVDB_id_27_Medical_tr_30824_1st_30924.csv,SVDB,Best Channel (fft/ECG2),0.2976264454224979,forecast
+111_SVDB_id_28_Medical_tr_1791_1st_1891.csv,SVDB,Best Channel (fft/ECG2),0.4310127873426155,forecast
+112_SVDB_id_29_Medical_tr_8226_1st_8326.csv,SVDB,Best Channel (fft/ECG2),0.014666347235569,forecast
+114_SVDB_id_31_Medical_tr_25000_1st_63090.csv,SVDB,Best Channel (fft/ECG2),0.0214680026780908,forecast
+115_PSM_id_1_Facility_tr_50000_1st_129872.csv,PSM,Fallback-Unknown Group (forecast),0.1187372621769351,forecast
+116_TAO_id_1_Environment_tr_500_1st_3.csv,TAO,Best Channel (forecast/col-0),0.9928903961348678,forecast
+117_TAO_id_2_Environment_tr_500_1st_1.csv,TAO,Best Channel (forecast/col-0),0.9812039680531478,forecast
+118_TAO_id_3_Environment_tr_500_1st_7.csv,TAO,Best Channel (forecast/col-0),0.9595303094947604,forecast
+119_TAO_id_4_Environment_tr_500_1st_1.csv,TAO,Best Channel (forecast/col-0),0.995486039917064,forecast
+121_TAO_id_6_Environment_tr_500_1st_7.csv,TAO,Best Channel (forecast/col-0),0.9953828146695628,forecast
+122_TAO_id_7_Environment_tr_500_1st_19.csv,TAO,Best Channel (forecast/col-0),0.9831964844284082,forecast
+123_TAO_id_8_Environment_tr_500_1st_62.csv,TAO,Best Channel (forecast/col-0),0.9916291901446868,forecast
+124_TAO_id_9_Environment_tr_500_1st_1.csv,TAO,Best Channel (forecast/col-0),0.9889399606906024,forecast
+125_TAO_id_10_Environment_tr_500_1st_9.csv,TAO,Best Channel (forecast/col-0),0.9991289186859502,forecast
+127_TAO_id_12_Environment_tr_500_1st_24.csv,TAO,Best Channel (forecast/col-0),0.9907316826332908,forecast
+128_TAO_id_13_Environment_tr_500_1st_7.csv,TAO,Best Channel (forecast/col-0),0.9953828146695628,forecast
+129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.475162458616098,forecast
+130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.499404196043074,forecast
+132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.5489706691210684,forecast
+133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.8061134804333848,forecast
+134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.3873132498322761,forecast
+135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.3106304078613714,forecast
+136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.3318506581905601,forecast
+137_CreditCard_id_1_Finance_tr_500_1st_541.csv,CreditCard,Fallback-Unknown Group (forecast),0.0653011197079235,forecast
+138_CATSv2_id_1_Sensor_tr_16568_1st_16668.csv,CATSv2,Best Channel (time/bso2),0.0247666165703072,forecast
+139_CATSv2_id_2_Sensor_tr_5592_1st_5692.csv,CATSv2,Best Channel (time/bso2),0.0336570229235004,forecast
+141_CATSv2_id_4_Sensor_tr_41727_1st_41827.csv,CATSv2,Best Channel (time/bso2),0.0748073965144144,forecast
+142_CATSv2_id_5_Sensor_tr_30704_1st_30804.csv,CATSv2,Best Channel (time/bso2),0.1340744725718597,forecast
+143_CATSv2_id_6_Sensor_tr_50000_1st_60232.csv,CATSv2,Best Channel (time/bso2),0.0753891804958283,forecast
+144_SMAP_id_1_Sensor_tr_2052_1st_5300.csv,SMAP,Best Channel (ensemble/0),0.999879429691978,forecast
+145_SMAP_id_2_Sensor_tr_2133_1st_5400.csv,SMAP,Best Channel (ensemble/0),0.1569149429517837,forecast
+146_SMAP_id_3_Sensor_tr_2128_1st_5000.csv,SMAP,Best Channel (ensemble/0),0.0315614653704494,forecast
+147_SMAP_id_4_Sensor_tr_2160_1st_6449.csv,SMAP,Best Channel (ensemble/0),0.0255563439128777,forecast
+148_SMAP_id_5_Sensor_tr_2011_1st_5060.csv,SMAP,Best Channel (ensemble/0),0.8542959275909436,forecast
+150_SMAP_id_7_Sensor_tr_2077_1st_5394.csv,SMAP,Best Channel (ensemble/0),0.9981598712876116,forecast
+151_SMAP_id_8_Sensor_tr_1971_1st_4870.csv,SMAP,Best Channel (ensemble/0),0.9900855884570866,forecast
+152_SMAP_id_9_Sensor_tr_2073_1st_5600.csv,SMAP,Best Channel (ensemble/0),0.2907205869636041,forecast
+153_SMAP_id_10_Sensor_tr_1840_1st_4030.csv,SMAP,Best Channel (ensemble/0),0.8058171416793973,forecast
+154_SMAP_id_11_Sensor_tr_2117_1st_4770.csv,SMAP,Best Channel (ensemble/0),0.0497524576963708,forecast
+155_SMAP_id_12_Sensor_tr_1907_1st_4800.csv,SMAP,Best Channel (ensemble/0),0.5383049095566086,forecast
+156_SMAP_id_13_Sensor_tr_1173_1st_2750.csv,SMAP,Best Channel (ensemble/0),0.761987308434832,forecast
+157_SMAP_id_14_Sensor_tr_2126_1st_5000.csv,SMAP,Best Channel (ensemble/0),0.0320819149006545,forecast
+158_SMAP_id_15_Sensor_tr_2075_1st_5610.csv,SMAP,Best Channel (ensemble/0),0.8123485564943427,forecast
+159_SMAP_id_16_Sensor_tr_1757_1st_2650.csv,SMAP,Best Channel (ensemble/0),0.6602504234194982,forecast
+160_SMAP_id_17_Sensor_tr_1832_1st_5300.csv,SMAP,Best Channel (ensemble/0),0.3995609673141943,forecast
+161_SMAP_id_18_Sensor_tr_2075_1st_5550.csv,SMAP,Best Channel (ensemble/0),0.5944465527212941,forecast
+162_SMAP_id_19_Sensor_tr_1908_1st_4690.csv,SMAP,Best Channel (ensemble/0),0.7190446224106981,forecast
+163_SMAP_id_20_Sensor_tr_2051_1st_4575.csv,SMAP,Best Channel (ensemble/0),0.8288767967732276,forecast
+165_SMAP_id_22_Sensor_tr_2129_1st_5000.csv,SMAP,Best Channel (ensemble/0),0.0452940339544899,forecast
+166_SMAP_id_23_Sensor_tr_1113_1st_1890.csv,SMAP,Best Channel (ensemble/0),0.7166853876729702,forecast
+167_SMAP_id_24_Sensor_tr_2094_1st_5600.csv,SMAP,Best Channel (ensemble/0),0.885279234485522,forecast
+168_SMAP_id_25_Sensor_tr_1998_1st_2098.csv,SMAP,Best Channel (ensemble/0),0.9754905022878156,forecast
+169_SMAP_id_26_Sensor_tr_1811_1st_4510.csv,SMAP,Best Channel (ensemble/0),0.9677585420676624,forecast
+170_SMAP_id_27_Sensor_tr_2160_1st_4690.csv,SMAP,Best Channel (ensemble/0),0.9034969772771292,forecast
+171_SWaT_id_1_Sensor_tr_3749_1st_9522.csv,SWaT,Fallback-Unknown Group (forecast),0.1311204563368366,forecast
+172_SWaT_id_2_Sensor_tr_23700_1st_23800.csv,SWaT,Fallback-Unknown Group (forecast),0.084246235973426,forecast
+173_GECCO_id_1_Sensor_tr_16165_1st_16265.csv,GECCO,Fallback-Unknown Group (forecast),0.2194272743813591,forecast
+174_Exathlon_id_1_Facility_tr_10766_1st_12590.csv,Exathlon,Fallback-S1 Best Head (fft),0.9930262784292904,forecast
+175_Exathlon_id_2_Facility_tr_10684_1st_10784.csv,Exathlon,Fallback-S1 Best Head (fft),0.0962514348833313,forecast
+176_Exathlon_id_3_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,forecast
+177_Exathlon_id_4_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,forecast
+179_Exathlon_id_6_Facility_tr_11665_1st_13484.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9636808093514372,forecast
+180_Exathlon_id_7_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,forecast
+181_Exathlon_id_8_Facility_tr_11663_1st_13482.csv,Exathlon,Fallback-S1 Best Head (fft),0.9867367252119266,forecast
+182_Exathlon_id_9_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,forecast
+183_Exathlon_id_10_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,forecast
+184_Exathlon_id_11_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,forecast
+185_Exathlon_id_12_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,forecast
+186_Exathlon_id_13_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,forecast
+187_Exathlon_id_14_Facility_tr_6193_1st_6293.csv,Exathlon,Fallback-S1 Best Head (fft),0.9610465408202528,forecast
+188_Exathlon_id_15_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,forecast
+189_Exathlon_id_16_Facility_tr_11663_1st_13482.csv,Exathlon,Fallback-S1 Best Head (fft),0.9867367252119266,forecast
+190_Exathlon_id_17_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,forecast
+191_Exathlon_id_18_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,forecast
+192_Exathlon_id_19_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,forecast
+193_Exathlon_id_20_Facility_tr_8898_1st_8998.csv,Exathlon,Fallback-S1 Best Head (fft),0.1204999504538004,forecast
+194_Exathlon_id_21_Facility_tr_6985_1st_7085.csv,Exathlon,Fallback-S1 Best Head (fft),0.9709446741197912,forecast
+196_Exathlon_id_23_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,forecast
+197_Exathlon_id_24_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,forecast
+198_Exathlon_id_25_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,forecast
+199_Exathlon_id_26_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,forecast
+200_Exathlon_id_27_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,forecast
+001_Genesis_id_1_Sensor_tr_4055_1st_15538.csv,Genesis,Fallback-Unknown Group (time),0.0098863829363306,time
+002_MSL_id_1_Sensor_tr_500_1st_900.csv,MSL,Best Channel (time/0),0.5811829122920101,time
+003_MSL_id_2_Sensor_tr_883_1st_1238.csv,MSL,Best Channel (time/0),0.9231988043494836,time
+005_MSL_id_4_Sensor_tr_855_1st_2700.csv,MSL,Best Channel (time/0),0.1174996998035531,time
+006_MSL_id_5_Sensor_tr_1150_1st_1250.csv,MSL,Best Channel (time/0),0.1077723494987902,time
+007_MSL_id_6_Sensor_tr_980_1st_3550.csv,MSL,Best Channel (time/0),0.9766562742619926,time
+008_MSL_id_7_Sensor_tr_656_1st_1630.csv,MSL,Best Channel (time/0),0.8230873762123426,time
+009_MSL_id_8_Sensor_tr_714_1st_1390.csv,MSL,Best Channel (time/0),0.5728959870869116,time
+010_MSL_id_9_Sensor_tr_554_1st_1172.csv,MSL,Best Channel (time/0),0.1110184048358639,time
+012_MSL_id_11_Sensor_tr_539_1st_940.csv,MSL,Best Channel (time/0),0.9316311766301192,time
+013_MSL_id_12_Sensor_tr_554_1st_1200.csv,MSL,Best Channel (time/0),0.7321926436196924,time
+014_MSL_id_13_Sensor_tr_1525_1st_4575.csv,MSL,Best Channel (time/0),0.9993170666209396,time
+015_MSL_id_14_Sensor_tr_575_1st_1250.csv,MSL,Best Channel (time/0),0.0778560807282502,time
+016_MSL_id_15_Sensor_tr_500_1st_780.csv,MSL,Best Channel (time/0),0.817057598569785,time
+017_MSL_id_16_Sensor_tr_512_1st_1850.csv,MSL,Best Channel (time/0),0.8564947501060675,time
+018_Daphnet_id_1_HumanActivity_tr_9693_1st_20732.csv,Daphnet,Fallback-Unknown Group (time),0.3544037205279834,time
+019_MITDB_id_1_Medical_tr_37500_1st_103211.csv,MITDB,Fallback-S1 Best Head (ensemble),0.1841790977088077,time
+020_MITDB_id_2_Medical_tr_50000_1st_52315.csv,MITDB,Best Channel (ensemble/V1),0.0043622633364697,time
+021_MITDB_id_3_Medical_tr_50000_1st_57595.csv,MITDB,Fallback-S1 Best Head (ensemble),0.021740337025349,time
+022_MITDB_id_4_Medical_tr_50000_1st_54253.csv,MITDB,Best Channel (ensemble/V1),0.0742994307636353,time
+024_MITDB_id_6_Medical_tr_50000_1st_58118.csv,MITDB,Best Channel (ensemble/V1),0.0611064485745624,time
+025_MITDB_id_7_Medical_tr_37500_1st_88864.csv,MITDB,Best Channel (ensemble/V1),0.0656587097511717,time
+026_MITDB_id_8_Medical_tr_30495_1st_30595.csv,MITDB,Fallback-S1 Best Head (ensemble),0.1968188995126605,time
+027_MITDB_id_9_Medical_tr_25000_1st_52255.csv,MITDB,Fallback-S1 Best Head (ensemble),0.0066685660196297,time
+029_MITDB_id_11_Medical_tr_50000_1st_518037.csv,MITDB,Best Channel (ensemble/V1),0.286749326019684,time
+030_MITDB_id_12_Medical_tr_50000_1st_84572.csv,MITDB,Best Channel (ensemble/V1),0.0578570933289751,time
+031_MITDB_id_13_Medical_tr_50000_1st_79433.csv,MITDB,Fallback-S1 Best Head (ensemble),0.0233886201003708,time
+032_GHL_id_1_Sensor_tr_50000_1st_65001.csv,GHL,Best Channel (fft/dL-rand),0.018109989630804,time
+033_GHL_id_2_Sensor_tr_50000_1st_51001.csv,GHL,Best Channel (fft/dL-rand),0.0120277219175498,time
+034_GHL_id_3_Sensor_tr_50000_1st_122001.csv,GHL,Best Channel (fft/dL-rand),0.0205692941991979,time
+035_GHL_id_4_Sensor_tr_50000_1st_90001.csv,GHL,Best Channel (fft/dL-rand),0.0206389027767661,time
+036_GHL_id_5_Sensor_tr_50000_1st_67147.csv,GHL,Best Channel (fft/dL-rand),0.0234253751713074,time
+037_GHL_id_6_Sensor_tr_50000_1st_80001.csv,GHL,Best Channel (fft/dL-rand),0.0306892332554614,time
+038_GHL_id_7_Sensor_tr_50000_1st_100001.csv,GHL,Best Channel (fft/dL-rand),0.0116368384206644,time
+039_GHL_id_8_Sensor_tr_50000_1st_63030.csv,GHL,Best Channel (fft/dL-rand),0.0096956810306576,time
+041_GHL_id_10_Sensor_tr_50000_1st_57001.csv,GHL,Best Channel (fft/dL-rand),0.0473873791987586,time
+042_GHL_id_11_Sensor_tr_50000_1st_150001.csv,GHL,Best Channel (fft/dL-rand),0.0128051727782937,time
+043_GHL_id_12_Sensor_tr_39938_1st_40038.csv,GHL,Best Channel (fft/dL-rand),0.0292511046330466,time
+044_GHL_id_13_Sensor_tr_50000_1st_145001.csv,GHL,Best Channel (fft/dL-rand),0.0103381905259611,time
+045_GHL_id_14_Sensor_tr_50000_1st_85076.csv,GHL,Best Channel (fft/dL-rand),0.0112247901458508,time
+046_GHL_id_15_Sensor_tr_50000_1st_156462.csv,GHL,Best Channel (fft/dL-rand),0.0238190222815089,time
+047_GHL_id_16_Sensor_tr_50000_1st_77001.csv,GHL,Best Channel (fft/dL-rand),0.021020014847301,time
+048_GHL_id_17_Sensor_tr_50000_1st_154001.csv,GHL,Best Channel (fft/dL-rand),0.0203318557220218,time
+050_GHL_id_19_Sensor_tr_43750_1st_55001.csv,GHL,Best Channel (fft/dL-rand),0.02145517733228,time
+051_GHL_id_20_Sensor_tr_50000_1st_75110.csv,GHL,Best Channel (fft/dL-rand),0.0066039085383715,time
+052_GHL_id_21_Sensor_tr_50000_1st_98001.csv,GHL,Best Channel (fft/dL-rand),0.0058344348295775,time
+053_GHL_id_22_Sensor_tr_50000_1st_126448.csv,GHL,Best Channel (fft/dL-rand),0.0823592759550228,time
+054_GHL_id_23_Sensor_tr_50000_1st_135001.csv,GHL,Best Channel (fft/dL-rand),0.0180403050006408,time
+055_GHL_id_24_Sensor_tr_50000_1st_118124.csv,GHL,Best Channel (fft/dL-rand),0.0082224155673365,time
+056_GHL_id_25_Sensor_tr_50000_1st_105568.csv,GHL,Best Channel (fft/dL-rand),0.0413534729398606,time
+057_SMD_id_1_Facility_tr_4529_1st_4629.csv,SMD,Best Channel (ensemble/11),0.1282064697671031,time
+058_SMD_id_2_Facility_tr_1087_1st_1187.csv,SMD,Best Channel (ensemble/11),0.6670003304345427,time
+059_SMD_id_3_Facility_tr_757_1st_857.csv,SMD,Best Channel (ensemble/11),0.1289458693093823,time
+060_SMD_id_4_Facility_tr_7176_1st_10609.csv,SMD,Best Channel (ensemble/11),0.1798455853648134,time
+061_SMD_id_5_Facility_tr_7176_1st_15144.csv,SMD,Best Channel (ensemble/11),0.0752966296174376,time
+063_SMD_id_7_Facility_tr_5923_1st_6506.csv,SMD,Best Channel (ensemble/11),0.1867055535161534,time
+064_SMD_id_8_Facility_tr_2272_1st_2372.csv,SMD,Best Channel (ensemble/11),0.4815457135345589,time
+065_SMD_id_9_Facility_tr_737_1st_837.csv,SMD,Best Channel (ensemble/11),0.2844566296540693,time
+066_SMD_id_10_Facility_tr_2634_1st_2734.csv,SMD,Best Channel (ensemble/11),0.0658464617574498,time
+067_SMD_id_11_Facility_tr_1980_1st_2080.csv,SMD,Best Channel (ensemble/11),0.0516269591027085,time
+068_SMD_id_12_Facility_tr_1099_1st_1199.csv,SMD,Best Channel (ensemble/11),0.0121031028703859,time
+069_SMD_id_13_Facility_tr_5925_1st_12760.csv,SMD,Best Channel (ensemble/11),0.3990610325626892,time
+070_SMD_id_14_Facility_tr_1070_1st_1170.csv,SMD,Best Channel (ensemble/11),0.0586647652473743,time
+071_SMD_id_15_Facility_tr_1109_1st_1209.csv,SMD,Best Channel (ensemble/11),0.0230821286482682,time
+073_SMD_id_17_Facility_tr_5926_1st_10620.csv,SMD,Best Channel (ensemble/11),0.0138162914141181,time
+074_SMD_id_18_Facility_tr_7174_1st_21230.csv,SMD,Best Channel (ensemble/11),0.3754619520856852,time
+075_SMD_id_19_Facility_tr_564_1st_664.csv,SMD,Best Channel (ensemble/11),0.0320492182309277,time
+076_SMD_id_20_Facility_tr_5925_1st_17580.csv,SMD,Best Channel (ensemble/11),0.354934765088081,time
+077_SMD_id_21_Facility_tr_3026_1st_3126.csv,SMD,Best Channel (ensemble/11),0.4138745080544911,time
+078_SMD_id_22_Facility_tr_500_1st_326.csv,SMD,Best Channel (ensemble/11),0.0417132744924729,time
+079_LTDB_id_1_Medical_tr_3618_1st_3718.csv,LTDB,Best Channel (fft/ECG1),0.930116741338235,time
+080_LTDB_id_2_Medical_tr_500_1st_266.csv,LTDB,Best Channel (fft/ECG1),0.1636271549235526,time
+081_LTDB_id_3_Medical_tr_500_1st_26.csv,LTDB,Best Channel (fft/ECG1),0.6824389159416573,time
+083_LTDB_id_5_Medical_tr_15502_1st_15602.csv,LTDB,Best Channel (fft/ECG1),0.0032360407400636,time
+084_SVDB_id_1_Medical_tr_12973_1st_13073.csv,SVDB,Best Channel (fft/ECG2),0.2139565415159053,time
+085_SVDB_id_2_Medical_tr_50000_1st_54982.csv,SVDB,Best Channel (fft/ECG2),0.2903441734890737,time
+086_SVDB_id_3_Medical_tr_533_1st_633.csv,SVDB,Best Channel (fft/ECG2),0.0797352972755956,time
+087_SVDB_id_4_Medical_tr_5421_1st_5521.csv,SVDB,Best Channel (fft/ECG2),0.5352871741787468,time
+088_SVDB_id_5_Medical_tr_500_1st_168.csv,SVDB,Best Channel (fft/ECG2),0.3906252716488139,time
+089_SVDB_id_6_Medical_tr_50000_1st_83083.csv,SVDB,Best Channel (fft/ECG2),0.0583762940073631,time
+091_SVDB_id_8_Medical_tr_500_1st_126.csv,SVDB,Best Channel (fft/ECG2),0.3688481037562522,time
+092_SVDB_id_9_Medical_tr_2674_1st_2774.csv,SVDB,Best Channel (fft/ECG2),0.1295354071926876,time
+093_SVDB_id_10_Medical_tr_500_1st_37.csv,SVDB,Best Channel (fft/ECG2),0.4010998616384834,time
+094_SVDB_id_11_Medical_tr_20100_1st_23611.csv,SVDB,Best Channel (fft/ECG2),0.0399011976128385,time
+095_SVDB_id_12_Medical_tr_6264_1st_6364.csv,SVDB,Best Channel (fft/ECG2),0.1439955675526575,time
+096_SVDB_id_13_Medical_tr_500_1st_444.csv,SVDB,Best Channel (fft/ECG2),0.1333503843324815,time
+097_SVDB_id_14_Medical_tr_1031_1st_1131.csv,SVDB,Best Channel (fft/ECG2),0.8802063220714557,time
+098_SVDB_id_15_Medical_tr_500_1st_303.csv,SVDB,Best Channel (fft/ECG2),0.2810815630594186,time
+099_SVDB_id_16_Medical_tr_1115_1st_1215.csv,SVDB,Best Channel (fft/ECG2),0.4156784828929868,time
+100_SVDB_id_17_Medical_tr_17803_1st_17903.csv,SVDB,Best Channel (fft/ECG2),0.0493584695585101,time
+101_SVDB_id_18_Medical_tr_1851_1st_1951.csv,SVDB,Best Channel (fft/ECG2),0.149942879692514,time
+102_SVDB_id_19_Medical_tr_50000_1st_107354.csv,SVDB,Best Channel (fft/ECG2),0.4145473778503825,time
+103_SVDB_id_20_Medical_tr_12167_1st_12267.csv,SVDB,Best Channel (fft/ECG2),0.0348103322435029,time
+104_SVDB_id_21_Medical_tr_50000_1st_106634.csv,SVDB,Best Channel (fft/ECG2),0.1043851113470885,time
+105_SVDB_id_22_Medical_tr_500_1st_417.csv,SVDB,Best Channel (fft/ECG2),0.5596134009200815,time
+106_SVDB_id_23_Medical_tr_37500_1st_121963.csv,SVDB,Best Channel (fft/ECG2),0.4934557721921555,time
+108_SVDB_id_25_Medical_tr_1238_1st_1338.csv,SVDB,Best Channel (fft/ECG2),0.3841902201071796,time
+109_SVDB_id_26_Medical_tr_1038_1st_1138.csv,SVDB,Best Channel (fft/ECG2),0.4359053974018985,time
+110_SVDB_id_27_Medical_tr_30824_1st_30924.csv,SVDB,Best Channel (fft/ECG2),0.2976264454224979,time
+111_SVDB_id_28_Medical_tr_1791_1st_1891.csv,SVDB,Best Channel (fft/ECG2),0.4310127873426155,time
+112_SVDB_id_29_Medical_tr_8226_1st_8326.csv,SVDB,Best Channel (fft/ECG2),0.014666347235569,time
+114_SVDB_id_31_Medical_tr_25000_1st_63090.csv,SVDB,Best Channel (fft/ECG2),0.0214680026780908,time
+115_PSM_id_1_Facility_tr_50000_1st_129872.csv,PSM,Fallback-Unknown Group (time),0.1401163383793301,time
+116_TAO_id_1_Environment_tr_500_1st_3.csv,TAO,Best Channel (forecast/col-0),0.9928903961348678,time
+117_TAO_id_2_Environment_tr_500_1st_1.csv,TAO,Best Channel (forecast/col-0),0.9812039680531478,time
+118_TAO_id_3_Environment_tr_500_1st_7.csv,TAO,Best Channel (forecast/col-0),0.9595303094947604,time
+119_TAO_id_4_Environment_tr_500_1st_1.csv,TAO,Best Channel (forecast/col-0),0.995486039917064,time
+121_TAO_id_6_Environment_tr_500_1st_7.csv,TAO,Best Channel (forecast/col-0),0.9953828146695628,time
+122_TAO_id_7_Environment_tr_500_1st_19.csv,TAO,Best Channel (forecast/col-0),0.9831964844284082,time
+123_TAO_id_8_Environment_tr_500_1st_62.csv,TAO,Best Channel (forecast/col-0),0.9916291901446868,time
+124_TAO_id_9_Environment_tr_500_1st_1.csv,TAO,Best Channel (forecast/col-0),0.9889399606906024,time
+125_TAO_id_10_Environment_tr_500_1st_9.csv,TAO,Best Channel (forecast/col-0),0.9991289186859502,time
+127_TAO_id_12_Environment_tr_500_1st_24.csv,TAO,Best Channel (forecast/col-0),0.9907316826332908,time
+128_TAO_id_13_Environment_tr_500_1st_7.csv,TAO,Best Channel (forecast/col-0),0.9953828146695628,time
+129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.475162458616098,time
+130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.499404196043074,time
+132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.5489706691210684,time
+133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.8061134804333848,time
+134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.3873132498322761,time
+135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.3106304078613714,time
+136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595.csv,OPPORTUNITY,Best Channel (fft/AccelerometerLAZYCHAIRaccY),0.3318506581905601,time
+137_CreditCard_id_1_Finance_tr_500_1st_541.csv,CreditCard,Fallback-Unknown Group (time),0.0042314134128307,time
+138_CATSv2_id_1_Sensor_tr_16568_1st_16668.csv,CATSv2,Best Channel (time/bso2),0.0247666165703072,time
+139_CATSv2_id_2_Sensor_tr_5592_1st_5692.csv,CATSv2,Best Channel (time/bso2),0.0336570229235004,time
+141_CATSv2_id_4_Sensor_tr_41727_1st_41827.csv,CATSv2,Best Channel (time/bso2),0.0748073965144144,time
+142_CATSv2_id_5_Sensor_tr_30704_1st_30804.csv,CATSv2,Best Channel (time/bso2),0.1340744725718597,time
+143_CATSv2_id_6_Sensor_tr_50000_1st_60232.csv,CATSv2,Best Channel (time/bso2),0.0753891804958283,time
+144_SMAP_id_1_Sensor_tr_2052_1st_5300.csv,SMAP,Best Channel (ensemble/0),0.999879429691978,time
+145_SMAP_id_2_Sensor_tr_2133_1st_5400.csv,SMAP,Best Channel (ensemble/0),0.1569149429517837,time
+146_SMAP_id_3_Sensor_tr_2128_1st_5000.csv,SMAP,Best Channel (ensemble/0),0.0315614653704494,time
+147_SMAP_id_4_Sensor_tr_2160_1st_6449.csv,SMAP,Best Channel (ensemble/0),0.0255563439128777,time
+148_SMAP_id_5_Sensor_tr_2011_1st_5060.csv,SMAP,Best Channel (ensemble/0),0.8542959275909436,time
+150_SMAP_id_7_Sensor_tr_2077_1st_5394.csv,SMAP,Best Channel (ensemble/0),0.9981598712876116,time
+151_SMAP_id_8_Sensor_tr_1971_1st_4870.csv,SMAP,Best Channel (ensemble/0),0.9900855884570866,time
+152_SMAP_id_9_Sensor_tr_2073_1st_5600.csv,SMAP,Best Channel (ensemble/0),0.2907205869636041,time
+153_SMAP_id_10_Sensor_tr_1840_1st_4030.csv,SMAP,Best Channel (ensemble/0),0.8058171416793973,time
+154_SMAP_id_11_Sensor_tr_2117_1st_4770.csv,SMAP,Best Channel (ensemble/0),0.0497524576963708,time
+155_SMAP_id_12_Sensor_tr_1907_1st_4800.csv,SMAP,Best Channel (ensemble/0),0.5383049095566086,time
+156_SMAP_id_13_Sensor_tr_1173_1st_2750.csv,SMAP,Best Channel (ensemble/0),0.761987308434832,time
+157_SMAP_id_14_Sensor_tr_2126_1st_5000.csv,SMAP,Best Channel (ensemble/0),0.0320819149006545,time
+158_SMAP_id_15_Sensor_tr_2075_1st_5610.csv,SMAP,Best Channel (ensemble/0),0.8123485564943427,time
+159_SMAP_id_16_Sensor_tr_1757_1st_2650.csv,SMAP,Best Channel (ensemble/0),0.6602504234194982,time
+160_SMAP_id_17_Sensor_tr_1832_1st_5300.csv,SMAP,Best Channel (ensemble/0),0.3995609673141943,time
+161_SMAP_id_18_Sensor_tr_2075_1st_5550.csv,SMAP,Best Channel (ensemble/0),0.5944465527212941,time
+162_SMAP_id_19_Sensor_tr_1908_1st_4690.csv,SMAP,Best Channel (ensemble/0),0.7190446224106981,time
+163_SMAP_id_20_Sensor_tr_2051_1st_4575.csv,SMAP,Best Channel (ensemble/0),0.8288767967732276,time
+165_SMAP_id_22_Sensor_tr_2129_1st_5000.csv,SMAP,Best Channel (ensemble/0),0.0452940339544899,time
+166_SMAP_id_23_Sensor_tr_1113_1st_1890.csv,SMAP,Best Channel (ensemble/0),0.7166853876729702,time
+167_SMAP_id_24_Sensor_tr_2094_1st_5600.csv,SMAP,Best Channel (ensemble/0),0.885279234485522,time
+168_SMAP_id_25_Sensor_tr_1998_1st_2098.csv,SMAP,Best Channel (ensemble/0),0.9754905022878156,time
+169_SMAP_id_26_Sensor_tr_1811_1st_4510.csv,SMAP,Best Channel (ensemble/0),0.9677585420676624,time
+170_SMAP_id_27_Sensor_tr_2160_1st_4690.csv,SMAP,Best Channel (ensemble/0),0.9034969772771292,time
+171_SWaT_id_1_Sensor_tr_3749_1st_9522.csv,SWaT,Fallback-Unknown Group (time),0.1655590358199057,time
+172_SWaT_id_2_Sensor_tr_23700_1st_23800.csv,SWaT,Fallback-Unknown Group (time),0.0899538745085628,time
+173_GECCO_id_1_Sensor_tr_16165_1st_16265.csv,GECCO,Fallback-Unknown Group (time),0.1773299407901468,time
+174_Exathlon_id_1_Facility_tr_10766_1st_12590.csv,Exathlon,Fallback-S1 Best Head (fft),0.9930262784292904,time
+175_Exathlon_id_2_Facility_tr_10684_1st_10784.csv,Exathlon,Fallback-S1 Best Head (fft),0.0962514348833313,time
+176_Exathlon_id_3_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,time
+177_Exathlon_id_4_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,time
+179_Exathlon_id_6_Facility_tr_11665_1st_13484.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9636808093514372,time
+180_Exathlon_id_7_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,time
+181_Exathlon_id_8_Facility_tr_11663_1st_13482.csv,Exathlon,Fallback-S1 Best Head (fft),0.9867367252119266,time
+182_Exathlon_id_9_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,time
+183_Exathlon_id_10_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,time
+184_Exathlon_id_11_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,time
+185_Exathlon_id_12_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,time
+186_Exathlon_id_13_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,time
+187_Exathlon_id_14_Facility_tr_6193_1st_6293.csv,Exathlon,Fallback-S1 Best Head (fft),0.9610465408202528,time
+188_Exathlon_id_15_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,time
+189_Exathlon_id_16_Facility_tr_11663_1st_13482.csv,Exathlon,Fallback-S1 Best Head (fft),0.9867367252119266,time
+190_Exathlon_id_17_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,time
+191_Exathlon_id_18_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,time
+192_Exathlon_id_19_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,time
+193_Exathlon_id_20_Facility_tr_8898_1st_8998.csv,Exathlon,Fallback-S1 Best Head (fft),0.1204999504538004,time
+194_Exathlon_id_21_Facility_tr_6985_1st_7085.csv,Exathlon,Fallback-S1 Best Head (fft),0.9709446741197912,time
+196_Exathlon_id_23_Facility_tr_11665_1st_13484.csv,Exathlon,Fallback-S1 Best Head (fft),0.9591454267283408,time
+197_Exathlon_id_24_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,time
+198_Exathlon_id_25_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,time
+199_Exathlon_id_26_Facility_tr_12538_1st_12638.csv,Exathlon,Fallback-S1 Best Head (fft),0.9613394837119884,time
+200_Exathlon_id_27_Facility_tr_10766_1st_12590.csv,Exathlon,Best Channel (fft/node8-CPU002-User),0.9998673695159396,time

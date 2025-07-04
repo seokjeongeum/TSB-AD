@@ -1,0 +1,3 @@
+--- Generating Best Channel Evaluation File ---
+Loaded 20 tuning files, 180 eval files, and 5851 total univariate files.
+Error: Could not determine best channel map. Aborting file generation.

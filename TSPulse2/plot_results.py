@@ -8,10 +8,15 @@ from tqdm import tqdm
 import logging
 
 # --- Configuration ---
-DATASET_DIR = "/workspaces/TSB-AD/Datasets/TSB-AD-U/"
-SCORE_DIR_BASE = "/workspaces/TSB-AD/eval/score/uni/"
-PLOT_DIR = "/workspaces/TSB-AD/plots/uni/"
-FILE_LIST_PATH = "/workspaces/TSB-AD/Datasets/File_List/TSB-AD-U-Eva.csv"
+# Get the directory where the script is located
+script_dir = os.path.dirname(os.path.abspath(__file__))
+# Navigate up one level to get the project root
+project_root = os.path.abspath(os.path.join(script_dir, '..'))
+
+DATASET_DIR = os.path.join(project_root, "Datasets", "TSB-AD-U")
+SCORE_DIR_BASE = os.path.join(project_root, "eval", "score", "uni")
+PLOT_DIR = os.path.join(project_root, "plots", "uni")
+FILE_LIST_PATH = os.path.join(project_root, "Datasets", "File_List", "TSB-AD-U-Eva.csv")
 
 # Style map for consistent plotting - ALL LINES ARE NOW SOLID
 STYLE_MAP = {

@@ -123,16 +123,37 @@ Optimal_Multi_algo_HP_dict = {
     'TSPulse2': {
         'use_llm_selection': True,
         'use_dimensionality_reduction': True,
-        'n_components': 2,
+        'n_components': 3,
+        'prediction_mode': 'fft+forecast+time',
     },
     'TSPulse2_dimensionality_reduction_ablated': {
-        'use_llm_selection': False,
+        'use_llm_selection': True,
         'use_dimensionality_reduction': False,
+        'prediction_mode': 'fft+forecast+time',
     },
-    'TSPulse2_llm_selection_ablated': {
+    'TSPulse2_llm_selection_ablated_ensemble': {
         'use_llm_selection': False,
         'use_dimensionality_reduction': True,
-        'n_components': 2,
+        'n_components': 3,
+        'prediction_mode': 'fft+forecast+time',
+    },
+    'TSPulse2_llm_selection_ablated_fft': {
+        'use_llm_selection': False,
+        'use_dimensionality_reduction': True,
+        'n_components': 3,
+        'prediction_mode': 'fft',
+    },
+    'TSPulse2_llm_selection_ablated_forecast': {
+        'use_llm_selection': False,
+        'use_dimensionality_reduction': True,
+        'n_components': 3,
+        'prediction_mode': 'forecast',
+    },
+    'TSPulse2_llm_selection_ablated_time': {
+        'use_llm_selection': False,
+        'use_dimensionality_reduction': True,
+        'n_components': 3,
+        'prediction_mode': 'time',
     },
 }
 
@@ -300,7 +321,20 @@ Optimal_Uni_algo_HP_dict = {
     'TSPulse2': {
         'use_llm_selection': True,
     },
-    'TSPulse2_llm_selection_ablated': {
+    'TSPulse2_llm_selection_ablated_ensemble': {
         'use_llm_selection': False,
+        'prediction_mode': 'fft+forecast+time',
+    },
+    'TSPulse2_llm_selection_ablated_fft': {
+        'use_llm_selection': False,
+        'prediction_mode': 'fft',
+    },
+    'TSPulse2_llm_selection_ablated_forecast': {
+        'use_llm_selection': False,
+        'prediction_mode': 'forecast',
+    },
+    'TSPulse2_llm_selection_ablated_time': {
+        'use_llm_selection': False,
+        'prediction_mode': 'time',
     },
 }
