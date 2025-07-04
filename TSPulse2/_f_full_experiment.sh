@@ -70,6 +70,10 @@ MULTI_FILE_LISTS=(
     "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva_4.csv"
     "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva_5.csv"
     "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva_6.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva_7.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva_8.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva_9.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M-Eva_10.csv"
     "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
     "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
     "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M-Eva.csv"
@@ -77,12 +81,16 @@ MULTI_FILE_LISTS=(
 )
 MULTI_MODELS=(
     "TSPulse2" 
-    "TSPulse2_dimensionality_reduction_ablated"
-    "TSPulse2_dimensionality_reduction_ablated"
-    "TSPulse2_dimensionality_reduction_ablated"
-    "TSPulse2_dimensionality_reduction_ablated"
-    "TSPulse2_dimensionality_reduction_ablated"
-    "TSPulse2_dimensionality_reduction_ablated"
+    "TSPulse2_dimensionality_reduction_ablated_1"
+    "TSPulse2_dimensionality_reduction_ablated_2"
+    "TSPulse2_dimensionality_reduction_ablated_3"
+    "TSPulse2_dimensionality_reduction_ablated_4"
+    "TSPulse2_dimensionality_reduction_ablated_5"
+    "TSPulse2_dimensionality_reduction_ablated_6"
+    "TSPulse2_dimensionality_reduction_ablated_7"
+    "TSPulse2_dimensionality_reduction_ablated_8"
+    "TSPulse2_dimensionality_reduction_ablated_9"
+    "TSPulse2_dimensionality_reduction_ablated_10"
     "TSPulse2_llm_selection_ablated_ensemble"
     "TSPulse2_llm_selection_ablated_fft"
     "TSPulse2_llm_selection_ablated_forecast"
@@ -94,10 +102,6 @@ NUM_MULTI_JOBS=$((${#MULTI_MODELS[@]} ))
 # No "channel_selection" model for univariate, as it's not applicable.
 UNI_MODELS=(
     "TSPulse2" 
-    "TSPulse2_llm_selection_ablated_ensemble"
-    "TSPulse2_llm_selection_ablated_fft"
-    "TSPulse2_llm_selection_ablated_forecast"
-    "TSPulse2_llm_selection_ablated_time"
 )
 UNI_FILE_LIST="${PROJECT_ROOT}/Datasets/File_List/TSB-AD-U-Eva.csv"
 

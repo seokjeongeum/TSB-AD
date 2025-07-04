@@ -126,7 +126,52 @@ Optimal_Multi_algo_HP_dict = {
         'n_components': 3,
         'prediction_mode': 'fft+forecast+time',
     },
-    'TSPulse2_dimensionality_reduction_ablated': {
+    'TSPulse2_dimensionality_reduction_ablated_1': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': False,
+        'prediction_mode': 'fft+forecast+time',
+    },
+    'TSPulse2_dimensionality_reduction_ablated_2': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': False,
+        'prediction_mode': 'fft+forecast+time',
+    },
+    'TSPulse2_dimensionality_reduction_ablated_3': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': False,
+        'prediction_mode': 'fft+forecast+time',
+    },
+    'TSPulse2_dimensionality_reduction_ablated_4': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': False,
+        'prediction_mode': 'fft+forecast+time',
+    },
+    'TSPulse2_dimensionality_reduction_ablated_5': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': False,
+        'prediction_mode': 'fft+forecast+time',
+    },
+    'TSPulse2_dimensionality_reduction_ablated_6': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': False,
+        'prediction_mode': 'fft+forecast+time',
+    },
+    'TSPulse2_dimensionality_reduction_ablated_7': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': False,
+        'prediction_mode': 'fft+forecast+time',
+    },
+    'TSPulse2_dimensionality_reduction_ablated_8': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': False,
+        'prediction_mode': 'fft+forecast+time',
+    },
+    'TSPulse2_dimensionality_reduction_ablated_9': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': False,
+        'prediction_mode': 'fft+forecast+time',
+    },
+    'TSPulse2_dimensionality_reduction_ablated_10': {
         'use_llm_selection': True,
         'use_dimensionality_reduction': False,
         'prediction_mode': 'fft+forecast+time',
@@ -320,21 +365,6 @@ Optimal_Uni_algo_HP_dict = {
     'TSPulse_ZS_time': {},
     'TSPulse2': {
         'use_llm_selection': True,
-    },
-    'TSPulse2_llm_selection_ablated_ensemble': {
-        'use_llm_selection': False,
         'prediction_mode': 'fft+forecast+time',
-    },
-    'TSPulse2_llm_selection_ablated_fft': {
-        'use_llm_selection': False,
-        'prediction_mode': 'fft',
-    },
-    'TSPulse2_llm_selection_ablated_forecast': {
-        'use_llm_selection': False,
-        'prediction_mode': 'forecast',
-    },
-    'TSPulse2_llm_selection_ablated_time': {
-        'use_llm_selection': False,
-        'prediction_mode': 'time',
     },
 }

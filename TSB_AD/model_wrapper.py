@@ -28,7 +28,20 @@ Unsupervise_AD_Pool = ['FFT', 'SR', 'NORMA', 'Series2Graph', 'Sub_IForest', 'IFo
     "TSPulse_ZS_fft",
     "TSPulse_ZS_forecast",
     "TSPulse2",
-    "TSPulse2_dimensionality_reduction_ablated",
+    "TSPulse2_dimensionality_reduction_ablated_1",
+    "TSPulse2_dimensionality_reduction_ablated_2",
+    "TSPulse2_dimensionality_reduction_ablated_3",
+    "TSPulse2_dimensionality_reduction_ablated_4",
+    "TSPulse2_dimensionality_reduction_ablated_5",
+    "TSPulse2_dimensionality_reduction_ablated_6",
+    "TSPulse2_dimensionality_reduction_ablated_7",
+    "TSPulse2_dimensionality_reduction_ablated_8",
+    "TSPulse2_dimensionality_reduction_ablated_9",
+    "TSPulse2_dimensionality_reduction_ablated_10",
+    "TSPulse2_llm_selection_ablated_ensemble",
+    "TSPulse2_llm_selection_ablated_fft",
+    "TSPulse2_llm_selection_ablated_forecast",
+    "TSPulse2_llm_selection_ablated_time",
 ]
 Semisupervise_AD_Pool = ['Left_STAMPi', 'SAND', 'MCD', 'Sub_MCD', 'OCSVM', 'Sub_OCSVM', 'AutoEncoder', 'CNN', 'LSTMAD', 'TranAD', 'USAD', 'OmniAnomaly', 
                         'AnomalyTransformer', 'TimesNet', 'FITS', 'Donut', 'OFA', 'MOMENT_FT', 'M2N2',
@@ -497,7 +510,214 @@ def run_TSPulse2(data, **kwargs):
     )
 
 
-def run_TSPulse2_dimensionality_reduction_ablated(data, **kwargs):
+def run_TSPulse2_dimensionality_reduction_ablated_1(data, **kwargs):
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=prediction_mode,
+        expand_score=not kwargs.get("use_dimensionality_reduction", True),
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
+
+
+def run_TSPulse2_dimensionality_reduction_ablated_2(data, **kwargs):
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=prediction_mode,
+        expand_score=not kwargs.get("use_dimensionality_reduction", True),
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
+
+
+def run_TSPulse2_dimensionality_reduction_ablated_3(data, **kwargs):
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=prediction_mode,
+        expand_score=not kwargs.get("use_dimensionality_reduction", True),
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
+
+
+def run_TSPulse2_dimensionality_reduction_ablated_4(data, **kwargs):
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=prediction_mode,
+        expand_score=not kwargs.get("use_dimensionality_reduction", True),
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
+
+
+def run_TSPulse2_dimensionality_reduction_ablated_5(data, **kwargs):
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=prediction_mode,
+        expand_score=not kwargs.get("use_dimensionality_reduction", True),
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
+
+
+def run_TSPulse2_dimensionality_reduction_ablated_6(data, **kwargs):
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=prediction_mode,
+        expand_score=not kwargs.get("use_dimensionality_reduction", True),
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
+
+
+def run_TSPulse2_dimensionality_reduction_ablated_7(data, **kwargs):
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=prediction_mode,
+        expand_score=not kwargs.get("use_dimensionality_reduction", True),
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
+
+
+def run_TSPulse2_dimensionality_reduction_ablated_8(data, **kwargs):
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=prediction_mode,
+        expand_score=not kwargs.get("use_dimensionality_reduction", True),
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
+
+
+def run_TSPulse2_dimensionality_reduction_ablated_9(data, **kwargs):
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=prediction_mode,
+        expand_score=not kwargs.get("use_dimensionality_reduction", True),
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
+
+
+def run_TSPulse2_dimensionality_reduction_ablated_10(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:
@@ -526,6 +746,76 @@ def run_TSPulse2_llm_selection_ablated_ensemble(data, **kwargs):
     else:
         num_input_channels = data.shape[1]
     prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=prediction_mode,
+        expand_score=kwargs.get("use_dimensionality_reduction", True),
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
+
+
+def run_TSPulse2_llm_selection_ablated_fft(data, **kwargs):
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "fft")
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=prediction_mode,
+        expand_score=kwargs.get("use_dimensionality_reduction", True),
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
+
+
+def run_TSPulse2_llm_selection_ablated_forecast(data, **kwargs):
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "forecast")
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=prediction_mode,
+        expand_score=kwargs.get("use_dimensionality_reduction", True),
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
+
+
+
+def run_TSPulse2_llm_selection_ablated_time(data, **kwargs):
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "time")
     clf = TSPulse2Detector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),

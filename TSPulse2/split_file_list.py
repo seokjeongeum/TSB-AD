@@ -64,5 +64,5 @@ if __name__ == "__main__":
         input_path=INPUT_FILE_PATH,
         output_dir=FILE_LIST_DIR,
         base_output_name=BASE_OUTPUT_FILENAME,
-        num_splits=6,
+        num_splits=10,
     )

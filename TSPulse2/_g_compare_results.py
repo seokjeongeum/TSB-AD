@@ -126,7 +126,7 @@ def save_final_comparison(name, metrics_dir, benchmark_file, output_dir, metric)
     detailed_cols = list(dict.fromkeys(detailed_cols))
 
     sorted_summary = summary_df[detailed_cols].sort_values(
-        by=["Best_Score"], ascending=False
+        by="Best_Score", ascending=False
     )
 
     # --- Save Detailed Per-File Comparison to CSV ---
@@ -158,7 +158,65 @@ def save_final_comparison(name, metrics_dir, benchmark_file, output_dir, metric)
     print(mean_scores_df.to_string(index=False))
 
 
+def merge_csv_files(glob_pattern, output_filepath):
+    """
+    Merges multiple CSV files found via a glob pattern into a single CSV file.
+    It concatenates the files row-wise and sorts the result by the 'file' column.
+    """
+    print(f"\n--- Merging files for pattern: {glob_pattern} ---")
+
+    result_files = sorted(glob.glob(glob_pattern))
+
+    if not result_files:
+        print(f"Warning: No files found for pattern '{glob_pattern}'. Nothing to merge.")
+        return
+
+    all_dfs = []
+    try:
+        all_dfs = [pd.read_csv(f) for f in result_files]
+    except Exception as e:
+        print(f"Error reading CSV files: {e}")
+        return
+
+    if not all_dfs:
+        print("No CSVs could be read. Aborting merge.")
+        return
+
+    merged_df = pd.concat(all_dfs, ignore_index=True)
+
+    # Sort by the 'file' column before saving
+    if "file" in merged_df.columns:
+        print("Sorting merged file by 'file' column.")
+        merged_df.sort_values(by="file", inplace=True)
+
+        # --- FIX: Remove duplicates based on the 'file' column ---
+        print(f"Original row count: {len(merged_df)}")
+        merged_df.drop_duplicates(subset=["file"], keep="first", inplace=True)
+        print(f"Row count after removing duplicates: {len(merged_df)}")
+    else:
+        print("Warning: 'file' column not found in merged data. Cannot sort or deduplicate.")
+
+    # Ensure parent directory exists
+    output_dir = os.path.dirname(output_filepath)
+    os.makedirs(output_dir, exist_ok=True)
+
+    merged_df.to_csv(output_filepath, index=False)
+    print(f"Successfully merged {len(result_files)} files into: {output_filepath}")
+
+
 if __name__ == "__main__":
+    # --- Task 1: Merge user-requested ablation results ---
+    multi_metrics_dir = os.path.join(PROJECT_ROOT, "eval", "metrics", "multi")
+    merge_glob_pattern = os.path.join(
+        multi_metrics_dir, "TSPulse2_dimensionality_reduction_ablated_*.csv"
+    )
+    merge_output_file = os.path.join(
+        multi_metrics_dir, "TSPulse2_dimensionality_reduction_ablated.csv"
+    )
+    merge_csv_files(glob_pattern=merge_glob_pattern, output_filepath=merge_output_file)
+
+    print("\n" + "=" * 50 + "\n")
+    print("--- Task 2: Running original comparison logic ---")
     # Now, run the main comparison logic
     for config in BENCHMARK_CONFIGS:
         save_final_comparison(
