@@ -126,52 +126,7 @@ Optimal_Multi_algo_HP_dict = {
         'n_components': 3,
         'prediction_mode': 'fft+forecast+time',
     },
-    'TSPulse2_dimensionality_reduction_ablated_1': {
-        'use_llm_selection': True,
-        'use_dimensionality_reduction': False,
-        'prediction_mode': 'fft+forecast+time',
-    },
-    'TSPulse2_dimensionality_reduction_ablated_2': {
-        'use_llm_selection': True,
-        'use_dimensionality_reduction': False,
-        'prediction_mode': 'fft+forecast+time',
-    },
-    'TSPulse2_dimensionality_reduction_ablated_3': {
-        'use_llm_selection': True,
-        'use_dimensionality_reduction': False,
-        'prediction_mode': 'fft+forecast+time',
-    },
-    'TSPulse2_dimensionality_reduction_ablated_4': {
-        'use_llm_selection': True,
-        'use_dimensionality_reduction': False,
-        'prediction_mode': 'fft+forecast+time',
-    },
-    'TSPulse2_dimensionality_reduction_ablated_5': {
-        'use_llm_selection': True,
-        'use_dimensionality_reduction': False,
-        'prediction_mode': 'fft+forecast+time',
-    },
-    'TSPulse2_dimensionality_reduction_ablated_6': {
-        'use_llm_selection': True,
-        'use_dimensionality_reduction': False,
-        'prediction_mode': 'fft+forecast+time',
-    },
-    'TSPulse2_dimensionality_reduction_ablated_7': {
-        'use_llm_selection': True,
-        'use_dimensionality_reduction': False,
-        'prediction_mode': 'fft+forecast+time',
-    },
-    'TSPulse2_dimensionality_reduction_ablated_8': {
-        'use_llm_selection': True,
-        'use_dimensionality_reduction': False,
-        'prediction_mode': 'fft+forecast+time',
-    },
-    'TSPulse2_dimensionality_reduction_ablated_9': {
-        'use_llm_selection': True,
-        'use_dimensionality_reduction': False,
-        'prediction_mode': 'fft+forecast+time',
-    },
-    'TSPulse2_dimensionality_reduction_ablated_10': {
+    'TSPulse2_dimensionality_reduction_ablated': {
         'use_llm_selection': True,
         'use_dimensionality_reduction': False,
         'prediction_mode': 'fft+forecast+time',

@@ -27,7 +27,7 @@ TranAD,0.17551219217598613
 LOF,0.13920942838102915
 AnomalyTransformer,0.11835579811070729
 TSPulse2_dimensionality_reduction_ablated,0.012254829304308483
-TSPulse2_llm_selection_ablated_forecast,0.005135019140040944
+TSPulse2_llm_selection_ablated_forecast,0.005782171003856762
 TSPulse2_0,0.004383627493068475
 TSPulse2_llm_selection_ablated_ensemble,0.004215120766679499
 TSPulse2_llm_selection_ablated_fft,0.0042066864770000855
