@@ -12,3 +12,4 @@ eval/score
 score.zip
 .env
 llm_artifacts
+plots

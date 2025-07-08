@@ -1,3 +1,223 @@
 --- Generating Best Channel Evaluation File ---
-Loaded 20 tuning files, 180 eval files, and 5851 total univariate files.
-Error: Could not determine best channel map. Aborting file generation.
+Loaded 20 tuning files, 200 eval files, and 5851 total univariate files.
+DEBUG: Found parents for 5851 of 5851 files.
+DEBUG: Found groups for 5851 of 5851 files.
+DEBUG: Dropped 0 rows due to missing parent/group/channel info.
+--- Manually calculating group scores (workaround) ---
+Manual calculation complete. Found best channels for 11 groups.
+
+Learned Best Channel per Group (using AVG head performance):
+MSL                                                  0
+MITDB                                               V1
+GHL                                            dL-rand
+SMD                                                 11
+LTDB                                              ECG1
+SVDB                                              ECG1
+TAO                                              col-0
+OPPORTUNITY                 AccelerometerLAZYCHAIRaccY
+CATSv2                                            bso2
+SMAP                                                 0
+Exathlon       1-executor-threadpool-activeTasks-value
+Name: best_channel, dtype: object
+  - Group 'Genesis': No best channel learned. Keeping original.
+  - Group 'MSL': Replaced '002_MSL_id_1_Sensor_tr_500_1st_900.csv' with '002_MSL_id_1_Sensor_tr_500_1st_900-0.csv'
+  - Group 'MSL': Replaced '003_MSL_id_2_Sensor_tr_883_1st_1238.csv' with '003_MSL_id_2_Sensor_tr_883_1st_1238-0.csv'
+  - Group 'MSL': Replaced '004_MSL_id_3_Sensor_tr_530_1st_630.csv' with '004_MSL_id_3_Sensor_tr_530_1st_630-0.csv'
+  - Group 'MSL': Replaced '005_MSL_id_4_Sensor_tr_855_1st_2700.csv' with '005_MSL_id_4_Sensor_tr_855_1st_2700-0.csv'
+  - Group 'MSL': Replaced '006_MSL_id_5_Sensor_tr_1150_1st_1250.csv' with '006_MSL_id_5_Sensor_tr_1150_1st_1250-0.csv'
+  - Group 'MSL': Replaced '007_MSL_id_6_Sensor_tr_980_1st_3550.csv' with '007_MSL_id_6_Sensor_tr_980_1st_3550-0.csv'
+  - Group 'MSL': Replaced '008_MSL_id_7_Sensor_tr_656_1st_1630.csv' with '008_MSL_id_7_Sensor_tr_656_1st_1630-0.csv'
+  - Group 'MSL': Replaced '009_MSL_id_8_Sensor_tr_714_1st_1390.csv' with '009_MSL_id_8_Sensor_tr_714_1st_1390-0.csv'
+  - Group 'MSL': Replaced '010_MSL_id_9_Sensor_tr_554_1st_1172.csv' with '010_MSL_id_9_Sensor_tr_554_1st_1172-0.csv'
+  - Group 'MSL': Replaced '011_MSL_id_10_Sensor_tr_1525_1st_4590.csv' with '011_MSL_id_10_Sensor_tr_1525_1st_4590-0.csv'
+  - Group 'MSL': Replaced '012_MSL_id_11_Sensor_tr_539_1st_940.csv' with '012_MSL_id_11_Sensor_tr_539_1st_940-0.csv'
+  - Group 'MSL': Replaced '013_MSL_id_12_Sensor_tr_554_1st_1200.csv' with '013_MSL_id_12_Sensor_tr_554_1st_1200-0.csv'
+  - Group 'MSL': Replaced '014_MSL_id_13_Sensor_tr_1525_1st_4575.csv' with '014_MSL_id_13_Sensor_tr_1525_1st_4575-0.csv'
+  - Group 'MSL': Replaced '015_MSL_id_14_Sensor_tr_575_1st_1250.csv' with '015_MSL_id_14_Sensor_tr_575_1st_1250-0.csv'
+  - Group 'MSL': Replaced '016_MSL_id_15_Sensor_tr_500_1st_780.csv' with '016_MSL_id_15_Sensor_tr_500_1st_780-0.csv'
+  - Group 'MSL': Replaced '017_MSL_id_16_Sensor_tr_512_1st_1850.csv' with '017_MSL_id_16_Sensor_tr_512_1st_1850-0.csv'
+  - Group 'Daphnet': No best channel learned. Keeping original.
+  - Group 'MITDB': Best channel file '019_MITDB_id_1_Medical_tr_37500_1st_103211-V1.csv' not found. Keeping original.
+  - Group 'MITDB': Replaced '020_MITDB_id_2_Medical_tr_50000_1st_52315.csv' with '020_MITDB_id_2_Medical_tr_50000_1st_52315-V1.csv'
+  - Group 'MITDB': Best channel file '021_MITDB_id_3_Medical_tr_50000_1st_57595-V1.csv' not found. Keeping original.
+  - Group 'MITDB': Replaced '022_MITDB_id_4_Medical_tr_50000_1st_54253.csv' with '022_MITDB_id_4_Medical_tr_50000_1st_54253-V1.csv'
+  - Group 'MITDB': Replaced '023_MITDB_id_5_Medical_tr_25000_1st_36913.csv' with '023_MITDB_id_5_Medical_tr_25000_1st_36913-V1.csv'
+  - Group 'MITDB': Replaced '024_MITDB_id_6_Medical_tr_50000_1st_58118.csv' with '024_MITDB_id_6_Medical_tr_50000_1st_58118-V1.csv'
+  - Group 'MITDB': Replaced '025_MITDB_id_7_Medical_tr_37500_1st_88864.csv' with '025_MITDB_id_7_Medical_tr_37500_1st_88864-V1.csv'
+  - Group 'MITDB': Best channel file '026_MITDB_id_8_Medical_tr_30495_1st_30595-V1.csv' not found. Keeping original.
+  - Group 'MITDB': Best channel file '027_MITDB_id_9_Medical_tr_25000_1st_52255-V1.csv' not found. Keeping original.
+  - Group 'MITDB': Replaced '028_MITDB_id_10_Medical_tr_37500_1st_39948.csv' with '028_MITDB_id_10_Medical_tr_37500_1st_39948-V1.csv'
+  - Group 'MITDB': Replaced '029_MITDB_id_11_Medical_tr_50000_1st_518037.csv' with '029_MITDB_id_11_Medical_tr_50000_1st_518037-V1.csv'
+  - Group 'MITDB': Replaced '030_MITDB_id_12_Medical_tr_50000_1st_84572.csv' with '030_MITDB_id_12_Medical_tr_50000_1st_84572-V1.csv'
+  - Group 'MITDB': Best channel file '031_MITDB_id_13_Medical_tr_50000_1st_79433-V1.csv' not found. Keeping original.
+  - Group 'GHL': Replaced '032_GHL_id_1_Sensor_tr_50000_1st_65001.csv' with '032_GHL_id_1_Sensor_tr_50000_1st_65001-dL-rand.csv'
+  - Group 'GHL': Replaced '033_GHL_id_2_Sensor_tr_50000_1st_51001.csv' with '033_GHL_id_2_Sensor_tr_50000_1st_51001-dL-rand.csv'
+  - Group 'GHL': Replaced '034_GHL_id_3_Sensor_tr_50000_1st_122001.csv' with '034_GHL_id_3_Sensor_tr_50000_1st_122001-dL-rand.csv'
+  - Group 'GHL': Replaced '035_GHL_id_4_Sensor_tr_50000_1st_90001.csv' with '035_GHL_id_4_Sensor_tr_50000_1st_90001-dL-rand.csv'
+  - Group 'GHL': Replaced '036_GHL_id_5_Sensor_tr_50000_1st_67147.csv' with '036_GHL_id_5_Sensor_tr_50000_1st_67147-dL-rand.csv'
+  - Group 'GHL': Replaced '037_GHL_id_6_Sensor_tr_50000_1st_80001.csv' with '037_GHL_id_6_Sensor_tr_50000_1st_80001-dL-rand.csv'
+  - Group 'GHL': Replaced '038_GHL_id_7_Sensor_tr_50000_1st_100001.csv' with '038_GHL_id_7_Sensor_tr_50000_1st_100001-dL-rand.csv'
+  - Group 'GHL': Replaced '039_GHL_id_8_Sensor_tr_50000_1st_63030.csv' with '039_GHL_id_8_Sensor_tr_50000_1st_63030-dL-rand.csv'
+  - Group 'GHL': Replaced '040_GHL_id_9_Sensor_tr_50000_1st_92001.csv' with '040_GHL_id_9_Sensor_tr_50000_1st_92001-dL-rand.csv'
+  - Group 'GHL': Replaced '041_GHL_id_10_Sensor_tr_50000_1st_57001.csv' with '041_GHL_id_10_Sensor_tr_50000_1st_57001-dL-rand.csv'
+  - Group 'GHL': Replaced '042_GHL_id_11_Sensor_tr_50000_1st_150001.csv' with '042_GHL_id_11_Sensor_tr_50000_1st_150001-dL-rand.csv'
+  - Group 'GHL': Replaced '043_GHL_id_12_Sensor_tr_39938_1st_40038.csv' with '043_GHL_id_12_Sensor_tr_39938_1st_40038-dL-rand.csv'
+  - Group 'GHL': Replaced '044_GHL_id_13_Sensor_tr_50000_1st_145001.csv' with '044_GHL_id_13_Sensor_tr_50000_1st_145001-dL-rand.csv'
+  - Group 'GHL': Replaced '045_GHL_id_14_Sensor_tr_50000_1st_85076.csv' with '045_GHL_id_14_Sensor_tr_50000_1st_85076-dL-rand.csv'
+  - Group 'GHL': Replaced '046_GHL_id_15_Sensor_tr_50000_1st_156462.csv' with '046_GHL_id_15_Sensor_tr_50000_1st_156462-dL-rand.csv'
+  - Group 'GHL': Replaced '047_GHL_id_16_Sensor_tr_50000_1st_77001.csv' with '047_GHL_id_16_Sensor_tr_50000_1st_77001-dL-rand.csv'
+  - Group 'GHL': Replaced '048_GHL_id_17_Sensor_tr_50000_1st_154001.csv' with '048_GHL_id_17_Sensor_tr_50000_1st_154001-dL-rand.csv'
+  - Group 'GHL': Replaced '049_GHL_id_18_Sensor_tr_50000_1st_109001.csv' with '049_GHL_id_18_Sensor_tr_50000_1st_109001-dL-rand.csv'
+  - Group 'GHL': Replaced '050_GHL_id_19_Sensor_tr_43750_1st_55001.csv' with '050_GHL_id_19_Sensor_tr_43750_1st_55001-dL-rand.csv'
+  - Group 'GHL': Replaced '051_GHL_id_20_Sensor_tr_50000_1st_75110.csv' with '051_GHL_id_20_Sensor_tr_50000_1st_75110-dL-rand.csv'
+  - Group 'GHL': Replaced '052_GHL_id_21_Sensor_tr_50000_1st_98001.csv' with '052_GHL_id_21_Sensor_tr_50000_1st_98001-dL-rand.csv'
+  - Group 'GHL': Replaced '053_GHL_id_22_Sensor_tr_50000_1st_126448.csv' with '053_GHL_id_22_Sensor_tr_50000_1st_126448-dL-rand.csv'
+  - Group 'GHL': Replaced '054_GHL_id_23_Sensor_tr_50000_1st_135001.csv' with '054_GHL_id_23_Sensor_tr_50000_1st_135001-dL-rand.csv'
+  - Group 'GHL': Replaced '055_GHL_id_24_Sensor_tr_50000_1st_118124.csv' with '055_GHL_id_24_Sensor_tr_50000_1st_118124-dL-rand.csv'
+  - Group 'GHL': Replaced '056_GHL_id_25_Sensor_tr_50000_1st_105568.csv' with '056_GHL_id_25_Sensor_tr_50000_1st_105568-dL-rand.csv'
+  - Group 'SMD': Replaced '057_SMD_id_1_Facility_tr_4529_1st_4629.csv' with '057_SMD_id_1_Facility_tr_4529_1st_4629-11.csv'
+  - Group 'SMD': Replaced '058_SMD_id_2_Facility_tr_1087_1st_1187.csv' with '058_SMD_id_2_Facility_tr_1087_1st_1187-11.csv'
+  - Group 'SMD': Replaced '059_SMD_id_3_Facility_tr_757_1st_857.csv' with '059_SMD_id_3_Facility_tr_757_1st_857-11.csv'
+  - Group 'SMD': Replaced '060_SMD_id_4_Facility_tr_7176_1st_10609.csv' with '060_SMD_id_4_Facility_tr_7176_1st_10609-11.csv'
+  - Group 'SMD': Replaced '061_SMD_id_5_Facility_tr_7176_1st_15144.csv' with '061_SMD_id_5_Facility_tr_7176_1st_15144-11.csv'
+  - Group 'SMD': Replaced '062_SMD_id_6_Facility_tr_7180_1st_15131.csv' with '062_SMD_id_6_Facility_tr_7180_1st_15131-11.csv'
+  - Group 'SMD': Replaced '063_SMD_id_7_Facility_tr_5923_1st_6506.csv' with '063_SMD_id_7_Facility_tr_5923_1st_6506-11.csv'
+  - Group 'SMD': Replaced '064_SMD_id_8_Facility_tr_2272_1st_2372.csv' with '064_SMD_id_8_Facility_tr_2272_1st_2372-11.csv'
+  - Group 'SMD': Replaced '065_SMD_id_9_Facility_tr_737_1st_837.csv' with '065_SMD_id_9_Facility_tr_737_1st_837-11.csv'
+  - Group 'SMD': Replaced '066_SMD_id_10_Facility_tr_2634_1st_2734.csv' with '066_SMD_id_10_Facility_tr_2634_1st_2734-11.csv'
+  - Group 'SMD': Replaced '067_SMD_id_11_Facility_tr_1980_1st_2080.csv' with '067_SMD_id_11_Facility_tr_1980_1st_2080-11.csv'
+  - Group 'SMD': Replaced '068_SMD_id_12_Facility_tr_1099_1st_1199.csv' with '068_SMD_id_12_Facility_tr_1099_1st_1199-11.csv'
+  - Group 'SMD': Replaced '069_SMD_id_13_Facility_tr_5925_1st_12760.csv' with '069_SMD_id_13_Facility_tr_5925_1st_12760-11.csv'
+  - Group 'SMD': Replaced '070_SMD_id_14_Facility_tr_1070_1st_1170.csv' with '070_SMD_id_14_Facility_tr_1070_1st_1170-11.csv'
+  - Group 'SMD': Replaced '071_SMD_id_15_Facility_tr_1109_1st_1209.csv' with '071_SMD_id_15_Facility_tr_1109_1st_1209-11.csv'
+  - Group 'SMD': Replaced '072_SMD_id_16_Facility_tr_7119_1st_15849.csv' with '072_SMD_id_16_Facility_tr_7119_1st_15849-11.csv'
+  - Group 'SMD': Replaced '073_SMD_id_17_Facility_tr_5926_1st_10620.csv' with '073_SMD_id_17_Facility_tr_5926_1st_10620-11.csv'
+  - Group 'SMD': Replaced '074_SMD_id_18_Facility_tr_7174_1st_21230.csv' with '074_SMD_id_18_Facility_tr_7174_1st_21230-11.csv'
+  - Group 'SMD': Replaced '075_SMD_id_19_Facility_tr_564_1st_664.csv' with '075_SMD_id_19_Facility_tr_564_1st_664-11.csv'
+  - Group 'SMD': Replaced '076_SMD_id_20_Facility_tr_5925_1st_17580.csv' with '076_SMD_id_20_Facility_tr_5925_1st_17580-11.csv'
+  - Group 'SMD': Replaced '077_SMD_id_21_Facility_tr_3026_1st_3126.csv' with '077_SMD_id_21_Facility_tr_3026_1st_3126-11.csv'
+  - Group 'SMD': Replaced '078_SMD_id_22_Facility_tr_500_1st_326.csv' with '078_SMD_id_22_Facility_tr_500_1st_326-11.csv'
+  - Group 'LTDB': Replaced '079_LTDB_id_1_Medical_tr_3618_1st_3718.csv' with '079_LTDB_id_1_Medical_tr_3618_1st_3718-ECG1.csv'
+  - Group 'LTDB': Replaced '080_LTDB_id_2_Medical_tr_500_1st_266.csv' with '080_LTDB_id_2_Medical_tr_500_1st_266-ECG1.csv'
+  - Group 'LTDB': Replaced '081_LTDB_id_3_Medical_tr_500_1st_26.csv' with '081_LTDB_id_3_Medical_tr_500_1st_26-ECG1.csv'
+  - Group 'LTDB': Replaced '082_LTDB_id_4_Medical_tr_4456_1st_4556.csv' with '082_LTDB_id_4_Medical_tr_4456_1st_4556-ECG1.csv'
+  - Group 'LTDB': Replaced '083_LTDB_id_5_Medical_tr_15502_1st_15602.csv' with '083_LTDB_id_5_Medical_tr_15502_1st_15602-ECG1.csv'
+  - Group 'SVDB': Replaced '084_SVDB_id_1_Medical_tr_12973_1st_13073.csv' with '084_SVDB_id_1_Medical_tr_12973_1st_13073-ECG1.csv'
+  - Group 'SVDB': Replaced '085_SVDB_id_2_Medical_tr_50000_1st_54982.csv' with '085_SVDB_id_2_Medical_tr_50000_1st_54982-ECG1.csv'
+  - Group 'SVDB': Replaced '086_SVDB_id_3_Medical_tr_533_1st_633.csv' with '086_SVDB_id_3_Medical_tr_533_1st_633-ECG1.csv'
+  - Group 'SVDB': Replaced '087_SVDB_id_4_Medical_tr_5421_1st_5521.csv' with '087_SVDB_id_4_Medical_tr_5421_1st_5521-ECG1.csv'
+  - Group 'SVDB': Replaced '088_SVDB_id_5_Medical_tr_500_1st_168.csv' with '088_SVDB_id_5_Medical_tr_500_1st_168-ECG1.csv'
+  - Group 'SVDB': Replaced '089_SVDB_id_6_Medical_tr_50000_1st_83083.csv' with '089_SVDB_id_6_Medical_tr_50000_1st_83083-ECG1.csv'
+  - Group 'SVDB': Replaced '090_SVDB_id_7_Medical_tr_12157_1st_12257.csv' with '090_SVDB_id_7_Medical_tr_12157_1st_12257-ECG1.csv'
+  - Group 'SVDB': Replaced '091_SVDB_id_8_Medical_tr_500_1st_126.csv' with '091_SVDB_id_8_Medical_tr_500_1st_126-ECG1.csv'
+  - Group 'SVDB': Replaced '092_SVDB_id_9_Medical_tr_2674_1st_2774.csv' with '092_SVDB_id_9_Medical_tr_2674_1st_2774-ECG1.csv'
+  - Group 'SVDB': Replaced '093_SVDB_id_10_Medical_tr_500_1st_37.csv' with '093_SVDB_id_10_Medical_tr_500_1st_37-ECG1.csv'
+  - Group 'SVDB': Replaced '094_SVDB_id_11_Medical_tr_20100_1st_23611.csv' with '094_SVDB_id_11_Medical_tr_20100_1st_23611-ECG1.csv'
+  - Group 'SVDB': Replaced '095_SVDB_id_12_Medical_tr_6264_1st_6364.csv' with '095_SVDB_id_12_Medical_tr_6264_1st_6364-ECG1.csv'
+  - Group 'SVDB': Replaced '096_SVDB_id_13_Medical_tr_500_1st_444.csv' with '096_SVDB_id_13_Medical_tr_500_1st_444-ECG1.csv'
+  - Group 'SVDB': Replaced '097_SVDB_id_14_Medical_tr_1031_1st_1131.csv' with '097_SVDB_id_14_Medical_tr_1031_1st_1131-ECG1.csv'
+  - Group 'SVDB': Replaced '098_SVDB_id_15_Medical_tr_500_1st_303.csv' with '098_SVDB_id_15_Medical_tr_500_1st_303-ECG1.csv'
+  - Group 'SVDB': Replaced '099_SVDB_id_16_Medical_tr_1115_1st_1215.csv' with '099_SVDB_id_16_Medical_tr_1115_1st_1215-ECG1.csv'
+  - Group 'SVDB': Replaced '100_SVDB_id_17_Medical_tr_17803_1st_17903.csv' with '100_SVDB_id_17_Medical_tr_17803_1st_17903-ECG1.csv'
+  - Group 'SVDB': Replaced '101_SVDB_id_18_Medical_tr_1851_1st_1951.csv' with '101_SVDB_id_18_Medical_tr_1851_1st_1951-ECG1.csv'
+  - Group 'SVDB': Replaced '102_SVDB_id_19_Medical_tr_50000_1st_107354.csv' with '102_SVDB_id_19_Medical_tr_50000_1st_107354-ECG1.csv'
+  - Group 'SVDB': Replaced '103_SVDB_id_20_Medical_tr_12167_1st_12267.csv' with '103_SVDB_id_20_Medical_tr_12167_1st_12267-ECG1.csv'
+  - Group 'SVDB': Replaced '104_SVDB_id_21_Medical_tr_50000_1st_106634.csv' with '104_SVDB_id_21_Medical_tr_50000_1st_106634-ECG1.csv'
+  - Group 'SVDB': Replaced '105_SVDB_id_22_Medical_tr_500_1st_417.csv' with '105_SVDB_id_22_Medical_tr_500_1st_417-ECG1.csv'
+  - Group 'SVDB': Replaced '106_SVDB_id_23_Medical_tr_37500_1st_121963.csv' with '106_SVDB_id_23_Medical_tr_37500_1st_121963-ECG1.csv'
+  - Group 'SVDB': Replaced '107_SVDB_id_24_Medical_tr_32805_1st_32905.csv' with '107_SVDB_id_24_Medical_tr_32805_1st_32905-ECG1.csv'
+  - Group 'SVDB': Replaced '108_SVDB_id_25_Medical_tr_1238_1st_1338.csv' with '108_SVDB_id_25_Medical_tr_1238_1st_1338-ECG1.csv'
+  - Group 'SVDB': Replaced '109_SVDB_id_26_Medical_tr_1038_1st_1138.csv' with '109_SVDB_id_26_Medical_tr_1038_1st_1138-ECG1.csv'
+  - Group 'SVDB': Replaced '110_SVDB_id_27_Medical_tr_30824_1st_30924.csv' with '110_SVDB_id_27_Medical_tr_30824_1st_30924-ECG1.csv'
+  - Group 'SVDB': Replaced '111_SVDB_id_28_Medical_tr_1791_1st_1891.csv' with '111_SVDB_id_28_Medical_tr_1791_1st_1891-ECG1.csv'
+  - Group 'SVDB': Replaced '112_SVDB_id_29_Medical_tr_8226_1st_8326.csv' with '112_SVDB_id_29_Medical_tr_8226_1st_8326-ECG1.csv'
+  - Group 'SVDB': Replaced '113_SVDB_id_30_Medical_tr_4552_1st_4652.csv' with '113_SVDB_id_30_Medical_tr_4552_1st_4652-ECG1.csv'
+  - Group 'SVDB': Replaced '114_SVDB_id_31_Medical_tr_25000_1st_63090.csv' with '114_SVDB_id_31_Medical_tr_25000_1st_63090-ECG1.csv'
+  - Group 'PSM': No best channel learned. Keeping original.
+  - Group 'TAO': Replaced '116_TAO_id_1_Environment_tr_500_1st_3.csv' with '116_TAO_id_1_Environment_tr_500_1st_3-col-0.csv'
+  - Group 'TAO': Replaced '117_TAO_id_2_Environment_tr_500_1st_1.csv' with '117_TAO_id_2_Environment_tr_500_1st_1-col-0.csv'
+  - Group 'TAO': Replaced '118_TAO_id_3_Environment_tr_500_1st_7.csv' with '118_TAO_id_3_Environment_tr_500_1st_7-col-0.csv'
+  - Group 'TAO': Replaced '119_TAO_id_4_Environment_tr_500_1st_1.csv' with '119_TAO_id_4_Environment_tr_500_1st_1-col-0.csv'
+  - Group 'TAO': Replaced '120_TAO_id_5_Environment_tr_500_1st_3.csv' with '120_TAO_id_5_Environment_tr_500_1st_3-col-0.csv'
+  - Group 'TAO': Replaced '121_TAO_id_6_Environment_tr_500_1st_7.csv' with '121_TAO_id_6_Environment_tr_500_1st_7-col-0.csv'
+  - Group 'TAO': Replaced '122_TAO_id_7_Environment_tr_500_1st_19.csv' with '122_TAO_id_7_Environment_tr_500_1st_19-col-0.csv'
+  - Group 'TAO': Replaced '123_TAO_id_8_Environment_tr_500_1st_62.csv' with '123_TAO_id_8_Environment_tr_500_1st_62-col-0.csv'
+  - Group 'TAO': Replaced '124_TAO_id_9_Environment_tr_500_1st_1.csv' with '124_TAO_id_9_Environment_tr_500_1st_1-col-0.csv'
+  - Group 'TAO': Replaced '125_TAO_id_10_Environment_tr_500_1st_9.csv' with '125_TAO_id_10_Environment_tr_500_1st_9-col-0.csv'
+  - Group 'TAO': Replaced '126_TAO_id_11_Environment_tr_500_1st_7.csv' with '126_TAO_id_11_Environment_tr_500_1st_7-col-0.csv'
+  - Group 'TAO': Replaced '127_TAO_id_12_Environment_tr_500_1st_24.csv' with '127_TAO_id_12_Environment_tr_500_1st_24-col-0.csv'
+  - Group 'TAO': Replaced '128_TAO_id_13_Environment_tr_500_1st_7.csv' with '128_TAO_id_13_Environment_tr_500_1st_7-col-0.csv'
+  - Group 'OPPORTUNITY': Replaced '129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901.csv' with '129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901-AccelerometerLAZYCHAIRaccY.csv'
+  - Group 'OPPORTUNITY': Replaced '130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145.csv' with '130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145-AccelerometerLAZYCHAIRaccY.csv'
+  - Group 'OPPORTUNITY': Replaced '131_OPPORTUNITY_id_3_HumanActivity_tr_7016_1st_26691.csv' with '131_OPPORTUNITY_id_3_HumanActivity_tr_7016_1st_26691-AccelerometerLAZYCHAIRaccY.csv'
+  - Group 'OPPORTUNITY': Replaced '132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995.csv' with '132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995-AccelerometerLAZYCHAIRaccY.csv'
+  - Group 'OPPORTUNITY': Replaced '133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500.csv' with '133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500-AccelerometerLAZYCHAIRaccY.csv'
+  - Group 'OPPORTUNITY': Replaced '134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577.csv' with '134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577-AccelerometerLAZYCHAIRaccY.csv'
+  - Group 'OPPORTUNITY': Replaced '135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185.csv' with '135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185-AccelerometerLAZYCHAIRaccY.csv'
+  - Group 'OPPORTUNITY': Replaced '136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595.csv' with '136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595-AccelerometerLAZYCHAIRaccY.csv'
+  - Group 'CreditCard': No best channel learned. Keeping original.
+  - Group 'CATSv2': Replaced '138_CATSv2_id_1_Sensor_tr_16568_1st_16668.csv' with '138_CATSv2_id_1_Sensor_tr_16568_1st_16668-bso2.csv'
+  - Group 'CATSv2': Replaced '139_CATSv2_id_2_Sensor_tr_5592_1st_5692.csv' with '139_CATSv2_id_2_Sensor_tr_5592_1st_5692-bso2.csv'
+  - Group 'CATSv2': Replaced '140_CATSv2_id_3_Sensor_tr_28307_1st_28407.csv' with '140_CATSv2_id_3_Sensor_tr_28307_1st_28407-bso2.csv'
+  - Group 'CATSv2': Replaced '141_CATSv2_id_4_Sensor_tr_41727_1st_41827.csv' with '141_CATSv2_id_4_Sensor_tr_41727_1st_41827-bso2.csv'
+  - Group 'CATSv2': Replaced '142_CATSv2_id_5_Sensor_tr_30704_1st_30804.csv' with '142_CATSv2_id_5_Sensor_tr_30704_1st_30804-bso2.csv'
+  - Group 'CATSv2': Replaced '143_CATSv2_id_6_Sensor_tr_50000_1st_60232.csv' with '143_CATSv2_id_6_Sensor_tr_50000_1st_60232-bso2.csv'
+  - Group 'SMAP': Replaced '144_SMAP_id_1_Sensor_tr_2052_1st_5300.csv' with '144_SMAP_id_1_Sensor_tr_2052_1st_5300-0.csv'
+  - Group 'SMAP': Replaced '145_SMAP_id_2_Sensor_tr_2133_1st_5400.csv' with '145_SMAP_id_2_Sensor_tr_2133_1st_5400-0.csv'
+  - Group 'SMAP': Replaced '146_SMAP_id_3_Sensor_tr_2128_1st_5000.csv' with '146_SMAP_id_3_Sensor_tr_2128_1st_5000-0.csv'
+  - Group 'SMAP': Replaced '147_SMAP_id_4_Sensor_tr_2160_1st_6449.csv' with '147_SMAP_id_4_Sensor_tr_2160_1st_6449-0.csv'
+  - Group 'SMAP': Replaced '148_SMAP_id_5_Sensor_tr_2011_1st_5060.csv' with '148_SMAP_id_5_Sensor_tr_2011_1st_5060-0.csv'
+  - Group 'SMAP': Replaced '149_SMAP_id_6_Sensor_tr_2128_1st_5000.csv' with '149_SMAP_id_6_Sensor_tr_2128_1st_5000-0.csv'
+  - Group 'SMAP': Replaced '150_SMAP_id_7_Sensor_tr_2077_1st_5394.csv' with '150_SMAP_id_7_Sensor_tr_2077_1st_5394-0.csv'
+  - Group 'SMAP': Replaced '151_SMAP_id_8_Sensor_tr_1971_1st_4870.csv' with '151_SMAP_id_8_Sensor_tr_1971_1st_4870-0.csv'
+  - Group 'SMAP': Replaced '152_SMAP_id_9_Sensor_tr_2073_1st_5600.csv' with '152_SMAP_id_9_Sensor_tr_2073_1st_5600-0.csv'
+  - Group 'SMAP': Replaced '153_SMAP_id_10_Sensor_tr_1840_1st_4030.csv' with '153_SMAP_id_10_Sensor_tr_1840_1st_4030-0.csv'
+  - Group 'SMAP': Replaced '154_SMAP_id_11_Sensor_tr_2117_1st_4770.csv' with '154_SMAP_id_11_Sensor_tr_2117_1st_4770-0.csv'
+  - Group 'SMAP': Replaced '155_SMAP_id_12_Sensor_tr_1907_1st_4800.csv' with '155_SMAP_id_12_Sensor_tr_1907_1st_4800-0.csv'
+  - Group 'SMAP': Replaced '156_SMAP_id_13_Sensor_tr_1173_1st_2750.csv' with '156_SMAP_id_13_Sensor_tr_1173_1st_2750-0.csv'
+  - Group 'SMAP': Replaced '157_SMAP_id_14_Sensor_tr_2126_1st_5000.csv' with '157_SMAP_id_14_Sensor_tr_2126_1st_5000-0.csv'
+  - Group 'SMAP': Replaced '158_SMAP_id_15_Sensor_tr_2075_1st_5610.csv' with '158_SMAP_id_15_Sensor_tr_2075_1st_5610-0.csv'
+  - Group 'SMAP': Replaced '159_SMAP_id_16_Sensor_tr_1757_1st_2650.csv' with '159_SMAP_id_16_Sensor_tr_1757_1st_2650-0.csv'
+  - Group 'SMAP': Replaced '160_SMAP_id_17_Sensor_tr_1832_1st_5300.csv' with '160_SMAP_id_17_Sensor_tr_1832_1st_5300-0.csv'
+  - Group 'SMAP': Replaced '161_SMAP_id_18_Sensor_tr_2075_1st_5550.csv' with '161_SMAP_id_18_Sensor_tr_2075_1st_5550-0.csv'
+  - Group 'SMAP': Replaced '162_SMAP_id_19_Sensor_tr_1908_1st_4690.csv' with '162_SMAP_id_19_Sensor_tr_1908_1st_4690-0.csv'
+  - Group 'SMAP': Replaced '163_SMAP_id_20_Sensor_tr_2051_1st_4575.csv' with '163_SMAP_id_20_Sensor_tr_2051_1st_4575-0.csv'
+  - Group 'SMAP': Replaced '164_SMAP_id_21_Sensor_tr_1976_1st_4200.csv' with '164_SMAP_id_21_Sensor_tr_1976_1st_4200-0.csv'
+  - Group 'SMAP': Replaced '165_SMAP_id_22_Sensor_tr_2129_1st_5000.csv' with '165_SMAP_id_22_Sensor_tr_2129_1st_5000-0.csv'
+  - Group 'SMAP': Replaced '166_SMAP_id_23_Sensor_tr_1113_1st_1890.csv' with '166_SMAP_id_23_Sensor_tr_1113_1st_1890-0.csv'
+  - Group 'SMAP': Replaced '167_SMAP_id_24_Sensor_tr_2094_1st_5600.csv' with '167_SMAP_id_24_Sensor_tr_2094_1st_5600-0.csv'
+  - Group 'SMAP': Replaced '168_SMAP_id_25_Sensor_tr_1998_1st_2098.csv' with '168_SMAP_id_25_Sensor_tr_1998_1st_2098-0.csv'
+  - Group 'SMAP': Replaced '169_SMAP_id_26_Sensor_tr_1811_1st_4510.csv' with '169_SMAP_id_26_Sensor_tr_1811_1st_4510-0.csv'
+  - Group 'SMAP': Replaced '170_SMAP_id_27_Sensor_tr_2160_1st_4690.csv' with '170_SMAP_id_27_Sensor_tr_2160_1st_4690-0.csv'
+  - Group 'SWaT': No best channel learned. Keeping original.
+  - Group 'SWaT': No best channel learned. Keeping original.
+  - Group 'GECCO': No best channel learned. Keeping original.
+  - Group 'Exathlon': Best channel file '174_Exathlon_id_1_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Best channel file '175_Exathlon_id_2_Facility_tr_10684_1st_10784-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Replaced '176_Exathlon_id_3_Facility_tr_10766_1st_12590.csv' with '176_Exathlon_id_3_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv'
+  - Group 'Exathlon': Best channel file '177_Exathlon_id_4_Facility_tr_11665_1st_13484-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Best channel file '178_Exathlon_id_5_Facility_tr_12538_1st_12638-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Replaced '179_Exathlon_id_6_Facility_tr_11665_1st_13484.csv' with '179_Exathlon_id_6_Facility_tr_11665_1st_13484-1-executor-threadpool-activeTasks-value.csv'
+  - Group 'Exathlon': Replaced '180_Exathlon_id_7_Facility_tr_10766_1st_12590.csv' with '180_Exathlon_id_7_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv'
+  - Group 'Exathlon': Best channel file '181_Exathlon_id_8_Facility_tr_11663_1st_13482-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Replaced '182_Exathlon_id_9_Facility_tr_10766_1st_12590.csv' with '182_Exathlon_id_9_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv'
+  - Group 'Exathlon': Best channel file '183_Exathlon_id_10_Facility_tr_11665_1st_13484-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Best channel file '184_Exathlon_id_11_Facility_tr_11665_1st_13484-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Best channel file '185_Exathlon_id_12_Facility_tr_11665_1st_13484-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Replaced '186_Exathlon_id_13_Facility_tr_10766_1st_12590.csv' with '186_Exathlon_id_13_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv'
+  - Group 'Exathlon': Best channel file '187_Exathlon_id_14_Facility_tr_6193_1st_6293-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Best channel file '188_Exathlon_id_15_Facility_tr_12538_1st_12638-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Best channel file '189_Exathlon_id_16_Facility_tr_11663_1st_13482-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Best channel file '190_Exathlon_id_17_Facility_tr_12538_1st_12638-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Best channel file '191_Exathlon_id_18_Facility_tr_11665_1st_13484-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Best channel file '192_Exathlon_id_19_Facility_tr_11665_1st_13484-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Best channel file '193_Exathlon_id_20_Facility_tr_8898_1st_8998-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Best channel file '194_Exathlon_id_21_Facility_tr_6985_1st_7085-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Replaced '195_Exathlon_id_22_Facility_tr_10766_1st_12590.csv' with '195_Exathlon_id_22_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv'
+  - Group 'Exathlon': Best channel file '196_Exathlon_id_23_Facility_tr_11665_1st_13484-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Replaced '197_Exathlon_id_24_Facility_tr_10766_1st_12590.csv' with '197_Exathlon_id_24_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv'
+  - Group 'Exathlon': Best channel file '198_Exathlon_id_25_Facility_tr_12538_1st_12638-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Best channel file '199_Exathlon_id_26_Facility_tr_12538_1st_12638-1-executor-threadpool-activeTasks-value.csv' not found. Keeping original.
+  - Group 'Exathlon': Replaced '200_Exathlon_id_27_Facility_tr_10766_1st_12590.csv' with '200_Exathlon_id_27_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv'
+
+Successfully generated new evaluation file at: /home/seokjeongeum/TSB-AD/TSPulse2/../Datasets/File_List/TSPulse2-M.csv

@@ -1,126 +1,267 @@
-import pandas as pd
-import numpy as np
 import matplotlib
+import numpy as np
+import pandas as pd
+import re
+
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-import os
-from tqdm import tqdm
 import logging
+import os
+
+import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 # --- Configuration ---
 # Get the directory where the script is located
 script_dir = os.path.dirname(os.path.abspath(__file__))
 # Navigate up one level to get the project root
-project_root = os.path.abspath(os.path.join(script_dir, '..'))
-
-DATASET_DIR = os.path.join(project_root, "Datasets", "TSB-AD-U")
-SCORE_DIR_BASE = os.path.join(project_root, "eval", "score", "uni")
-PLOT_DIR = os.path.join(project_root, "plots", "uni")
-FILE_LIST_PATH = os.path.join(project_root, "Datasets", "File_List", "TSB-AD-U-Eva.csv")
+project_root = os.path.abspath(os.path.join(script_dir, ".."))
 
 # Style map for consistent plotting - ALL LINES ARE NOW SOLID
 STYLE_MAP = {
-    "TSPulse_ZS_ensemble": {"color": "orangered", "linestyle": "-", "linewidth": 2.0, "alpha": 0.9, "zorder": 5},
-    "TSPulse_ZS_time": {"color": "dodgerblue", "linestyle": "-", "linewidth": 1.8, "alpha": 0.9, "zorder": 4},
-    "TSPulse_ZS_fft": {"color": "forestgreen", "linestyle": "-", "linewidth": 1.8, "alpha": 0.9, "zorder": 3},
-    "TSPulse_ZS_forecast": {"color": "darkviolet", "linestyle": "-", "linewidth": 1.8, "alpha": 0.9, "zorder": 3},
+    "TSPulse_ZS_ensemble": {
+        "color": "orangered",
+        "linestyle": "-",
+        "linewidth": 2.0,
+        "alpha": 0.9,
+        "zorder": 5,
+    },
+    "TSPulse_ZS_time": {
+        "color": "dodgerblue",
+        "linestyle": "-",
+        "linewidth": 1.8,
+        "alpha": 0.9,
+        "zorder": 4,
+    },
+    "TSPulse_ZS_fft": {
+        "color": "forestgreen",
+        "linestyle": "-",
+        "linewidth": 1.8,
+        "alpha": 0.9,
+        "zorder": 3,
+    },
+    "TSPulse_ZS_forecast": {
+        "color": "darkviolet",
+        "linestyle": "-",
+        "linewidth": 1.8,
+        "alpha": 0.9,
+        "zorder": 3,
+    },
 }
-DEFAULT_STYLE = {"color": "darkgoldenrod", "linestyle": "-", "linewidth": 1.5, "alpha": 0.8, "zorder": 3}
+DEFAULT_STYLE = {
+    "color": "darkgoldenrod",
+    "linestyle": "-",
+    "linewidth": 1.5,
+    "alpha": 0.8,
+    "zorder": 3,
+}
 
-def plot_anomaly_scores(file_basename):
+
+def plot_anomaly_scores(file_basename, dataset_dir, score_dir, plot_dir, variant: str):
     logging.info(f"--- Starting processing for: {file_basename} ---")
 
-    # --- 1. Load Data and All Scores ---
-    data_path = os.path.join(DATASET_DIR, f"{file_basename}.csv")
+    # --- 1. Load Data ---
+    data_path = os.path.join(dataset_dir, f"{file_basename}.csv")
     try:
         data_df = pd.read_csv(data_path)
-        time_series = data_df.iloc[:, 0].values
         labels = data_df.iloc[:, -1].values
     except Exception as e:
         logging.error(f"Error loading data from '{data_path}': {e}", exc_info=True)
         return
 
-    # Define the desired order of plots
-    plot_order = ["TSPulse_ZS_ensemble", "TSPulse_ZS_time", "TSPulse_ZS_fft", "TSPulse_ZS_forecast"]
-    
-    # Load only the scores we intend to plot
-    scores_to_plot = {}
-    for algo_name in plot_order:
-        score_path = os.path.join(SCORE_DIR_BASE, algo_name, f"{file_basename}.npy")
-        if os.path.exists(score_path):
-            try:
-                scores = np.load(score_path)
-                if len(scores) != len(time_series):
-                    scores = np.resize(scores, len(time_series))
-                    
-                scores_to_plot[algo_name] = scores
-            except Exception as e:
-                logging.error(f"Could not load scores from {score_path}: {e}", exc_info=True)
+    # --- Determine channels ---
+    # If more than one data column, treat as multivariate
+    is_multivariate = data_df.shape[1] > 2
+    if is_multivariate:
+        channel_cols = data_df.columns[:-1]
+    else:
+        channel_cols = data_df.columns[:1]
 
-    if not scores_to_plot:
-        logging.warning(f"No valid score files found for '{file_basename}'. Skipping.")
-        return
+    # --- 2. Iterate through each channel and plot ---
+    for chan_idx, channel_name in enumerate(channel_cols):
+        time_series = data_df[channel_name].values
 
-    # --- 2. Create Figure with a subplot for each score ---
-    num_plots = len(scores_to_plot)
-    fig, axes = plt.subplots(num_plots, 1, figsize=(40, 6 * num_plots), sharex=True, squeeze=False)
-    axes = axes.flatten() # Ensure axes is always a 1D array
+        # --- 2a. Load Scores for this Channel ---
+        # Handle different score file naming conventions based on variant.
+        if variant == "multi":
+            # For 'multi_as_uni', the score filename is the same as the data filename (basename).
+            score_file_basename = file_basename
+        else:
+            # For 'uni', sanitize basename to find the correct score file.
+            score_file_basename = re.sub(r"-.+$", "", file_basename)
 
-    # --- 3. Generate each subplot ---
-    for i, (algo_name, scores) in enumerate(scores_to_plot.items()):
-        ax1 = axes[i]
-        ax2 = ax1.twinx()
+        plot_order = [
+            "TSPulse_ZS_ensemble",
+            "TSPulse_ZS_time",
+            "TSPulse_ZS_fft",
+            "TSPulse_ZS_forecast",
+        ]
+        title_map = {
+            "TSPulse_ZS_ensemble": "Head_ensemble",
+            "TSPulse_ZS_time": "Head_time",
+            "TSPulse_ZS_fft": "Head_FFT",
+            "TSPulse_ZS_forecast": "Head_forecast",
+        }
+        scores_to_plot = {}
+        for algo_name in plot_order:
+            score_path = os.path.join(score_dir, algo_name, f"{score_file_basename}.npy")
+            if os.path.exists(score_path):
+                try:
+                    all_scores = np.load(score_path)
 
-        # Plot raw data
-        ax1.plot(time_series, color="gray", linewidth=1.5, label="Time Series Data", zorder=1)
-        ax1.set_ylabel("Data Value", color="gray", fontsize=14)
-        ax1.tick_params(axis="y", labelcolor="gray", labelsize=12)
-        ax1.grid(True, which="both", linestyle="--", linewidth=0.5)
+                    # Select scores for the current channel if available
+                    if all_scores.ndim > 1 and all_scores.shape[1] > chan_idx:
+                        scores = all_scores[:, chan_idx]
+                    else:
+                        scores = all_scores  # Use 1D score as is
 
-        # Plot ground truth anomaly regions
-        ax2.fill_between(range(len(labels)), 0, 1, where=labels == 1, color="lightcoral",
-                         alpha=0.4, transform=ax2.get_xaxis_transform(), label="Ground Truth Anomaly", zorder=2)
+                    if len(scores) != len(time_series):
+                        scores = np.resize(scores, len(time_series))
 
-        # Plot the specific score for this subplot
-        style = STYLE_MAP.get(algo_name, DEFAULT_STYLE)
-        ax2.plot(scores, label=f"Score (MinMax Scaled)", **style)
-        ax2.set_ylabel("Anomaly Score", fontsize=14)
-        ax2.set_ylim(0, 1.05)
-        ax2.tick_params(axis="y", labelsize=12)
+                    scores_to_plot[algo_name] = scores
+                except Exception as e:
+                    logging.error(
+                        f"Could not load scores from {score_path} for channel {channel_name}: {e}",
+                        exc_info=True,
+                    )
 
-        # Create a combined legend for data, anomaly, and score
-        lines, labels_1 = ax1.get_legend_handles_labels()
-        lines2, labels_2 = ax2.get_legend_handles_labels()
-        ax2.legend(lines + lines2, labels_1 + labels_2, loc='upper right', fontsize=12)
+        if not scores_to_plot:
+            logging.warning(
+                f"No valid score files found for '{file_basename}' channel '{channel_name}'. Skipping channel."
+            )
+            continue
 
-        ax1.set_title(f"{algo_name}", fontsize=16)
+        # --- 2b. Create Figure with a subplot for each score ---
+        num_plots = len(scores_to_plot)
+        fig, axes = plt.subplots(
+            num_plots, 1, figsize=(40, 6 * num_plots), sharex=True, squeeze=False
+        )
+        axes = axes.flatten()  # Ensure axes is always a 1D array
 
-    # --- 4. Final Touches ---
-    fig.suptitle(f"Anomaly Detection Results for: {file_basename}", fontsize=20, y=1.0)
-    plt.tight_layout(rect=(0, 0, 1, 0.99)) # Use tuple to fix linter error and adjust for suptitle
+        # --- 2c. Generate each subplot ---
+        for i, (algo_name, scores) in enumerate(scores_to_plot.items()):
+            ax1 = axes[i]
+            ax2 = ax1.twinx()
 
-    # --- 5. Save the Plot ---
-    os.makedirs(PLOT_DIR, exist_ok=True)
-    save_path = os.path.join(PLOT_DIR, f"{file_basename}_plot_subplots.png")
-    try:
-        plt.savefig(save_path, dpi=150, bbox_inches="tight")
-    except Exception as e:
-        logging.error(f"Failed to save plot {save_path}: {e}", exc_info=True)
-    finally:
-        plt.close(fig)
+            # Plot raw data
+            ax1.plot(
+                time_series,
+                color="gray",
+                linewidth=1.5,
+                label="Time Series Data",
+                zorder=1,
+            )
+            ax1.grid(True, which="both", linestyle="--", linewidth=0.5)
+            ax1.tick_params(axis="y", labelsize=72)
 
-# --- Main execution block remains the same ---
+            # Plot ground truth anomaly regions
+            ax2.fill_between(
+                range(len(labels)),
+                0,
+                1,
+                where=labels == 1,
+                color="lightcoral",
+                alpha=0.4,
+                transform=ax2.get_xaxis_transform(),
+                label="Ground Truth Anomaly",
+                zorder=2,
+            )
+
+            # Plot the specific score for this subplot
+            style = STYLE_MAP.get(algo_name, DEFAULT_STYLE)
+            ax2.plot(scores, label=f"Score (MinMax Scaled)", **style)
+            ax2.set_ylim(0, 1.05)
+            ax2.tick_params(axis="y", labelsize=72)
+
+            # Use new titles and increased font size
+            subplot_title = title_map.get(algo_name, algo_name)
+            ax1.set_title(subplot_title, fontsize=96)
+
+        # --- 2d. Final Touches ---
+        # Add a single, centered y-label for the whole figure for visual balance.
+        fig.supylabel("Data Value", fontsize=84, x=0.01)
+        fig.text(
+            0.99,
+            0.5,
+            "Anomaly Score",
+            va="center",
+            rotation=-90,
+            fontsize=84,
+        )
+        plt.tight_layout(rect=(0, 0, 0.95, 0.99))
+
+        # --- 2e. Save the Plot ---
+        os.makedirs(plot_dir, exist_ok=True)
+        plot_basename = f"{file_basename}"
+        if is_multivariate:
+            plot_basename += f"_{channel_name}"
+
+        png_path = os.path.join(plot_dir, f"{plot_basename}_plot_subplots.png")
+        pdf_path = os.path.join(plot_dir, f"{plot_basename}_plot_subplots.pdf")
+
+        try:
+            plt.savefig(png_path, dpi=150, bbox_inches="tight")
+            plt.savefig(pdf_path, bbox_inches="tight", format="pdf")
+        except Exception as e:
+            logging.error(
+                f"Failed to save plot for {plot_basename}: {e}", exc_info=True
+            )
+        finally:
+            plt.close(fig)
+
+
+# --- Main execution block ---
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.WARNING, format="%(asctime)s - %(levelname)s - [%(pathname)s:%(lineno)d] - %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
-    logging.info("--- Starting Plot Generation Script ---")
-    try:
-        file_list_df = pd.read_csv(FILE_LIST_PATH)
-    except FileNotFoundError:
-        logging.error(f"Fatal: File list not found at '{FILE_LIST_PATH}'. Exiting.")
-        exit()
-    files_to_plot = file_list_df["file_name"].tolist()
-    logging.info(f"Found {len(files_to_plot)} files to process.")
-    for csv_filename in tqdm(files_to_plot, desc="Generating Plots"):
-        base_name = os.path.splitext(csv_filename)[0]
-        plot_anomaly_scores(base_name)
-    logging.info("--- Plot generation complete. ---")
+    logging.basicConfig(
+        level=logging.WARNING,
+        format="%(asctime)s - %(levelname)s - [%(pathname)s:%(lineno)d] - %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+
+    variants = [
+        "uni",
+        "multi",
+    ]
+
+    for variant in variants:
+        logging.info(f"--- Starting {variant.upper()} Plot Generation ---")
+
+        # --- Configure paths for the current variant ---
+        if variant == "uni":
+            dataset_dir = os.path.join(project_root, "Datasets", "TSB-AD-U")
+            file_list_path = os.path.join(
+                project_root, "Datasets", "File_List", "TSB-AD-U.csv"
+            )
+            score_dir = os.path.join(project_root, "eval", "score", "uni")
+        elif variant == "multi":
+            dataset_dir = os.path.join(project_root, "Datasets", "TSB-AD-M-univariate")
+            file_list_path = os.path.join(
+                project_root, "Datasets", "File_List", "TSB-AD-M-univariate.csv"
+            )
+            # Use the specific score directory for the multi-as-uni case
+            score_dir = os.path.join(project_root, "eval", "score", "multi_as_uni")
+        else:
+            logging.warning(f"Unknown variant '{variant}'. Skipping.")
+            continue
+
+        plot_dir = os.path.join(project_root, "plots", variant)
+
+        try:
+            file_list_df = pd.read_csv(file_list_path)
+        except FileNotFoundError:
+            logging.error(
+                f"Fatal: File list not found at '{file_list_path}'. Skipping {variant} variant."
+            )
+            continue
+
+        files_to_plot = file_list_df["file_name"].tolist()
+        logging.info(
+            f"Found {len(files_to_plot)} files to process for {variant} variant."
+        )
+
+        for csv_filename in tqdm(
+            files_to_plot, desc=f"Generating {variant.upper()} Plots"
+        ):
+            base_name = os.path.splitext(csv_filename)[0]
+            plot_anomaly_scores(base_name, dataset_dir, score_dir, plot_dir, variant)
+
+    logging.info("--- All plot generation complete. ---")

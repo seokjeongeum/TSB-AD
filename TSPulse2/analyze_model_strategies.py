@@ -295,7 +295,12 @@ def compute_best_channel_by_avg_head_performance(
     combined_df["group"] = combined_df["parent"].apply(
         lambda x: os.path.splitext(x)[0].split("_")[1] if pd.notna(x) else None
     )
+    print(f"DEBUG: Found parents for {len(combined_df) - combined_df['parent'].isna().sum()} of {len(combined_df)} files.")
+    print(f"DEBUG: Found groups for {len(combined_df) - combined_df['group'].isna().sum()} of {len(combined_df)} files.")
+    rows_before_drop = len(combined_df)
     combined_df = combined_df.dropna(subset=["parent", "group", "channel_name"])
+    print(f"DEBUG: Dropped {rows_before_drop - len(combined_df)} rows due to missing parent/group/channel info.")
+
 
     # 3. Load multivariate data for fallback
     all_multi_metrics = {}
@@ -319,9 +324,9 @@ def compute_best_channel_by_avg_head_performance(
                 )
 
     if not all_multi_metrics:
-        multi_pivoted_df = pd.DataFrame(columns=list(heads_to_load.keys())).astype(
-            {k: float for k in heads_to_load}
-        )
+        multi_pivoted_df = pd.DataFrame(
+            columns=pd.Index(heads_to_load.keys())
+        ).astype({k: float for k in heads_to_load})
     else:
         multi_pivoted_df = pd.concat(all_multi_metrics, axis=1, join="outer")
 
@@ -336,16 +341,40 @@ def compute_best_channel_by_avg_head_performance(
         print("Warning: Tuning set for this strategy is empty. Skipping.")
         return pd.Series(dtype=float), pd.DataFrame(), {}
 
-    # 5. Determine best channel NAME for each DATASET GROUP on the tuning set
-    group_channel_scores = (
-        tuning_df.groupby(["group", "channel_name"])["avg_score"].mean().reset_index()
-    )
-    best_channels_df = group_channel_scores.loc[
-        group_channel_scores.groupby("group")["avg_score"].idxmax()
-    ]
-    group_to_best_channel_map = (
-        best_channels_df.set_index("group")["channel_name"].to_dict()
-    )
+    # 5. Determine best channel NAME for each DATASET GROUP on the tuning set (manual implementation)
+    # This is a workaround for a suspected bug in pandas.groupby that causes a hard crash.
+    print("--- Manually calculating group scores (workaround) ---")
+    
+    group_scores = {} # {(group, channel_name): [scores]}
+    for _, row in tuning_df.iterrows():
+        # Ensure avg_score is a valid float, skip if not
+        try:
+            score = float(row["avg_score"])
+            if pd.isna(score):
+                continue
+        except (ValueError, TypeError):
+            continue
+
+        key = (row["group"], row["channel_name"])
+        if key not in group_scores:
+            group_scores[key] = []
+        group_scores[key].append(score)
+
+    # Calculate the mean score for each group/channel
+    mean_scores = {key: sum(scores) / len(scores) for key, scores in group_scores.items()}
+
+    # Find the best channel for each group
+    best_channels = {} # {group: (channel_name, best_score)}
+    for (group, channel), avg_score in mean_scores.items():
+        if group not in best_channels or avg_score > best_channels[group][1]:
+            best_channels[group] = (channel, avg_score)
+            
+    # Final map from group to best channel name
+    group_to_best_channel_map = {
+        group: channel_info[0] for group, channel_info in best_channels.items()
+    }
+
+    print(f"Manual calculation complete. Found best channels for {len(group_to_best_channel_map)} groups.")
 
     # 6. Apply strategy to evaluation set
     detailed_results = []
@@ -406,7 +435,7 @@ def compute_best_channel_by_avg_head_performance(
         processed_parents.add(parent_file)
 
     if not detailed_results:
-        return pd.Series(dtype=float), pd.DataFrame(), {}
+        return pd.Series(dtype=float), pd.DataFrame(), group_to_best_channel_map
 
     results_df = pd.DataFrame(detailed_results)
 
@@ -709,9 +738,9 @@ def compute_best_channel_by_max_head_performance(
                 )
 
     if not all_multi_metrics:
-        multi_pivoted_df = pd.DataFrame(columns=list(heads_to_load.keys())).astype(
-            {k: float for k in heads_to_load}
-        )
+        multi_pivoted_df = pd.DataFrame(
+            columns=pd.Index(heads_to_load.keys())
+        ).astype({k: float for k in heads_to_load})
     else:
         multi_pivoted_df = pd.concat(all_multi_metrics, axis=1, join="outer")
 
@@ -796,7 +825,7 @@ def compute_best_channel_by_max_head_performance(
         processed_parents.add(parent_file)
 
     if not detailed_results:
-        return pd.Series(dtype=float), pd.DataFrame(), {}
+        return pd.Series(dtype=float), pd.DataFrame(), group_to_best_channel_map
 
     results_df = pd.DataFrame(detailed_results)
 
@@ -829,59 +858,64 @@ def generate_best_channel_eval_file(
         tuning_files = set(
             pd.read_csv(os.path.join(file_list_dir, "TSB-AD-M-Tuning.csv"))["file_name"]
         )
-        eva_df = pd.read_csv(os.path.join(file_list_dir, "TSB-AD-M-Eva.csv"))
+        # We need the main file list to iterate through all original multi files.
+        multi_df = pd.read_csv(os.path.join(file_list_dir, "TSB-AD-M.csv"))
         all_univariate_files = set(
             pd.read_csv(os.path.join(file_list_dir, "TSB-AD-M-univariate.csv"))[
                 "file_name"
             ]
         )
-        print(f"Loaded {len(tuning_files)} tuning files, {len(eva_df)} eval files, and {len(all_univariate_files)} total univariate files.")
+        print(f"Loaded {len(tuning_files)} tuning files, {len(multi_df)} eval files, and {len(all_univariate_files)} total univariate files.")
     except FileNotFoundError as e:
         print(f"Error: A required file list was not found. {e}")
         return
 
-    # 2. Get the best channel map (reusing logic from Scenario 3)
-    _, _, best_channel_map = compute_best_channel_by_avg_head_performance(
+    # 2. Get the best channel map using the 'avg' performance strategy.
+    # We only care about the map, so we ignore the other return values.
+    _, _, best_channel_map_avg = compute_best_channel_by_avg_head_performance(
         root_directory=root_directory,
         metric=metric,
-        split_files={"tuning": tuning_files, "eval": set()}, # only need tuning
+        split_files={"tuning": tuning_files, "eval": set()},  # Only need tuning data
         base_data_path=base_data_path,
         heads_to_load=heads_to_load,
     )
 
-    if not best_channel_map:
-        print("Error: Could not determine best channel map. Aborting file generation.")
+    if not best_channel_map_avg:
+        print("Error: Could not determine best channel map using AVG strategy. Aborting file generation.")
         return
 
-    print("\nLearned Best Channel per Group:")
-    print(pd.Series(best_channel_map, name="best_channel"))
+    print("\nLearned Best Channel per Group (using AVG head performance):")
+    print(pd.Series(best_channel_map_avg, name="best_channel"))
 
     # 3. Generate the new file list
     new_eval_files = []
-    for _, row in eva_df.iterrows():
+    for _, row in multi_df.iterrows():
         original_file = cast(str, row["file_name"])
         base_name = os.path.splitext(original_file)[0]
         try:
             group = base_name.split("_")[1]
         except IndexError:
+            # If we can't get a group, keep the original file
             new_eval_files.append(original_file)
             continue
 
-        best_channel = best_channel_map.get(group)
+        # Look up the best channel for this group from our learned map
+        best_channel = best_channel_map_avg.get(group)
 
         if best_channel:
-            # e.g., 174_Exathlon_id_1_...-node8-NET-ib0-read-KBs.csv
+            # Construct the potential filename for the best univariate channel
             potential_file = f"{base_name}-{best_channel}.csv"
             if potential_file in all_univariate_files:
                 new_eval_files.append(potential_file)
                 print(f"  - Group '{group}': Replaced '{original_file}' with '{potential_file}'")
             else:
-                new_eval_files.append(original_file) # Fallback to original
+                # If the specific univariate file doesn't exist, fall back to the original
+                new_eval_files.append(original_file)
                 print(f"  - Group '{group}': Best channel file '{potential_file}' not found. Keeping original.")
         else:
-            new_eval_files.append(original_file) # Fallback to original
+            # If the group wasn't in our tuning map, keep the original file
+            new_eval_files.append(original_file)
             print(f"  - Group '{group}': No best channel learned. Keeping original.")
-
 
     # 4. Save the new file
     output_path = os.path.join(file_list_dir, output_filename)
@@ -957,7 +991,7 @@ if __name__ == "__main__":
                 metric=args.metric,
                 base_data_path=args.data_directory,
                 heads_to_load=zs_heads_only,
-                output_filename="TSPulse2-M-Eva.csv",
+                output_filename="TSPulse2-M.csv",
             )
             exit()
 
@@ -981,12 +1015,15 @@ if __name__ == "__main__":
             f"\nBest Head Strategy Results On Tuning Data ({args.dataset_type.upper()}) (Best Head per Group)"
         )
         print("-" * 60)
-        print(result_s1["tuning"].sort_index())
+        print(result_s1["tuning"].sort_index().to_string(float_format="{:.16f}".format))
         print("-" * 60)
         print(
-            f"Final Score ({args.dataset_type.upper()}) [S1 - Best Head]: {result_s1['metric']:0.3f}\n\n"
+            f"Final Score ({args.dataset_type.upper()}) [S1 - Best Head]: {result_s1['metric']}\n\n"
         )
-        if "detailed_evaluation" in result_s1 and not result_s1["detailed_evaluation"].empty:
+        if (
+            "detailed_evaluation" in result_s1
+            and not result_s1["detailed_evaluation"].empty
+        ):
             result_s1["detailed_evaluation"].to_csv(s1_csv_path)
             print(f"--> Scenario 1 detailed results saved to {s1_csv_path}")
 
@@ -1030,7 +1067,7 @@ if __name__ == "__main__":
                 ).to_frame()
                 combined_maps = s2_map_df.join(s2b_map_df, how="outer").sort_index()
                 print("Learned Best Channel per Group (Side-by-Side):")
-                print(combined_maps)
+                print(combined_maps.to_string(float_format="{:.16f}".format))
 
             # --- 2. Print detailed results ---
             if (
@@ -1065,16 +1102,16 @@ if __name__ == "__main__":
                     {"S2_Avg_Perf": final_scores_avg, "S2B_Max_Perf": final_scores_max}
                 )
                 print("\n--- Final Scores by Head (Side-by-Side) ---")
-                print(summary_scores.to_string(float_format="{:.3f}".format))
+                print(summary_scores.to_string(float_format="{:.16f}".format))
 
                 s1_score = result_s1["metric"]
                 s2_score = final_scores_avg.get(args.metric, 0)
                 s2b_score = final_scores_max.get(args.metric, 0)
                 print(
-                    f"\nS2 vs S1:  {s2_score:.3f} - {s1_score:.3f} = {s2_score - s1_score:+.3f}"
+                    f"\nS2 vs S1:  {s2_score} - {s1_score} = {s2_score - s1_score}"
                 )
                 print(
-                    f"S2B vs S1: {s2b_score:.3f} - {s1_score:.3f} = {s2b_score - s1_score:+.3f}"
+                    f"S2B vs S1: {s2b_score} - {s1_score} = {s2b_score - s1_score}"
                 )
 
         # SCENARIO 3: Best Head/Channel with Fallback Experiments for Unknown Groups
@@ -1141,7 +1178,7 @@ if __name__ == "__main__":
         print("\nSummary of Scenario 3: Final Scores by Fallback Head")
         summary_df = pd.DataFrame(s3_results_list).set_index("fallback_head")
         summary_df["diff_vs_s1"] = summary_df["score"] - result_s1["metric"]
-        print(summary_df.to_string(float_format="{:.3f}".format))
+        print(summary_df.to_string(float_format="{:.16f}".format))
         print("=" * 80)
     finally:
         # Restore stdout and close the file handle
