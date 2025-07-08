@@ -138,7 +138,7 @@ echo "=========================================================="
 python -u "${RUN_SCRIPT_PATH}" \
   --AD_Name="${AD_MODEL_NAME}" \
   --dataset_dir="${DATA_DIR}" \
-  --file_list="${CURRENT_FILE_LIST}" \
+  --file_lsit="${CURRENT_FILE_LIST}" \
   --save True
 
 # Check the exit code of the Python script
