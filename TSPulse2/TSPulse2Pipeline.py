@@ -235,7 +235,7 @@ Based on your analysis, which anomaly score is the best for channel '{target_cha
         ):
             return {}
         client = genai.Client(
-            api_key="AIzaSyCddyASplHeAX6hGzwLIiY-PRcnil5pH54",
+            api_key=os.environ.get("GEMINI_API_KEY"),
         )
 
         model = "gemini-2.5-pro"
