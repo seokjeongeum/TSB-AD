@@ -8,7 +8,7 @@ Found 20 files for tuning.
 Found 180 files for evaluation.
 
 [STEP 2.5] Loading LLM head choices from logs...
-Loaded 530 LLM choices from logs.
+Loaded 1070 LLM choices from logs.
 
 [STEP 3] Determining best heads on tuning data...
 
@@ -29,19 +29,36 @@ TAO            TSPulse_ZS_forecast
 
 Determined Fallback: 'TSPulse_ZS_ensemble'
 
+--- Tuning Results (Ablated Heads) ---
+Best head per dataset:
+dataset
+CATSv2             TSPulse2_llm_selection_ablated_time
+Exathlon           TSPulse2_llm_selection_ablated_time
+GHL                 TSPulse2_llm_selection_ablated_fft
+LTDB           TSPulse2_llm_selection_ablated_ensemble
+MITDB          TSPulse2_llm_selection_ablated_ensemble
+MSL                TSPulse2_llm_selection_ablated_time
+OPPORTUNITY         TSPulse2_llm_selection_ablated_fft
+SMAP           TSPulse2_llm_selection_ablated_ensemble
+SMD            TSPulse2_llm_selection_ablated_ensemble
+SVDB               TSPulse2_llm_selection_ablated_time
+TAO            TSPulse2_llm_selection_ablated_forecast
+
+Determined Fallback: 'TSPulse2_llm_selection_ablated_time'
+
 [STEP 3.5] Verifying head alignment on multivariate evaluation data (per series)...
 
 --- Alignment & Score Comparison ---
 Saving alignment and score comparison to 'TSPulse2/comparison_df_multivariate.csv'...
 
 Alignment (Original Tuning Choice vs. Original Best): 53.89% (97/180 series)
-Alignment (Ablated Tuning Choice vs. Ablated Best):  N/A (No ablated heads in tuning data)
+Alignment (Ablated Tuning Choice vs. Ablated Best):  35.00% (63/180 series)
 Alignment (LLM Choice vs. Original Best):    22.78% (41/180 series)
-Alignment (LLM Choice vs. Ablated Best):     32.78% (59/180 series)
+Alignment (LLM Choice vs. Ablated Best):     28.89% (52/180 series)
 
 --- Final Scores on multivariate evaluation data ---
-Score from original tuning strategy:  0.3609277059701158
-Score from ablated tuning strategy:   N/A
-Score from LLM-selected heads:        0.39446150769903027
+Score from original tuning strategy:  0.36092770597011575
+Score from ablated tuning strategy:   0.4410543883027971
+Score from LLM-selected heads:        0.4109658204487101
 Oracle score (best possible original):  0.37305157831584873
-Oracle score (best possible ablated):   0.43369800307819384
+Oracle score (best possible ablated):   0.45269360575673584

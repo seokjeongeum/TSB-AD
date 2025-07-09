@@ -1,8 +1,10 @@
 Algorithm,Mean_VUS-PR
+Oracle,0.4526936057567358
+TSPulse2Triangulation,0.4410543883027971
 TSPulse2_llm_selection_ablated_fft,0.43279301506349316
 TSPulse2_llm_selection_ablated_time,0.430894841859191
 TSPulse2_llm_selection_ablated_ensemble,0.42403363176247466
 TSPulse2,0.4145809073893884
 TSPulseFT,0.3896666666666666
-TSPulseZS,0.36099730562284754
+TSPulseZS,0.3609277059701158
 TSPulse2_llm_selection_ablated_forecast,0.28344293202697224

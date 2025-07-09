@@ -9,12 +9,19 @@ import pandas as pd
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 
+def clean_filenames(s: pd.Series) -> pd.Series:
+    """Applies a standard cleaning regex to filenames."""
+    # Removes any suffix starting with '-' and the '.csv' extension.
+    return s.str.replace(r"(-.*)?\.csv$", "", regex=True)
+
+
 def evaluate_best_head_strategy(
     root_directory: str,
     metric: str,
     split_files: Dict[str, Set[str]],
     dataset_type: str,
     heads_to_load: Dict[str, str],
+    clean_filenames_flag: bool = False,
 ):
     """
     Evaluates the 'best head' strategy (formerly triangulation).
@@ -48,9 +55,14 @@ def evaluate_best_head_strategy(
                 try:
                     df = pd.read_csv(fpath)
                     # The file column in metrics might not have .csv, ensure consistency
-                    df["file"] = df["file"].apply(
-                        lambda x: x if str(x).endswith(".csv") else f"{x}.csv"
-                    )
+                    file_col_s = cast(pd.Series, df["file"]).astype(str)
+                    if clean_filenames_flag:
+                        # Normalize filenames by removing suffixes and ensuring .csv extension
+                        df["file"] = clean_filenames(file_col_s) + ".csv"
+                    else:
+                        df["file"] = file_col_s.apply(
+                            lambda x: x if x.endswith(".csv") else f"{x}.csv"
+                        )
                     head_dfs.append(df)
                 except Exception as e:
                     print(f"Warning: Could not load or process {fpath}. Error: {e}")
@@ -126,6 +138,10 @@ def evaluate_best_head_strategy(
         cols[c] for c in np.argmax(tuning_performance.values, axis=1)
     ]
 
+    # Determine a global best head from the tuning set to use as a fallback
+    # This prevents falling back to a hardcoded 'time' if a group is not in the tuning set.
+    global_best_head = tuning_performance[cols].mean().idxmax()  # type: ignore
+
     detailed_results = []
 
     # Helper to map a file to its group
@@ -144,7 +160,7 @@ def evaluate_best_head_strategy(
         sel_mode = (
             tuning_performance.loc[group, "best"]
             if group in tuning_performance.index
-            else "time"
+            else global_best_head
         )
 
         # Get the actual score for this series using the selected head
@@ -223,12 +239,6 @@ METRIC_TO_COMPARE = "VUS-PR"
 # Directories needed by analyze_model_strategies functions
 METRICS_ROOT_DIR = os.path.join(PROJECT_ROOT, "eval", "metrics")
 DATA_ROOT_DIR = os.path.join(PROJECT_ROOT, "Datasets")
-
-
-def clean_filenames(s: pd.Series) -> pd.Series:
-    """Applies a standard cleaning regex to filenames."""
-    # Removes any suffix starting with '-' and the '.csv' extension.
-    return s.str.replace(r"(-.*)?\.csv$", "", regex=True)
 
 
 def load_tspulse_ft() -> pd.DataFrame:
@@ -350,7 +360,7 @@ def load_tspulse2_variants(
             file_col = cast(pd.Series, df["file"])
             scores = df[["file", metric]].copy()
             scores["file"] = clean_filenames(file_col)
-            final_scores = scores.set_index("file")
+            final_scores = scores.set_index("file")  # type: ignore
             final_scores.rename(columns={metric: algo_name}, inplace=True)
             all_dfs.append(final_scores)
         except Exception as e:
@@ -365,6 +375,83 @@ def load_tspulse2_variants(
         f"Successfully loaded {len(merged_ts2_df.columns)} TSPulse2 variants on {len(merged_ts2_df)} eval files."
     )
     return merged_ts2_df
+
+
+def load_tspulse2_head_triangulation(
+    metrics_dir: str, data_dir: str, metric: str, split_files: dict
+) -> pd.DataFrame:
+    """
+    Loads TSPulse2 variants and applies the 'best head' strategy.
+    """
+    print("\n--- Loading TSPulse2 Head Triangulation Results ---")
+
+    triangulation_heads = [
+        "TSPulse2_llm_selection_ablated_fft",
+        "TSPulse2_llm_selection_ablated_time",
+        "TSPulse2_llm_selection_ablated_ensemble",
+        "TSPulse2_llm_selection_ablated_forecast",
+    ]
+    heads_to_load = {head: f"{head}.csv" for head in triangulation_heads}
+
+    all_results = []
+    ds_type = "multi"  # Based on directory
+    print(f"Running TSPulse2 Head Triangulation for '{ds_type}' dataset type...")
+    try:
+        # We already have split_files, no need to load again.
+        result = evaluate_best_head_strategy(
+            root_directory=metrics_dir,
+            metric=metric,
+            split_files=split_files,
+            dataset_type=ds_type,
+            heads_to_load=heads_to_load,
+            clean_filenames_flag=True,  # Enable cleaning for TSPulse2 files
+        )
+        if "detailed_evaluation" in result and not result["detailed_evaluation"].empty:
+            detailed_df = result["detailed_evaluation"]
+            all_results.append(detailed_df[[metric]])
+    except Exception as e:
+        print(f"Could not run TSPulse2 Head Triangulation for '{ds_type}': {e}")
+
+    if not all_results:
+        print(
+            "Warning: Failed to get any TSPulse2 Head Triangulation results. Skipping."
+        )
+        return pd.DataFrame()
+
+    combined_df = pd.concat(all_results)
+    combined_df.rename(columns={metric: "TSPulse2Triangulation"}, inplace=True)
+    combined_df.index = combined_df.index.str.replace(".csv", "", regex=False)
+    print("Successfully loaded TSPulse2 Head Triangulation results.")
+    return combined_df
+
+
+def print_head_alignment_stats():
+    """Parses the output from determine_best_head.py and prints key alignment stats."""
+    output_file = os.path.join(script_dir, "determine_best_head_output.txt")
+
+    print("\n--- Head Alignment Stats (from determine_best_head.py) ---")
+    if not os.path.exists(output_file):
+        print(
+            "Warning: determine_best_head_output.txt not found. Skipping alignment stats."
+        )
+        return
+
+    alignment_stats = []
+    with open(output_file, "r") as f:
+        for line in f:
+            if (
+                "Alignment (Ablated Tuning Choice vs. Ablated Best)" in line
+                or "Alignment (LLM Choice vs. Ablated Best)" in line
+            ):
+                alignment_stats.append(line.strip())
+
+    if alignment_stats:
+        for stat in sorted(alignment_stats):
+            print(stat)
+    else:
+        print(
+            "Warning: Could not find required alignment stats in determine_best_head_output.txt."
+        )
 
 
 def generate_and_save_reports(
@@ -382,6 +469,20 @@ def generate_and_save_reports(
     # --- 1. Create a Detailed Per-File Comparison DataFrame ---
     best_scores = scores_df.max(axis=1)
     best_algos = scores_df.idxmax(axis=1)
+
+    # Add Oracle score, which is the best score from a specific subset of algorithms
+    oracle_heads = [
+        "TSPulse2_llm_selection_ablated_fft",
+        "TSPulse2_llm_selection_ablated_time",
+        "TSPulse2_llm_selection_ablated_ensemble",
+        "TSPulse2_llm_selection_ablated_forecast",
+    ]
+    valid_oracle_heads = [h for h in oracle_heads if h in scores_df.columns]
+    if valid_oracle_heads:
+        scores_df["Oracle"] = scores_df[valid_oracle_heads].max(axis=1)
+    else:
+        print("Warning: Could not calculate Oracle score. No specified heads found.")
+        scores_df["Oracle"] = 0.0
 
     summary_df = scores_df.copy()
     summary_df["Best_Algo"] = best_algos
@@ -449,10 +550,12 @@ def generate_and_save_reports(
     with pd.option_context(
         "display.max_rows", None, "display.max_columns", None, "display.width", 200
     ):
-        print(dataset_mean_scores.to_string(float_format="{:.4f}".format))
+        print(dataset_mean_scores.to_string(float_format="{:.4f}".format))  # type: ignore
 
     print(f"\n--- Overall Mean Scores ({name.upper()}) ---")
-    print(mean_scores_df.to_string(index=False, float_format="{:.16f}".format))
+    print(mean_scores_df.to_string(index=False, float_format="{:.16f}".format))  # type: ignore
+
+    print_head_alignment_stats()
 
 
 if __name__ == "__main__":
@@ -468,10 +571,13 @@ if __name__ == "__main__":
     ts2_scores = load_tspulse2_variants(
         METRICS_ROOT_DIR, METRIC_TO_COMPARE, split_files
     )
+    ts2_triangulation_scores = load_tspulse2_head_triangulation(
+        METRICS_ROOT_DIR, DATA_ROOT_DIR, METRIC_TO_COMPARE, split_files
+    )
 
     # 2. Merge all file-based scores
     file_scores_df = pd.DataFrame()
-    for df in [zs_scores, ts2_scores]:
+    for df in [zs_scores, ts2_scores, ts2_triangulation_scores]:
         if not df.empty:
             if file_scores_df.empty:
                 file_scores_df = df
@@ -488,7 +594,7 @@ if __name__ == "__main__":
                 lambda x: x.split("_")[1] if "_" in x and len(x.split("_")) > 1 else x
             )
             ft_map = ft_scores["TSPulseFT"].to_dict()
-            file_scores_df["TSPulseFT"] = file_scores_df["Dataset_temp"].map(ft_map)
+            file_scores_df["TSPulseFT"] = file_scores_df["Dataset_temp"].map(ft_map)  # type: ignore
             file_scores_df.drop(columns=["Dataset_temp"], inplace=True)
 
         # 4. Generate and save all reports using the consolidated per-file scores
