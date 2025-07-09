@@ -166,21 +166,37 @@ Based on your analysis, which anomaly score is the best for channel '{target_cha
             ),
         ]
         score_keys = list(scores_dict.keys())
-        response = client.models.generate_content(
-            model=model,
-            contents=contents,
-            config=types.GenerateContentConfig(
-                temperature=0,
-                thinking_config=types.ThinkingConfig(
-                    thinking_budget=32768, include_thoughts=True
-                ),
-                media_resolution=types.MediaResolution.MEDIA_RESOLUTION_UNSPECIFIED,
-                response_mime_type="application/json",
-                response_schema=types.Schema(type=types.Type.STRING, enum=score_keys),
-            ),
-        )
 
-        selected_key = score_keys[0]  # Default
+        response = None
+        max_retries = 5
+        delay = 2  # Start with a 2-second delay
+
+        for attempt in range(max_retries):
+            try:
+                response = client.models.generate_content(
+                    model=model,
+                    contents=contents,
+                    config=types.GenerateContentConfig(
+                        temperature=0,
+                        thinking_config=types.ThinkingConfig(
+                            thinking_budget=32768, include_thoughts=True
+                        ),
+                        media_resolution=types.MediaResolution.MEDIA_RESOLUTION_UNSPECIFIED,
+                        response_mime_type="application/json",
+                        response_schema=types.Schema(
+                            type=types.Type.STRING, enum=score_keys
+                        ),
+                    ),
+                )
+                # If successful, break the loop
+                break
+            except Exception as e:
+                logging.warning(
+                    f"LLM call failed for '{target_channel_name}' on attempt {attempt + 1}/{max_retries} with error: {e}. Retrying in {delay} seconds..."
+                )
+                time.sleep(delay)
+
+        selected_key = None
         if response and response.candidates:
             if hasattr(response, "usage_metadata"):
                 logging.info(
@@ -219,7 +235,7 @@ Based on your analysis, which anomaly score is the best for channel '{target_cha
         ):
             return {}
         client = genai.Client(
-            api_key=os.environ.get("GEMINI_API_KEY"),
+            api_key="AIzaSyCddyASplHeAX6hGzwLIiY-PRcnil5pH54",
         )
 
         model = "gemini-2.5-pro"
