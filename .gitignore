@@ -9,7 +9,8 @@ Datasets/TSB-AD-M*
 Datasets/TSB-AD-U*
 slurm_logs
 eval/score
-score.zip
 .env
 llm_artifacts
 plots
+score.tar.zst
+plots.tar.zst
