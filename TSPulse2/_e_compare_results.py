@@ -1,7 +1,7 @@
 import glob
 import os
 import sys
-from typing import Dict, Set, cast
+from typing import Dict, Set, cast, Optional
 
 import numpy as np
 import pandas as pd
@@ -22,6 +22,7 @@ def evaluate_best_head_strategy(
     dataset_type: str,
     heads_to_load: Dict[str, str],
     clean_filenames_flag: bool = False,
+    fallback_head: Optional[str] = None,
 ):
     """
     Evaluates the 'best head' strategy (formerly triangulation).
@@ -139,8 +140,18 @@ def evaluate_best_head_strategy(
     ]
 
     # Determine a global best head from the tuning set to use as a fallback
-    # This prevents falling back to a hardcoded 'time' if a group is not in the tuning set.
-    global_best_head = tuning_performance[cols].mean().idxmax()  # type: ignore
+    # if a specific one is not provided.
+    final_fallback_head = fallback_head
+    if final_fallback_head is None and not tuning_performance.empty:
+        # The result of .mean() can be a float if there's only one row.
+        mean_scores = tuning_performance[cols].mean()
+        if isinstance(mean_scores, pd.Series):
+            final_fallback_head = mean_scores.idxmax()
+        else:
+            # If it's a float (or anything else), there's no 'best' head to determine.
+            # We can either pick the first col or handle it as an error/default.
+            # Picking the first column is a reasonable default.
+            final_fallback_head = cols[0] if cols else None
 
     detailed_results = []
 
@@ -160,7 +171,7 @@ def evaluate_best_head_strategy(
         sel_mode = (
             tuning_performance.loc[group, "best"]
             if group in tuning_performance.index
-            else global_best_head
+            else final_fallback_head
         )
 
         # Get the actual score for this series using the selected head
@@ -293,6 +304,7 @@ def load_tspulse_zs(
                 split_files=split_files,
                 dataset_type=ds_type,
                 heads_to_load=zs_heads_only,
+                fallback_head="time",
             )
             if (
                 "detailed_evaluation" in result_s1
@@ -405,6 +417,7 @@ def load_tspulse2_head_triangulation(
             dataset_type=ds_type,
             heads_to_load=heads_to_load,
             clean_filenames_flag=True,  # Enable cleaning for TSPulse2 files
+            fallback_head="TSPulse2_llm_selection_ablated_time",
         )
         if "detailed_evaluation" in result and not result["detailed_evaluation"].empty:
             detailed_df = result["detailed_evaluation"]
@@ -530,7 +543,7 @@ def generate_and_save_reports(
         )
     else:
         # Handle case where numeric_scores might be a Series
-        mean_scores = numeric_scores.sort_values(ascending=False)
+        mean_scores = cast(pd.Series, numeric_scores).sort_values(ascending=False)
     mean_scores_df = mean_scores.reset_index()
     mean_scores_df.columns = ["Algorithm", f"Mean_{metric}"]
     mean_output_path = os.path.join(

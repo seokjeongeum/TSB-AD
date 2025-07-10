@@ -30,8 +30,6 @@ from tsfm_public.toolkit.conformal import PostHocProbabilisticProcessor
 from tsfm_public.toolkit.time_series_anomaly_detection_pipeline import (
     AggregationFunction, TimeSeriesAnomalyDetectionPipeline, score_smoothing)
 
-load_dotenv()
-
 
 class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
     def __init__(
@@ -234,8 +232,11 @@ Based on your analysis, which anomaly score is the best for channel '{target_cha
             not isinstance(v, np.ndarray) or v.size == 0 for v in scores_dict.values()
         ):
             return {}
+        load_dotenv()
+        api_key = os.getenv("GEMINI_API_KEY")
+        logging.info(f"GEMINI_API_KEY: {api_key}")
         client = genai.Client(
-            api_key=os.environ.get("GEMINI_API_KEY"),
+            api_key=api_key,
         )
 
         model = "gemini-2.5-pro"

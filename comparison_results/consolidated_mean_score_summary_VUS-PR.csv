@@ -6,5 +6,6 @@ TSPulse2_llm_selection_ablated_time,0.430894841859191
 TSPulse2_llm_selection_ablated_ensemble,0.42403363176247466
 TSPulse2,0.4145809073893884
 TSPulseFT,0.3896666666666666
-TSPulseZS,0.3609277059701158
+TSPulseZS,0.36099730562284754
+TSPulse2_dimensionality_reduction_ablated,0.3101576474774317
 TSPulse2_llm_selection_ablated_forecast,0.28344293202697224

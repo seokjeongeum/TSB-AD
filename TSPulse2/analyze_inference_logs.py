@@ -1,6 +1,6 @@
 import os
 import re
-from typing import Any, Dict, List, Optional, Tuple, Set
+from typing import Any, Dict, List, Optional, Set, cast
 
 import pandas as pd
 
@@ -31,6 +31,7 @@ VALID_FILENAMES_PATH_SECONDARY = "Datasets/File_List/TSB-AD-M-Eva.csv"
 
 # --- Core Logic ---
 
+
 def load_simple_filenames(path: str) -> Optional[Set[str]]:
     """Loads a set of valid filenames from a single CSV file."""
     try:
@@ -43,9 +44,8 @@ def load_simple_filenames(path: str) -> Optional[Set[str]]:
         print(f"ERROR: 'file_name' column not found in '{path}'.")
         return None
 
-def get_full_model_filenames(
-    override_path: str, base_path: str
-) -> Optional[Set[str]]:
+
+def get_full_model_filenames(override_path: str, base_path: str) -> Optional[Set[str]]:
     """
     Loads filenames from a base list, but replaces them with files from an
     override list if a corresponding file is found. A corresponding override
@@ -62,22 +62,24 @@ def get_full_model_filenames(
         valid_filenames = set()
         for base_file in base_files:
             base_name = base_file.rsplit(".", 1)[0]
-            
+
             found_override = None
             for override_file in override_files:
                 if override_file.startswith(base_name + "-"):
                     found_override = override_file
                     break
-            
+
             if found_override:
                 valid_filenames.add(found_override)
             else:
                 valid_filenames.add(base_file)
-                
+
         return valid_filenames
 
     except FileNotFoundError:
-        print(f"ERROR: A filenames file was not found. Check paths: '{override_path}', '{base_path}'.")
+        print(
+            f"ERROR: A filenames file was not found. Check paths: '{override_path}', '{base_path}'."
+        )
         return None
     except KeyError:
         print(f"ERROR: 'file_name' column not found in one of the CSV files.")
@@ -112,13 +114,15 @@ def parse_log_file(
     # This pattern defines the end of a block for a single source file.
     # We split the log by this pattern to create chunks, where each chunk
     # (except the last) contains all API calls for one source file.
-    log_chunks = re.split(r"Success at (.*?) using .*? \| Time cost: ([\d.]+)s", log_content)
+    log_chunks = re.split(
+        r"Success at (.*?) using .*? \| Time cost: ([\d.]+)s", log_content
+    )
 
     # The first chunk is anything before the first "Success", which can contain API calls.
     # The subsequent chunks are pairs of (API call logs, filename, time_cost).
     # We process the first chunk separately.
     # For now, we assume API calls are followed by a "Success" line.
-    
+
     # Each repetition of the pattern yields 3 groups: the text before the match,
     # the filename (group 1), and the time_cost (group 2).
     # The list is [before_1, file_1, time_1, before_2, file_2, time_2, ...]
@@ -138,14 +142,14 @@ def parse_log_file(
             r"thoughts_token_count=(\d+).*"
             r"total_token_count=(\d+)"
         )
-        
+
         time_matches = time_pattern.findall(chunk_content)
         token_matches = token_pattern.findall(chunk_content)
 
         if len(time_matches) != len(token_matches):
             print(f"Warning: Mismatch for {filename}. Skipping.")
             continue
-            
+
         api_calls = []
         for i, tokens in enumerate(token_matches):
             candidate_tokens = int(tokens[0])
@@ -166,7 +170,7 @@ def parse_log_file(
             "api_calls": api_calls,
             "time_cost": time_cost,
         }
-        
+
     return per_file_results
 
 
@@ -204,13 +208,13 @@ def analyze_calls(
     # Calculate cost on a per-call basis because the rate depends on each prompt's size
     for call in api_calls:
         prompt_size = call["prompt_tokens"]
-        
+
         # Determine which pricing tier to use based on the prompt token count
         if prompt_size <= GEMINI_2_5_PRO_PRICING["standard_prompt"]["threshold"]:
             pricing = GEMINI_2_5_PRO_PRICING["standard_prompt"]
         else:
             pricing = GEMINI_2_5_PRO_PRICING["large_prompt"]
-            
+
         # Calculate cost for this specific call
         input_cost = (call["prompt_tokens"] / 1_000_000) * pricing["input_per_1m"]
         output_cost = (call["output_tokens"] / 1_000_000) * pricing["output_per_1m"]
@@ -297,11 +301,15 @@ def main():
     ]:
         df_detailed[col] = pd.to_numeric(df_detailed[col], errors="coerce")
         df_detailed[col] = df_detailed[col].apply(lambda x: f"{x:,.2f}" if pd.notna(x) else "")  # type: ignore
-    df_detailed["Estimated Cost (USD)"] = pd.to_numeric(df_detailed["Estimated Cost (USD)"], errors="coerce")
+    df_detailed["Estimated Cost (USD)"] = pd.to_numeric(
+        df_detailed["Estimated Cost (USD)"], errors="coerce"
+    )
     df_detailed["Estimated Cost (USD)"] = df_detailed["Estimated Cost (USD)"].apply(  # type: ignore
         lambda x: f"${x:,.4f}" if pd.notna(x) else ""
     )
-    df_detailed["LLM Contribution (%)"] = pd.to_numeric(df_detailed["LLM Contribution (%)"], errors="coerce")
+    df_detailed["LLM Contribution (%)"] = pd.to_numeric(
+        df_detailed["LLM Contribution (%)"], errors="coerce"
+    )
     df_detailed["LLM Contribution (%)"] = df_detailed["LLM Contribution (%)"].apply(  # type: ignore
         lambda x: f"{x:,.2f}%" if pd.notna(x) else ""
     )
@@ -340,15 +348,19 @@ def main():
         series = pd.Series(df_summary[col])
         df_summary[col] = series.astype(str).str.replace(r"[$,%]", "", regex=True)
         df_summary[col] = pd.to_numeric(df_summary[col], errors="coerce")
-    
+
     # Now group by model and sum to get the aggregate summary
     df_agg = df_summary.groupby("Model")[numeric_cols].sum().reset_index()
-    
+
     # Get file count per model to calculate average cost.
-    file_counts = df_detailed['Model'].value_counts()
+    model_series = cast(pd.Series, df_detailed["Model"])
+    file_counts = model_series.value_counts()
     # Use the model name to map the file count and calculate the average cost.
-    df_agg['Avg. Cost per Series'] = df_agg['Estimated Cost (USD)'] / df_agg['Model'].map(file_counts)
-    
+    model_in_agg_series = cast(pd.Series, df_agg["Model"])
+    df_agg["Avg. Cost per Series"] = df_agg[
+        "Estimated Cost (USD)"
+    ] / model_in_agg_series.map(file_counts)
+
     # Recalculate the contribution percentage for the aggregate
     df_agg["LLM Contribution (%)"] = 0.0
     if not df_agg.empty:
@@ -357,7 +369,7 @@ def main():
             df_agg.loc[non_zero_mask, "Total LLM Inference Time (s)"]
             / df_agg.loc[non_zero_mask, "File Time Cost (s)"]
         ) * 100
-    
+
     # --- Formatting for better readability ---
     for col in ["Total LLM Inference Time (s)", "File Time Cost (s)"]:
         df_agg[col] = pd.to_numeric(df_agg[col], errors="coerce").apply(lambda x: f"{x:,.2f}" if pd.notna(x) else "")  # type: ignore
@@ -377,7 +389,6 @@ def main():
         "Grand Total Tokens",
     ]:
         df_agg[col] = pd.to_numeric(df_agg[col], errors="coerce").astype("Int64").apply(lambda x: f"{int(x):,.0f}" if pd.notna(x) else "")  # type: ignore
-
 
     print("\n" + "=" * 80)
     print("--- Overall Comparison Summary ---")
