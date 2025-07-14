@@ -214,6 +214,7 @@ def evaluate_best_head_strategy(
         "evaluation": eval_performance,  # Group-aggregated
         "detailed_evaluation": detailed_results_df,  # Per-series
         "metric": final_metric,
+        "raw_eval_scores": eval_df,
     }
 
 
@@ -279,7 +280,7 @@ def load_tspulse_ft() -> pd.DataFrame:
 
 def load_tspulse_zs(
     metrics_dir: str, data_dir: str, metric: str
-) -> tuple[pd.DataFrame, dict]:
+) -> tuple[pd.DataFrame, dict, pd.DataFrame]:
     """
     Loads results for TSPulseZS by running Scenario 1 from the analysis script.
     Returns the scores and the split file list used.
@@ -292,6 +293,7 @@ def load_tspulse_zs(
         "time": "TSPulse_ZS_time.csv",
     }
     all_results = []
+    all_raw_scores = []
     split_files: dict = {}
 
     for ds_type in ["multi"]:
@@ -311,20 +313,33 @@ def load_tspulse_zs(
                 and not result_s1["detailed_evaluation"].empty
             ):
                 detailed_df = result_s1["detailed_evaluation"]
-                all_results.append(detailed_df[[metric]])
+                all_results.append(detailed_df[[metric, "selected_head"]])
+                if "raw_eval_scores" in result_s1:
+                    all_raw_scores.append(result_s1["raw_eval_scores"])
         except Exception as e:
             print(f"Could not run ZS analysis for '{ds_type}': {e}")
             continue
 
     if not all_results:
         print("Warning: Failed to get any TSPulseZS results. Skipping.")
-        return pd.DataFrame(), {}
+        return pd.DataFrame(), {}, pd.DataFrame()
 
     combined_zs_df = pd.concat(all_results)
-    combined_zs_df.rename(columns={metric: "TSPulseZS"}, inplace=True)
+    combined_zs_df.rename(
+        columns={metric: "TSPulseZS", "selected_head": "TSPulseZS_Head"}, inplace=True
+    )
     combined_zs_df.index = combined_zs_df.index.str.replace(".csv", "", regex=False)
+
+    raw_scores_df = pd.DataFrame()
+    if all_raw_scores:
+        raw_scores_df = pd.concat(all_raw_scores)
+        raw_scores_df.index = raw_scores_df.index.str.replace(
+            ".csv", "", regex=False
+        )
+        raw_scores_df.columns = [f"TSPulseZS_{c}" for c in raw_scores_df.columns]
+
     print("Successfully loaded TSPulseZS results.")
-    return combined_zs_df, split_files
+    return combined_zs_df, split_files, raw_scores_df
 
 
 def load_tspulse2_variants(
@@ -421,7 +436,7 @@ def load_tspulse2_head_triangulation(
         )
         if "detailed_evaluation" in result and not result["detailed_evaluation"].empty:
             detailed_df = result["detailed_evaluation"]
-            all_results.append(detailed_df[[metric]])
+            all_results.append(detailed_df[[metric, "selected_head"]])
     except Exception as e:
         print(f"Could not run TSPulse2 Head Triangulation for '{ds_type}': {e}")
 
@@ -432,7 +447,13 @@ def load_tspulse2_head_triangulation(
         return pd.DataFrame()
 
     combined_df = pd.concat(all_results)
-    combined_df.rename(columns={metric: "TSPulse2Triangulation"}, inplace=True)
+    combined_df.rename(
+        columns={
+            metric: "TSPulse2Triangulation",
+            "selected_head": "TSPulse2Triangulation_Head",
+        },
+        inplace=True,
+    )
     combined_df.index = combined_df.index.str.replace(".csv", "", regex=False)
     print("Successfully loaded TSPulse2 Head Triangulation results.")
     return combined_df
@@ -480,8 +501,9 @@ def generate_and_save_reports(
     scores_df.fillna(0.0, inplace=True)
 
     # --- 1. Create a Detailed Per-File Comparison DataFrame ---
-    best_scores = scores_df.max(axis=1)
-    best_algos = scores_df.idxmax(axis=1)
+    numeric_cols = scores_df.select_dtypes(include=np.number).columns.tolist()
+    best_scores = scores_df[numeric_cols].max(axis=1)
+    best_algos = scores_df[numeric_cols].idxmax(axis=1)
 
     # Add Oracle score, which is the best score from a specific subset of algorithms
     oracle_heads = [
@@ -503,6 +525,19 @@ def generate_and_save_reports(
     summary_df["Dataset"] = summary_df.index.to_series().apply(
         lambda x: x.split("_")[1] if "_" in x and len(x.split("_")) > 1 else x
     )
+
+    # Determine the best actual head for each series from the raw ZS scores
+    zs_head_cols = [
+        "TSPulseZS_ensemble",
+        "TSPulseZS_fft",
+        "TSPulseZS_forecast",
+        "TSPulseZS_time",
+    ]
+    valid_zs_head_cols = [h for h in zs_head_cols if h in summary_df.columns]
+    if valid_zs_head_cols:
+        summary_df["TSPulseZS_Best_Actual_Head"] = summary_df[valid_zs_head_cols].idxmax(
+            axis=1
+        )
 
     all_algo_names = sorted(scores_df.columns.tolist())
     detailed_cols = (
@@ -527,7 +562,7 @@ def generate_and_save_reports(
     dataset_mean_scores = scores_df.copy()
     dataset_mean_scores["Dataset"] = summary_df["Dataset"]
     dataset_mean_scores = (
-        dataset_mean_scores.groupby("Dataset")[all_algo_names].mean().sort_index()
+        dataset_mean_scores.groupby("Dataset")[numeric_cols].mean().sort_index()
     )
     dataset_mean_output_path = os.path.join(
         output_dir, f"{name}_dataset_mean_scores_{metric}.csv"
@@ -578,7 +613,7 @@ if __name__ == "__main__":
 
     # 1. Load results from all sources, getting split_files from ZS loader
     ft_scores = load_tspulse_ft()
-    zs_scores, split_files = load_tspulse_zs(
+    zs_scores, split_files, zs_raw_scores = load_tspulse_zs(
         METRICS_ROOT_DIR, DATA_ROOT_DIR, METRIC_TO_COMPARE
     )
     ts2_scores = load_tspulse2_variants(
@@ -590,7 +625,7 @@ if __name__ == "__main__":
 
     # 2. Merge all file-based scores
     file_scores_df = pd.DataFrame()
-    for df in [zs_scores, ts2_scores, ts2_triangulation_scores]:
+    for df in [zs_scores, ts2_scores, ts2_triangulation_scores, zs_raw_scores]:
         if not df.empty:
             if file_scores_df.empty:
                 file_scores_df = df

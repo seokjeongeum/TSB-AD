@@ -57,8 +57,8 @@ Alignment (LLM Choice vs. Original Best):    22.78% (41/180 series)
 Alignment (LLM Choice vs. Ablated Best):     28.89% (52/180 series)
 
 --- Final Scores on multivariate evaluation data ---
-Score from original tuning strategy:  0.3609277059701158
-Score from ablated tuning strategy:   0.44105438830279725
-Score from LLM-selected heads:        0.41096582044871016
+Score from original tuning strategy:  0.36092770597011575
+Score from ablated tuning strategy:   0.4410543883027971
+Score from LLM-selected heads:        0.4109658204487101
 Oracle score (best possible original):  0.37305157831584873
 Oracle score (best possible ablated):   0.45269360575673584

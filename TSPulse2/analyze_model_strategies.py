@@ -1120,6 +1120,11 @@ if __name__ == "__main__":
                 combined_details.to_csv(s2_csv_path, index=False)
                 print(f"--> Scenario 2/2B detailed results saved to {s2_csv_path}")
 
+                print("\n--- Detailed Per-Series Results (Scenario 2/2B) ---")
+                with pd.option_context("display.max_rows", None, "display.max_columns", None, "display.width", 200):
+                    print(combined_details.to_string())
+
+
             # --- 3. Print final scores ---
             if (
                 final_scores_avg is not None
