@@ -225,6 +225,81 @@ def evaluate_best_head_strategy(
     }
 
 
+def _generate_s2_detailed_results(
+    df: pd.DataFrame,
+    group_to_best_channel_map: Dict[str, str],
+    uni_pivoted_df: pd.DataFrame,
+    multi_pivoted_df: pd.DataFrame,
+    metric: str,
+    heads_to_load: Dict[str, str],
+) -> pd.DataFrame:
+    """Generates a detailed per-series result DataFrame for Scenario 2."""
+    detailed_results = []
+    processed_parents = set()
+
+    # Use a copy of the incoming df to avoid SettingWithCopyWarning
+    df = df.copy()
+
+    for parent_file in pd.Series(df["parent"].unique()):
+        if parent_file in processed_parents:
+            continue
+
+        group = (
+            os.path.splitext(parent_file)[0].split("_")[1]
+            if "_" in parent_file
+            else None
+        )
+        if not group:
+            continue
+
+        strat = "N/A"
+        scores_row = None
+
+        if group in group_to_best_channel_map:
+            best_channel = group_to_best_channel_map[group]
+            # Find the original univariate filename for the best channel
+            target_series_df = df[
+                (df["parent"] == parent_file)
+                & (df["channel_name"] == best_channel)
+            ]
+            if not target_series_df.empty:
+                uni_filename = target_series_df.iloc[0]["file"]
+                if uni_filename in uni_pivoted_df.index:
+                    scores_row = uni_pivoted_df.loc[uni_filename]
+                    strat = f"Best Channel ({best_channel})"
+
+            # Fallback for best channel if it wasn't found in the current dataset split
+            if scores_row is None and parent_file in multi_pivoted_df.index:
+                scores_row = multi_pivoted_df.loc[parent_file]
+                strat = "Fallback-Multivariate (avg)"
+
+        # Fallback for unknown group
+        elif parent_file in multi_pivoted_df.index:
+            scores_row = multi_pivoted_df.loc[parent_file]
+            strat = "Fallback-Unknown Group (avg)"
+
+        if scores_row is not None and not scores_row.empty:
+            record = {
+                "parent": parent_file,
+                "group": group,
+                "strategy_or_channel": strat,
+                # The final metric is the average of the selected series' head scores.
+                metric: scores_row.mean(),
+            }
+            # Add all individual head scores for detailed breakdown
+            for head in heads_to_load.keys():
+                record[head] = scores_row.get(head)
+
+            detailed_results.append(record)
+
+        processed_parents.add(parent_file)
+
+    if not detailed_results:
+        return pd.DataFrame()
+
+    return pd.DataFrame(detailed_results)
+
+
 def compute_best_channel_by_avg_head_performance(
     root_directory: str,
     metric: str,
@@ -264,7 +339,7 @@ def compute_best_channel_by_avg_head_performance(
 
     if not all_uni_metrics:
         print("\nWarning: No 'multi_as_uni' metric files found. Skipping.")
-        return pd.Series(dtype=float), pd.DataFrame(), {}
+        return pd.Series(dtype=float), pd.DataFrame(), pd.DataFrame(), {}
 
     uni_pivoted_df = pd.concat(all_uni_metrics, axis=1, join="outer")
     uni_pivoted_df["avg_score"] = uni_pivoted_df.mean(axis=1)
@@ -355,7 +430,7 @@ def compute_best_channel_by_avg_head_performance(
 
     if tuning_df.empty:
         print("Warning: Tuning set for this strategy is empty. Skipping.")
-        return pd.Series(dtype=float), pd.DataFrame(), {}
+        return pd.Series(dtype=float), pd.DataFrame(), pd.DataFrame(), {}
 
     # 5. Determine best channel NAME for each DATASET GROUP on the tuning set (manual implementation)
     # This is a workaround for a suspected bug in pandas.groupby that causes a hard crash.
@@ -381,6 +456,21 @@ def compute_best_channel_by_avg_head_performance(
         key: sum(scores) / len(scores) for key, scores in group_scores.items()
     }
 
+    # Format and print the tuning data as requested
+    print("\n--- Tuning Data: Avg Head Performance per Channel (S2) ---")
+    printable_scores = pd.DataFrame(
+        [(k[0], k[1], v) for k, v in mean_scores.items()],
+        columns=["group", "channel", "avg_score_across_heads"],
+    )
+    # Sort by group, then by score descending to see best channels per group
+    printable_scores = printable_scores.sort_values(
+        by=["group", "avg_score_across_heads"], ascending=[True, False]
+    ).set_index(["group", "channel"])
+
+    with pd.option_context("display.max_rows", None):
+        print(printable_scores.to_string(float_format="{:.16f}".format))
+    print("----------------------------------------------------\n")
+
     # Find the best channel for each group
     best_channels = {}  # {group: (channel_name, best_score)}
     for (group, channel), avg_score in mean_scores.items():
@@ -396,77 +486,46 @@ def compute_best_channel_by_avg_head_performance(
         f"Manual calculation complete. Found best channels for {len(group_to_best_channel_map)} groups."
     )
 
-    # 6. Apply strategy to evaluation set
-    detailed_results = []
-    processed_parents = set()
+    # 6. Apply strategy to get detailed results for both sets
+    eval_details_df = _generate_s2_detailed_results(
+        df=eval_df,
+        group_to_best_channel_map=group_to_best_channel_map,
+        uni_pivoted_df=uni_pivoted_df,
+        multi_pivoted_df=multi_pivoted_df,
+        metric=metric,
+        heads_to_load=heads_to_load,
+    )
 
-    for parent_file in pd.Series(eval_df["parent"].unique()):
-        if parent_file in processed_parents:
-            continue
+    tuning_details_df = _generate_s2_detailed_results(
+        df=tuning_df,
+        group_to_best_channel_map=group_to_best_channel_map,
+        uni_pivoted_df=uni_pivoted_df,
+        multi_pivoted_df=multi_pivoted_df,
+        metric=metric,
+        heads_to_load=heads_to_load,
+    )
 
-        group = (
-            os.path.splitext(parent_file)[0].split("_")[1]
-            if "_" in parent_file
-            else None
+    if eval_details_df.empty:
+        return (
+            pd.Series(dtype=float),
+            pd.DataFrame(),
+            tuning_details_df,
+            group_to_best_channel_map,
         )
-        if not group:
-            continue
-
-        strat = "N/A"
-        scores_row = None
-
-        if group in group_to_best_channel_map:
-            best_channel = group_to_best_channel_map[group]
-            # Find the original univariate filename for the best channel
-            target_series_df = eval_df[
-                (eval_df["parent"] == parent_file)
-                & (eval_df["channel_name"] == best_channel)
-            ]
-            assert isinstance(target_series_df, pd.DataFrame)
-            if not target_series_df.empty:
-                uni_filename = target_series_df.iloc[0]["file"]
-                if uni_filename in uni_pivoted_df.index:
-                    scores_row = uni_pivoted_df.loc[uni_filename]
-                    strat = f"Best Channel ({best_channel})"
-
-            # Fallback for best channel if it wasn't found in eval set
-            if scores_row is None and parent_file in multi_pivoted_df.index:
-                scores_row = multi_pivoted_df.loc[parent_file]
-                strat = "Fallback-Multivariate (avg)"
-
-        # Fallback for unknown group
-        elif parent_file in multi_pivoted_df.index:
-            scores_row = multi_pivoted_df.loc[parent_file]
-            strat = "Fallback-Unknown Group (avg)"
-
-        if scores_row is not None and not scores_row.empty:
-            record = {
-                "parent": parent_file,
-                "group": group,
-                "strategy_or_channel": strat,
-                metric: scores_row.mean(),  # The final metric is the average of the selected series.
-            }
-            # Add all individual head scores for detailed breakdown
-            for head in heads_to_load.keys():
-                record[head] = scores_row.get(head)
-
-            detailed_results.append(record)
-
-        processed_parents.add(parent_file)
-
-    if not detailed_results:
-        return pd.Series(dtype=float), pd.DataFrame(), group_to_best_channel_map
-
-    results_df = pd.DataFrame(detailed_results)
 
     # Calculate final score for each head by taking the mean of their respective columns
     head_columns = list(heads_to_load.keys())
-    final_scores_by_head = results_df[head_columns].mean()
+    final_scores_by_head = eval_details_df[head_columns].mean()
     assert isinstance(final_scores_by_head, pd.Series)
     # Also add the main metric (average of best) to the series for reference
-    final_scores_by_head[metric] = results_df[metric].mean()
+    final_scores_by_head[metric] = eval_details_df[metric].mean()
 
-    return final_scores_by_head, results_df, group_to_best_channel_map
+    return (
+        final_scores_by_head,
+        eval_details_df,
+        tuning_details_df,
+        group_to_best_channel_map,
+    )
 
 
 def compute_best_head_and_channel_strategy(
@@ -696,7 +755,7 @@ def compute_best_channel_by_max_head_performance(
 
     if not all_uni_metrics:
         print("\nWarning: No 'multi_as_uni' metric files found. Skipping.")
-        return pd.Series(dtype=float), pd.DataFrame(), {}
+        return pd.Series(dtype=float), pd.DataFrame(), pd.DataFrame(), {}
 
     uni_pivoted_df = pd.concat(all_uni_metrics, axis=1, join="outer")
     uni_pivoted_df["max_score"] = uni_pivoted_df[list(heads_to_load.keys())].max(axis=1)
@@ -777,7 +836,7 @@ def compute_best_channel_by_max_head_performance(
 
     if tuning_df.empty:
         print("Warning: Tuning set for this strategy is empty. Skipping.")
-        return pd.Series(dtype=float), pd.DataFrame(), {}
+        return pd.Series(dtype=float), pd.DataFrame(), pd.DataFrame(), {}
 
     # 5. Determine best channel NAME for each DATASET GROUP on the tuning set
     group_channel_scores = (
@@ -786,81 +845,62 @@ def compute_best_channel_by_max_head_performance(
     best_channels_df = group_channel_scores.loc[
         group_channel_scores.groupby("group")["max_score"].idxmax()
     ]
+    # Format and print the tuning data as requested
+    print("\n--- Tuning Data: Avg of Max Head Performance per Channel (S2B) ---")
+    printable_scores = group_channel_scores.rename(
+        columns={"max_score": "avg_of_max_scores"}
+    )
+    # Sort by group, then by score descending to see best channels per group
+    printable_scores = printable_scores.sort_values(
+        by=["group", "avg_of_max_scores"], ascending=[True, False]
+    ).set_index(["group", "channel_name"])
+    with pd.option_context("display.max_rows", None):
+        print(printable_scores.to_string(float_format="{:.16f}".format))
+    print("-----------------------------------------------------------\n")
     group_to_best_channel_map = best_channels_df.set_index("group")[
         "channel_name"
     ].to_dict()
 
-    # 6. Apply strategy to evaluation set
-    detailed_results = []
-    processed_parents = set()
+    # 6. Apply strategy to get detailed results for both sets
+    eval_details_df = _generate_s2_detailed_results(
+        df=eval_df,
+        group_to_best_channel_map=group_to_best_channel_map,
+        uni_pivoted_df=uni_pivoted_df,
+        multi_pivoted_df=multi_pivoted_df,
+        metric=metric,
+        heads_to_load=heads_to_load,
+    )
 
-    for parent_file in pd.Series(eval_df["parent"].unique()):
-        if parent_file in processed_parents:
-            continue
+    tuning_details_df = _generate_s2_detailed_results(
+        df=tuning_df,
+        group_to_best_channel_map=group_to_best_channel_map,
+        uni_pivoted_df=uni_pivoted_df,
+        multi_pivoted_df=multi_pivoted_df,
+        metric=metric,
+        heads_to_load=heads_to_load,
+    )
 
-        group = (
-            os.path.splitext(parent_file)[0].split("_")[1]
-            if "_" in parent_file
-            else None
+    if eval_details_df.empty:
+        return (
+            pd.Series(dtype=float),
+            pd.DataFrame(),
+            tuning_details_df,
+            group_to_best_channel_map,
         )
-        if not group:
-            continue
-
-        strat = "N/A"
-        scores_row = None
-
-        if group in group_to_best_channel_map:
-            best_channel = group_to_best_channel_map[group]
-            # Find the original univariate filename for the best channel
-            target_series_df = eval_df[
-                (eval_df["parent"] == parent_file)
-                & (eval_df["channel_name"] == best_channel)
-            ]
-            assert isinstance(target_series_df, pd.DataFrame)
-            if not target_series_df.empty:
-                uni_filename = target_series_df.iloc[0]["file"]
-                if uni_filename in uni_pivoted_df.index:
-                    scores_row = uni_pivoted_df.loc[uni_filename]
-                    strat = f"Best Channel ({best_channel})"
-
-            # Fallback for best channel if it wasn't found in eval set
-            if scores_row is None and parent_file in multi_pivoted_df.index:
-                scores_row = multi_pivoted_df.loc[parent_file]
-                strat = "Fallback-Multivariate (avg)"
-
-        # Fallback for unknown group
-        elif parent_file in multi_pivoted_df.index:
-            scores_row = multi_pivoted_df.loc[parent_file]
-            strat = "Fallback-Unknown Group (avg)"
-
-        if scores_row is not None and not scores_row.empty:
-            record = {
-                "parent": parent_file,
-                "group": group,
-                "strategy_or_channel": strat,
-                metric: scores_row.mean(),
-            }
-            # Add all individual head scores for detailed breakdown
-            for head in heads_to_load.keys():
-                record[head] = scores_row.get(head)
-
-            detailed_results.append(record)
-
-        processed_parents.add(parent_file)
-
-    if not detailed_results:
-        return pd.Series(dtype=float), pd.DataFrame(), group_to_best_channel_map
-
-    results_df = pd.DataFrame(detailed_results)
 
     # Calculate final score for each head by taking the mean of their respective columns
     head_columns = list(heads_to_load.keys())
-    final_scores_by_head = results_df[head_columns].mean()
+    final_scores_by_head = eval_details_df[head_columns].mean()
     assert isinstance(final_scores_by_head, pd.Series)
     # Also add the main metric (average of best) to the series for reference
-    final_scores_by_head[metric] = results_df[metric].mean()
+    final_scores_by_head[metric] = eval_details_df[metric].mean()
 
-    return final_scores_by_head, results_df, group_to_best_channel_map
+    return (
+        final_scores_by_head,
+        eval_details_df,
+        tuning_details_df,
+        group_to_best_channel_map,
+    )
 
 
 def generate_best_channel_eval_file(
@@ -898,7 +938,12 @@ def generate_best_channel_eval_file(
 
     # 2. Get the best channel map using the 'avg' performance strategy.
     # We only care about the map, so we ignore the other return values.
-    _, _, best_channel_map_avg = compute_best_channel_by_avg_head_performance(
+    (
+        _,
+        _,
+        _,
+        best_channel_map_avg,
+    ) = compute_best_channel_by_avg_head_performance(
         root_directory=root_directory,
         metric=metric,
         split_files={"tuning": tuning_files, "eval": set()},  # Only need tuning data
@@ -1008,6 +1053,9 @@ if __name__ == "__main__":
     output_filename = os.path.join(script_dir, f"{base_output_name}_summary.txt")
     s1_csv_path = os.path.join(script_dir, f"{base_output_name}_s1_details.csv")
     s2_csv_path = os.path.join(script_dir, f"{base_output_name}_s2_details.csv")
+    s2_tuning_csv_path = os.path.join(
+        script_dir, f"{base_output_name}_s2_tuning_details.csv"
+    )
     s3_csv_path = os.path.join(script_dir, f"{base_output_name}_s3_details.csv")
     output_file_handle = None
     original_stdout = sys.stdout
@@ -1062,10 +1110,42 @@ if __name__ == "__main__":
 
         # Scenario 2 & 2B: Best Channel Selection (only for multivariate)
         if args.dataset_type == "multi":
+            print("\n" + "=" * 80)
+            print("Explanation: How 'Best Channel' is Determined")
+            print("=" * 80)
+            print(
+                """
+This analysis compares two strategies for selecting the 'best' univariate channel
+from a multivariate time series file. The selection is learned on the TUNING set
+and then applied to the EVALUATION set. For each dataset group (e.g., 'SMD', 'UCR'),
+we determine a single best channel name to use for all files in that group.
+
+SCENARIO 2 (Best Channel by AVG Head Performance):
+1. For each individual channel series in the tuning set, we calculate its AVERAGE
+   score across all heads (e.g., ensemble, fft, forecast, time).
+2. We then group these average scores by channel name (e.g., 'channel_1', 'channel_2')
+   within each dataset group.
+3. The channel name with the highest mean of these average scores is chosen as the
+   'best channel' for that dataset group.
+4. Rationale: This method favors channels that are consistently strong performers
+   across all types of analysis heads. It selects for overall robustness.
+
+SCENARIO 2B (Best Channel by MAX Head Performance):
+1. For each individual channel series in the tuning set, we find its MAXIMUM score
+   achieved by any single head.
+2. We then group these maximum scores by channel name within each dataset group.
+3. The channel name with the highest mean of these maximum scores is chosen as the
+   'best channel' for that dataset group.
+4. Rationale: This method favors channels that have the potential for exceptional
+   performance with at least one head, even if other heads perform poorly. It
+   selects for peak potential.
+"""
+            )
             # --- Run both scenarios first ---
             (
                 final_scores_avg,
                 details_avg,
+                tuning_details_avg,
                 map_avg,
             ) = compute_best_channel_by_avg_head_performance(
                 root_directory=args.root_directory,
@@ -1077,6 +1157,7 @@ if __name__ == "__main__":
             (
                 final_scores_max,
                 details_max,
+                tuning_details_max,
                 map_max,
             ) = compute_best_channel_by_max_head_performance(
                 root_directory=args.root_directory,
@@ -1124,6 +1205,28 @@ if __name__ == "__main__":
                 with pd.option_context("display.max_rows", None, "display.max_columns", None, "display.width", 200):
                     print(combined_details.to_string())
 
+            if (
+                tuning_details_avg is not None
+                and not tuning_details_avg.empty
+                and tuning_details_max is not None
+                and not tuning_details_max.empty
+            ):
+                s2_tuning_details = tuning_details_avg.rename(
+                    columns=lambda c: f"S2_{c}" if c not in ["parent", "group"] else c
+                )
+                s2b_tuning_details = tuning_details_max.rename(
+                    columns=lambda c: f"S2B_{c}" if c not in ["parent", "group"] else c
+                )
+                combined_tuning_details = pd.merge(
+                    s2_tuning_details,
+                    s2b_tuning_details,
+                    on=["parent", "group"],
+                    how="outer",
+                )
+                combined_tuning_details.to_csv(s2_tuning_csv_path, index=False)
+                print(
+                    f"--> Scenario 2/2B detailed TUNING results saved to {s2_tuning_csv_path}"
+                )
 
             # --- 3. Print final scores ---
             if (
