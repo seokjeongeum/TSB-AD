@@ -135,6 +135,7 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
 
         # Save the figure to a file
         plt.savefig(debug_plot_path, bbox_inches="tight", pad_inches=0)
+        logging.info(f"LLM debug plot saved to: {debug_plot_path}")
         # --- END: DEBUGGING CODE ---
         buf = io.BytesIO()
         plt.savefig(buf, format="png", bbox_inches="tight", pad_inches=0)
@@ -205,7 +206,7 @@ Based on your analysis, which anomaly score is the best for channel '{target_cha
                 thought_summary = ""
                 for part in first_candidate.content.parts:
                     if hasattr(part, "thought") and part.thought:
-                        thought_summary += f"Thought: {part.thought}\n"
+                        thought_summary += f"Thought: {part.text}\n"
                     elif hasattr(part, "text") and part.text:
                         cleaned_text = part.text.strip()
                         if cleaned_text:
@@ -225,6 +226,7 @@ Based on your analysis, which anomaly score is the best for channel '{target_cha
                     thought_save_path = os.path.join(artifacts_dir, thought_filename)
                     with open(thought_save_path, "w") as f:
                         f.write(thought_summary)
+                    logging.info(f"LLM thoughts saved to: {thought_save_path}")
         return selected_key
 
     def _select_head_with_llm(self, scores_dict, target_columns, raw_data):
