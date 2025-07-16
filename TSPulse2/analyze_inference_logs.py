@@ -322,14 +322,6 @@ def main():
         df_detailed[col] = pd.to_numeric(df_detailed[col], errors="coerce")
         df_detailed[col] = df_detailed[col].astype("Int64").apply(lambda x: f"{x:,.0f}" if pd.notna(x) else "")  # type: ignore
 
-    print("\n" + "=" * 80)
-    print("--- Per-File Detailed Analysis ---")
-    print("=" * 80)
-    with pd.option_context("display.max_rows", None, "display.width", 200):
-        # Sort by the 'File' column before printing
-        df_detailed_sorted = df_detailed.sort_values(by=["File"], ascending=True)  # type: ignore
-        print(df_detailed_sorted.to_string(index=False))
-
     # --- Create and print the overall summary DataFrame ---
     df_summary = df_detailed.copy()
     # Convert necessary columns back to numeric for summation

@@ -1109,38 +1109,7 @@ if __name__ == "__main__":
             print(f"--> Scenario 1 detailed results saved to {s1_csv_path}")
 
         # Scenario 2 & 2B: Best Channel Selection (only for multivariate)
-        if args.dataset_type == "multi":
-            print("\n" + "=" * 80)
-            print("Explanation: How 'Best Channel' is Determined")
-            print("=" * 80)
-            print(
-                """
-This analysis compares two strategies for selecting the 'best' univariate channel
-from a multivariate time series file. The selection is learned on the TUNING set
-and then applied to the EVALUATION set. For each dataset group (e.g., 'SMD', 'UCR'),
-we determine a single best channel name to use for all files in that group.
-
-SCENARIO 2 (Best Channel by AVG Head Performance):
-1. For each individual channel series in the tuning set, we calculate its AVERAGE
-   score across all heads (e.g., ensemble, fft, forecast, time).
-2. We then group these average scores by channel name (e.g., 'channel_1', 'channel_2')
-   within each dataset group.
-3. The channel name with the highest mean of these average scores is chosen as the
-   'best channel' for that dataset group.
-4. Rationale: This method favors channels that are consistently strong performers
-   across all types of analysis heads. It selects for overall robustness.
-
-SCENARIO 2B (Best Channel by MAX Head Performance):
-1. For each individual channel series in the tuning set, we find its MAXIMUM score
-   achieved by any single head.
-2. We then group these maximum scores by channel name within each dataset group.
-3. The channel name with the highest mean of these maximum scores is chosen as the
-   'best channel' for that dataset group.
-4. Rationale: This method favors channels that have the potential for exceptional
-   performance with at least one head, even if other heads perform poorly. It
-   selects for peak potential.
-"""
-            )
+        if args.dataset_type == "multi":            
             # --- Run both scenarios first ---
             (
                 final_scores_avg,
