@@ -278,6 +278,47 @@ def load_tspulse_ft() -> pd.DataFrame:
         return pd.DataFrame()
 
 
+def load_benchmark_results() -> pd.DataFrame:
+    """Loads results for other benchmark algorithms from a pre-compiled CSV."""
+    print("\n--- Loading Benchmark Results ---")
+    benchmark_path = os.path.join(
+        PROJECT_ROOT,
+        "benchmark_exp",
+        "benchmark_eval_results",
+        "multi_mergedTable_VUS-PR.csv",
+    )
+    if not os.path.exists(benchmark_path):
+        print(f"Warning: Benchmark file not found at {benchmark_path}. Skipping.")
+        return pd.DataFrame()
+
+    try:
+        df = pd.read_csv(benchmark_path)
+        # Assuming the first column is the file/dataset name, which becomes the index
+        if "Unnamed: 0" in df.columns:
+            df.rename(columns={"Unnamed: 0": "file"}, inplace=True)
+
+        if "file" not in df.columns:
+            print(
+                "Warning: 'file' column not found in benchmark file. Using first column as index."
+            )
+            df.set_index(df.columns[0], inplace=True)
+        else:
+            df.set_index("file", inplace=True)
+
+        # Clean file names by removing any extension
+        df.index = df.index.str.replace(r"\.csv$", "", regex=True)
+        df.index.name = "file"
+
+        print(
+            f"Successfully loaded {len(df.columns)} benchmark algorithms from {os.path.basename(benchmark_path)}."
+        )
+        return df
+
+    except Exception as e:
+        print(f"Error processing benchmark file {benchmark_path}: {e}")
+        return pd.DataFrame()
+
+
 def load_tspulse_zs(
     metrics_dir: str, data_dir: str, metric: str
 ) -> tuple[pd.DataFrame, dict, pd.DataFrame]:
@@ -500,10 +541,23 @@ def generate_and_save_reports(
 
     scores_df.fillna(0.0, inplace=True)
 
+    # Define columns that are metadata and not algorithm scores
+    metadata_cols = [
+        "ts_len",
+        "anomaly_len",
+        "avg_anomaly_len",
+        "num_anomaly",
+        "seq_anomaly",
+        "point_anomaly",
+        "anomaly_ratio",
+    ]
+
     # --- 1. Create a Detailed Per-File Comparison DataFrame ---
     numeric_cols = scores_df.select_dtypes(include=np.number).columns.tolist()
-    best_scores = scores_df[numeric_cols].max(axis=1)
-    best_algos = scores_df[numeric_cols].idxmax(axis=1)
+    score_cols = [col for col in numeric_cols if col not in metadata_cols]
+
+    best_scores = scores_df[score_cols].max(axis=1)
+    best_algos = scores_df[score_cols].idxmax(axis=1)
 
     # Add Oracle score, which is the best score from a specific subset of algorithms
     oracle_heads = [
@@ -515,6 +569,8 @@ def generate_and_save_reports(
     valid_oracle_heads = [h for h in oracle_heads if h in scores_df.columns]
     if valid_oracle_heads:
         scores_df["Oracle"] = scores_df[valid_oracle_heads].max(axis=1)
+        if "Oracle" not in score_cols:
+            score_cols.append("Oracle")
     else:
         print("Warning: Could not calculate Oracle score. No specified heads found.")
         scores_df["Oracle"] = 0.0
@@ -562,7 +618,7 @@ def generate_and_save_reports(
     dataset_mean_scores = scores_df.copy()
     dataset_mean_scores["Dataset"] = summary_df["Dataset"]
     dataset_mean_scores = (
-        dataset_mean_scores.groupby("Dataset")[numeric_cols].mean().sort_index()
+        dataset_mean_scores.groupby("Dataset")[score_cols].mean().sort_index()
     )
     dataset_mean_output_path = os.path.join(
         output_dir, f"{name}_dataset_mean_scores_{metric}.csv"
@@ -573,12 +629,12 @@ def generate_and_save_reports(
     # --- 3. Create and Save Overall Mean Score Summary ---
     numeric_scores = scores_df.select_dtypes(include=np.number)
     if isinstance(numeric_scores, pd.DataFrame):
-        mean_scores = cast(pd.Series, numeric_scores.mean()).sort_values(
-            ascending=False
-        )
+        mean_scores = cast(
+            pd.Series, numeric_scores[score_cols].mean()
+        ).sort_values(ascending=False)
     else:
         # Handle case where numeric_scores might be a Series
-        mean_scores = cast(pd.Series, numeric_scores).sort_values(ascending=False)
+        mean_scores = cast(pd.Series, numeric_scores.drop(labels=metadata_cols, errors="ignore")).sort_values(ascending=False)
     mean_scores_df = mean_scores.reset_index()
     mean_scores_df.columns = ["Algorithm", f"Mean_{metric}"]
     mean_output_path = os.path.join(
@@ -606,6 +662,135 @@ def generate_and_save_reports(
     print_head_alignment_stats()
 
 
+def analyze_dimensionality_reduction(metrics_dir: str, metric: str, split_files: dict):
+    """
+    Analyzes and compares dimensionality reduction methods by loading data from the
+    same evaluation split as the main report to ensure consistent comparisons.
+    """
+    print("\n" + "=" * 50)
+    print("--- Starting Dimensionality Reduction Analysis ---")
+    print("=" * 50)
+
+    # 1. Use the same evaluation file list as the main report for consistency.
+    eval_files = split_files.get("eval", set())
+    if not eval_files:
+        print(
+            "Warning: Evaluation file list is empty for dim-redux analysis. Skipping."
+        )
+        return
+
+    # 2. Load and process results from the specific files for this analysis.
+    all_dfs = []
+    main_results_file = os.path.join(metrics_dir, "multi", "TSPulse2.csv")
+    ablated_file_path = os.path.join(
+        metrics_dir, "multi", "TSPulse2_dimensionality_reduction_ablated.csv"
+    )
+
+    for file_path in [main_results_file, ablated_file_path]:
+        if not os.path.exists(file_path):
+            continue
+        try:
+            df = pd.read_csv(file_path)
+            if "file" not in df.columns or metric not in df.columns:
+                continue
+
+            # Filter by the official evaluation file list *before* processing.
+            df_files_with_ext = clean_filenames(cast(pd.Series, df["file"])) + ".csv"
+            df = df[df_files_with_ext.isin(eval_files)].copy()
+            if df.empty:
+                continue
+
+            # Assign method based on the source file.
+            if file_path == ablated_file_path:
+                df["method"] = "Ablated"
+            else:  # Main results file
+                def get_standard_method(data_filename: str) -> str:
+                    name_part = os.path.splitext(data_filename)[0]
+                    if "-" in name_part and not name_part.split("-")[-1].isdigit():
+                        return "Channel Selection"
+                    return "PCA"
+
+                df["method"] = df["file"].apply(get_standard_method)
+
+            all_dfs.append(df)
+        except Exception as e:
+            print(f"Error processing file {file_path}: {e}")
+
+    if not all_dfs:
+        print("Warning: No valid TSPulse2 dataframes to merge for this analysis.")
+        return
+
+    # 3. Combine, normalize, and create the per-file score dataframe.
+    combined_df = pd.concat(all_dfs, ignore_index=True)
+    combined_df["file"] = clean_filenames(combined_df["file"].astype(str)) + ".csv"
+
+    combined_df["dataset"] = combined_df["file"].apply(
+        lambda x: x.split("_")[1]
+        if "_" in x and len(x.split("_")) > 1
+        else "unknown"
+    )
+
+    # 4. Run and print specific, side-by-side comparisons using MICRO-averaging.
+    def _run_and_print_comparison(
+        title: str,
+        per_file_df: pd.DataFrame,
+        methods: list[str],
+        metric_name: str,
+    ):
+        """Helper to run and print a specific comparison using micro-averaging."""
+        print("\n" + "#" * 50)
+        print(f"### {title} ###")
+        print("#" * 50)
+
+        # Pivot to easily find common files across methods
+        pivoted_df = per_file_df.pivot_table(
+            index=["file", "dataset"], columns="method", values=metric_name
+        ).reset_index()
+
+        # Find files that have scores for ALL specified methods
+        valid_methods = [m for m in methods if m in pivoted_df.columns]
+        if len(valid_methods) < len(methods):
+            missing = set(methods) - set(valid_methods)
+            print(f"Warning: Methods {list(missing)} not found. Skipping comparison.")
+            return
+
+        comparison_df = pivoted_df.dropna(subset=valid_methods, how="any")
+
+        if comparison_df.empty:
+            print(f"No common files found for methods: {methods}. Skipping.")
+            return
+
+        print(f"Found {len(comparison_df)} common files for comparison.")
+
+        # Per-Dataset Summary (Micro-Average within each dataset)
+        print(f"\n--- Per-Dataset Average {metric_name} ---")
+
+        # Overall Average (Micro-Average across all common files)
+        print(f"\n--- Overall Average {metric_name} ---")
+        overall_scores = (
+            comparison_df[valid_methods].mean().sort_values(ascending=False).reset_index()
+        )
+        overall_scores.columns = ["Method", f"Average_{metric_name}"]
+        print(overall_scores.to_string(index=False, float_format="{:.4f}".format))
+
+    _run_and_print_comparison(
+        "Ablated vs. Channel Selection (on their common series)",
+        combined_df,
+        ["Ablated", "Channel Selection"],
+        metric,
+    )
+    _run_and_print_comparison(
+        "Ablated vs. PCA (on their common series)",
+        combined_df,
+        ["Ablated", "PCA"],
+        metric,
+    )
+
+    print("\n" + "=" * 50)
+    print("--- Dimensionality Reduction Analysis Complete ---")
+    print("=" * 50 + "\n")
+
+
 if __name__ == "__main__":
     print("\n" + "=" * 50)
     print("--- Starting Comparison Generation ---")
@@ -613,6 +798,7 @@ if __name__ == "__main__":
 
     # 1. Load results from all sources, getting split_files from ZS loader
     ft_scores = load_tspulse_ft()
+    benchmark_scores = load_benchmark_results()
     zs_scores, split_files, zs_raw_scores = load_tspulse_zs(
         METRICS_ROOT_DIR, DATA_ROOT_DIR, METRIC_TO_COMPARE
     )
@@ -625,7 +811,13 @@ if __name__ == "__main__":
 
     # 2. Merge all file-based scores
     file_scores_df = pd.DataFrame()
-    for df in [zs_scores, ts2_scores, ts2_triangulation_scores, zs_raw_scores]:
+    for df in [
+        benchmark_scores,
+        zs_scores,
+        ts2_scores,
+        ts2_triangulation_scores,
+        zs_raw_scores,
+    ]:
         if not df.empty:
             if file_scores_df.empty:
                 file_scores_df = df
@@ -655,3 +847,6 @@ if __name__ == "__main__":
         print("\n" + "=" * 50)
         print("--- Comparison Generation Complete ---")
         print("=" * 50 + "\n")
+
+    # Run the new analysis function
+    analyze_dimensionality_reduction(METRICS_ROOT_DIR, METRIC_TO_COMPARE, split_files)
