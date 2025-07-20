@@ -109,27 +109,26 @@ def parse_log_file(
         return None
 
     per_file_results: Dict[str, Dict[str, Any]] = {}
-    api_calls_buffer = []
 
-    # This pattern defines the end of a block for a single source file.
-    # We split the log by this pattern to create chunks, where each chunk
-    # (except the last) contains all API calls for one source file.
-    log_chunks = re.split(
-        r"Success at (.*?) using .*? \| Time cost: ([\d.]+)s", log_content
-    )
+    # A robust pattern to split the log file by success messages, but keep them.
+    # This creates a list like: [content_before_1st_success, 1st_success_msg, content_before_2nd, 2nd_success_msg, ...]
+    split_pattern = r"(Success at .*? using .*? \| Time cost: [\d.]+s.*)"
+    log_chunks = re.split(split_pattern, log_content)
 
-    # The first chunk is anything before the first "Success", which can contain API calls.
-    # The subsequent chunks are pairs of (API call logs, filename, time_cost).
-    # We process the first chunk separately.
-    # For now, we assume API calls are followed by a "Success" line.
-
-    # Each repetition of the pattern yields 3 groups: the text before the match,
-    # the filename (group 1), and the time_cost (group 2).
-    # The list is [before_1, file_1, time_1, before_2, file_2, time_2, ...]
-    for i in range(0, len(log_chunks) - 1, 3):
+    # We iterate through the list, taking a content chunk and its corresponding success message.
+    for i in range(0, len(log_chunks) - 1, 2):
         chunk_content = log_chunks[i]
-        filename = log_chunks[i + 1]
-        time_cost = float(log_chunks[i + 2])
+        success_line = log_chunks[i + 1]
+
+        # Extract filename and time cost from the success message itself.
+        filename_match = re.search(r"Success at (.*?) using", success_line)
+        time_match = re.search(r"Time cost: ([\d.]+)s", success_line)
+
+        if not filename_match or not time_match:
+            continue
+
+        filename = filename_match.group(1).strip()
+        time_cost = float(time_match.group(1))
 
         if filename not in valid_filenames:
             continue
@@ -142,22 +141,26 @@ def parse_log_file(
             r"thoughts_token_count=(\d+).*"
             r"total_token_count=(\d+)"
         )
+        plot_pattern = re.compile(r"LLM debug plot saved to: (.*)")
+        thoughts_pattern = re.compile(r"LLM thoughts saved to: (.*)")
 
         time_matches = time_pattern.findall(chunk_content)
         token_matches = token_pattern.findall(chunk_content)
+        plot_matches = plot_pattern.findall(chunk_content)
+        thoughts_matches = thoughts_pattern.findall(chunk_content)
 
         if len(time_matches) != len(token_matches):
             print(f"Warning: Mismatch for {filename}. Skipping.")
             continue
 
         api_calls = []
-        for i, tokens in enumerate(token_matches):
+        for j, tokens in enumerate(token_matches):
             candidate_tokens = int(tokens[0])
             prompt_tokens = int(tokens[1])
             thoughts_tokens = int(tokens[2])
             api_calls.append(
                 {
-                    "inference_time_s": float(time_matches[i]),
+                    "inference_time_s": float(time_matches[j]),
                     "candidate_tokens": candidate_tokens,
                     "prompt_tokens": prompt_tokens,
                     "thoughts_token_count": thoughts_tokens,
@@ -169,6 +172,8 @@ def parse_log_file(
         per_file_results[filename] = {
             "api_calls": api_calls,
             "time_cost": time_cost,
+            "plot_files": [p.strip() for p in plot_matches],
+            "thoughts_files": [t.strip() for t in thoughts_matches],
         }
 
     return per_file_results
@@ -266,6 +271,8 @@ def main():
                 analysis = analyze_calls(data["api_calls"], data["time_cost"])
                 analysis["Model"] = name
                 analysis["File"] = filename
+                analysis["plot_files"] = data.get("plot_files", [])
+                analysis["thoughts_files"] = data.get("thoughts_files", [])
                 all_file_results.append(analysis)
 
     if not all_file_results:
@@ -289,40 +296,7 @@ def main():
     ]
     df_detailed = df_detailed[cols_order]
 
-    print("\n" + "=" * 80)
-    print("--- Row Count Per Model ---")
-    print("=" * 80)
-    print(df_detailed["Model"].value_counts().to_string())  # type: ignore
-
-    # --- Formatting for better readability ---
-    for col in [
-        "Total LLM Inference Time (s)",
-        "File Time Cost (s)",
-    ]:
-        df_detailed[col] = pd.to_numeric(df_detailed[col], errors="coerce")
-        df_detailed[col] = df_detailed[col].apply(lambda x: f"{x:,.2f}" if pd.notna(x) else "")  # type: ignore
-    df_detailed["Estimated Cost (USD)"] = pd.to_numeric(
-        df_detailed["Estimated Cost (USD)"], errors="coerce"
-    )
-    df_detailed["Estimated Cost (USD)"] = df_detailed["Estimated Cost (USD)"].apply(  # type: ignore
-        lambda x: f"${x:,.4f}" if pd.notna(x) else ""
-    )
-    df_detailed["LLM Contribution (%)"] = pd.to_numeric(
-        df_detailed["LLM Contribution (%)"], errors="coerce"
-    )
-    df_detailed["LLM Contribution (%)"] = df_detailed["LLM Contribution (%)"].apply(  # type: ignore
-        lambda x: f"{x:,.2f}%" if pd.notna(x) else ""
-    )
-    for col in [
-        "Total LLM Calls",
-        "Total Input Tokens",
-        "Total Output Tokens",
-        "Grand Total Tokens",
-    ]:
-        df_detailed[col] = pd.to_numeric(df_detailed[col], errors="coerce")
-        df_detailed[col] = df_detailed[col].astype("Int64").apply(lambda x: f"{x:,.0f}" if pd.notna(x) else "")  # type: ignore
-
-    # --- Create and print the overall summary DataFrame ---
+    # --- Create the overall summary DataFrame ---
     df_summary = df_detailed.copy()
     # Convert necessary columns back to numeric for summation
     numeric_cols = [
@@ -382,12 +356,45 @@ def main():
     ]:
         df_agg[col] = pd.to_numeric(df_agg[col], errors="coerce").astype("Int64").apply(lambda x: f"{int(x):,.0f}" if pd.notna(x) else "")  # type: ignore
 
-    print("\n" + "=" * 80)
-    print("--- Overall Comparison Summary ---")
-    print("=" * 80)
-    print(df_agg.to_string(index=False))
+    # --- Write output to a file ---
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_filename = os.path.join(script_dir, "analysis_report.txt")
+    with open(output_filename, "w") as f:
+        f.write("--- LLM Inference and Cost Analysis ---\n\n")
 
-    print("\nAnalysis complete.")
+        f.write("--- Row Count Per Model ---\n")
+        f.write("=" * 80 + "\n")
+        f.write(df_detailed["Model"].value_counts().to_string())  # type: ignore
+        f.write("\n\n")
+
+        f.write("--- Overall Comparison Summary ---\n")
+        f.write("=" * 80 + "\n")
+        f.write(df_agg.to_string(index=False))
+        f.write("\n\n")
+
+        f.write("--- LLM Artifacts Map ---\n")
+        f.write("=" * 80 + "\n")
+        for result in all_file_results:
+            filename = result["File"]
+            model = result["Model"]
+            plot_files = [p for p in result.get("plot_files", []) if p]
+            thoughts_files = [t for t in result.get("thoughts_files", []) if t]
+
+            if not plot_files and not thoughts_files:
+                continue
+
+            f.write(f"File: {filename} (Model: {model})\n")
+            if plot_files:
+                f.write("  Plot Files:\n")
+                for p in plot_files:
+                    f.write(f"    - {p}\n")
+            if thoughts_files:
+                f.write("  Thoughts Files:\n")
+                for t in thoughts_files:
+                    f.write(f"    - {t}\n")
+            f.write("-" * 40 + "\n")
+
+    print(f"\nAnalysis complete. Report saved to '{output_filename}'.")
 
 
 if __name__ == "__main__":

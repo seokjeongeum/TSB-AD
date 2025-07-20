@@ -309,10 +309,18 @@ def load_benchmark_results() -> pd.DataFrame:
         df.index = df.index.str.replace(r"\.csv$", "", regex=True)
         df.index.name = "file"
 
+        if "CNN" in df.columns:
+            print(
+                "Successfully loaded CNN benchmark algorithm from "
+                f"{os.path.basename(benchmark_path)}."
+            )
+            return df[["CNN"]].copy()
+
         print(
-            f"Successfully loaded {len(df.columns)} benchmark algorithms from {os.path.basename(benchmark_path)}."
+            f"Warning: 'CNN' column not found in {os.path.basename(benchmark_path)}. "
+            "Skipping benchmark results."
         )
-        return df
+        return pd.DataFrame()
 
     except Exception as e:
         print(f"Error processing benchmark file {benchmark_path}: {e}")
@@ -595,6 +603,10 @@ def generate_and_save_reports(
             axis=1
         )
 
+    # Add TSPulse2 vs TSPulse2Triangulation difference column
+    if "TSPulse2" in summary_df.columns and "TSPulse2Triangulation" in summary_df.columns:
+        summary_df["TSPulse2_vs_TSPulse2Triangulation_Diff"] = summary_df["TSPulse2"] - summary_df["TSPulse2Triangulation"]
+
     all_algo_names = sorted(scores_df.columns.tolist())
     detailed_cols = (
         ["Dataset", "Best_Algo", "Best_Score"]
@@ -620,6 +632,11 @@ def generate_and_save_reports(
     dataset_mean_scores = (
         dataset_mean_scores.groupby("Dataset")[score_cols].mean().sort_index()
     )
+
+    # Add TSPulse2 vs TSPulse2Triangulation difference to dataset mean scores
+    if "TSPulse2" in dataset_mean_scores.columns and "TSPulse2Triangulation" in dataset_mean_scores.columns:
+        dataset_mean_scores["TSPulse2_vs_TSPulse2Triangulation_Diff"] = dataset_mean_scores["TSPulse2"] - dataset_mean_scores["TSPulse2Triangulation"]
+
     dataset_mean_output_path = os.path.join(
         output_dir, f"{name}_dataset_mean_scores_{metric}.csv"
     )
@@ -704,13 +721,14 @@ def analyze_dimensionality_reduction(metrics_dir: str, metric: str, split_files:
             if file_path == ablated_file_path:
                 df["method"] = "Ablated"
             else:  # Main results file
+
                 def get_standard_method(data_filename: str) -> str:
                     name_part = os.path.splitext(data_filename)[0]
                     if "-" in name_part and not name_part.split("-")[-1].isdigit():
                         return "Channel Selection"
                     return "PCA"
 
-                df["method"] = df["file"].apply(get_standard_method)
+                df["method"] = pd.Series(df["file"]).apply(get_standard_method)
 
             all_dfs.append(df)
         except Exception as e:
@@ -722,7 +740,9 @@ def analyze_dimensionality_reduction(metrics_dir: str, metric: str, split_files:
 
     # 3. Combine, normalize, and create the per-file score dataframe.
     combined_df = pd.concat(all_dfs, ignore_index=True)
-    combined_df["file"] = clean_filenames(combined_df["file"].astype(str)) + ".csv"
+    combined_df["file"] = (
+        clean_filenames(combined_df["file"].astype(str)) + ".csv"
+    )
 
     combined_df["dataset"] = combined_df["file"].apply(
         lambda x: x.split("_")[1]
@@ -767,11 +787,15 @@ def analyze_dimensionality_reduction(metrics_dir: str, metric: str, split_files:
 
         # Overall Average (Micro-Average across all common files)
         print(f"\n--- Overall Average {metric_name} ---")
-        overall_scores = (
-            comparison_df[valid_methods].mean().sort_values(ascending=False).reset_index()
-        )
-        overall_scores.columns = ["Method", f"Average_{metric_name}"]
-        print(overall_scores.to_string(index=False, float_format="{:.4f}".format))
+        overall_scores_series = comparison_df[valid_methods].mean()
+        if isinstance(overall_scores_series, pd.Series):
+            overall_scores = (
+                overall_scores_series.sort_values(ascending=False).reset_index()
+            )
+            overall_scores.columns = ["Method", f"Average_{metric_name}"]
+            print(overall_scores.to_string(index=False, float_format="{:.4f}".format))
+        else:
+            print(f"Could not compute overall scores. Mean result: {overall_scores_series}")
 
     _run_and_print_comparison(
         "Ablated vs. Channel Selection (on their common series)",

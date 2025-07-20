@@ -1,0 +1,1206 @@
+--- LLM Inference and Cost Analysis ---
+
+--- Row Count Per Model ---
+================================================================================
+Model
+Dimensionality Reduction Ablated    180
+Full Model (with PCA/Selection)     180
+
+--- Overall Comparison Summary ---
+================================================================================
+                           Model Total LLM Calls Total LLM Inference Time (s) Total Input Tokens Total Output Tokens Grand Total Tokens Estimated Cost (USD) File Time Cost (s) Avg. Cost per Series LLM Contribution (%)
+Dimensionality Reduction Ablated           5,244                   166,220.45          1,987,060           7,016,019          9,003,079             $72.6440         236,106.42              $0.4036               70.40%
+ Full Model (with PCA/Selection)             235                     7,866.85             88,595             315,607            404,202              $3.2668          19,163.04              $0.0181               41.05%
+
+--- LLM Artifacts Map ---
+================================================================================
+File: 001_Genesis_id_1_Sensor_tr_4055_1st_15538.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_082453_plot.png
+    - llm_artifacts/20250716_082523_plot.png
+    - llm_artifacts/20250716_082556_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_082453_thoughts.txt
+    - llm_artifacts/20250716_082523_thoughts.txt
+    - llm_artifacts/20250716_082556_thoughts.txt
+----------------------------------------
+File: 002_MSL_id_1_Sensor_tr_500_1st_900-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_082637_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_082637_thoughts.txt
+----------------------------------------
+File: 003_MSL_id_2_Sensor_tr_883_1st_1238-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_082701_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_082701_thoughts.txt
+----------------------------------------
+File: 005_MSL_id_4_Sensor_tr_855_1st_2700-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_082808_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_082808_thoughts.txt
+----------------------------------------
+File: 006_MSL_id_5_Sensor_tr_1150_1st_1250-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_082848_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_082848_thoughts.txt
+----------------------------------------
+File: 007_MSL_id_6_Sensor_tr_980_1st_3550-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_082927_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_082927_thoughts.txt
+----------------------------------------
+File: 008_MSL_id_7_Sensor_tr_656_1st_1630-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_082958_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_082958_thoughts.txt
+----------------------------------------
+File: 009_MSL_id_8_Sensor_tr_714_1st_1390-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_083027_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_083027_thoughts.txt
+----------------------------------------
+File: 010_MSL_id_9_Sensor_tr_554_1st_1172-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_083057_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_083057_thoughts.txt
+----------------------------------------
+File: 012_MSL_id_11_Sensor_tr_539_1st_940-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_083159_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_083159_thoughts.txt
+----------------------------------------
+File: 013_MSL_id_12_Sensor_tr_554_1st_1200-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_083246_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_083246_thoughts.txt
+----------------------------------------
+File: 014_MSL_id_13_Sensor_tr_1525_1st_4575-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_083320_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_083320_thoughts.txt
+----------------------------------------
+File: 015_MSL_id_14_Sensor_tr_575_1st_1250-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_083351_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_083351_thoughts.txt
+----------------------------------------
+File: 016_MSL_id_15_Sensor_tr_500_1st_780-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_083423_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_083423_thoughts.txt
+----------------------------------------
+File: 017_MSL_id_16_Sensor_tr_512_1st_1850-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_083450_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_083450_thoughts.txt
+----------------------------------------
+File: 018_Daphnet_id_1_HumanActivity_tr_9693_1st_20732.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_083558_plot.png
+    - llm_artifacts/20250716_083634_plot.png
+    - llm_artifacts/20250716_083707_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_083558_thoughts.txt
+    - llm_artifacts/20250716_083634_thoughts.txt
+    - llm_artifacts/20250716_083707_thoughts.txt
+----------------------------------------
+File: 019_MITDB_id_1_Medical_tr_37500_1st_103211.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_083937_plot.png
+    - llm_artifacts/20250716_084013_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_083937_thoughts.txt
+    - llm_artifacts/20250716_084013_thoughts.txt
+----------------------------------------
+File: 020_MITDB_id_2_Medical_tr_50000_1st_52315-V1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_084622_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_084622_thoughts.txt
+----------------------------------------
+File: 021_MITDB_id_3_Medical_tr_50000_1st_57595.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_085358_plot.png
+    - llm_artifacts/20250716_085431_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_085358_thoughts.txt
+    - llm_artifacts/20250716_085431_thoughts.txt
+----------------------------------------
+File: 022_MITDB_id_4_Medical_tr_50000_1st_54253-V1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_085844_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_085844_thoughts.txt
+----------------------------------------
+File: 024_MITDB_id_6_Medical_tr_50000_1st_58118-V1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_090319_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_090319_thoughts.txt
+----------------------------------------
+File: 025_MITDB_id_7_Medical_tr_37500_1st_88864-V1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_090506_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_090506_thoughts.txt
+----------------------------------------
+File: 026_MITDB_id_8_Medical_tr_30495_1st_30595.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_091104_plot.png
+    - llm_artifacts/20250716_091139_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_091104_thoughts.txt
+    - llm_artifacts/20250716_091139_thoughts.txt
+----------------------------------------
+File: 027_MITDB_id_9_Medical_tr_25000_1st_52255.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_091404_plot.png
+    - llm_artifacts/20250716_091437_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_091404_thoughts.txt
+    - llm_artifacts/20250716_091437_thoughts.txt
+----------------------------------------
+File: 029_MITDB_id_11_Medical_tr_50000_1st_518037-V1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_092214_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_092214_thoughts.txt
+----------------------------------------
+File: 030_MITDB_id_12_Medical_tr_50000_1st_84572-V1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_092808_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_092808_thoughts.txt
+----------------------------------------
+File: 031_MITDB_id_13_Medical_tr_50000_1st_79433.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_093754_plot.png
+    - llm_artifacts/20250716_093830_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_093754_thoughts.txt
+    - llm_artifacts/20250716_093830_thoughts.txt
+----------------------------------------
+File: 032_GHL_id_1_Sensor_tr_50000_1st_65001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_094157_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_094157_thoughts.txt
+----------------------------------------
+File: 033_GHL_id_2_Sensor_tr_50000_1st_51001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_094415_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_094415_thoughts.txt
+----------------------------------------
+File: 034_GHL_id_3_Sensor_tr_50000_1st_122001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_094635_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_094635_thoughts.txt
+----------------------------------------
+File: 035_GHL_id_4_Sensor_tr_50000_1st_90001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_094848_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_094848_thoughts.txt
+----------------------------------------
+File: 036_GHL_id_5_Sensor_tr_50000_1st_67147-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_095102_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_095102_thoughts.txt
+----------------------------------------
+File: 037_GHL_id_6_Sensor_tr_50000_1st_80001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_095325_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_095325_thoughts.txt
+----------------------------------------
+File: 038_GHL_id_7_Sensor_tr_50000_1st_100001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_095555_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_095555_thoughts.txt
+----------------------------------------
+File: 039_GHL_id_8_Sensor_tr_50000_1st_63030-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_095818_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_095818_thoughts.txt
+----------------------------------------
+File: 041_GHL_id_10_Sensor_tr_50000_1st_57001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_100247_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_100247_thoughts.txt
+----------------------------------------
+File: 042_GHL_id_11_Sensor_tr_50000_1st_150001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_100502_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_100502_thoughts.txt
+----------------------------------------
+File: 043_GHL_id_12_Sensor_tr_39938_1st_40038-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_100720_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_100720_thoughts.txt
+----------------------------------------
+File: 044_GHL_id_13_Sensor_tr_50000_1st_145001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_100941_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_100941_thoughts.txt
+----------------------------------------
+File: 045_GHL_id_14_Sensor_tr_50000_1st_85076-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_101210_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_101210_thoughts.txt
+----------------------------------------
+File: 046_GHL_id_15_Sensor_tr_50000_1st_156462-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_101432_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_101432_thoughts.txt
+----------------------------------------
+File: 047_GHL_id_16_Sensor_tr_50000_1st_77001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_101650_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_101650_thoughts.txt
+----------------------------------------
+File: 048_GHL_id_17_Sensor_tr_50000_1st_154001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_101905_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_101905_thoughts.txt
+----------------------------------------
+File: 050_GHL_id_19_Sensor_tr_43750_1st_55001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_102340_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_102340_thoughts.txt
+----------------------------------------
+File: 051_GHL_id_20_Sensor_tr_50000_1st_75110-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_102554_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_102554_thoughts.txt
+----------------------------------------
+File: 052_GHL_id_21_Sensor_tr_50000_1st_98001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_102806_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_102806_thoughts.txt
+----------------------------------------
+File: 053_GHL_id_22_Sensor_tr_50000_1st_126448-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_103035_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_103035_thoughts.txt
+----------------------------------------
+File: 054_GHL_id_23_Sensor_tr_50000_1st_135001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_103256_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_103256_thoughts.txt
+----------------------------------------
+File: 055_GHL_id_24_Sensor_tr_50000_1st_118124-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_103522_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_103522_thoughts.txt
+----------------------------------------
+File: 056_GHL_id_25_Sensor_tr_50000_1st_105568-dL-rand.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_103735_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_103735_thoughts.txt
+----------------------------------------
+File: 057_SMD_id_1_Facility_tr_4529_1st_4629-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_103830_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_103830_thoughts.txt
+----------------------------------------
+File: 058_SMD_id_2_Facility_tr_1087_1st_1187-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_103921_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_103921_thoughts.txt
+----------------------------------------
+File: 059_SMD_id_3_Facility_tr_757_1st_857-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_104013_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_104013_thoughts.txt
+----------------------------------------
+File: 060_SMD_id_4_Facility_tr_7176_1st_10609-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_104107_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_104107_thoughts.txt
+----------------------------------------
+File: 061_SMD_id_5_Facility_tr_7176_1st_15144-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_104152_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_104152_thoughts.txt
+----------------------------------------
+File: 063_SMD_id_7_Facility_tr_5923_1st_6506-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_104328_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_104328_thoughts.txt
+----------------------------------------
+File: 064_SMD_id_8_Facility_tr_2272_1st_2372-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_104422_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_104422_thoughts.txt
+----------------------------------------
+File: 065_SMD_id_9_Facility_tr_737_1st_837-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_104508_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_104508_thoughts.txt
+----------------------------------------
+File: 066_SMD_id_10_Facility_tr_2634_1st_2734-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_104559_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_104559_thoughts.txt
+----------------------------------------
+File: 067_SMD_id_11_Facility_tr_1980_1st_2080-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_104643_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_104643_thoughts.txt
+----------------------------------------
+File: 068_SMD_id_12_Facility_tr_1099_1st_1199-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_104731_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_104731_thoughts.txt
+----------------------------------------
+File: 069_SMD_id_13_Facility_tr_5925_1st_12760-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_104814_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_104814_thoughts.txt
+----------------------------------------
+File: 070_SMD_id_14_Facility_tr_1070_1st_1170-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_104908_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_104908_thoughts.txt
+----------------------------------------
+File: 071_SMD_id_15_Facility_tr_1109_1st_1209-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_104953_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_104953_thoughts.txt
+----------------------------------------
+File: 073_SMD_id_17_Facility_tr_5926_1st_10620-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_105135_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_105135_thoughts.txt
+----------------------------------------
+File: 074_SMD_id_18_Facility_tr_7174_1st_21230-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_105230_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_105230_thoughts.txt
+----------------------------------------
+File: 075_SMD_id_19_Facility_tr_564_1st_664-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_105313_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_105313_thoughts.txt
+----------------------------------------
+File: 076_SMD_id_20_Facility_tr_5925_1st_17580-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_105401_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_105401_thoughts.txt
+----------------------------------------
+File: 077_SMD_id_21_Facility_tr_3026_1st_3126-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_105442_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_105442_thoughts.txt
+----------------------------------------
+File: 078_SMD_id_22_Facility_tr_500_1st_326-11.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_105531_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_105531_thoughts.txt
+----------------------------------------
+File: 079_LTDB_id_1_Medical_tr_3618_1st_3718-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_105655_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_105655_thoughts.txt
+----------------------------------------
+File: 080_LTDB_id_2_Medical_tr_500_1st_266-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_105905_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_105905_thoughts.txt
+----------------------------------------
+File: 081_LTDB_id_3_Medical_tr_500_1st_26-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_110115_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_110115_thoughts.txt
+----------------------------------------
+File: 083_LTDB_id_5_Medical_tr_15502_1st_15602-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_110540_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_110540_thoughts.txt
+----------------------------------------
+File: 084_SVDB_id_1_Medical_tr_12973_1st_13073-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_110825_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_110825_thoughts.txt
+----------------------------------------
+File: 085_SVDB_id_2_Medical_tr_50000_1st_54982-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_111135_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_111135_thoughts.txt
+----------------------------------------
+File: 086_SVDB_id_3_Medical_tr_533_1st_633-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_111527_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_111527_thoughts.txt
+----------------------------------------
+File: 087_SVDB_id_4_Medical_tr_5421_1st_5521-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_111929_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_111929_thoughts.txt
+----------------------------------------
+File: 088_SVDB_id_5_Medical_tr_500_1st_168-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_112335_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_112335_thoughts.txt
+----------------------------------------
+File: 089_SVDB_id_6_Medical_tr_50000_1st_83083-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_112818_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_112818_thoughts.txt
+----------------------------------------
+File: 092_SVDB_id_9_Medical_tr_2674_1st_2774-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_113600_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_113600_thoughts.txt
+----------------------------------------
+File: 093_SVDB_id_10_Medical_tr_500_1st_37-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_113923_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_113923_thoughts.txt
+----------------------------------------
+File: 094_SVDB_id_11_Medical_tr_20100_1st_23611-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_114150_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_114150_thoughts.txt
+----------------------------------------
+File: 095_SVDB_id_12_Medical_tr_6264_1st_6364-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_114507_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_114507_thoughts.txt
+----------------------------------------
+File: 096_SVDB_id_13_Medical_tr_500_1st_444-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_114834_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_114834_thoughts.txt
+----------------------------------------
+File: 097_SVDB_id_14_Medical_tr_1031_1st_1131-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_115158_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_115158_thoughts.txt
+----------------------------------------
+File: 098_SVDB_id_15_Medical_tr_500_1st_303-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_115645_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_115645_thoughts.txt
+----------------------------------------
+File: 099_SVDB_id_16_Medical_tr_1115_1st_1215-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_120006_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_120006_thoughts.txt
+----------------------------------------
+File: 100_SVDB_id_17_Medical_tr_17803_1st_17903-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_120311_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_120311_thoughts.txt
+----------------------------------------
+File: 101_SVDB_id_18_Medical_tr_1851_1st_1951-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_120605_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_120605_thoughts.txt
+----------------------------------------
+File: 102_SVDB_id_19_Medical_tr_50000_1st_107354-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_120938_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_120938_thoughts.txt
+----------------------------------------
+File: 103_SVDB_id_20_Medical_tr_12167_1st_12267-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_121326_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_121326_thoughts.txt
+----------------------------------------
+File: 104_SVDB_id_21_Medical_tr_50000_1st_106634-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_121720_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_121720_thoughts.txt
+----------------------------------------
+File: 105_SVDB_id_22_Medical_tr_500_1st_417-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_121935_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_121935_thoughts.txt
+----------------------------------------
+File: 106_SVDB_id_23_Medical_tr_37500_1st_121963-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_122216_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_122216_thoughts.txt
+----------------------------------------
+File: 108_SVDB_id_25_Medical_tr_1238_1st_1338-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_122818_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_122818_thoughts.txt
+----------------------------------------
+File: 109_SVDB_id_26_Medical_tr_1038_1st_1138-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_123109_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_123109_thoughts.txt
+----------------------------------------
+File: 110_SVDB_id_27_Medical_tr_30824_1st_30924-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_123557_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_123557_thoughts.txt
+----------------------------------------
+File: 111_SVDB_id_28_Medical_tr_1791_1st_1891-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_123923_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_123923_thoughts.txt
+----------------------------------------
+File: 112_SVDB_id_29_Medical_tr_8226_1st_8326-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_124432_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_124432_thoughts.txt
+----------------------------------------
+File: 114_SVDB_id_31_Medical_tr_25000_1st_63090-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_124920_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_124920_thoughts.txt
+----------------------------------------
+File: 115_PSM_id_1_Facility_tr_50000_1st_129872.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_125400_plot.png
+    - llm_artifacts/20250716_125438_plot.png
+    - llm_artifacts/20250716_125510_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_125400_thoughts.txt
+    - llm_artifacts/20250716_125438_thoughts.txt
+    - llm_artifacts/20250716_125510_thoughts.txt
+----------------------------------------
+File: 116_TAO_id_1_Environment_tr_500_1st_3-col-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_125607_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_125607_thoughts.txt
+----------------------------------------
+File: 117_TAO_id_2_Environment_tr_500_1st_1-col-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_125721_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_125721_thoughts.txt
+----------------------------------------
+File: 118_TAO_id_3_Environment_tr_500_1st_7-col-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_125841_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_125841_thoughts.txt
+----------------------------------------
+File: 119_TAO_id_4_Environment_tr_500_1st_1-col-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_125942_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_125942_thoughts.txt
+----------------------------------------
+File: 121_TAO_id_6_Environment_tr_500_1st_7-col-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_130227_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_130227_thoughts.txt
+----------------------------------------
+File: 122_TAO_id_7_Environment_tr_500_1st_19-col-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_130332_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_130332_thoughts.txt
+----------------------------------------
+File: 123_TAO_id_8_Environment_tr_500_1st_62-col-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_130516_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_130516_thoughts.txt
+----------------------------------------
+File: 124_TAO_id_9_Environment_tr_500_1st_1-col-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_130624_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_130624_thoughts.txt
+----------------------------------------
+File: 125_TAO_id_10_Environment_tr_500_1st_9-col-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_130734_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_130734_thoughts.txt
+----------------------------------------
+File: 127_TAO_id_12_Environment_tr_500_1st_24-col-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_131126_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_131126_thoughts.txt
+----------------------------------------
+File: 128_TAO_id_13_Environment_tr_500_1st_7-col-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_131234_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_131234_thoughts.txt
+----------------------------------------
+File: 129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901-AccelerometerLAZYCHAIRaccY.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_131408_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_131408_thoughts.txt
+----------------------------------------
+File: 130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145-AccelerometerLAZYCHAIRaccY.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_131443_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_131443_thoughts.txt
+----------------------------------------
+File: 132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995-AccelerometerLAZYCHAIRaccY.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_131605_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_131605_thoughts.txt
+----------------------------------------
+File: 133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500-AccelerometerLAZYCHAIRaccY.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_131636_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_131636_thoughts.txt
+----------------------------------------
+File: 134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577-AccelerometerLAZYCHAIRaccY.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_131718_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_131718_thoughts.txt
+----------------------------------------
+File: 135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185-AccelerometerLAZYCHAIRaccY.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_131756_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_131756_thoughts.txt
+----------------------------------------
+File: 136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595-AccelerometerLAZYCHAIRaccY.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_131842_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_131842_thoughts.txt
+----------------------------------------
+File: 137_CreditCard_id_1_Finance_tr_500_1st_541.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_132415_plot.png
+    - llm_artifacts/20250716_132457_plot.png
+    - llm_artifacts/20250716_132533_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_132415_thoughts.txt
+    - llm_artifacts/20250716_132457_thoughts.txt
+    - llm_artifacts/20250716_132533_thoughts.txt
+----------------------------------------
+File: 138_CATSv2_id_1_Sensor_tr_16568_1st_16668-bso2.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_132733_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_132733_thoughts.txt
+----------------------------------------
+File: 139_CATSv2_id_2_Sensor_tr_5592_1st_5692-bso2.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_132957_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_132957_thoughts.txt
+----------------------------------------
+File: 141_CATSv2_id_4_Sensor_tr_41727_1st_41827-bso2.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_133705_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_133705_thoughts.txt
+----------------------------------------
+File: 142_CATSv2_id_5_Sensor_tr_30704_1st_30804-bso2.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_134040_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_134040_thoughts.txt
+----------------------------------------
+File: 143_CATSv2_id_6_Sensor_tr_50000_1st_60232-bso2.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_134319_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_134319_thoughts.txt
+----------------------------------------
+File: 144_SMAP_id_1_Sensor_tr_2052_1st_5300-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_134403_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_134403_thoughts.txt
+----------------------------------------
+File: 145_SMAP_id_2_Sensor_tr_2133_1st_5400-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_134436_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_134436_thoughts.txt
+----------------------------------------
+File: 146_SMAP_id_3_Sensor_tr_2128_1st_5000-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_134512_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_134512_thoughts.txt
+----------------------------------------
+File: 147_SMAP_id_4_Sensor_tr_2160_1st_6449-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_134557_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_134557_thoughts.txt
+----------------------------------------
+File: 148_SMAP_id_5_Sensor_tr_2011_1st_5060-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_134636_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_134636_thoughts.txt
+----------------------------------------
+File: 150_SMAP_id_7_Sensor_tr_2077_1st_5394-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_134742_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_134742_thoughts.txt
+----------------------------------------
+File: 151_SMAP_id_8_Sensor_tr_1971_1st_4870-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_134823_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_134823_thoughts.txt
+----------------------------------------
+File: 152_SMAP_id_9_Sensor_tr_2073_1st_5600-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_134853_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_134853_thoughts.txt
+----------------------------------------
+File: 153_SMAP_id_10_Sensor_tr_1840_1st_4030-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_134927_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_134927_thoughts.txt
+----------------------------------------
+File: 154_SMAP_id_11_Sensor_tr_2117_1st_4770-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_135014_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_135014_thoughts.txt
+----------------------------------------
+File: 155_SMAP_id_12_Sensor_tr_1907_1st_4800-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_135125_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_135125_thoughts.txt
+----------------------------------------
+File: 156_SMAP_id_13_Sensor_tr_1173_1st_2750-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_135219_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_135219_thoughts.txt
+----------------------------------------
+File: 157_SMAP_id_14_Sensor_tr_2126_1st_5000-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_135307_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_135307_thoughts.txt
+----------------------------------------
+File: 158_SMAP_id_15_Sensor_tr_2075_1st_5610-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_135416_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_135416_thoughts.txt
+----------------------------------------
+File: 159_SMAP_id_16_Sensor_tr_1757_1st_2650-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_135451_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_135451_thoughts.txt
+----------------------------------------
+File: 160_SMAP_id_17_Sensor_tr_1832_1st_5300-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_135529_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_135529_thoughts.txt
+----------------------------------------
+File: 161_SMAP_id_18_Sensor_tr_2075_1st_5550-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_135608_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_135608_thoughts.txt
+----------------------------------------
+File: 162_SMAP_id_19_Sensor_tr_1908_1st_4690-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_135640_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_135640_thoughts.txt
+----------------------------------------
+File: 163_SMAP_id_20_Sensor_tr_2051_1st_4575-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_135709_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_135709_thoughts.txt
+----------------------------------------
+File: 165_SMAP_id_22_Sensor_tr_2129_1st_5000-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_135820_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_135820_thoughts.txt
+----------------------------------------
+File: 166_SMAP_id_23_Sensor_tr_1113_1st_1890-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_135855_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_135855_thoughts.txt
+----------------------------------------
+File: 167_SMAP_id_24_Sensor_tr_2094_1st_5600-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_135927_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_135927_thoughts.txt
+----------------------------------------
+File: 168_SMAP_id_25_Sensor_tr_1998_1st_2098-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_135957_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_135957_thoughts.txt
+----------------------------------------
+File: 169_SMAP_id_26_Sensor_tr_1811_1st_4510-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_140033_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_140033_thoughts.txt
+----------------------------------------
+File: 170_SMAP_id_27_Sensor_tr_2160_1st_4690-0.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_140113_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_140113_thoughts.txt
+----------------------------------------
+File: 171_SWaT_id_1_Sensor_tr_3749_1st_9522.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_140209_plot.png
+    - llm_artifacts/20250716_140237_plot.png
+    - llm_artifacts/20250716_140308_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_140209_thoughts.txt
+    - llm_artifacts/20250716_140237_thoughts.txt
+    - llm_artifacts/20250716_140308_thoughts.txt
+----------------------------------------
+File: 172_SWaT_id_2_Sensor_tr_23700_1st_23800.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_141044_plot.png
+    - llm_artifacts/20250716_141115_plot.png
+    - llm_artifacts/20250716_141154_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_141044_thoughts.txt
+    - llm_artifacts/20250716_141115_thoughts.txt
+    - llm_artifacts/20250716_141154_thoughts.txt
+----------------------------------------
+File: 173_GECCO_id_1_Sensor_tr_16165_1st_16265.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_141550_plot.png
+    - llm_artifacts/20250716_141627_plot.png
+    - llm_artifacts/20250716_141653_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_141550_thoughts.txt
+    - llm_artifacts/20250716_141627_thoughts.txt
+    - llm_artifacts/20250716_141653_thoughts.txt
+----------------------------------------
+File: 174_Exathlon_id_1_Facility_tr_10766_1st_12590.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_141812_plot.png
+    - llm_artifacts/20250716_141837_plot.png
+    - llm_artifacts/20250716_141911_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_141812_thoughts.txt
+    - llm_artifacts/20250716_141837_thoughts.txt
+    - llm_artifacts/20250716_141911_thoughts.txt
+----------------------------------------
+File: 175_Exathlon_id_2_Facility_tr_10684_1st_10784.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_142039_plot.png
+    - llm_artifacts/20250716_142111_plot.png
+    - llm_artifacts/20250716_142146_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_142039_thoughts.txt
+    - llm_artifacts/20250716_142111_thoughts.txt
+    - llm_artifacts/20250716_142146_thoughts.txt
+----------------------------------------
+File: 176_Exathlon_id_3_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_142249_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_142249_thoughts.txt
+----------------------------------------
+File: 177_Exathlon_id_4_Facility_tr_11665_1st_13484.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_142417_plot.png
+    - llm_artifacts/20250716_142451_plot.png
+    - llm_artifacts/20250716_142524_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_142417_thoughts.txt
+    - llm_artifacts/20250716_142451_thoughts.txt
+    - llm_artifacts/20250716_142524_thoughts.txt
+----------------------------------------
+File: 179_Exathlon_id_6_Facility_tr_11665_1st_13484-1-executor-threadpool-activeTasks-value.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_143030_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_143030_thoughts.txt
+----------------------------------------
+File: 180_Exathlon_id_7_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_143133_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_143133_thoughts.txt
+----------------------------------------
+File: 181_Exathlon_id_8_Facility_tr_11663_1st_13482.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_143259_plot.png
+    - llm_artifacts/20250716_143331_plot.png
+    - llm_artifacts/20250716_143404_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_143259_thoughts.txt
+    - llm_artifacts/20250716_143331_thoughts.txt
+    - llm_artifacts/20250716_143404_thoughts.txt
+----------------------------------------
+File: 182_Exathlon_id_9_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_143458_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_143458_thoughts.txt
+----------------------------------------
+File: 183_Exathlon_id_10_Facility_tr_11665_1st_13484.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_143625_plot.png
+    - llm_artifacts/20250716_143657_plot.png
+    - llm_artifacts/20250716_143725_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_143625_thoughts.txt
+    - llm_artifacts/20250716_143657_thoughts.txt
+    - llm_artifacts/20250716_143725_thoughts.txt
+----------------------------------------
+File: 184_Exathlon_id_11_Facility_tr_11665_1st_13484.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_143851_plot.png
+    - llm_artifacts/20250716_143926_plot.png
+    - llm_artifacts/20250716_143957_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_143851_thoughts.txt
+    - llm_artifacts/20250716_143926_thoughts.txt
+    - llm_artifacts/20250716_143957_thoughts.txt
+----------------------------------------
+File: 185_Exathlon_id_12_Facility_tr_11665_1st_13484.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_144119_plot.png
+    - llm_artifacts/20250716_144154_plot.png
+    - llm_artifacts/20250716_144225_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_144119_thoughts.txt
+    - llm_artifacts/20250716_144154_thoughts.txt
+    - llm_artifacts/20250716_144225_thoughts.txt
+----------------------------------------
+File: 186_Exathlon_id_13_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_144321_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_144321_thoughts.txt
+----------------------------------------
+File: 187_Exathlon_id_14_Facility_tr_6193_1st_6293.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_144450_plot.png
+    - llm_artifacts/20250716_144521_plot.png
+    - llm_artifacts/20250716_144552_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_144450_thoughts.txt
+    - llm_artifacts/20250716_144521_thoughts.txt
+    - llm_artifacts/20250716_144552_thoughts.txt
+----------------------------------------
+File: 188_Exathlon_id_15_Facility_tr_12538_1st_12638.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_144847_plot.png
+    - llm_artifacts/20250716_144917_plot.png
+    - llm_artifacts/20250716_144946_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_144847_thoughts.txt
+    - llm_artifacts/20250716_144917_thoughts.txt
+    - llm_artifacts/20250716_144946_thoughts.txt
+----------------------------------------
+File: 189_Exathlon_id_16_Facility_tr_11663_1st_13482.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_145116_plot.png
+    - llm_artifacts/20250716_145148_plot.png
+    - llm_artifacts/20250716_145214_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_145116_thoughts.txt
+    - llm_artifacts/20250716_145148_thoughts.txt
+    - llm_artifacts/20250716_145214_thoughts.txt
+----------------------------------------
+File: 190_Exathlon_id_17_Facility_tr_12538_1st_12638.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_145500_plot.png
+    - llm_artifacts/20250716_145529_plot.png
+    - llm_artifacts/20250716_145558_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_145500_thoughts.txt
+    - llm_artifacts/20250716_145529_thoughts.txt
+    - llm_artifacts/20250716_145558_thoughts.txt
+----------------------------------------
+File: 191_Exathlon_id_18_Facility_tr_11665_1st_13484.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_145734_plot.png
+    - llm_artifacts/20250716_145806_plot.png
+    - llm_artifacts/20250716_145839_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_145734_thoughts.txt
+    - llm_artifacts/20250716_145806_thoughts.txt
+    - llm_artifacts/20250716_145839_thoughts.txt
+----------------------------------------
+File: 192_Exathlon_id_19_Facility_tr_11665_1st_13484.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_150003_plot.png
+    - llm_artifacts/20250716_150038_plot.png
+    - llm_artifacts/20250716_150109_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_150003_thoughts.txt
+    - llm_artifacts/20250716_150038_thoughts.txt
+    - llm_artifacts/20250716_150109_thoughts.txt
+----------------------------------------
+File: 193_Exathlon_id_20_Facility_tr_8898_1st_8998.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_150234_plot.png
+    - llm_artifacts/20250716_150259_plot.png
+    - llm_artifacts/20250716_150328_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_150234_thoughts.txt
+    - llm_artifacts/20250716_150259_thoughts.txt
+    - llm_artifacts/20250716_150328_thoughts.txt
+----------------------------------------
+File: 194_Exathlon_id_21_Facility_tr_6985_1st_7085.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_150457_plot.png
+    - llm_artifacts/20250716_150530_plot.png
+    - llm_artifacts/20250716_150558_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_150457_thoughts.txt
+    - llm_artifacts/20250716_150530_thoughts.txt
+    - llm_artifacts/20250716_150558_thoughts.txt
+----------------------------------------
+File: 196_Exathlon_id_23_Facility_tr_11665_1st_13484.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_150826_plot.png
+    - llm_artifacts/20250716_150858_plot.png
+    - llm_artifacts/20250716_150930_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_150826_thoughts.txt
+    - llm_artifacts/20250716_150858_thoughts.txt
+    - llm_artifacts/20250716_150930_thoughts.txt
+----------------------------------------
+File: 197_Exathlon_id_24_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_151028_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_151028_thoughts.txt
+----------------------------------------
+File: 198_Exathlon_id_25_Facility_tr_12538_1st_12638.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_151323_plot.png
+    - llm_artifacts/20250716_151354_plot.png
+    - llm_artifacts/20250716_151425_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_151323_thoughts.txt
+    - llm_artifacts/20250716_151354_thoughts.txt
+    - llm_artifacts/20250716_151425_thoughts.txt
+----------------------------------------
+File: 199_Exathlon_id_26_Facility_tr_12538_1st_12638.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_151719_plot.png
+    - llm_artifacts/20250716_151825_plot.png
+    - llm_artifacts/20250716_151854_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_151719_thoughts.txt
+    - llm_artifacts/20250716_151825_thoughts.txt
+    - llm_artifacts/20250716_151854_thoughts.txt
+----------------------------------------
+File: 200_Exathlon_id_27_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250716_152000_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250716_152000_thoughts.txt
+----------------------------------------
+File: 091_SVDB_id_8_Medical_tr_500_1st_126-ECG1.csv (Model: Full Model (with PCA/Selection))
+  Plot Files:
+    - llm_artifacts/20250717_074030_plot.png
+  Thoughts Files:
+    - llm_artifacts/20250717_074030_thoughts.txt
+----------------------------------------
