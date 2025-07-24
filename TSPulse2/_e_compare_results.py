@@ -1,7 +1,6 @@
 import glob
 import os
-import sys
-from typing import Dict, Set, cast, Optional
+from typing import Dict, Optional, Set, cast
 
 import numpy as np
 import pandas as pd
@@ -382,33 +381,34 @@ def load_tspulse_zs(
     raw_scores_df = pd.DataFrame()
     if all_raw_scores:
         raw_scores_df = pd.concat(all_raw_scores)
-        raw_scores_df.index = raw_scores_df.index.str.replace(
-            ".csv", "", regex=False
-        )
+        raw_scores_df.index = raw_scores_df.index.str.replace(".csv", "", regex=False)
         raw_scores_df.columns = [f"TSPulseZS_{c}" for c in raw_scores_df.columns]
 
     print("Successfully loaded TSPulseZS results.")
     return combined_zs_df, split_files, raw_scores_df
 
 
-def load_tspulse2_variants(
-    metrics_dir: str, metric: str, split_files: dict
+def load_model_variant_results(
+    model_name_prefix: str, metrics_dir: str, metric: str, split_files: dict
 ) -> pd.DataFrame:
     """
-    Loads all TSPulse2 variant results, filtered to include only evaluation files.
+    Loads all variant results for a given model prefix (e.g., TSPulse2),
+    filtered to include only evaluation files.
     """
-    print("\n--- Loading TSPulse2 Variant Results ---")
-    all_files = glob.glob(os.path.join(metrics_dir, "multi", "TSPulse2*.csv"))
+    print(f"\n--- Loading {model_name_prefix} Variant Results ---")
+    all_files = glob.glob(
+        os.path.join(metrics_dir, "multi", f"{model_name_prefix}*.csv")
+    )
     result_files = [f for f in all_files if not os.path.basename(f).endswith("_.csv")]
     eval_files = split_files.get("eval", set())
 
     if not eval_files:
         print(
-            "Warning: Evaluation file list is empty. Cannot filter TSPulse2 variants."
+            f"Warning: Evaluation file list is empty. Cannot filter {model_name_prefix} variants."
         )
 
     if not result_files:
-        print("Warning: No TSPulse2 result files found. Skipping.")
+        print(f"Warning: No {model_name_prefix} result files found. Skipping.")
         return pd.DataFrame()
 
     all_dfs = []
@@ -443,14 +443,16 @@ def load_tspulse2_variants(
             print(f"Could not process file {file_path}: {e}")
 
     if not all_dfs:
-        print("Warning: No valid TSPulse2 dataframes to merge after filtering.")
+        print(
+            f"Warning: No valid {model_name_prefix} dataframes to merge after filtering."
+        )
         return pd.DataFrame()
 
-    merged_ts2_df = pd.concat(all_dfs, axis=1, join="outer")
+    merged_df = pd.concat(all_dfs, axis=1, join="outer")
     print(
-        f"Successfully loaded {len(merged_ts2_df.columns)} TSPulse2 variants on {len(merged_ts2_df)} eval files."
+        f"Successfully loaded {len(merged_df.columns)} {model_name_prefix} variants on {len(merged_df)} eval files."
     )
-    return merged_ts2_df
+    return merged_df
 
 
 def load_tspulse2_head_triangulation(
@@ -508,33 +510,70 @@ def load_tspulse2_head_triangulation(
     return combined_df
 
 
-def print_head_alignment_stats():
-    """Parses the output from determine_best_head.py and prints key alignment stats."""
-    output_file = os.path.join(script_dir, "determine_best_head_output.txt")
+def calculate_and_print_alignment_stats(summary_df: pd.DataFrame):
+    """Calculates and prints detailed comparison statistics."""
+    print("\n--- Comparison Stats ---")
 
-    print("\n--- Head Alignment Stats (from determine_best_head.py) ---")
-    if not os.path.exists(output_file):
-        print(
-            "Warning: determine_best_head_output.txt not found. Skipping alignment stats."
-        )
-        return
+    # --- TSPulse2 vs. Triangulation ---
+    if (
+        "TSPulse2" in summary_df.columns
+        and "TSPulse2Triangulation" in summary_df.columns
+    ):
+        valid_rows = summary_df.dropna(subset=["TSPulse2", "TSPulse2Triangulation"])
+        total_series = len(valid_rows)
+        if total_series > 0:
+            wins = (valid_rows["TSPulse2"] > valid_rows["TSPulse2Triangulation"]).sum()
+            draws = np.isclose(
+                valid_rows["TSPulse2"], valid_rows["TSPulse2Triangulation"]
+            ).sum()
+            losses = total_series - wins - draws
 
-    alignment_stats = []
-    with open(output_file, "r") as f:
-        for line in f:
-            if (
-                "Alignment (Ablated Tuning Choice vs. Ablated Best)" in line
-                or "Alignment (LLM Choice vs. Ablated Best)" in line
-            ):
-                alignment_stats.append(line.strip())
+            print(
+                f"TSPulse2 < Triangulation:  {losses/total_series*100:.2f}% ({losses}/{total_series} series)"
+            )
+            print(
+                f"TSPulse2 == Triangulation: {draws/total_series*100:.2f}% ({draws}/{total_series} series)"
+            )
+            print(
+                f"TSPulse2 > Triangulation:  {wins/total_series*100:.2f}% ({wins}/{total_series} series)"
+            )
+        else:
+            print("Not enough data to calculate TSPulse2 vs. Triangulation comparison.")
 
-    if alignment_stats:
-        for stat in sorted(alignment_stats):
-            print(stat)
-    else:
-        print(
-            "Warning: Could not find required alignment stats in determine_best_head_output.txt."
-        )
+    # --- TSPulse3 Variants vs. Triangulation ---
+    ts3_variants = [col for col in summary_df.columns if col.startswith("TSPulse3")]
+    if "TSPulse2Triangulation" in summary_df.columns and ts3_variants:
+        for variant in sorted(ts3_variants):
+            if variant.endswith("_Diff"):
+                continue  # Skip difference columns
+
+            # Filter for files where the TSPulse3 variant produced a non-zero score.
+            valid_rows_ts3 = summary_df[summary_df[variant] != 0].dropna(
+                subset=[variant, "TSPulse2Triangulation"]
+            )
+            total_series_ts3 = len(valid_rows_ts3)
+
+            if total_series_ts3 > 0:
+                wins = (
+                    valid_rows_ts3[variant] > valid_rows_ts3["TSPulse2Triangulation"]
+                ).sum()
+                draws = np.isclose(
+                    valid_rows_ts3[variant], valid_rows_ts3["TSPulse2Triangulation"]
+                ).sum()
+                losses = total_series_ts3 - wins - draws
+
+                print("")  # for spacing
+                print(
+                    f"{variant} < Triangulation:  {losses/total_series_ts3*100:.2f}% ({losses}/{total_series_ts3} series)"
+                )
+                print(
+                    f"{variant} == Triangulation: {draws/total_series_ts3*100:.2f}% ({draws}/{total_series_ts3} series)"
+                )
+                print(
+                    f"{variant} > Triangulation:  {wins/total_series_ts3*100:.2f}% ({wins}/{total_series_ts3} series)"
+                )
+            else:
+                print(f"\nNo results found to compare {variant} vs. Triangulation.")
 
 
 def generate_and_save_reports(
@@ -599,26 +638,56 @@ def generate_and_save_reports(
     ]
     valid_zs_head_cols = [h for h in zs_head_cols if h in summary_df.columns]
     if valid_zs_head_cols:
-        summary_df["TSPulseZS_Best_Actual_Head"] = summary_df[valid_zs_head_cols].idxmax(
-            axis=1
-        )
+        summary_df["TSPulseZS_Best_Actual_Head"] = summary_df[
+            valid_zs_head_cols
+        ].idxmax(axis=1)
 
     # Add TSPulse2 vs TSPulse2Triangulation difference column
-    if "TSPulse2" in summary_df.columns and "TSPulse2Triangulation" in summary_df.columns:
-        summary_df["TSPulse2_vs_TSPulse2Triangulation_Diff"] = summary_df["TSPulse2"] - summary_df["TSPulse2Triangulation"]
+    if (
+        "TSPulse2" in summary_df.columns
+        and "TSPulse2Triangulation" in summary_df.columns
+    ):
+        summary_df["TSPulse2_vs_TSPulse2Triangulation_Diff"] = (
+            summary_df["TSPulse2"] - summary_df["TSPulse2Triangulation"]
+        )
+    if "TSPulse3" in summary_df.columns and "TSPulse2" in summary_df.columns:
+        summary_df["TSPulse3_vs_TSPulse2_Diff"] = np.where(
+            summary_df["TSPulse3"] == 0,
+            0,
+            summary_df["TSPulse3"] - summary_df["TSPulse2"],
+        )
+    if (
+        "TSPulse3" in summary_df.columns
+        and "TSPulse2Triangulation" in summary_df.columns
+    ):
+        summary_df["TSPulse3_vs_TSPulse2Triangulation_Diff"] = np.where(
+            summary_df["TSPulse3"] == 0,
+            0,
+            summary_df["TSPulse3"] - summary_df["TSPulse2Triangulation"],
+        )
 
-    all_algo_names = sorted(scores_df.columns.tolist())
-    detailed_cols = (
-        ["Dataset", "Best_Algo", "Best_Score"]
-        + all_algo_names
-        + [
-            col
-            for col in summary_df.columns
-            if col not in all_algo_names
-            and col not in ["Dataset", "Best_Algo", "Best_Score"]
-        ]
-    )
-    summary_df = summary_df[detailed_cols].sort_index()
+    # Define preferred column order
+    preferred_order = [
+        "TSPulse2",
+        "TSPulse3",
+        "TSPulse2Triangulation",
+        "TSPulse3_vs_TSPulse2_Diff",
+        "TSPulse3_vs_TSPulse2Triangulation_Diff",
+        "TSPulse2_vs_TSPulse2Triangulation_Diff",
+        "Oracle",
+        "Best_Algo",
+        "Best_Score",
+        "Dataset",
+        "TSPulseZS",
+        "TSPulseZS_Head",
+        "TSPulseZS_Best_Actual_Head",
+        "TSPulseFT",
+        "CNN",
+    ]
+    # Get remaining columns and add them to the order
+    remaining_cols = [col for col in summary_df.columns if col not in preferred_order]
+    final_order = preferred_order + sorted(remaining_cols)
+    summary_df = summary_df.reindex(columns=final_order)
 
     detailed_output_path = os.path.join(
         output_dir, f"{name}_detailed_comparison_{metric}.csv"
@@ -634,8 +703,43 @@ def generate_and_save_reports(
     )
 
     # Add TSPulse2 vs TSPulse2Triangulation difference to dataset mean scores
-    if "TSPulse2" in dataset_mean_scores.columns and "TSPulse2Triangulation" in dataset_mean_scores.columns:
-        dataset_mean_scores["TSPulse2_vs_TSPulse2Triangulation_Diff"] = dataset_mean_scores["TSPulse2"] - dataset_mean_scores["TSPulse2Triangulation"]
+    if (
+        "TSPulse2" in dataset_mean_scores.columns
+        and "TSPulse2Triangulation" in dataset_mean_scores.columns
+    ):
+        dataset_mean_scores["TSPulse2_vs_TSPulse2Triangulation_Diff"] = (
+            dataset_mean_scores["TSPulse2"]
+            - dataset_mean_scores["TSPulse2Triangulation"]
+        )
+    if (
+        "TSPulse3" in dataset_mean_scores.columns
+        and "TSPulse2" in dataset_mean_scores.columns
+    ):
+        dataset_mean_scores["TSPulse3_vs_TSPulse2_Diff"] = np.where(
+            dataset_mean_scores["TSPulse3"] == 0,
+            0,
+            dataset_mean_scores["TSPulse3"] - dataset_mean_scores["TSPulse2"],
+        )
+    if (
+        "TSPulse3" in dataset_mean_scores.columns
+        and "TSPulse2Triangulation" in dataset_mean_scores.columns
+    ):
+        dataset_mean_scores["TSPulse3_vs_TSPulse2Triangulation_Diff"] = np.where(
+            dataset_mean_scores["TSPulse3"] == 0,
+            0,
+            dataset_mean_scores["TSPulse3"]
+            - dataset_mean_scores["TSPulse2Triangulation"],
+        )
+
+    # Reorder columns for dataset mean scores
+    dataset_mean_scores = dataset_mean_scores.reindex(
+        columns=[col for col in preferred_order if col in dataset_mean_scores.columns]
+        + [
+            col
+            for col in sorted(dataset_mean_scores.columns)
+            if col not in preferred_order
+        ]
+    )
 
     dataset_mean_output_path = os.path.join(
         output_dir, f"{name}_dataset_mean_scores_{metric}.csv"
@@ -646,14 +750,19 @@ def generate_and_save_reports(
     # --- 3. Create and Save Overall Mean Score Summary ---
     numeric_scores = scores_df.select_dtypes(include=np.number)
     if isinstance(numeric_scores, pd.DataFrame):
-        mean_scores = cast(
-            pd.Series, numeric_scores[score_cols].mean()
-        ).sort_values(ascending=False)
+        mean_scores = cast(pd.Series, numeric_scores[score_cols].mean())
     else:
         # Handle case where numeric_scores might be a Series
-        mean_scores = cast(pd.Series, numeric_scores.drop(labels=metadata_cols, errors="ignore")).sort_values(ascending=False)
+        mean_scores = cast(
+            pd.Series, numeric_scores.drop(labels=metadata_cols, errors="ignore")
+        )
+
     mean_scores_df = mean_scores.reset_index()
     mean_scores_df.columns = ["Algorithm", f"Mean_{metric}"]
+
+    # Sort the mean scores table in descending order
+    mean_scores_df = mean_scores_df.sort_values(by=f"Mean_{metric}", ascending=False)
+
     mean_output_path = os.path.join(
         output_dir, f"{name}_mean_score_summary_{metric}.csv"
     )
@@ -676,7 +785,7 @@ def generate_and_save_reports(
     print(f"\n--- Overall Mean Scores ({name.upper()}) ---")
     print(mean_scores_df.to_string(index=False, float_format="{:.16f}".format))  # type: ignore
 
-    print_head_alignment_stats()
+    calculate_and_print_alignment_stats(summary_df)
 
 
 def analyze_dimensionality_reduction(metrics_dir: str, metric: str, split_files: dict):
@@ -740,14 +849,10 @@ def analyze_dimensionality_reduction(metrics_dir: str, metric: str, split_files:
 
     # 3. Combine, normalize, and create the per-file score dataframe.
     combined_df = pd.concat(all_dfs, ignore_index=True)
-    combined_df["file"] = (
-        clean_filenames(combined_df["file"].astype(str)) + ".csv"
-    )
+    combined_df["file"] = clean_filenames(combined_df["file"].astype(str)) + ".csv"
 
     combined_df["dataset"] = combined_df["file"].apply(
-        lambda x: x.split("_")[1]
-        if "_" in x and len(x.split("_")) > 1
-        else "unknown"
+        lambda x: x.split("_")[1] if "_" in x and len(x.split("_")) > 1 else "unknown"
     )
 
     # 4. Run and print specific, side-by-side comparisons using MICRO-averaging.
@@ -789,13 +894,15 @@ def analyze_dimensionality_reduction(metrics_dir: str, metric: str, split_files:
         print(f"\n--- Overall Average {metric_name} ---")
         overall_scores_series = comparison_df[valid_methods].mean()
         if isinstance(overall_scores_series, pd.Series):
-            overall_scores = (
-                overall_scores_series.sort_values(ascending=False).reset_index()
-            )
+            overall_scores = overall_scores_series.sort_values(
+                ascending=False
+            ).reset_index()
             overall_scores.columns = ["Method", f"Average_{metric_name}"]
             print(overall_scores.to_string(index=False, float_format="{:.4f}".format))
         else:
-            print(f"Could not compute overall scores. Mean result: {overall_scores_series}")
+            print(
+                f"Could not compute overall scores. Mean result: {overall_scores_series}"
+            )
 
     _run_and_print_comparison(
         "Ablated vs. Channel Selection (on their common series)",
@@ -826,8 +933,11 @@ if __name__ == "__main__":
     zs_scores, split_files, zs_raw_scores = load_tspulse_zs(
         METRICS_ROOT_DIR, DATA_ROOT_DIR, METRIC_TO_COMPARE
     )
-    ts2_scores = load_tspulse2_variants(
-        METRICS_ROOT_DIR, METRIC_TO_COMPARE, split_files
+    ts2_scores = load_model_variant_results(
+        "TSPulse2", METRICS_ROOT_DIR, METRIC_TO_COMPARE, split_files
+    )
+    ts3_scores = load_model_variant_results(
+        "TSPulse3", METRICS_ROOT_DIR, METRIC_TO_COMPARE, split_files
     )
     ts2_triangulation_scores = load_tspulse2_head_triangulation(
         METRICS_ROOT_DIR, DATA_ROOT_DIR, METRIC_TO_COMPARE, split_files
@@ -839,6 +949,7 @@ if __name__ == "__main__":
         benchmark_scores,
         zs_scores,
         ts2_scores,
+        ts3_scores,
         ts2_triangulation_scores,
         zs_raw_scores,
     ]:

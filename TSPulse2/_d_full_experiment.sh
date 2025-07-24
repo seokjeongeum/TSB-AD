@@ -8,7 +8,13 @@
 #   4: TSPulse2 (LLM Selection Ablated - fft)
 #   5: TSPulse2 (LLM Selection Ablated - forecast)
 #   6: TSPulse2 (LLM Selection Ablated - time)
-# 7: UNI - TSPulse2 (Main)
+# 7: TSPulse3 (Main)
+# 8: TSPulse3 (Forecast Biased)
+# 9: TSPulse3 (Non-Forecast Biased)
+# 10: TSPulse3 (Dimensionality Reduction Ablated)
+# 11: TSPulse3 (Forecast Biased - Dimensionality Reduction Ablated)
+# 12: TSPulse3 (Non-Forecast Biased - Dimensionality Reduction Ablated)
+# 13: UNI - TSPulse2 (Main)
 #=========================================================================================
 #=========================================================================================
 
@@ -25,7 +31,7 @@
 #SBATCH --qos=hpgpu                    # Quality of Service (use 'hpgpu' or 'add_hpgpu' as needed)
 #SBATCH --time=3-00:00:00                  # Max runtime
 #SBATCH --gres=gpu:1                       # Request 1 GPU
-#SBATCH --array=1-7
+#SBATCH --array=1-13
 
 #=========================================================================================
 # Environment Setup
@@ -48,6 +54,39 @@ echo "Host: $(hostname)"
 echo "Start Time: $(date)"
 echo "Project Directory: $PROJECT_ROOT"
 echo "--------------------------"
+
+#=========================================================================================
+# API Key Configuration
+#=========================================================================================
+# Add your Gemini API keys to this array. The script will assign them to tasks
+# in a round-robin fashion (e.g., Task 1 gets Key 1, Task 2 gets Key 2, etc.).
+# If there are more tasks than keys, the keys will be reused.
+API_KEYS=(
+    ""
+)
+
+# --- API Key Selection for Current Task ---
+if [ ${#API_KEYS[@]} -eq 0 ] || [ "${API_KEYS[0]}" == "YOUR_API_KEY_1" ]; then
+    echo "!!! ERROR: API_KEYS array is empty or contains placeholder keys."
+    echo "Please edit the script to add your Gemini API keys."
+    exit 1
+fi
+
+# Check if enough keys were provided for all tasks
+if [ "${#API_KEYS[@]}" -lt "$SLURM_ARRAY_TASK_COUNT" ]; then
+    echo "--- WARNING: Not enough API keys provided for all tasks. Keys will be reused."
+    echo "    Provided: ${#API_KEYS[@]}, Required: $SLURM_ARRAY_TASK_COUNT"
+fi
+
+# Select an API key for the current task using modular arithmetic for round-robin assignment
+TASK_INDEX=$(( (SLURM_ARRAY_TASK_ID - 1) % ${#API_KEYS[@]} ))
+SELECTED_API_KEY=${API_KEYS[$TASK_INDEX]}
+
+# Export the selected key for the Python script.
+# The Python script is configured to look for 'TSPulse_GEMINI_API_KEY'.
+export TSPulse_GEMINI_API_KEY=$SELECTED_API_KEY
+echo "API Key has been selected for Task ${SLURM_ARRAY_TASK_ID}."
+
 
 # Create log directory if it doesn't exist
 mkdir -p "${PROJECT_ROOT}/slurm_logs"
@@ -75,25 +114,37 @@ MULTI_FILE_LISTS=(
     "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M.csv"
     "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M.csv"
     "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSPulse2-M.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M.csv"
+    "${PROJECT_ROOT}/Datasets/File_List/TSB-AD-M.csv"
 )
 MULTI_MODELS=(
-    "TSPulse2" 
+    "TSPulse2"
     "TSPulse2_dimensionality_reduction_ablated"
     "TSPulse2_llm_selection_ablated_ensemble"
     "TSPulse2_llm_selection_ablated_fft"
     "TSPulse2_llm_selection_ablated_forecast"
     "TSPulse2_llm_selection_ablated_time"
+    "TSPulse3"
+    "TSPulse3_forecast_biased"
+    "TSPulse3_non_forecast_biased"
+    "TSPulse3_dim_redux_ablated"
+    "TSPulse3_forecast_biased_dim_redux_ablated"
+    "TSPulse3_non_forecast_biased_dim_redux_ablated"
 )
-NUM_MULTI_JOBS=$((${#MULTI_MODELS[@]} ))
+NUM_MULTI_JOBS=$((${#MULTI_MODELS[@]}))
 
 # --- Univariate Configurations ---
 # No "channel_selection" model for univariate, as it's not applicable.
 UNI_MODELS=(
-    "TSPulse2" 
+    "TSPulse2"
 )
 UNI_FILE_LIST="${PROJECT_ROOT}/Datasets/File_List/TSB-AD-U.csv"
 
-NUM_UNI_JOBS=$((${#UNI_MODELS[@]} ))
+NUM_UNI_JOBS=$((${#UNI_MODELS[@]}))
 
 # --- Task-specific Parameter Selection ---
 TASK_ID=$SLURM_ARRAY_TASK_ID

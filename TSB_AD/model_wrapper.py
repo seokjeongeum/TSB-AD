@@ -33,6 +33,12 @@ Unsupervise_AD_Pool = ['FFT', 'SR', 'NORMA', 'Series2Graph', 'Sub_IForest', 'IFo
     "TSPulse2_llm_selection_ablated_fft",
     "TSPulse2_llm_selection_ablated_forecast",
     "TSPulse2_llm_selection_ablated_time",
+    "TSPulse3",
+    "TSPulse3_forecast_biased",
+    "TSPulse3_non_forecast_biased",
+    "TSPulse3_dim_redux_ablated",
+    "TSPulse3_forecast_biased_dim_redux_ablated",
+    "TSPulse3_non_forecast_biased_dim_redux_ablated",
 ]
 Semisupervise_AD_Pool = ['Left_STAMPi', 'SAND', 'MCD', 'Sub_MCD', 'OCSVM', 'Sub_OCSVM', 'AutoEncoder', 'CNN', 'LSTMAD', 'TranAD', 'USAD', 'OmniAnomaly', 
                         'AnomalyTransformer', 'TimesNet', 'FITS', 'Donut', 'OFA', 'MOMENT_FT', 'M2N2',
@@ -615,3 +621,45 @@ def run_TSPulse2_llm_selection_ablated_time(data, **kwargs):
         .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
         .ravel()
     )
+    
+def run_TSPulse3(data, **kwargs):
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+    prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
+    clf = TSPulse2Detector(
+        batch_size=kwargs.get("batch_size", 128),
+        aggr_win_size=kwargs.get("aggr_win_size", 96),
+        num_input_channels=num_input_channels,
+        smoothing_window=kwargs.get("smoothing_window", 8),
+        prediction_mode=prediction_mode,
+        expand_score=kwargs.get("use_dimensionality_reduction", True),
+        **kwargs,
+    )
+    clf.zero_shot(data)
+    return (
+        MinMaxScaler(feature_range=(0, 1))
+        .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
+        .ravel()
+    )
+
+
+def run_TSPulse3_forecast_biased(data, **kwargs):
+    return run_TSPulse3(data, **kwargs)
+
+
+def run_TSPulse3_non_forecast_biased(data, **kwargs):
+    return run_TSPulse3(data, **kwargs)
+
+
+def run_TSPulse3_dim_redux_ablated(data, **kwargs):
+    return run_TSPulse3(data, **kwargs)
+
+
+def run_TSPulse3_forecast_biased_dim_redux_ablated(data, **kwargs):
+    return run_TSPulse3(data, **kwargs)
+
+
+def run_TSPulse3_non_forecast_biased_dim_redux_ablated(data, **kwargs):
+    return run_TSPulse3(data, **kwargs)

@@ -155,6 +155,46 @@ Optimal_Multi_algo_HP_dict = {
         'n_components': 3,
         'prediction_mode': 'time',
     },
+    'TSPulse3': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': True,
+        'n_components': 3,
+        'prediction_mode': 'fft+forecast+time',
+    },
+    'TSPulse3_forecast_biased': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': True,
+        'n_components': 3,
+        'prediction_mode': 'fft+forecast+time',
+        'llm_few_shot_config': 'forecast_biased',
+    },
+    'TSPulse3_non_forecast_biased': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': True,
+        'n_components': 3,
+        'prediction_mode': 'fft+forecast+time',
+        'llm_few_shot_config': 'non_forecast_biased',
+    },
+    'TSPulse3_dim_redux_ablated': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': False,
+        'n_components': 3,
+        'prediction_mode': 'fft+forecast+time',
+    },
+    'TSPulse3_forecast_biased_dim_redux_ablated': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': False,
+        'n_components': 3,
+        'prediction_mode': 'fft+forecast+time',
+        'llm_few_shot_config': 'forecast_biased',
+    },
+    'TSPulse3_non_forecast_biased_dim_redux_ablated': {
+        'use_llm_selection': True,
+        'use_dimensionality_reduction': False,
+        'n_components': 3,
+        'prediction_mode': 'fft+forecast+time',
+        'llm_few_shot_config': 'non_forecast_biased',
+    },
 }
 
 

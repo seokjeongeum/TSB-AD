@@ -14,3 +14,5 @@ TSPulseZS_ensemble,0.31009632800818415
 TSPulseZS_fft,0.3100939580905856
 TSPulse2_llm_selection_ablated_forecast,0.28344293202697224
 TSPulseZS_forecast,0.23645187083098884
+TSPulse3_non_forecast_biased,0.04798349777635599
+TSPulse3_forecast_biased,0.04484677159856913
