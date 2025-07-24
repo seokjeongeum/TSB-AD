@@ -73,6 +73,8 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
             postprocess_kwargs["use_llm_selection"] = kwargs["use_llm_selection"]
         if "llm_few_shot_config" in kwargs:
             postprocess_kwargs["llm_few_shot_config"] = kwargs["llm_few_shot_config"]
+        if "expand_score" in kwargs:
+            forward_kwargs["expand_score"] = kwargs["expand_score"]
         return preprocess_kwargs, forward_kwargs, postprocess_kwargs
 
     def _create_llm_plot(
@@ -500,7 +502,7 @@ Which anomaly score is the best for channel '{target_channel_name}'?
     def postprocess(self, model_outputs, **postprocess_parameters):
         mangled_name = "_TimeSeriesAnomalyDetectionPipeline__context_memory"
         result = getattr(self, mangled_name)["data"].copy()
-        expand_score = postprocess_parameters.get("expand_score", False)
+        expand_score = postprocess_parameters.get("expand_score", True)
         smoothing_window_size = postprocess_parameters.get("smoothing_length", 1)
         target_columns = postprocess_parameters.get("target_columns", [])
         use_llm_selection = postprocess_parameters.get("use_llm_selection", True)

@@ -41,7 +41,7 @@ if __name__ == '__main__':
     # parser.add_argument('--save', type=bool, default=False)
     parser.add_argument('--save', type=bool, default=True)
     # parser.add_argument('--AD_Name', type=str, default='IForest')
-    parser.add_argument('--AD_Name', type=str, default='TSPulse3_dim_redux_ablated')
+    parser.add_argument('--AD_Name', type=str, default='TSPulse3')
     args = parser.parse_args()
 
 
