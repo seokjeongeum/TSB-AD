@@ -181,7 +181,7 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
         """Helper function to perform plotting and LLM call for a single channel."""
         artifacts_dir = "llm_artifacts"
         os.makedirs(artifacts_dir, exist_ok=True)
-        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S_%f")
 
         # --- Generate and save the plot for the current channel ---
         current_plot_bytes = self._create_llm_plot(
@@ -294,25 +294,29 @@ Which anomaly score is the best for channel '{target_channel_name}'?
 """
 
         example_parts = []
-        example_counter = 1
-        for method, csv_filenames in example_csvs.items():
-            for csv_filename in csv_filenames:
-                try:
-                    example_basename = os.path.splitext(csv_filename)[0]
-                    example_plot_path = os.path.join(
-                        artifacts_dir, f"{example_basename}_example.pdf"
-                    )
+        all_examples = [
+            (method, filename)
+            for method, filenames in example_csvs.items()
+            for filename in filenames
+        ]
 
-                    if os.path.exists(example_plot_path):
-                        logging.info(f"Reusing existing plot: {example_plot_path}")
-                        with open(example_plot_path, "rb") as f:
-                            example_plot_bytes = f.read()
-                    else:
-                        logging.info(f"Generating new plot for: {csv_filename}")
-                        example_data_path = os.path.join(dataset_dir, csv_filename)
-                        example_df = pd.read_csv(example_data_path)
-                        example_raw_data = example_df.iloc[:, 0]
-                        example_labels = example_df.iloc[:, -1].values
+        for i, (method, csv_filename) in enumerate(all_examples):
+            try:
+                example_basename = os.path.splitext(csv_filename)[0]
+                example_plot_path = os.path.join(
+                    artifacts_dir, f"{example_basename}_example.pdf"
+                )
+
+                if os.path.exists(example_plot_path):
+                    logging.info(f"Reusing existing plot: {example_plot_path}")
+                    with open(example_plot_path, "rb") as f:
+                        example_plot_bytes = f.read()
+                else:
+                    logging.info(f"Generating new plot for: {csv_filename}")
+                    example_data_path = os.path.join(dataset_dir, csv_filename)
+                    example_df = pd.read_csv(example_data_path)
+                    example_raw_data = example_df.iloc[:, 0]
+                    example_labels = example_df.iloc[:, -1].values
 
                     example_scores = {}
                     for key, algo_name in score_name_map.items():
@@ -333,7 +337,7 @@ Which anomaly score is the best for channel '{target_channel_name}'?
                         )
                         continue
 
-                    anonymous_title = f"Example Plot {example_counter}"
+                    anonymous_title = f"Example Plot {i + 1} (Best Method: {method})"
                     example_plot_bytes = self._create_llm_plot(
                         example_raw_data,
                         example_scores,
@@ -341,24 +345,23 @@ Which anomaly score is the best for channel '{target_channel_name}'?
                         labels=example_labels,
                         save_to_path=example_plot_path,
                     )
-                    example_counter += 1
 
-                    example_parts.append(
-                        types.Part.from_bytes(
-                            mime_type="application/pdf", data=example_plot_bytes
-                        )
-                    )
-
-                except Exception as e:
-                    logging.warning(
-                        f"Failed to process example file {csv_filename}: {e}",
-                        exc_info=True,
-                    )
                 example_parts.append(
-                    types.Part.from_text(
-                        text=f"This is an example where the '{method}' score performed well."
+                    types.Part.from_bytes(
+                        mime_type="application/pdf", data=example_plot_bytes
                     )
                 )
+
+            except Exception as e:
+                logging.warning(
+                    f"Failed to process example file {csv_filename}: {e}",
+                    exc_info=True,
+                )
+            example_parts.append(
+                types.Part.from_text(
+                    text=f"This is an example where the '{method}' score performed well."
+                )
+            )
 
         current_plot_part = types.Part.from_bytes(
             mime_type="application/pdf",
