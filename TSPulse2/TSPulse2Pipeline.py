@@ -6,6 +6,9 @@ import sys
 import time
 from typing import List, Optional
 
+import matplotlib
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import numpy as np
@@ -24,14 +27,12 @@ sys.path.insert(
         "granite-tsfm",
     ),
 )
-from tsfm_public.models.tspulse.modeling_tspulse import TSPulseForReconstruction
+from tsfm_public.models.tspulse.modeling_tspulse import \
+    TSPulseForReconstruction
 from tsfm_public.toolkit.ad_helpers import AnomalyScoreMethods
 from tsfm_public.toolkit.conformal import PostHocProbabilisticProcessor
 from tsfm_public.toolkit.time_series_anomaly_detection_pipeline import (
-    AggregationFunction,
-    TimeSeriesAnomalyDetectionPipeline,
-    score_smoothing,
-)
+    AggregationFunction, TimeSeriesAnomalyDetectionPipeline, score_smoothing)
 
 
 class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
