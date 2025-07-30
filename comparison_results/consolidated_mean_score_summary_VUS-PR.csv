@@ -1,12 +1,17 @@
 Algorithm,Mean_VUS-PR
 Oracle,0.4526936057567358
-TSPulse2Triangulation,0.4410543883027971
+TSPulse2Triangulation_forecast,0.44209290473403867
+TSPulse2Triangulation_ensemble,0.4412025925349134
+TSPulse2Triangulation_time,0.4410543883027971
+TSPulse2Triangulation_fft,0.44098061531403626
+TSPulse3_non_forecast_biased,0.4370224309272318
 TSPulse2_llm_selection_ablated_fft,0.43279301506349316
 TSPulse2_llm_selection_ablated_time,0.430894841859191
 TSPulse2_llm_selection_ablated_ensemble,0.42403363176247466
 TSPulse2,0.4188000453126899
 TSPulseFT,0.3896666666666666
 TSPulseZS,0.36099730562284754
+TSPulse3_non_forecast_biased_dim_redux_ablated,0.32266625746347816
 CNN,0.31298480624155595
 TSPulseZS_time,0.31187071842032077
 TSPulse2_dimensionality_reduction_ablated,0.3101576474774317
@@ -14,5 +19,3 @@ TSPulseZS_ensemble,0.31009632800818415
 TSPulseZS_fft,0.3100939580905856
 TSPulse2_llm_selection_ablated_forecast,0.28344293202697224
 TSPulseZS_forecast,0.23645187083098884
-TSPulse3_non_forecast_biased,0.04798349777635599
-TSPulse3_forecast_biased,0.04484677159856913

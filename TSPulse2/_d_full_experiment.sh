@@ -32,7 +32,7 @@
 #SBATCH --time=3-00:00:00                  # Max runtime
 #SBATCH --gres=gpu:1                       # Request 1 GPU
 #SBATCH --array=1-13
-
+#SBATCH --exclude=n78
 #=========================================================================================
 # Environment Setup
 #=========================================================================================
@@ -62,7 +62,7 @@ echo "--------------------------"
 # in a round-robin fashion (e.g., Task 1 gets Key 1, Task 2 gets Key 2, etc.).
 # If there are more tasks than keys, the keys will be reused.
 API_KEYS=(
-    ""
+    "AIzaSyBM1E0jIAuWdgrmRetc4OHpLm8DuSHgTro"
 )
 
 # --- API Key Selection for Current Task ---

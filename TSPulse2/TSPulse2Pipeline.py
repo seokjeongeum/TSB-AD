@@ -385,7 +385,7 @@ Which anomaly score is the best for channel '{target_channel_name}'?
         score_keys = list(scores_dict.keys())
 
         response = None
-        max_retries = 10
+        max_retries = 20
         delay = 2  # Start with a 2-second delay
 
         for attempt in range(max_retries):

@@ -2,6 +2,7 @@ import glob
 import os
 from typing import Dict, Optional, Set, cast
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
@@ -12,6 +13,52 @@ def clean_filenames(s: pd.Series) -> pd.Series:
     """Applies a standard cleaning regex to filenames."""
     # Removes any suffix starting with '-' and the '.csv' extension.
     return s.str.replace(r"(-.*)?\.csv$", "", regex=True)
+
+
+def plot_bar_on_ax(
+    ax,
+    df: pd.DataFrame,
+    title: str,
+    x_col: str,
+    y_col: str,
+    y_label: Optional[str] = None,
+    colors: Optional[list] = None,
+):
+    """Generates a bar chart on a given matplotlib axis."""
+    if df.empty:
+        ax.text(
+            0.5,
+            0.5,
+            f"No data for '{title}'",
+            ha="center",
+            va="center",
+            transform=ax.transAxes,
+        )
+        ax.set_title(title)
+        return
+
+    bar_colors = (
+        colors
+        if colors is not None
+        else plt.cm.viridis(np.linspace(0.4, 0.8, len(df[x_col])))
+    )
+
+    bars = ax.bar(df[x_col], df[y_col], color=bar_colors)
+
+    if y_label:
+        ax.set_ylabel(y_label, fontsize=40)
+    ax.set_title(title, fontsize=48)
+    ax.tick_params(axis="x", labelsize=36)
+    ax.tick_params(axis="y", labelsize=36)
+
+    # Rotate labels to prevent overlap
+    plt.setp(ax.get_xticklabels(), rotation=30, ha="right", rotation_mode="anchor")
+
+    # Add data labels outside of the bars
+    ax.bar_label(bars, fmt="%.3f", fontsize=32, padding=3)
+
+    # Add some margin to the top to make space for labels
+    ax.margins(y=0.15)
 
 
 def evaluate_best_head_strategy(
@@ -459,7 +506,7 @@ def load_tspulse2_head_triangulation(
     metrics_dir: str, data_dir: str, metric: str, split_files: dict
 ) -> pd.DataFrame:
     """
-    Loads TSPulse2 variants and applies the 'best head' strategy.
+    Loads TSPulse2 variants and applies the 'best head' strategy for all 4 fallback heads.
     """
     print("\n--- Loading TSPulse2 Head Triangulation Results ---")
 
@@ -471,25 +518,53 @@ def load_tspulse2_head_triangulation(
     ]
     heads_to_load = {head: f"{head}.csv" for head in triangulation_heads}
 
+    # Define fallback heads and their corresponding column names
+    fallback_heads = {
+        "TSPulse2_llm_selection_ablated_ensemble": "TSPulse2Triangulation_ensemble",
+        "TSPulse2_llm_selection_ablated_fft": "TSPulse2Triangulation_fft",
+        "TSPulse2_llm_selection_ablated_forecast": "TSPulse2Triangulation_forecast",
+        "TSPulse2_llm_selection_ablated_time": "TSPulse2Triangulation_time",
+    }
+
     all_results = []
     ds_type = "multi"  # Based on directory
-    print(f"Running TSPulse2 Head Triangulation for '{ds_type}' dataset type...")
-    try:
-        # We already have split_files, no need to load again.
-        result = evaluate_best_head_strategy(
-            root_directory=metrics_dir,
-            metric=metric,
-            split_files=split_files,
-            dataset_type=ds_type,
-            heads_to_load=heads_to_load,
-            clean_filenames_flag=True,  # Enable cleaning for TSPulse2 files
-            fallback_head="TSPulse2_llm_selection_ablated_time",
-        )
-        if "detailed_evaluation" in result and not result["detailed_evaluation"].empty:
-            detailed_df = result["detailed_evaluation"]
-            all_results.append(detailed_df[[metric, "selected_head"]])
-    except Exception as e:
-        print(f"Could not run TSPulse2 Head Triangulation for '{ds_type}': {e}")
+
+    # Run triangulation for each fallback head
+    for fallback_head, column_name in fallback_heads.items():
+        print(f"Running TSPulse2 Head Triangulation with fallback '{fallback_head}'...")
+        try:
+            result = evaluate_best_head_strategy(
+                root_directory=metrics_dir,
+                metric=metric,
+                split_files=split_files,
+                dataset_type=ds_type,
+                heads_to_load=heads_to_load,
+                clean_filenames_flag=True,  # Enable cleaning for TSPulse2 files
+                fallback_head=fallback_head,
+            )
+            if (
+                "detailed_evaluation" in result
+                and not result["detailed_evaluation"].empty
+            ):
+                detailed_df = result["detailed_evaluation"][
+                    [metric, "selected_head"]
+                ].copy()
+                detailed_df.rename(
+                    columns={
+                        metric: column_name,
+                        "selected_head": f"{column_name}_Head",
+                    },
+                    inplace=True,
+                )
+                detailed_df.index = detailed_df.index.str.replace(
+                    ".csv", "", regex=False
+                )
+                all_results.append(detailed_df)
+        except Exception as e:
+            print(
+                f"Could not run TSPulse2 Head Triangulation with fallback '{fallback_head}': {e}"
+            )
+            continue
 
     if not all_results:
         print(
@@ -497,83 +572,12 @@ def load_tspulse2_head_triangulation(
         )
         return pd.DataFrame()
 
-    combined_df = pd.concat(all_results)
-    combined_df.rename(
-        columns={
-            metric: "TSPulse2Triangulation",
-            "selected_head": "TSPulse2Triangulation_Head",
-        },
-        inplace=True,
+    # Combine all results into a single DataFrame
+    combined_df = pd.concat(all_results, axis=1, join="outer")
+    print(
+        f"Successfully loaded TSPulse2 Head Triangulation results for {len(fallback_heads)} fallback heads."
     )
-    combined_df.index = combined_df.index.str.replace(".csv", "", regex=False)
-    print("Successfully loaded TSPulse2 Head Triangulation results.")
     return combined_df
-
-
-def calculate_and_print_alignment_stats(summary_df: pd.DataFrame):
-    """Calculates and prints detailed comparison statistics."""
-    print("\n--- Comparison Stats ---")
-
-    # --- TSPulse2 vs. Triangulation ---
-    if (
-        "TSPulse2" in summary_df.columns
-        and "TSPulse2Triangulation" in summary_df.columns
-    ):
-        valid_rows = summary_df.dropna(subset=["TSPulse2", "TSPulse2Triangulation"])
-        total_series = len(valid_rows)
-        if total_series > 0:
-            wins = (valid_rows["TSPulse2"] > valid_rows["TSPulse2Triangulation"]).sum()
-            draws = np.isclose(
-                valid_rows["TSPulse2"], valid_rows["TSPulse2Triangulation"]
-            ).sum()
-            losses = total_series - wins - draws
-
-            print(
-                f"TSPulse2 < Triangulation:  {losses/total_series*100:.2f}% ({losses}/{total_series} series)"
-            )
-            print(
-                f"TSPulse2 == Triangulation: {draws/total_series*100:.2f}% ({draws}/{total_series} series)"
-            )
-            print(
-                f"TSPulse2 > Triangulation:  {wins/total_series*100:.2f}% ({wins}/{total_series} series)"
-            )
-        else:
-            print("Not enough data to calculate TSPulse2 vs. Triangulation comparison.")
-
-    # --- TSPulse3 Variants vs. Triangulation ---
-    ts3_variants = [col for col in summary_df.columns if col.startswith("TSPulse3")]
-    if "TSPulse2Triangulation" in summary_df.columns and ts3_variants:
-        for variant in sorted(ts3_variants):
-            if variant.endswith("_Diff"):
-                continue  # Skip difference columns
-
-            # Filter for files where the TSPulse3 variant produced a non-zero score.
-            valid_rows_ts3 = summary_df[summary_df[variant] != 0].dropna(
-                subset=[variant, "TSPulse2Triangulation"]
-            )
-            total_series_ts3 = len(valid_rows_ts3)
-
-            if total_series_ts3 > 0:
-                wins = (
-                    valid_rows_ts3[variant] > valid_rows_ts3["TSPulse2Triangulation"]
-                ).sum()
-                draws = np.isclose(
-                    valid_rows_ts3[variant], valid_rows_ts3["TSPulse2Triangulation"]
-                ).sum()
-                losses = total_series_ts3 - wins - draws
-
-                print("")  # for spacing
-                print(
-                    f"{variant} < Triangulation:  {losses/total_series_ts3*100:.2f}% ({losses}/{total_series_ts3} series)"
-                )
-                print(
-                    f"{variant} == Triangulation: {draws/total_series_ts3*100:.2f}% ({draws}/{total_series_ts3} series)"
-                )
-                print(
-                    f"{variant} > Triangulation:  {wins/total_series_ts3*100:.2f}% ({wins}/{total_series_ts3} series)"
-                )
-            else:
-                print(f"\nNo results found to compare {variant} vs. Triangulation.")
 
 
 def generate_and_save_reports(
@@ -642,38 +646,13 @@ def generate_and_save_reports(
             valid_zs_head_cols
         ].idxmax(axis=1)
 
-    # Add TSPulse2 vs TSPulse2Triangulation difference column
-    if (
-        "TSPulse2" in summary_df.columns
-        and "TSPulse2Triangulation" in summary_df.columns
-    ):
-        summary_df["TSPulse2_vs_TSPulse2Triangulation_Diff"] = (
-            summary_df["TSPulse2"] - summary_df["TSPulse2Triangulation"]
-        )
-    if "TSPulse3" in summary_df.columns and "TSPulse2" in summary_df.columns:
-        summary_df["TSPulse3_vs_TSPulse2_Diff"] = np.where(
-            summary_df["TSPulse3"] == 0,
-            0,
-            summary_df["TSPulse3"] - summary_df["TSPulse2"],
-        )
-    if (
-        "TSPulse3" in summary_df.columns
-        and "TSPulse2Triangulation" in summary_df.columns
-    ):
-        summary_df["TSPulse3_vs_TSPulse2Triangulation_Diff"] = np.where(
-            summary_df["TSPulse3"] == 0,
-            0,
-            summary_df["TSPulse3"] - summary_df["TSPulse2Triangulation"],
-        )
-
-    # Define preferred column order
-    preferred_order = [
-        "TSPulse2",
-        "TSPulse3",
-        "TSPulse2Triangulation",
-        "TSPulse3_vs_TSPulse2_Diff",
-        "TSPulse3_vs_TSPulse2Triangulation_Diff",
-        "TSPulse2_vs_TSPulse2Triangulation_Diff",
+    # Define columns that should come early in the preferred order
+    base_preferred_order = [
+        "TSPulse3_non_forecast_biased",
+        "TSPulse2Triangulation_ensemble",
+        "TSPulse2Triangulation_fft",
+        "TSPulse2Triangulation_forecast",
+        "TSPulse2Triangulation_time",
         "Oracle",
         "Best_Algo",
         "Best_Score",
@@ -684,6 +663,19 @@ def generate_and_save_reports(
         "TSPulseFT",
         "CNN",
     ]
+
+    # Add all triangulation head columns
+    triangulation_head_cols = [
+        col
+        for col in summary_df.columns
+        if col.startswith("TSPulse2Triangulation_") and col.endswith("_Head")
+    ]
+
+    # Add all difference columns
+    diff_cols = [col for col in summary_df.columns if "_Diff" in col]
+
+    # Create the full preferred order
+    preferred_order = base_preferred_order + triangulation_head_cols + diff_cols
     # Get remaining columns and add them to the order
     remaining_cols = [col for col in summary_df.columns if col not in preferred_order]
     final_order = preferred_order + sorted(remaining_cols)
@@ -701,35 +693,6 @@ def generate_and_save_reports(
     dataset_mean_scores = (
         dataset_mean_scores.groupby("Dataset")[score_cols].mean().sort_index()
     )
-
-    # Add TSPulse2 vs TSPulse2Triangulation difference to dataset mean scores
-    if (
-        "TSPulse2" in dataset_mean_scores.columns
-        and "TSPulse2Triangulation" in dataset_mean_scores.columns
-    ):
-        dataset_mean_scores["TSPulse2_vs_TSPulse2Triangulation_Diff"] = (
-            dataset_mean_scores["TSPulse2"]
-            - dataset_mean_scores["TSPulse2Triangulation"]
-        )
-    if (
-        "TSPulse3" in dataset_mean_scores.columns
-        and "TSPulse2" in dataset_mean_scores.columns
-    ):
-        dataset_mean_scores["TSPulse3_vs_TSPulse2_Diff"] = np.where(
-            dataset_mean_scores["TSPulse3"] == 0,
-            0,
-            dataset_mean_scores["TSPulse3"] - dataset_mean_scores["TSPulse2"],
-        )
-    if (
-        "TSPulse3" in dataset_mean_scores.columns
-        and "TSPulse2Triangulation" in dataset_mean_scores.columns
-    ):
-        dataset_mean_scores["TSPulse3_vs_TSPulse2Triangulation_Diff"] = np.where(
-            dataset_mean_scores["TSPulse3"] == 0,
-            0,
-            dataset_mean_scores["TSPulse3"]
-            - dataset_mean_scores["TSPulse2Triangulation"],
-        )
 
     # Reorder columns for dataset mean scores
     dataset_mean_scores = dataset_mean_scores.reindex(
@@ -784,11 +747,97 @@ def generate_and_save_reports(
 
     print(f"\n--- Overall Mean Scores ({name.upper()}) ---")
     print(mean_scores_df.to_string(index=False, float_format="{:.16f}".format))  # type: ignore
+    return mean_scores_df, score_cols, summary_df
 
-    calculate_and_print_alignment_stats(summary_df)
+
+def generate_strategy_comparison_plot(
+    mean_scores_df: pd.DataFrame, metric: str, output_dir: str
+):
+    """Generates and saves a bar chart comparing different model strategies."""
+    print("\n--- Generating Strategy Comparison Plot ---")
+
+    # 1. Determine the best triangulation algorithm from the results
+    triangulation_cols = [
+        c for c in mean_scores_df["Algorithm"] if c.startswith("TSPulse2Triangulation_")
+    ]
+    best_triangulation_algo = None
+    if triangulation_cols:
+        triangulation_scores = mean_scores_df[
+            mean_scores_df["Algorithm"].isin(triangulation_cols)
+        ]
+        if not triangulation_scores.empty:
+            best_triangulation_algo = triangulation_scores.loc[
+                triangulation_scores[f"Mean_{metric}"].idxmax()
+            ]["Algorithm"]
+
+    # 2. Define the algorithms and their labels for the plot
+    algorithms_to_plot = {
+        "TSPulse2_llm_selection_ablated_ensemble": "Static: Ensemble",
+        "TSPulse2_llm_selection_ablated_fft": "Static: FFT",
+        "TSPulse2_llm_selection_ablated_forecast": "Static: Forecast",
+        "TSPulse2_llm_selection_ablated_time": "Static: Time",
+        "TSPulse3_non_forecast_biased": "Ours (Few-Shot)",
+        "TSPulse2": "Ours (Zero-Shot)",
+        "Oracle": "Oracle",
+    }
+    if best_triangulation_algo:
+        algorithms_to_plot[best_triangulation_algo] = "Triangulation"
+
+    # 3. Filter and prepare the DataFrame for plotting
+    plot_df = mean_scores_df[
+        mean_scores_df["Algorithm"].isin(algorithms_to_plot.keys())
+    ].copy()
+    plot_df["Strategy"] = plot_df["Algorithm"].map(algorithms_to_plot)
+    plot_df = plot_df.sort_values(by=f"Mean_{metric}", ascending=False)
+
+    if plot_df.empty:
+        print("Warning: No data available for the strategy comparison plot. Skipping.")
+        return
+
+    # 4. Create and save the plot
+    def get_color(strategy: str) -> str:
+        if strategy.startswith("Ours"):
+            return "darkorange"  # Emphasize our methods
+        if strategy.startswith("Triangulation"):
+            return "forestgreen"  # Color for the next best
+        if strategy == "Oracle":
+            return "gold"  # Special color for Oracle
+        return "steelblue"  # Standard color for static methods
+
+    bar_colors = [get_color(s) for s in plot_df["Strategy"]]
+
+    fig, ax = plt.subplots(figsize=(18, 10))
+    plot_bar_on_ax(
+        ax,
+        plot_df,
+        title="",  # No main title for this plot
+        x_col="Strategy",
+        y_col=f"Mean_{metric}",
+        y_label=f"Mean {metric}",
+        colors=bar_colors,
+    )
+
+    # Customize text for specific bars to be bold
+    for label in ax.get_xticklabels():
+        text = label.get_text()
+        if text.startswith("Ours") or text.startswith("Triangulation") or text == "Oracle":
+            label.set_weight("bold")
+
+    fig.tight_layout(pad=1.0)
+
+    charts_dir = os.path.join(output_dir, "charts")
+    os.makedirs(charts_dir, exist_ok=True)
+    output_path = os.path.join(charts_dir, "consolidated_strategy_comparison")
+
+    fig.savefig(f"{output_path}.pdf", format="pdf", bbox_inches="tight")
+    fig.savefig(f"{output_path}.png", format="png", bbox_inches="tight", dpi=300)
+    print(f"Strategy comparison plot saved to {output_path}.pdf and .png")
+    plt.close(fig)
 
 
-def analyze_dimensionality_reduction(metrics_dir: str, metric: str, split_files: dict):
+def analyze_dimensionality_reduction(
+    metrics_dir: str, metric: str, split_files: dict
+):
     """
     Analyzes and compares dimensionality reduction methods by loading data from the
     same evaluation split as the main report to ensure consistent comparisons.
@@ -807,9 +856,11 @@ def analyze_dimensionality_reduction(metrics_dir: str, metric: str, split_files:
 
     # 2. Load and process results from the specific files for this analysis.
     all_dfs = []
-    main_results_file = os.path.join(metrics_dir, "multi", "TSPulse2.csv")
+    main_results_file = os.path.join(
+        metrics_dir, "multi", "TSPulse3_non_forecast_biased.csv"
+    )
     ablated_file_path = os.path.join(
-        metrics_dir, "multi", "TSPulse2_dimensionality_reduction_ablated.csv"
+        metrics_dir, "multi", "TSPulse3_non_forecast_biased_dim_redux_ablated.csv"
     )
 
     for file_path in [main_results_file, ablated_file_path]:
@@ -899,18 +950,28 @@ def analyze_dimensionality_reduction(metrics_dir: str, metric: str, split_files:
             ).reset_index()
             overall_scores.columns = ["Method", f"Average_{metric_name}"]
             print(overall_scores.to_string(index=False, float_format="{:.4f}".format))
+
+            # --- Plot on the provided axis ---
+            # plot_bar_on_ax(
+            #     ax=ax,
+            #     df=overall_scores,
+            #     title=title,
+            #     xlabel="Method",
+            #     ylabel=f"Average_{metric_name}",
+            # )
         else:
             print(
                 f"Could not compute overall scores. Mean result: {overall_scores_series}"
             )
+        return overall_scores if isinstance(overall_scores_series, pd.Series) else pd.DataFrame()
 
-    _run_and_print_comparison(
+    comparison1_df = _run_and_print_comparison(
         "Ablated vs. Channel Selection (on their common series)",
         combined_df,
         ["Ablated", "Channel Selection"],
         metric,
     )
-    _run_and_print_comparison(
+    comparison2_df = _run_and_print_comparison(
         "Ablated vs. PCA (on their common series)",
         combined_df,
         ["Ablated", "PCA"],
@@ -920,14 +981,16 @@ def analyze_dimensionality_reduction(metrics_dir: str, metric: str, split_files:
     print("\n" + "=" * 50)
     print("--- Dimensionality Reduction Analysis Complete ---")
     print("=" * 50 + "\n")
+    return comparison1_df, comparison2_df
 
 
-if __name__ == "__main__":
+def main():
+    """Main function to run all analysis and generate consolidated plots."""
     print("\n" + "=" * 50)
     print("--- Starting Comparison Generation ---")
     print("=" * 50)
 
-    # 1. Load results from all sources, getting split_files from ZS loader
+    # 1. Load results from all sources
     ft_scores = load_tspulse_ft()
     benchmark_scores = load_benchmark_results()
     zs_scores, split_files, zs_raw_scores = load_tspulse_zs(
@@ -961,27 +1024,86 @@ if __name__ == "__main__":
 
     if file_scores_df.empty:
         print("\nNo file-based data could be loaded. Aborting report generation.")
-    else:
-        # 3. Map the per-dataset TSPulseFT scores to the per-file data
-        if not ft_scores.empty:
-            # Create a temporary 'Dataset' column for mapping purposes
-            file_scores_df["Dataset_temp"] = file_scores_df.index.to_series().apply(
-                lambda x: x.split("_")[1] if "_" in x and len(x.split("_")) > 1 else x
-            )
-            ft_map = ft_scores["TSPulseFT"].to_dict()
-            file_scores_df["TSPulseFT"] = file_scores_df["Dataset_temp"].map(ft_map)  # type: ignore
-            file_scores_df.drop(columns=["Dataset_temp"], inplace=True)
+        return
 
-        # 4. Generate and save all reports using the consolidated per-file scores
-        generate_and_save_reports(
-            scores_df=file_scores_df,
-            output_dir=OUTPUT_DIR,
-            metric=METRIC_TO_COMPARE,
-            name="consolidated",
+    # 3. Map the per-dataset TSPulseFT scores
+    if not ft_scores.empty:
+        file_scores_df["Dataset_temp"] = file_scores_df.index.to_series().apply(
+            lambda x: x.split("_")[1] if "_" in x and len(x.split("_")) > 1 else x
         )
-        print("\n" + "=" * 50)
-        print("--- Comparison Generation Complete ---")
-        print("=" * 50 + "\n")
+        ft_map = ft_scores["TSPulseFT"].to_dict()
+        file_scores_df["TSPulseFT"] = file_scores_df["Dataset_temp"].map(ft_map)  # type: ignore
+        file_scores_df.drop(columns=["Dataset_temp"], inplace=True)
 
-    # Run the new analysis function
-    analyze_dimensionality_reduction(METRICS_ROOT_DIR, METRIC_TO_COMPARE, split_files)
+    # 4. Generate reports and get data for plotting
+    mean_scores_df, _, _ = generate_and_save_reports(
+        scores_df=file_scores_df,
+        output_dir=OUTPUT_DIR,
+        metric=METRIC_TO_COMPARE,
+        name="consolidated",
+    )
+    print("\n" + "=" * 50)
+    print("--- Comparison Generation Complete ---")
+    print("=" * 50 + "\n")
+
+    comp1_df, comp2_df = analyze_dimensionality_reduction(
+        METRICS_ROOT_DIR, METRIC_TO_COMPARE, split_files
+    )
+
+    # 5. Create consolidated plot
+    fig, axes = plt.subplots(1, 3, figsize=(33, 8))
+
+    # Plot 1: MAD Variant Comparison
+    tspulse3_variants = [
+        "TSPulse3_non_forecast_biased",
+        "TSPulse3_non_forecast_biased_dim_redux_ablated",
+    ]
+    specific_df = mean_scores_df[
+        mean_scores_df["Algorithm"].isin(tspulse3_variants)
+    ].copy()
+    new_labels = {
+        "TSPulse3_non_forecast_biased": "MAD (Full)",
+        "TSPulse3_non_forecast_biased_dim_redux_ablated": "MAD (Ablated)",
+    }
+    specific_df["Algorithm"] = specific_df["Algorithm"].map(new_labels)
+    specific_df.rename(columns={"Algorithm": "Model Variant"}, inplace=True)
+    plot_bar_on_ax(
+        axes[0],
+        specific_df,
+        "",
+        "Model Variant",
+        f"Mean_{METRIC_TO_COMPARE}",
+        y_label=f"Mean_{METRIC_TO_COMPARE}",
+    )
+
+    # Plot 2 & 3: Dimensionality Reduction Comparisons
+    plot_bar_on_ax(
+        axes[1],
+        comp1_df,
+        "",
+        "Method",
+        f"Average_{METRIC_TO_COMPARE}",
+    )
+    plot_bar_on_ax(
+        axes[2],
+        comp2_df,
+        "",
+        "Method",
+        f"Average_{METRIC_TO_COMPARE}",
+    )
+
+    # 6. Save the final figure
+    fig.tight_layout(rect=[0, 0, 1, 0.95])
+    output_path = os.path.join(OUTPUT_DIR, "charts", "consolidated_summary")
+    os.makedirs(os.path.join(OUTPUT_DIR, "charts"), exist_ok=True)
+    fig.savefig(f"{output_path}.pdf", format="pdf", bbox_inches="tight")
+    fig.savefig(f"{output_path}.png", format="png", bbox_inches="tight", dpi=300)
+    print(f"\nConsolidated summary plot saved to {output_path}.pdf and .png")
+    plt.close(fig)
+
+    # 6. Generate the separate strategy comparison plot
+    generate_strategy_comparison_plot(mean_scores_df, METRIC_TO_COMPARE, OUTPUT_DIR)
+
+
+if __name__ == "__main__":
+    main()

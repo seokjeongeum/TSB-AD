@@ -2,14 +2,17 @@ import os
 import re
 from typing import Any, Dict, List, Optional, Set, cast
 
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
+from matplotlib.ticker import FuncFormatter
 
 # --- Configuration ---
 
 # Define the log files to be analyzed with user-friendly names
 LOG_FILES_TO_ANALYZE = {
-    "Dimensionality Reduction Ablated": "eval/score/multi/TSPulse2_dimensionality_reduction_ablated/000_run_TSPulse2_dimensionality_reduction_ablated.log",
-    "Full Model (with PCA/Selection)": "eval/score/multi/TSPulse2/000_run_TSPulse2.log",
+    "Dimensionality Reduction Ablated": "eval/score/multi/TSPulse3_non_forecast_biased_dim_redux_ablated/000_run_TSPulse3_non_forecast_biased_dim_redux_ablated.log",
+    "Full Model (with PCA/Selection)": "eval/score/multi/TSPulse3_non_forecast_biased/000_run_TSPulse3_non_forecast_biased.log",
 }
 
 # Pricing for Gemini 2.5 Pro, per 1 million tokens, from the provided pricing page.
@@ -43,6 +46,164 @@ def load_simple_filenames(path: str) -> Optional[Set[str]]:
     except KeyError:
         print(f"ERROR: 'file_name' column not found in '{path}'.")
         return None
+
+
+def save_bar_chart(
+    df: pd.DataFrame, title: str, xlabel: str, ylabel: str, output_path_no_ext: str
+):
+    """Generates and saves a bar chart from a DataFrame to both PDF and PNG."""
+    if df.empty:
+        print(f"Skipping plot '{title}' because the dataframe is empty.")
+        return
+
+    # Sort by value for better visualization
+    df_sorted = df.sort_values(by=ylabel, ascending=False).copy()
+
+    plt.figure(figsize=(10, 8))
+    bars = plt.bar(
+        df_sorted[xlabel],
+        df_sorted[ylabel],
+        color=plt.cm.viridis(np.linspace(0.4, 0.8, len(df_sorted[xlabel]))),
+    )
+
+    plt.ylabel(ylabel)
+    plt.title(title)
+    plt.xticks(rotation=15, ha="right")
+
+    # Add data labels
+    for bar in bars:
+        yval = bar.get_height()
+        plt.text(
+            bar.get_x() + bar.get_width() / 2.0,
+            yval * 1.01,
+            f"{yval:,.2f}",
+            ha="center",
+            va="bottom",
+        )
+
+    plt.tight_layout()
+
+    # Ensure output directory exists
+    output_dir = os.path.dirname(output_path_no_ext)
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
+
+    # Save as PDF
+    pdf_path = f"{output_path_no_ext}.pdf"
+    plt.savefig(pdf_path, format="pdf", bbox_inches="tight")
+    print(f"Saved plot to: {pdf_path}")
+
+    # Save as PNG
+    png_path = f"{output_path_no_ext}.png"
+    plt.savefig(png_path, format="png", bbox_inches="tight", dpi=300)
+    print(f"Saved plot to: {png_path}")
+
+    plt.close()
+
+
+def plot_inference_summary(df: pd.DataFrame, output_dir: str):
+    """
+    Generates a single figure with key inference metrics: time and cost.
+    """
+    if df.empty:
+        print("Skipping summary plot because the dataframe is empty.")
+        return
+
+    # --- 1. Data Preparation ---
+    df_plot = df.copy()
+
+    # Fix for NaN issue: only convert non-Model object columns to numeric
+    for col in df_plot.columns:
+        if df_plot[col].dtype == "object" and col != "Model":
+            df_plot[col] = (
+                df_plot[col]
+                .astype(str)
+                .str.replace(r"[$,%]", "", regex=True)
+                .pipe(pd.to_numeric, errors="coerce")
+            )
+
+    # Use a more descriptive name for File Time Cost
+    df_plot.rename(
+        columns={"File Time Cost (s)": "Total Execution Time (s)"}, inplace=True
+    )
+    df_plot.set_index("Model", inplace=True)
+
+    # Calculate the non-LMM time for the stacked bar chart
+    df_plot["Other Execution Time (s)"] = (
+        df_plot["Total Execution Time (s)"]
+        - df_plot["Total LMM Inference Time (s)"]
+    )
+
+    # --- 2. Create Plot ---
+    fig, axes = plt.subplots(1, 2, figsize=(22, 10))
+
+    # --- 3. Time Comparison Subplot (Stacked Bar) ---
+    ax = axes[0]
+    time_cols = ["Total LMM Inference Time (s)", "Other Execution Time (s)"]
+    df_plot[time_cols].plot(
+        kind="bar", stacked=True, ax=ax, colormap="viridis", rot=15
+    )
+
+    ax.set_title("")
+    ax.set_ylabel("Time (seconds)", fontsize=36)
+    ax.set_xlabel("")
+    ax.tick_params(axis="x", labelsize=32)
+    ax.tick_params(axis="y", labelsize=32)
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda y, _: f"{y/1000:,.0f}k"))
+    ax.legend(
+        ["LMM Inference Time", "Other Execution Time"], fontsize=28, loc="upper left"
+    )
+
+    # Add combined total and LMM time labels using bar_label for better placement.
+    labels = [
+        f"Total: {total:,.0f}s\n(LMM: {lmm:,.0f}s)"
+        for total, lmm in zip(
+            df_plot["Total Execution Time (s)"],
+            df_plot["Total LMM Inference Time (s)"],
+        )
+    ]
+
+    # Label the top-most container of the stacked bar chart.
+    if ax.containers:
+        ax.bar_label(
+            ax.containers[-1],
+            labels=labels,
+            fontsize=28,
+            weight="bold",
+            padding=10,  # Increased padding
+            label_type="edge",
+        )
+    ax.set_ylim(top=ax.get_ylim()[1] * 1.5)  # Make space for labels
+
+    # --- 4. Total Cost Subplot ---
+    ax = axes[1]
+    cost_col = "Estimated Cost (USD)"
+    df_plot[cost_col].plot(
+        kind="bar", ax=ax, color=plt.cm.viridis(np.linspace(0.4, 0.8, 2)), rot=15
+    )
+    ax.set_title("")
+    ax.set_ylabel("Cost (USD)", fontsize=36)
+    ax.set_xlabel("")
+    ax.tick_params(axis="x", labelsize=32)
+    ax.tick_params(axis="y", labelsize=32)
+    ax.bar_label(ax.containers[0], fmt="$%.2f", fontsize=28, padding=10)
+    ax.margins(y=0.15)
+
+    plt.tight_layout()  # Adjust layout
+
+    # --- 5. Save Figure ---
+    output_path_no_ext = os.path.join(output_dir, "inference_summary_time_cost")
+    os.makedirs(output_dir, exist_ok=True)
+
+    pdf_path = f"{output_path_no_ext}.pdf"
+    plt.savefig(pdf_path, format="pdf", bbox_inches="tight")
+    print(f"Saved summary plot to: {pdf_path}")
+
+    png_path = f"{output_path_no_ext}.png"
+    plt.savefig(png_path, format="png", bbox_inches="tight", dpi=300)
+    print(f"Saved summary plot to: {png_path}")
+
+    plt.close()
 
 
 def get_full_model_filenames(override_path: str, base_path: str) -> Optional[Set[str]]:
@@ -90,7 +251,7 @@ def parse_log_file(
     filepath: str, valid_filenames: Set[str]
 ) -> Optional[Dict[str, Dict[str, Any]]]:
     """
-    Parses a log file to extract details for each LLM API call and total time cost,
+    Parses a log file to extract details for each LMM API call and total time cost,
     grouping all results by the source filename.
 
     Args:
@@ -136,10 +297,10 @@ def parse_log_file(
         time_pattern = re.compile(r"LLM: Selected '.*?' for channel '.*?' in ([\d.]+)s")
         token_pattern = re.compile(
             r"LLM token count for .*?:.*?"
-            r"candidates_token_count=(\d+).*"
-            r"prompt_token_count=(\d+).*"
-            r"thoughts_token_count=(\d+).*"
-            r"total_token_count=(\d+)"
+            r"candidates_token_count=(\d+|None).*"
+            r"prompt_token_count=(\d+|None).*"
+            r"thoughts_token_count=(\d+|None).*"
+            r"total_token_count=(\d+|None)"
         )
         plot_pattern = re.compile(r"LLM debug plot saved to: (.*)")
         thoughts_pattern = re.compile(r"LLM thoughts saved to: (.*)")
@@ -155,9 +316,22 @@ def parse_log_file(
 
         api_calls = []
         for j, tokens in enumerate(token_matches):
-            candidate_tokens = int(tokens[0])
-            prompt_tokens = int(tokens[1])
-            thoughts_tokens = int(tokens[2])
+            (
+                candidate_tokens_str,
+                prompt_tokens_str,
+                thoughts_tokens_str,
+                total_tokens_str,
+            ) = tokens
+
+            candidate_tokens = (
+                int(candidate_tokens_str) if candidate_tokens_str != "None" else 0
+            )
+            prompt_tokens = int(prompt_tokens_str) if prompt_tokens_str != "None" else 0
+            thoughts_tokens = (
+                int(thoughts_tokens_str) if thoughts_tokens_str != "None" else 0
+            )
+            total_tokens = int(total_tokens_str) if total_tokens_str != "None" else 0
+
             api_calls.append(
                 {
                     "inference_time_s": float(time_matches[j]),
@@ -165,7 +339,7 @@ def parse_log_file(
                     "prompt_tokens": prompt_tokens,
                     "thoughts_token_count": thoughts_tokens,
                     "output_tokens": candidate_tokens + thoughts_tokens,
-                    "total_tokens": int(tokens[3]),
+                    "total_tokens": total_tokens,
                 }
             )
 
@@ -194,14 +368,14 @@ def analyze_calls(
     """
     if not api_calls:
         return {
-            "Total LLM Calls": 0,
-            "Total LLM Inference Time (s)": 0,
+            "Total LMM Calls": 0,
+            "Total LMM Inference Time (s)": 0,
             "Total Input Tokens": 0,
             "Total Output Tokens": 0,
             "Grand Total Tokens": 0,
             "Estimated Cost (USD)": 0,
             "File Time Cost (s)": total_time,
-            "LLM Contribution (%)": 0,
+            "LMM Contribution (%)": 0,
         }
 
     total_cost = 0.0
@@ -225,19 +399,19 @@ def analyze_calls(
         output_cost = (call["output_tokens"] / 1_000_000) * pricing["output_per_1m"]
         total_cost += input_cost + output_cost
 
-    llm_contribution = (
+    lmm_contribution = (
         (total_inference_time / total_time) * 100 if total_time > 0 else 0
     )
 
     return {
-        "Total LLM Calls": len(api_calls),
-        "Total LLM Inference Time (s)": total_inference_time,
+        "Total LMM Calls": len(api_calls),
+        "Total LMM Inference Time (s)": total_inference_time,
         "Total Input Tokens": total_input_tokens,
         "Total Output Tokens": total_output_tokens,
         "Grand Total Tokens": grand_total_tokens,
         "Estimated Cost (USD)": total_cost,
         "File Time Cost (s)": total_time,
-        "LLM Contribution (%)": llm_contribution,
+        "LMM Contribution (%)": lmm_contribution,
     }
 
 
@@ -285,10 +459,10 @@ def main():
     cols_order = [
         "Model",
         "File",
-        "Total LLM Calls",
-        "Total LLM Inference Time (s)",
+        "Total LMM Calls",
+        "Total LMM Inference Time (s)",
         "File Time Cost (s)",
-        "LLM Contribution (%)",
+        "LMM Contribution (%)",
         "Total Input Tokens",
         "Total Output Tokens",
         "Grand Total Tokens",
@@ -300,8 +474,8 @@ def main():
     df_summary = df_detailed.copy()
     # Convert necessary columns back to numeric for summation
     numeric_cols = [
-        "Total LLM Calls",
-        "Total LLM Inference Time (s)",
+        "Total LMM Calls",
+        "Total LMM Inference Time (s)",
         "Total Input Tokens",
         "Total Output Tokens",
         "Grand Total Tokens",
@@ -328,16 +502,16 @@ def main():
     ] / model_in_agg_series.map(file_counts)
 
     # Recalculate the contribution percentage for the aggregate
-    df_agg["LLM Contribution (%)"] = 0.0
+    df_agg["LMM Contribution (%)"] = 0.0
     if not df_agg.empty:
         non_zero_mask = df_agg["File Time Cost (s)"] > 0
-        df_agg.loc[non_zero_mask, "LLM Contribution (%)"] = (
-            df_agg.loc[non_zero_mask, "Total LLM Inference Time (s)"]
+        df_agg.loc[non_zero_mask, "LMM Contribution (%)"] = (
+            df_agg.loc[non_zero_mask, "Total LMM Inference Time (s)"]
             / df_agg.loc[non_zero_mask, "File Time Cost (s)"]
         ) * 100
 
     # --- Formatting for better readability ---
-    for col in ["Total LLM Inference Time (s)", "File Time Cost (s)"]:
+    for col in ["Total LMM Inference Time (s)", "File Time Cost (s)"]:
         df_agg[col] = pd.to_numeric(df_agg[col], errors="coerce").apply(lambda x: f"{x:,.2f}" if pd.notna(x) else "")  # type: ignore
     df_agg["Estimated Cost (USD)"] = pd.to_numeric(df_agg["Estimated Cost (USD)"], errors="coerce").apply(  # type: ignore
         lambda x: f"${x:,.4f}" if pd.notna(x) else ""
@@ -345,11 +519,11 @@ def main():
     df_agg["Avg. Cost per Series"] = pd.to_numeric(df_agg["Avg. Cost per Series"], errors="coerce").apply(  # type: ignore
         lambda x: f"${x:,.4f}" if pd.notna(x) else ""
     )
-    df_agg["LLM Contribution (%)"] = pd.to_numeric(df_agg["LLM Contribution (%)"], errors="coerce").apply(  # type: ignore
+    df_agg["LMM Contribution (%)"] = pd.to_numeric(df_agg["LMM Contribution (%)"], errors="coerce").apply(  # type: ignore
         lambda x: f"{x:,.2f}%" if pd.notna(x) else ""
     )
     for col in [
-        "Total LLM Calls",
+        "Total LMM Calls",
         "Total Input Tokens",
         "Total Output Tokens",
         "Grand Total Tokens",
@@ -360,7 +534,7 @@ def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     output_filename = os.path.join(script_dir, "analysis_report.txt")
     with open(output_filename, "w") as f:
-        f.write("--- LLM Inference and Cost Analysis ---\n\n")
+        f.write("--- LMM Inference and Cost Analysis ---\n\n")
 
         f.write("--- Row Count Per Model ---\n")
         f.write("=" * 80 + "\n")
@@ -372,7 +546,7 @@ def main():
         f.write(df_agg.to_string(index=False))
         f.write("\n\n")
 
-        f.write("--- LLM Artifacts Map ---\n")
+        f.write("--- LMM Artifacts Map ---\n")
         f.write("=" * 80 + "\n")
         for result in all_file_results:
             filename = result["File"]
@@ -395,6 +569,10 @@ def main():
             f.write("-" * 40 + "\n")
 
     print(f"\nAnalysis complete. Report saved to '{output_filename}'.")
+
+    # --- Generate and Save Visualizations ---
+    charts_output_dir = os.path.join(script_dir, "inference_analysis_charts")
+    plot_inference_summary(df_agg, charts_output_dir)
 
 
 if __name__ == "__main__":
