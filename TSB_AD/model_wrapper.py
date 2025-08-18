@@ -9,6 +9,7 @@ import logging
 
 from sklearn.preprocessing import MinMaxScaler
 from transformers import Trainer, TrainingArguments, EarlyStoppingCallback
+from statsmodels.tsa.seasonal import STL
 
 from .utils.slidingWindows import find_length_rank
 from TSPulse2.TSPulse2Detector import TSPulse2Detector
@@ -39,6 +40,7 @@ Unsupervise_AD_Pool = ['FFT', 'SR', 'NORMA', 'Series2Graph', 'Sub_IForest', 'IFo
     "TSPulse3_dim_redux_ablated",
     "TSPulse3_forecast_biased_dim_redux_ablated",
     "TSPulse3_non_forecast_biased_dim_redux_ablated",
+    "STL_AD",
 ]
 Semisupervise_AD_Pool = ['Left_STAMPi', 'SAND', 'MCD', 'Sub_MCD', 'OCSVM', 'Sub_OCSVM', 'AutoEncoder', 'CNN', 'LSTMAD', 'TranAD', 'USAD', 'OmniAnomaly', 
                         'AnomalyTransformer', 'TimesNet', 'FITS', 'Donut', 'OFA', 'MOMENT_FT', 'M2N2',
@@ -758,3 +760,51 @@ def run_TSPulse3_non_forecast_biased_dim_redux_ablated(data, **kwargs):
         .fit_transform(clf.decision_scores_.ravel().reshape(-1, 1))
         .ravel()
     )
+
+def run_STL_AD(data):
+    """
+    STL-based anomaly detection with default STL settings (only 'period' provided).
+    Works for univariate and multivariate series (channels averaged).
+    Scores are MAD-based z-scores of residuals.
+    """
+    arr = np.asarray(data)
+    if arr.ndim == 1:
+        arr_2d = arr.reshape(-1, 1)
+    else:
+        arr_2d = arr
+
+    num_timesteps = arr_2d.shape[0]
+    if num_timesteps < 3:
+        return np.zeros(num_timesteps, dtype=float)
+
+    num_channels = arr_2d.shape[1]
+    all_scores = []
+
+    for i in range(num_channels):
+        series = pd.Series(arr_2d[:, i])
+
+        inferred_period = find_length_rank(series.values, rank=1)
+        period = int(inferred_period) if isinstance(inferred_period, (int, np.integer, float, np.floating)) else 2
+        if period < 2:
+            period = 2
+        if period >= num_timesteps:
+            period = max(2, num_timesteps - 1)
+        max_reasonable = max(2, num_timesteps // 2)
+        if period > max_reasonable:
+            period = max_reasonable
+
+        stl = STL(series, period=period)
+        result = stl.fit()
+        residuals = result.resid.values
+
+        median_residuals = np.median(residuals)
+        mad_residuals = np.median(np.abs(residuals - median_residuals))
+        if mad_residuals == 0:
+            channel_scores = np.zeros_like(residuals, dtype=float)
+        else:
+            channel_scores = np.abs(residuals - median_residuals) / mad_residuals
+        all_scores.append(channel_scores)
+
+    scores_array = np.vstack(all_scores)
+    final_scores = np.mean(scores_array, axis=0)
+    return final_scores.ravel()

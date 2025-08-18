@@ -195,6 +195,7 @@ Optimal_Multi_algo_HP_dict = {
         'prediction_mode': 'fft+forecast+time',
         'llm_few_shot_config': 'non_forecast_biased',
     },
+    'STL_AD': {}
 }
 
 

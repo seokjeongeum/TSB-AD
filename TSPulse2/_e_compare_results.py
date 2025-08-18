@@ -214,10 +214,18 @@ def evaluate_best_head_strategy(
             print(f"Warning: Could not parse dataset group for {file_name}. Skipping.")
             continue
 
+        # Head used for scoring (fallback allowed)
         sel_mode = (
             tuning_performance.loc[group, "best"]
             if group in tuning_performance.index
             else final_fallback_head
+        )
+
+        # Head shown in output: N/A if not determined by tuning set
+        selected_head_output = (
+            tuning_performance.loc[group, "best"]
+            if group in tuning_performance.index
+            else "N/A"
         )
 
         # Get the actual score for this series using the selected head
@@ -240,7 +248,7 @@ def evaluate_best_head_strategy(
             {
                 "file": file_name,
                 "group": group,
-                "selected_head": sel_mode,
+                "selected_head": selected_head_output,
                 metric: series_score,
             }
         )
@@ -580,6 +588,102 @@ def load_tspulse2_head_triangulation(
     return combined_df
 
 
+def print_tspulse_triangulation_analysis(
+    summary_df: pd.DataFrame, mean_scores_df: Optional[pd.DataFrame], metric: str
+) -> None:
+    """Prints TSPulse triangulation analysis from in-memory data.
+
+    - Selected head per dataset using `TSPulseZS_Head` (mode with counts)
+    - Actual best head counts per dataset using `TSPulseZS_Best_Actual_Head`
+    - Optionally prints the overall mean for TSPulseZS from the provided mean table
+    """
+    print("\n--- TSPulse Triangulation Analysis ---")
+
+    if "Dataset" not in summary_df.columns:
+        print("No 'Dataset' column found; cannot compute per-dataset analysis.")
+        return
+
+    datasets = sorted(summary_df["Dataset"].dropna().unique().tolist())
+
+    # Selected head per dataset (mode of TSPulseZS_Head, ignoring 'N/A')
+    selected_head_by_dataset: dict[str, str] = {}
+    if "TSPulseZS_Head" in summary_df.columns:
+        print("Selected head per dataset:")
+        for d in datasets:
+            sub = summary_df[summary_df["Dataset"] == d]
+            heads = sub["TSPulseZS_Head"].astype(str)
+            heads = heads[heads != "N/A"]
+            if heads.empty:
+                selected_head_by_dataset[d] = "N/A"
+                print(f"- {d}: N/A ({len(sub)})")
+                continue
+            vc = heads.value_counts()
+            head = str(vc.idxmax())
+            selected_head_by_dataset[d] = head
+            print(f"- {d}: {head} ")
+    else:
+        print("Column 'TSPulseZS_Head' not found; skipping selected-head summary.")
+
+    # Actual best head counts per dataset with alignment stats
+    print("\nActual best head counts per dataset:")
+    total_files_considered = 0
+    total_aligned = 0
+    if "TSPulseZS_Best_Actual_Head" in summary_df.columns:
+        for d in datasets:
+            selected = selected_head_by_dataset.get(d, "N/A")
+            if selected == "N/A":
+                # Count all files in this dataset as misaligned since triangulation couldn't decide
+                sub = summary_df[summary_df["Dataset"] == d]
+                bc = sub["TSPulseZS_Best_Actual_Head"].value_counts(dropna=False)
+                total = int(bc.sum()) if len(bc) > 0 else 0
+                total_files_considered += total
+                # aligned stays 0 for this dataset
+                print(f"- {d}: N/A ({total})")
+                continue
+            sub = summary_df[summary_df["Dataset"] == d]
+            bc = sub["TSPulseZS_Best_Actual_Head"].value_counts(dropna=False)
+            time_c = int(bc.get("TSPulseZS_time", 0))
+            ensemble_c = int(bc.get("TSPulseZS_ensemble", 0))
+            forecast_c = int(bc.get("TSPulseZS_forecast", 0))
+            fft_c = int(bc.get("TSPulseZS_fft", 0))
+            total = time_c + ensemble_c + forecast_c + fft_c
+
+            # map selected -> corresponding col name
+            sel_map = {
+                "time": "TSPulseZS_time",
+                "ensemble": "TSPulseZS_ensemble",
+                "forecast": "TSPulseZS_forecast",
+                "fft": "TSPulseZS_fft",
+            }
+            sel_col = sel_map.get(selected, None)
+            aligned = int(bc.get(sel_col, 0)) if sel_col else 0
+
+            total_files_considered += total
+            total_aligned += aligned
+
+            pct = (aligned / total * 100.0) if total > 0 else 0.0
+            print(
+                f"- {d}: time {time_c}, ensemble {ensemble_c}, forecast {forecast_c}, fft {fft_c}, "
+                f"{aligned}/{total} ({pct:.2f}%) aligns with triangulation"
+            )
+    else:
+        print("Column 'TSPulseZS_Best_Actual_Head' not found; skipping best-head counts.")
+
+    if total_files_considered > 0:
+        overall_pct = total_aligned / total_files_considered * 100.0
+        print(f"- SUM: {total_aligned}/{total_files_considered} ({overall_pct:.2f}%)")
+
+    # Print the consolidated TSPulseZS overall mean if provided
+    if mean_scores_df is not None and not mean_scores_df.empty:
+        algo_col = "Algorithm"
+        mean_col = f"Mean_{metric}"
+        if algo_col in mean_scores_df.columns and mean_col in mean_scores_df.columns:
+            row = mean_scores_df[mean_scores_df[algo_col] == "TSPulseZS"]
+            if not row.empty:
+                val = float(row.iloc[0][mean_col])
+                print("\n--- Overall Mean Scores (CONSOLIDATED) ---")
+                print(f"TSPulseZS: {val:.16f}")
+
 def generate_and_save_reports(
     scores_df: pd.DataFrame, output_dir: str, metric: str, name: str
 ):
@@ -610,7 +714,7 @@ def generate_and_save_reports(
     best_scores = scores_df[score_cols].max(axis=1)
     best_algos = scores_df[score_cols].idxmax(axis=1)
 
-    # Add Oracle score, which is the best score from a specific subset of algorithms
+    # Add Series-Level Optimal score, which is the best score from a specific subset of algorithms
     oracle_heads = [
         "TSPulse2_llm_selection_ablated_fft",
         "TSPulse2_llm_selection_ablated_time",
@@ -619,12 +723,12 @@ def generate_and_save_reports(
     ]
     valid_oracle_heads = [h for h in oracle_heads if h in scores_df.columns]
     if valid_oracle_heads:
-        scores_df["Oracle"] = scores_df[valid_oracle_heads].max(axis=1)
-        if "Oracle" not in score_cols:
-            score_cols.append("Oracle")
+        scores_df["Series-Level Optimal"] = scores_df[valid_oracle_heads].max(axis=1)
+        if "Series-Level Optimal" not in score_cols:
+            score_cols.append("Series-Level Optimal")
     else:
-        print("Warning: Could not calculate Oracle score. No specified heads found.")
-        scores_df["Oracle"] = 0.0
+        print("Warning: Could not calculate Series-Level Optimal score. No specified heads found.")
+        scores_df["Series-Level Optimal"] = 0.0
 
     summary_df = scores_df.copy()
     summary_df["Best_Algo"] = best_algos
@@ -653,7 +757,7 @@ def generate_and_save_reports(
         "TSPulse2Triangulation_fft",
         "TSPulse2Triangulation_forecast",
         "TSPulse2Triangulation_time",
-        "Oracle",
+        "Series-Level Optimal",
         "Best_Algo",
         "Best_Score",
         "Dataset",
@@ -778,7 +882,7 @@ def generate_strategy_comparison_plot(
         "TSPulse2_llm_selection_ablated_time": "Static: Time",
         "TSPulse3_non_forecast_biased": "Ours (Few-Shot)",
         "TSPulse2": "Ours (Zero-Shot)",
-        "Oracle": "Oracle",
+        "Series-Level Optimal": "Series-Level Optimal",
     }
     if best_triangulation_algo:
         algorithms_to_plot[best_triangulation_algo] = "Triangulation"
@@ -800,8 +904,8 @@ def generate_strategy_comparison_plot(
             return "darkorange"  # Emphasize our methods
         if strategy.startswith("Triangulation"):
             return "forestgreen"  # Color for the next best
-        if strategy == "Oracle":
-            return "gold"  # Special color for Oracle
+        if strategy == "Series-Level Optimal":
+            return "gold"  # Special color for Series-Level Optimal
         return "steelblue"  # Standard color for static methods
 
     bar_colors = [get_color(s) for s in plot_df["Strategy"]]
@@ -820,7 +924,7 @@ def generate_strategy_comparison_plot(
     # Customize text for specific bars to be bold
     for label in ax.get_xticklabels():
         text = label.get_text()
-        if text.startswith("Ours") or text.startswith("Triangulation") or text == "Oracle":
+        if text.startswith("Ours") or text.startswith("Triangulation") or text == "Series-Level Optimal":
             label.set_weight("bold")
 
     fig.tight_layout(pad=1.0)
@@ -1036,7 +1140,7 @@ def main():
         file_scores_df.drop(columns=["Dataset_temp"], inplace=True)
 
     # 4. Generate reports and get data for plotting
-    mean_scores_df, _, _ = generate_and_save_reports(
+    mean_scores_df, _, summary_df = generate_and_save_reports(
         scores_df=file_scores_df,
         output_dir=OUTPUT_DIR,
         metric=METRIC_TO_COMPARE,
@@ -1091,6 +1195,12 @@ def main():
         "Method",
         f"Average_{METRIC_TO_COMPARE}",
     )
+
+    # Print triangulation analysis from in-memory data (no CSV reads)
+    try:
+        print_tspulse_triangulation_analysis(summary_df, mean_scores_df, METRIC_TO_COMPARE)
+    except Exception as e:
+        print(f"Warning: Could not print triangulation analysis: {e}")
 
     # 6. Save the final figure
     fig.tight_layout(rect=[0, 0, 1, 0.95])
