@@ -18,4 +18,5 @@ TSPulse2_dimensionality_reduction_ablated,0.3101576474774317
 TSPulseZS_ensemble,0.31009632800818415
 TSPulseZS_fft,0.3100939580905856
 TSPulse2_llm_selection_ablated_forecast,0.28344293202697224
+STL_AD,0.253591656011174
 TSPulseZS_forecast,0.23645187083098884

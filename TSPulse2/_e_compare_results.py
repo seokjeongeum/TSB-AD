@@ -381,6 +381,48 @@ def load_benchmark_results() -> pd.DataFrame:
         return pd.DataFrame()
 
 
+def load_stl_ad_results(metrics_dir: str, metric: str, split_files: dict) -> pd.DataFrame:
+    """Loads STL_AD results from eval/metrics/multi/STL_AD.csv filtered to eval files."""
+    print("\n--- Loading STL_AD Results ---")
+    stl_path = os.path.join(metrics_dir, "multi", "STL_AD.csv")
+    if not os.path.exists(stl_path):
+        print(f"Warning: STL_AD file not found at {stl_path}. Skipping.")
+        return pd.DataFrame()
+
+    try:
+        df = pd.read_csv(stl_path)
+        if "file" not in df.columns:
+            if "Unnamed: 0" in df.columns:
+                df.rename(columns={"Unnamed: 0": "file"}, inplace=True)
+            else:
+                print("Warning: 'file' column not found in STL_AD.csv. Skipping.")
+                return pd.DataFrame()
+
+        if metric not in df.columns:
+            print(
+                f"Warning: Metric '{metric}' not found in STL_AD.csv. Available: {list(df.columns)}"
+            )
+            return pd.DataFrame()
+
+        eval_files = split_files.get("eval", set())
+        file_col = cast(pd.Series, df["file"]).astype(str)
+        df_files_with_ext = clean_filenames(file_col) + ".csv"
+        df = df[df_files_with_ext.isin(eval_files)].copy()
+        if df.empty:
+            print("Warning: No STL_AD eval rows after filtering. Skipping.")
+            return pd.DataFrame()
+
+        scores = df[["file", metric]].copy()
+        scores["file"] = clean_filenames(cast(pd.Series, scores["file"]))
+        final_scores = scores.set_index("file")  # type: ignore
+        final_scores.rename(columns={metric: "STL_AD"}, inplace=True)
+        print(f"Successfully loaded STL_AD for {len(final_scores)} eval files.")
+        return final_scores
+    except Exception as e:
+        print(f"Error processing STL_AD.csv: {e}")
+        return pd.DataFrame()
+
+
 def load_tspulse_zs(
     metrics_dir: str, data_dir: str, metric: str
 ) -> tuple[pd.DataFrame, dict, pd.DataFrame]:
@@ -1100,6 +1142,7 @@ def main():
     zs_scores, split_files, zs_raw_scores = load_tspulse_zs(
         METRICS_ROOT_DIR, DATA_ROOT_DIR, METRIC_TO_COMPARE
     )
+    stl_scores = load_stl_ad_results(METRICS_ROOT_DIR, METRIC_TO_COMPARE, split_files)
     ts2_scores = load_model_variant_results(
         "TSPulse2", METRICS_ROOT_DIR, METRIC_TO_COMPARE, split_files
     )
@@ -1115,6 +1158,7 @@ def main():
     for df in [
         benchmark_scores,
         zs_scores,
+        stl_scores,
         ts2_scores,
         ts3_scores,
         ts2_triangulation_scores,
