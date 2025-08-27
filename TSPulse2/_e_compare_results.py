@@ -23,6 +23,7 @@ def plot_bar_on_ax(
     y_col: str,
     y_label: Optional[str] = None,
     colors: Optional[list] = None,
+    hatches: Optional[list] = None,
 ):
     """Generates a bar chart on a given matplotlib axis."""
     if df.empty:
@@ -42,8 +43,14 @@ def plot_bar_on_ax(
         if colors is not None
         else plt.cm.viridis(np.linspace(0.4, 0.8, len(df[x_col])))
     )
+    
+    bar_hatches = (
+        hatches
+        if hatches is not None
+        else [''] * len(df[x_col])
+    )
 
-    bars = ax.bar(df[x_col], df[y_col], color=bar_colors)
+    bars = ax.bar(df[x_col], df[y_col], color=bar_colors, hatch=bar_hatches, edgecolor='black')
 
     if y_label:
         ax.set_ylabel(y_label, fontsize=40)
@@ -943,7 +950,7 @@ def generate_strategy_comparison_plot(
     # 4. Create and save the plot
     def get_color(strategy: str) -> str:
         if strategy.startswith("Ours"):
-            return "darkorange"  # Emphasize our methods
+            return "firebrick"  # Emphasize our methods with a strong color
         if strategy.startswith("Triangulation"):
             return "forestgreen"  # Color for the next best
         if strategy == "Series-Level Optimal":
@@ -951,6 +958,7 @@ def generate_strategy_comparison_plot(
         return "steelblue"  # Standard color for static methods
 
     bar_colors = [get_color(s) for s in plot_df["Strategy"]]
+    bar_hatches = ['/' if s.startswith("Ours") else '' for s in plot_df["Strategy"]]
 
     fig, ax = plt.subplots(figsize=(18, 10))
     plot_bar_on_ax(
@@ -961,6 +969,7 @@ def generate_strategy_comparison_plot(
         y_col=f"Mean_{metric}",
         y_label=f"Mean {metric}",
         colors=bar_colors,
+        hatches=bar_hatches,
     )
 
     # Customize text for specific bars to be bold

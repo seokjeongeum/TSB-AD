@@ -11,8 +11,8 @@ from matplotlib.ticker import FuncFormatter
 
 # Define the log files to be analyzed with user-friendly names
 LOG_FILES_TO_ANALYZE = {
-    "Dimensionality Reduction Ablated": "eval/score/multi/TSPulse3_non_forecast_biased_dim_redux_ablated/000_run_TSPulse3_non_forecast_biased_dim_redux_ablated.log",
-    "Full Model (with PCA/Selection)": "eval/score/multi/TSPulse3_non_forecast_biased/000_run_TSPulse3_non_forecast_biased.log",
+    "Ablated": "eval/score/multi/TSPulse3_non_forecast_biased_dim_redux_ablated/000_run_TSPulse3_non_forecast_biased_dim_redux_ablated.log",
+    "Full": "eval/score/multi/TSPulse3_non_forecast_biased/000_run_TSPulse3_non_forecast_biased.log",
 }
 
 # Pricing for Gemini 2.5 Pro, per 1 million tokens, from the provided pricing page.

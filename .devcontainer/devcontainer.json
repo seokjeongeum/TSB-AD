@@ -22,14 +22,10 @@
             "gid": "automatic",
             "installSudo": true
         },
-        // Install Python using the official feature
-        "ghcr.io/devcontainers/features/python:1": {
-            "version": "3.11" // Specify your desired Python version
-        },
         // Install Git
-        "ghcr.io/devcontainers/features/git:1": {}
-        // Add other features as needed (e.g., Docker-in-Docker, Conda)
-        // "ghcr.io/devcontainers/features/conda": {}
+        "ghcr.io/devcontainers/features/git:1": {},
+        // Use Conda to manage Python environments
+        "ghcr.io/devcontainers/features/conda:1": {}
     },
     // Commands to run after the container is created.
     // Use this to install project dependencies or other tools.

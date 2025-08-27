@@ -13,7 +13,7 @@ git submodule update --init --recursive
 # This is the standard and most reliable way to create a Conda environment.
 # It handles both conda packages and pip packages listed in the yml file.
 echo ">>> Creating/Updating Conda environment 'tsb-ad-env' from environment.yml..."
-conda env create -f TSPulse2/environment.yml --force
+conda env update --file TSPulse2/environment.yml --name tsb-ad-env
 
 echo ">>> Environment setup complete. Activating 'tsb-ad-env'..."
 # The following line should be sourced in your shell or added to .bashrc to make the env active
