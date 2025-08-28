@@ -426,7 +426,7 @@ def main():
         print(f"\nAnalyzing log for: '{name}'...")
 
         valid_filenames: Optional[Set[str]] = None
-        if name == "Full Model (with PCA/Selection)":
+        if name == "Full":
             valid_filenames = get_full_model_filenames(
                 override_path=VALID_FILENAMES_PATH_PRIMARY,
                 base_path=VALID_FILENAMES_PATH_SECONDARY,

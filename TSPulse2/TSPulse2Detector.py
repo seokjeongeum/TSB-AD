@@ -61,7 +61,7 @@ class TSPulse2Detector(TSAD_Pipeline):
             X_scaled = scaler.fit_transform(X)
 
             n_components = min(
-                self.kwargs.get("n_components", 2), X_scaled.shape[0], X_scaled.shape[1]
+                self.kwargs.get("n_components", 3), X_scaled.shape[0], X_scaled.shape[1]
             )
             logging.info(f"n_components: {n_components}")
             self.pca = PCA(n_components=n_components)

@@ -3,18 +3,18 @@
 --- Row Count Per Model ---
 ================================================================================
 Model
-Dimensionality Reduction Ablated    180
-Full Model (with PCA/Selection)     180
+Ablated    180
+Full       180
 
 --- Overall Comparison Summary ---
 ================================================================================
-                           Model Total LMM Calls Total LMM Inference Time (s) Total Input Tokens Total Output Tokens Grand Total Tokens Estimated Cost (USD) File Time Cost (s) Avg. Cost per Series LMM Contribution (%)
-Dimensionality Reduction Ablated           5,244                   344,357.95         23,603,570          12,070,917         35,673,513            $150.2136         414,333.86              $0.8345               83.11%
- Full Model (with PCA/Selection)             235                    17,462.35          1,057,500             649,215          1,706,715              $7.8140          28,551.34              $0.0434               61.16%
+  Model Total LMM Calls Total LMM Inference Time (s) Total Input Tokens Total Output Tokens Grand Total Tokens Estimated Cost (USD) File Time Cost (s) Avg. Cost per Series LMM Contribution (%)
+Ablated           5,244                   344,357.95         23,603,570          12,070,917         35,673,513            $150.2136         414,333.86              $0.8345               83.11%
+   Full             235                    17,462.35          1,057,500             649,215          1,706,715              $7.8140          28,551.34              $0.0434               61.16%
 
 --- LMM Artifacts Map ---
 ================================================================================
-File: 001_Genesis_id_1_Sensor_tr_4055_1st_15538.csv (Model: Dimensionality Reduction Ablated)
+File: 001_Genesis_id_1_Sensor_tr_4055_1st_15538.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250724_195107_530028_thoughts.txt
     - llm_artifacts/20250724_195210_468198_thoughts.txt
@@ -35,7 +35,7 @@ File: 001_Genesis_id_1_Sensor_tr_4055_1st_15538.csv (Model: Dimensionality Reduc
     - llm_artifacts/20250724_200819_523550_thoughts.txt
     - llm_artifacts/20250724_200931_236720_thoughts.txt
 ----------------------------------------
-File: 002_MSL_id_1_Sensor_tr_500_1st_900.csv (Model: Dimensionality Reduction Ablated)
+File: 002_MSL_id_1_Sensor_tr_500_1st_900.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250724_201058_994308_thoughts.txt
     - llm_artifacts/20250724_201152_969522_thoughts.txt
@@ -93,7 +93,7 @@ File: 002_MSL_id_1_Sensor_tr_500_1st_900.csv (Model: Dimensionality Reduction Ab
     - llm_artifacts/20250724_205438_931302_thoughts.txt
     - llm_artifacts/20250724_205538_046985_thoughts.txt
 ----------------------------------------
-File: 003_MSL_id_2_Sensor_tr_883_1st_1238.csv (Model: Dimensionality Reduction Ablated)
+File: 003_MSL_id_2_Sensor_tr_883_1st_1238.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250724_205731_611619_thoughts.txt
     - llm_artifacts/20250724_205854_572005_thoughts.txt
@@ -151,7 +151,7 @@ File: 003_MSL_id_2_Sensor_tr_883_1st_1238.csv (Model: Dimensionality Reduction A
     - llm_artifacts/20250724_214758_538026_thoughts.txt
     - llm_artifacts/20250724_214852_745153_thoughts.txt
 ----------------------------------------
-File: 005_MSL_id_4_Sensor_tr_855_1st_2700.csv (Model: Dimensionality Reduction Ablated)
+File: 005_MSL_id_4_Sensor_tr_855_1st_2700.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250724_224808_366818_thoughts.txt
     - llm_artifacts/20250724_224858_875902_thoughts.txt
@@ -209,7 +209,7 @@ File: 005_MSL_id_4_Sensor_tr_855_1st_2700.csv (Model: Dimensionality Reduction A
     - llm_artifacts/20250724_234042_180333_thoughts.txt
     - llm_artifacts/20250724_234135_909481_thoughts.txt
 ----------------------------------------
-File: 006_MSL_id_5_Sensor_tr_1150_1st_1250.csv (Model: Dimensionality Reduction Ablated)
+File: 006_MSL_id_5_Sensor_tr_1150_1st_1250.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250724_234328_064470_thoughts.txt
     - llm_artifacts/20250724_234432_531815_thoughts.txt
@@ -267,7 +267,7 @@ File: 006_MSL_id_5_Sensor_tr_1150_1st_1250.csv (Model: Dimensionality Reduction 
     - llm_artifacts/20250725_003527_208965_thoughts.txt
     - llm_artifacts/20250725_003646_160797_thoughts.txt
 ----------------------------------------
-File: 007_MSL_id_6_Sensor_tr_980_1st_3550.csv (Model: Dimensionality Reduction Ablated)
+File: 007_MSL_id_6_Sensor_tr_980_1st_3550.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_003907_774722_thoughts.txt
     - llm_artifacts/20250725_004005_034647_thoughts.txt
@@ -325,7 +325,7 @@ File: 007_MSL_id_6_Sensor_tr_980_1st_3550.csv (Model: Dimensionality Reduction A
     - llm_artifacts/20250725_012613_234088_thoughts.txt
     - llm_artifacts/20250725_012709_297068_thoughts.txt
 ----------------------------------------
-File: 008_MSL_id_7_Sensor_tr_656_1st_1630.csv (Model: Dimensionality Reduction Ablated)
+File: 008_MSL_id_7_Sensor_tr_656_1st_1630.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_012833_186083_thoughts.txt
     - llm_artifacts/20250725_013005_970453_thoughts.txt
@@ -383,7 +383,7 @@ File: 008_MSL_id_7_Sensor_tr_656_1st_1630.csv (Model: Dimensionality Reduction A
     - llm_artifacts/20250725_022034_539223_thoughts.txt
     - llm_artifacts/20250725_022131_001054_thoughts.txt
 ----------------------------------------
-File: 009_MSL_id_8_Sensor_tr_714_1st_1390.csv (Model: Dimensionality Reduction Ablated)
+File: 009_MSL_id_8_Sensor_tr_714_1st_1390.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_022346_807080_thoughts.txt
     - llm_artifacts/20250725_022504_603915_thoughts.txt
@@ -441,7 +441,7 @@ File: 009_MSL_id_8_Sensor_tr_714_1st_1390.csv (Model: Dimensionality Reduction A
     - llm_artifacts/20250725_031333_577896_thoughts.txt
     - llm_artifacts/20250725_031419_605496_thoughts.txt
 ----------------------------------------
-File: 010_MSL_id_9_Sensor_tr_554_1st_1172.csv (Model: Dimensionality Reduction Ablated)
+File: 010_MSL_id_9_Sensor_tr_554_1st_1172.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_031542_977107_thoughts.txt
     - llm_artifacts/20250725_031732_679634_thoughts.txt
@@ -499,7 +499,7 @@ File: 010_MSL_id_9_Sensor_tr_554_1st_1172.csv (Model: Dimensionality Reduction A
     - llm_artifacts/20250725_040537_514750_thoughts.txt
     - llm_artifacts/20250725_040704_973711_thoughts.txt
 ----------------------------------------
-File: 012_MSL_id_11_Sensor_tr_539_1st_940.csv (Model: Dimensionality Reduction Ablated)
+File: 012_MSL_id_11_Sensor_tr_539_1st_940.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_050235_420496_thoughts.txt
     - llm_artifacts/20250725_050334_759457_thoughts.txt
@@ -557,7 +557,7 @@ File: 012_MSL_id_11_Sensor_tr_539_1st_940.csv (Model: Dimensionality Reduction A
     - llm_artifacts/20250725_054811_419749_thoughts.txt
     - llm_artifacts/20250725_054901_904004_thoughts.txt
 ----------------------------------------
-File: 013_MSL_id_12_Sensor_tr_554_1st_1200.csv (Model: Dimensionality Reduction Ablated)
+File: 013_MSL_id_12_Sensor_tr_554_1st_1200.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_055047_983475_thoughts.txt
     - llm_artifacts/20250725_055209_998148_thoughts.txt
@@ -615,7 +615,7 @@ File: 013_MSL_id_12_Sensor_tr_554_1st_1200.csv (Model: Dimensionality Reduction 
     - llm_artifacts/20250725_063537_969302_thoughts.txt
     - llm_artifacts/20250725_063722_230967_thoughts.txt
 ----------------------------------------
-File: 014_MSL_id_13_Sensor_tr_1525_1st_4575.csv (Model: Dimensionality Reduction Ablated)
+File: 014_MSL_id_13_Sensor_tr_1525_1st_4575.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_063931_027028_thoughts.txt
     - llm_artifacts/20250725_064027_154691_thoughts.txt
@@ -673,7 +673,7 @@ File: 014_MSL_id_13_Sensor_tr_1525_1st_4575.csv (Model: Dimensionality Reduction
     - llm_artifacts/20250725_073033_079262_thoughts.txt
     - llm_artifacts/20250725_073231_648336_thoughts.txt
 ----------------------------------------
-File: 015_MSL_id_14_Sensor_tr_575_1st_1250.csv (Model: Dimensionality Reduction Ablated)
+File: 015_MSL_id_14_Sensor_tr_575_1st_1250.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_073355_039375_thoughts.txt
     - llm_artifacts/20250725_073509_263861_thoughts.txt
@@ -731,7 +731,7 @@ File: 015_MSL_id_14_Sensor_tr_575_1st_1250.csv (Model: Dimensionality Reduction 
     - llm_artifacts/20250725_081959_167641_thoughts.txt
     - llm_artifacts/20250725_082110_948207_thoughts.txt
 ----------------------------------------
-File: 016_MSL_id_15_Sensor_tr_500_1st_780.csv (Model: Dimensionality Reduction Ablated)
+File: 016_MSL_id_15_Sensor_tr_500_1st_780.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_082227_048234_thoughts.txt
     - llm_artifacts/20250725_082335_389203_thoughts.txt
@@ -789,7 +789,7 @@ File: 016_MSL_id_15_Sensor_tr_500_1st_780.csv (Model: Dimensionality Reduction A
     - llm_artifacts/20250725_091128_801134_thoughts.txt
     - llm_artifacts/20250725_091214_626384_thoughts.txt
 ----------------------------------------
-File: 017_MSL_id_16_Sensor_tr_512_1st_1850.csv (Model: Dimensionality Reduction Ablated)
+File: 017_MSL_id_16_Sensor_tr_512_1st_1850.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_091403_998916_thoughts.txt
     - llm_artifacts/20250725_091458_814802_thoughts.txt
@@ -847,7 +847,7 @@ File: 017_MSL_id_16_Sensor_tr_512_1st_1850.csv (Model: Dimensionality Reduction 
     - llm_artifacts/20250725_100309_005754_thoughts.txt
     - llm_artifacts/20250725_100408_059430_thoughts.txt
 ----------------------------------------
-File: 018_Daphnet_id_1_HumanActivity_tr_9693_1st_20732.csv (Model: Dimensionality Reduction Ablated)
+File: 018_Daphnet_id_1_HumanActivity_tr_9693_1st_20732.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_100657_964082_thoughts.txt
     - llm_artifacts/20250725_100807_312729_thoughts.txt
@@ -859,62 +859,62 @@ File: 018_Daphnet_id_1_HumanActivity_tr_9693_1st_20732.csv (Model: Dimensionalit
     - llm_artifacts/20250725_101541_801947_thoughts.txt
     - llm_artifacts/20250725_101640_305854_thoughts.txt
 ----------------------------------------
-File: 019_MITDB_id_1_Medical_tr_37500_1st_103211.csv (Model: Dimensionality Reduction Ablated)
+File: 019_MITDB_id_1_Medical_tr_37500_1st_103211.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_101936_275911_thoughts.txt
     - llm_artifacts/20250725_102036_334633_thoughts.txt
 ----------------------------------------
-File: 020_MITDB_id_2_Medical_tr_50000_1st_52315.csv (Model: Dimensionality Reduction Ablated)
+File: 020_MITDB_id_2_Medical_tr_50000_1st_52315.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_103017_292845_thoughts.txt
     - llm_artifacts/20250725_103136_646332_thoughts.txt
 ----------------------------------------
-File: 021_MITDB_id_3_Medical_tr_50000_1st_57595.csv (Model: Dimensionality Reduction Ablated)
+File: 021_MITDB_id_3_Medical_tr_50000_1st_57595.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_104029_728246_thoughts.txt
     - llm_artifacts/20250725_104145_282765_thoughts.txt
 ----------------------------------------
-File: 022_MITDB_id_4_Medical_tr_50000_1st_54253.csv (Model: Dimensionality Reduction Ablated)
+File: 022_MITDB_id_4_Medical_tr_50000_1st_54253.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_104730_866531_thoughts.txt
     - llm_artifacts/20250725_104845_732441_thoughts.txt
 ----------------------------------------
-File: 024_MITDB_id_6_Medical_tr_50000_1st_58118.csv (Model: Dimensionality Reduction Ablated)
+File: 024_MITDB_id_6_Medical_tr_50000_1st_58118.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_105649_131598_thoughts.txt
     - llm_artifacts/20250725_105749_507245_thoughts.txt
 ----------------------------------------
-File: 025_MITDB_id_7_Medical_tr_37500_1st_88864.csv (Model: Dimensionality Reduction Ablated)
+File: 025_MITDB_id_7_Medical_tr_37500_1st_88864.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_110101_452549_thoughts.txt
     - llm_artifacts/20250725_110215_319770_thoughts.txt
 ----------------------------------------
-File: 026_MITDB_id_8_Medical_tr_30495_1st_30595.csv (Model: Dimensionality Reduction Ablated)
+File: 026_MITDB_id_8_Medical_tr_30495_1st_30595.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_110833_921956_thoughts.txt
     - llm_artifacts/20250725_110936_195203_thoughts.txt
 ----------------------------------------
-File: 027_MITDB_id_9_Medical_tr_25000_1st_52255.csv (Model: Dimensionality Reduction Ablated)
+File: 027_MITDB_id_9_Medical_tr_25000_1st_52255.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_111300_439656_thoughts.txt
     - llm_artifacts/20250725_111407_014332_thoughts.txt
 ----------------------------------------
-File: 029_MITDB_id_11_Medical_tr_50000_1st_518037.csv (Model: Dimensionality Reduction Ablated)
+File: 029_MITDB_id_11_Medical_tr_50000_1st_518037.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_112717_083932_thoughts.txt
     - llm_artifacts/20250725_112827_545705_thoughts.txt
 ----------------------------------------
-File: 030_MITDB_id_12_Medical_tr_50000_1st_84572.csv (Model: Dimensionality Reduction Ablated)
+File: 030_MITDB_id_12_Medical_tr_50000_1st_84572.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_113815_936161_thoughts.txt
     - llm_artifacts/20250725_113922_903125_thoughts.txt
 ----------------------------------------
-File: 031_MITDB_id_13_Medical_tr_50000_1st_79433.csv (Model: Dimensionality Reduction Ablated)
+File: 031_MITDB_id_13_Medical_tr_50000_1st_79433.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_114926_822558_thoughts.txt
     - llm_artifacts/20250725_115025_719357_thoughts.txt
 ----------------------------------------
-File: 032_GHL_id_1_Sensor_tr_50000_1st_65001.csv (Model: Dimensionality Reduction Ablated)
+File: 032_GHL_id_1_Sensor_tr_50000_1st_65001.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_121113_094795_thoughts.txt
     - llm_artifacts/20250725_121214_817384_thoughts.txt
@@ -936,7 +936,7 @@ File: 032_GHL_id_1_Sensor_tr_50000_1st_65001.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250725_122830_148987_thoughts.txt
     - llm_artifacts/20250725_122943_032811_thoughts.txt
 ----------------------------------------
-File: 033_GHL_id_2_Sensor_tr_50000_1st_51001.csv (Model: Dimensionality Reduction Ablated)
+File: 033_GHL_id_2_Sensor_tr_50000_1st_51001.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_124942_949571_thoughts.txt
     - llm_artifacts/20250725_125042_339569_thoughts.txt
@@ -958,7 +958,7 @@ File: 033_GHL_id_2_Sensor_tr_50000_1st_51001.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250725_130920_537802_thoughts.txt
     - llm_artifacts/20250725_131029_408965_thoughts.txt
 ----------------------------------------
-File: 034_GHL_id_3_Sensor_tr_50000_1st_122001.csv (Model: Dimensionality Reduction Ablated)
+File: 034_GHL_id_3_Sensor_tr_50000_1st_122001.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_133033_517547_thoughts.txt
     - llm_artifacts/20250725_133238_878934_thoughts.txt
@@ -980,7 +980,7 @@ File: 034_GHL_id_3_Sensor_tr_50000_1st_122001.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250725_134934_485348_thoughts.txt
     - llm_artifacts/20250725_135045_823754_thoughts.txt
 ----------------------------------------
-File: 035_GHL_id_4_Sensor_tr_50000_1st_90001.csv (Model: Dimensionality Reduction Ablated)
+File: 035_GHL_id_4_Sensor_tr_50000_1st_90001.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_141108_374988_thoughts.txt
     - llm_artifacts/20250725_141204_590790_thoughts.txt
@@ -1002,7 +1002,7 @@ File: 035_GHL_id_4_Sensor_tr_50000_1st_90001.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250725_143028_118647_thoughts.txt
     - llm_artifacts/20250725_143137_281250_thoughts.txt
 ----------------------------------------
-File: 036_GHL_id_5_Sensor_tr_50000_1st_67147.csv (Model: Dimensionality Reduction Ablated)
+File: 036_GHL_id_5_Sensor_tr_50000_1st_67147.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_145135_897268_thoughts.txt
     - llm_artifacts/20250725_145237_126687_thoughts.txt
@@ -1024,7 +1024,7 @@ File: 036_GHL_id_5_Sensor_tr_50000_1st_67147.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250725_151115_836207_thoughts.txt
     - llm_artifacts/20250725_151221_189723_thoughts.txt
 ----------------------------------------
-File: 037_GHL_id_6_Sensor_tr_50000_1st_80001.csv (Model: Dimensionality Reduction Ablated)
+File: 037_GHL_id_6_Sensor_tr_50000_1st_80001.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_153228_986198_thoughts.txt
     - llm_artifacts/20250725_153321_483746_thoughts.txt
@@ -1046,7 +1046,7 @@ File: 037_GHL_id_6_Sensor_tr_50000_1st_80001.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250725_155430_818471_thoughts.txt
     - llm_artifacts/20250725_155532_521518_thoughts.txt
 ----------------------------------------
-File: 038_GHL_id_7_Sensor_tr_50000_1st_100001.csv (Model: Dimensionality Reduction Ablated)
+File: 038_GHL_id_7_Sensor_tr_50000_1st_100001.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_161940_217627_thoughts.txt
     - llm_artifacts/20250725_162043_928572_thoughts.txt
@@ -1068,7 +1068,7 @@ File: 038_GHL_id_7_Sensor_tr_50000_1st_100001.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250725_163922_114840_thoughts.txt
     - llm_artifacts/20250725_164027_086338_thoughts.txt
 ----------------------------------------
-File: 039_GHL_id_8_Sensor_tr_50000_1st_63030.csv (Model: Dimensionality Reduction Ablated)
+File: 039_GHL_id_8_Sensor_tr_50000_1st_63030.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_170031_511410_thoughts.txt
     - llm_artifacts/20250725_170127_054294_thoughts.txt
@@ -1090,7 +1090,7 @@ File: 039_GHL_id_8_Sensor_tr_50000_1st_63030.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250725_172010_850680_thoughts.txt
     - llm_artifacts/20250725_172129_234676_thoughts.txt
 ----------------------------------------
-File: 041_GHL_id_10_Sensor_tr_50000_1st_57001.csv (Model: Dimensionality Reduction Ablated)
+File: 041_GHL_id_10_Sensor_tr_50000_1st_57001.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_182044_302209_thoughts.txt
     - llm_artifacts/20250725_182140_893395_thoughts.txt
@@ -1112,7 +1112,7 @@ File: 041_GHL_id_10_Sensor_tr_50000_1st_57001.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250725_183938_011593_thoughts.txt
     - llm_artifacts/20250725_184042_439909_thoughts.txt
 ----------------------------------------
-File: 042_GHL_id_11_Sensor_tr_50000_1st_150001.csv (Model: Dimensionality Reduction Ablated)
+File: 042_GHL_id_11_Sensor_tr_50000_1st_150001.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_190042_060093_thoughts.txt
     - llm_artifacts/20250725_190153_155947_thoughts.txt
@@ -1134,7 +1134,7 @@ File: 042_GHL_id_11_Sensor_tr_50000_1st_150001.csv (Model: Dimensionality Reduct
     - llm_artifacts/20250725_192352_691382_thoughts.txt
     - llm_artifacts/20250725_192453_244340_thoughts.txt
 ----------------------------------------
-File: 043_GHL_id_12_Sensor_tr_39938_1st_40038.csv (Model: Dimensionality Reduction Ablated)
+File: 043_GHL_id_12_Sensor_tr_39938_1st_40038.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_194447_853981_thoughts.txt
     - llm_artifacts/20250725_194551_533894_thoughts.txt
@@ -1156,7 +1156,7 @@ File: 043_GHL_id_12_Sensor_tr_39938_1st_40038.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250725_200223_599529_thoughts.txt
     - llm_artifacts/20250725_200324_703098_thoughts.txt
 ----------------------------------------
-File: 044_GHL_id_13_Sensor_tr_50000_1st_145001.csv (Model: Dimensionality Reduction Ablated)
+File: 044_GHL_id_13_Sensor_tr_50000_1st_145001.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_202332_710806_thoughts.txt
     - llm_artifacts/20250725_202436_073753_thoughts.txt
@@ -1178,7 +1178,7 @@ File: 044_GHL_id_13_Sensor_tr_50000_1st_145001.csv (Model: Dimensionality Reduct
     - llm_artifacts/20250725_204209_310279_thoughts.txt
     - llm_artifacts/20250725_204317_928177_thoughts.txt
 ----------------------------------------
-File: 045_GHL_id_14_Sensor_tr_50000_1st_85076.csv (Model: Dimensionality Reduction Ablated)
+File: 045_GHL_id_14_Sensor_tr_50000_1st_85076.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_210311_064271_thoughts.txt
     - llm_artifacts/20250725_210418_536039_thoughts.txt
@@ -1200,7 +1200,7 @@ File: 045_GHL_id_14_Sensor_tr_50000_1st_85076.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250725_212115_522393_thoughts.txt
     - llm_artifacts/20250725_212222_325050_thoughts.txt
 ----------------------------------------
-File: 046_GHL_id_15_Sensor_tr_50000_1st_156462.csv (Model: Dimensionality Reduction Ablated)
+File: 046_GHL_id_15_Sensor_tr_50000_1st_156462.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_214232_478046_thoughts.txt
     - llm_artifacts/20250725_214333_731306_thoughts.txt
@@ -1222,7 +1222,7 @@ File: 046_GHL_id_15_Sensor_tr_50000_1st_156462.csv (Model: Dimensionality Reduct
     - llm_artifacts/20250725_220120_661776_thoughts.txt
     - llm_artifacts/20250725_220236_073353_thoughts.txt
 ----------------------------------------
-File: 047_GHL_id_16_Sensor_tr_50000_1st_77001.csv (Model: Dimensionality Reduction Ablated)
+File: 047_GHL_id_16_Sensor_tr_50000_1st_77001.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_222236_315052_thoughts.txt
     - llm_artifacts/20250725_222329_567536_thoughts.txt
@@ -1244,7 +1244,7 @@ File: 047_GHL_id_16_Sensor_tr_50000_1st_77001.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250725_224156_877068_thoughts.txt
     - llm_artifacts/20250725_224309_655144_thoughts.txt
 ----------------------------------------
-File: 048_GHL_id_17_Sensor_tr_50000_1st_154001.csv (Model: Dimensionality Reduction Ablated)
+File: 048_GHL_id_17_Sensor_tr_50000_1st_154001.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250725_230311_251639_thoughts.txt
     - llm_artifacts/20250725_230424_406845_thoughts.txt
@@ -1266,7 +1266,7 @@ File: 048_GHL_id_17_Sensor_tr_50000_1st_154001.csv (Model: Dimensionality Reduct
     - llm_artifacts/20250725_232111_395456_thoughts.txt
     - llm_artifacts/20250725_232242_837758_thoughts.txt
 ----------------------------------------
-File: 050_GHL_id_19_Sensor_tr_43750_1st_55001.csv (Model: Dimensionality Reduction Ablated)
+File: 050_GHL_id_19_Sensor_tr_43750_1st_55001.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_002038_226515_thoughts.txt
     - llm_artifacts/20250726_002139_513963_thoughts.txt
@@ -1288,7 +1288,7 @@ File: 050_GHL_id_19_Sensor_tr_43750_1st_55001.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250726_003859_514304_thoughts.txt
     - llm_artifacts/20250726_004000_151050_thoughts.txt
 ----------------------------------------
-File: 051_GHL_id_20_Sensor_tr_50000_1st_75110.csv (Model: Dimensionality Reduction Ablated)
+File: 051_GHL_id_20_Sensor_tr_50000_1st_75110.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_010151_424674_thoughts.txt
     - llm_artifacts/20250726_010254_715165_thoughts.txt
@@ -1310,7 +1310,7 @@ File: 051_GHL_id_20_Sensor_tr_50000_1st_75110.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250726_011953_329963_thoughts.txt
     - llm_artifacts/20250726_012112_875284_thoughts.txt
 ----------------------------------------
-File: 052_GHL_id_21_Sensor_tr_50000_1st_98001.csv (Model: Dimensionality Reduction Ablated)
+File: 052_GHL_id_21_Sensor_tr_50000_1st_98001.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_014110_083235_thoughts.txt
     - llm_artifacts/20250726_014230_064920_thoughts.txt
@@ -1332,7 +1332,7 @@ File: 052_GHL_id_21_Sensor_tr_50000_1st_98001.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250726_020050_227977_thoughts.txt
     - llm_artifacts/20250726_020149_381360_thoughts.txt
 ----------------------------------------
-File: 053_GHL_id_22_Sensor_tr_50000_1st_126448.csv (Model: Dimensionality Reduction Ablated)
+File: 053_GHL_id_22_Sensor_tr_50000_1st_126448.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_022159_988708_thoughts.txt
     - llm_artifacts/20250726_022313_029980_thoughts.txt
@@ -1354,7 +1354,7 @@ File: 053_GHL_id_22_Sensor_tr_50000_1st_126448.csv (Model: Dimensionality Reduct
     - llm_artifacts/20250726_024357_443093_thoughts.txt
     - llm_artifacts/20250726_024510_983853_thoughts.txt
 ----------------------------------------
-File: 054_GHL_id_23_Sensor_tr_50000_1st_135001.csv (Model: Dimensionality Reduction Ablated)
+File: 054_GHL_id_23_Sensor_tr_50000_1st_135001.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_030518_024651_thoughts.txt
     - llm_artifacts/20250726_030615_650649_thoughts.txt
@@ -1376,7 +1376,7 @@ File: 054_GHL_id_23_Sensor_tr_50000_1st_135001.csv (Model: Dimensionality Reduct
     - llm_artifacts/20250726_032252_591097_thoughts.txt
     - llm_artifacts/20250726_032359_645033_thoughts.txt
 ----------------------------------------
-File: 055_GHL_id_24_Sensor_tr_50000_1st_118124.csv (Model: Dimensionality Reduction Ablated)
+File: 055_GHL_id_24_Sensor_tr_50000_1st_118124.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_034459_722636_thoughts.txt
     - llm_artifacts/20250726_034601_909778_thoughts.txt
@@ -1398,7 +1398,7 @@ File: 055_GHL_id_24_Sensor_tr_50000_1st_118124.csv (Model: Dimensionality Reduct
     - llm_artifacts/20250726_040328_411577_thoughts.txt
     - llm_artifacts/20250726_040423_022728_thoughts.txt
 ----------------------------------------
-File: 056_GHL_id_25_Sensor_tr_50000_1st_105568.csv (Model: Dimensionality Reduction Ablated)
+File: 056_GHL_id_25_Sensor_tr_50000_1st_105568.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_042428_286315_thoughts.txt
     - llm_artifacts/20250726_042541_024849_thoughts.txt
@@ -1420,7 +1420,7 @@ File: 056_GHL_id_25_Sensor_tr_50000_1st_105568.csv (Model: Dimensionality Reduct
     - llm_artifacts/20250726_044738_289175_thoughts.txt
     - llm_artifacts/20250726_044850_430314_thoughts.txt
 ----------------------------------------
-File: 057_SMD_id_1_Facility_tr_4529_1st_4629.csv (Model: Dimensionality Reduction Ablated)
+File: 057_SMD_id_1_Facility_tr_4529_1st_4629.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_045440_089796_thoughts.txt
     - llm_artifacts/20250726_045604_307205_thoughts.txt
@@ -1461,7 +1461,7 @@ File: 057_SMD_id_1_Facility_tr_4529_1st_4629.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250726_053450_327677_thoughts.txt
     - llm_artifacts/20250726_053536_624175_thoughts.txt
 ----------------------------------------
-File: 058_SMD_id_2_Facility_tr_1087_1st_1187.csv (Model: Dimensionality Reduction Ablated)
+File: 058_SMD_id_2_Facility_tr_1087_1st_1187.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_054141_022435_thoughts.txt
     - llm_artifacts/20250726_054244_518342_thoughts.txt
@@ -1502,7 +1502,7 @@ File: 058_SMD_id_2_Facility_tr_1087_1st_1187.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250726_061818_015133_thoughts.txt
     - llm_artifacts/20250726_061903_231476_thoughts.txt
 ----------------------------------------
-File: 059_SMD_id_3_Facility_tr_757_1st_857.csv (Model: Dimensionality Reduction Ablated)
+File: 059_SMD_id_3_Facility_tr_757_1st_857.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_062417_630068_thoughts.txt
     - llm_artifacts/20250726_062524_549065_thoughts.txt
@@ -1543,7 +1543,7 @@ File: 059_SMD_id_3_Facility_tr_757_1st_857.csv (Model: Dimensionality Reduction 
     - llm_artifacts/20250726_070300_649397_thoughts.txt
     - llm_artifacts/20250726_070343_433681_thoughts.txt
 ----------------------------------------
-File: 060_SMD_id_4_Facility_tr_7176_1st_10609.csv (Model: Dimensionality Reduction Ablated)
+File: 060_SMD_id_4_Facility_tr_7176_1st_10609.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_070949_019720_thoughts.txt
     - llm_artifacts/20250726_071049_884278_thoughts.txt
@@ -1584,7 +1584,7 @@ File: 060_SMD_id_4_Facility_tr_7176_1st_10609.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250726_074856_081083_thoughts.txt
     - llm_artifacts/20250726_074943_174083_thoughts.txt
 ----------------------------------------
-File: 061_SMD_id_5_Facility_tr_7176_1st_15144.csv (Model: Dimensionality Reduction Ablated)
+File: 061_SMD_id_5_Facility_tr_7176_1st_15144.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_075547_699105_thoughts.txt
     - llm_artifacts/20250726_075713_735245_thoughts.txt
@@ -1625,7 +1625,7 @@ File: 061_SMD_id_5_Facility_tr_7176_1st_15144.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250726_083315_405516_thoughts.txt
     - llm_artifacts/20250726_083401_954013_thoughts.txt
 ----------------------------------------
-File: 063_SMD_id_7_Facility_tr_5923_1st_6506.csv (Model: Dimensionality Reduction Ablated)
+File: 063_SMD_id_7_Facility_tr_5923_1st_6506.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_092359_326108_thoughts.txt
     - llm_artifacts/20250726_092522_466569_thoughts.txt
@@ -1666,7 +1666,7 @@ File: 063_SMD_id_7_Facility_tr_5923_1st_6506.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250726_100528_299192_thoughts.txt
     - llm_artifacts/20250726_100620_378151_thoughts.txt
 ----------------------------------------
-File: 064_SMD_id_8_Facility_tr_2272_1st_2372.csv (Model: Dimensionality Reduction Ablated)
+File: 064_SMD_id_8_Facility_tr_2272_1st_2372.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_101058_659703_thoughts.txt
     - llm_artifacts/20250726_101157_315970_thoughts.txt
@@ -1707,7 +1707,7 @@ File: 064_SMD_id_8_Facility_tr_2272_1st_2372.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250726_105208_631142_thoughts.txt
     - llm_artifacts/20250726_105254_328088_thoughts.txt
 ----------------------------------------
-File: 065_SMD_id_9_Facility_tr_737_1st_837.csv (Model: Dimensionality Reduction Ablated)
+File: 065_SMD_id_9_Facility_tr_737_1st_837.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_105801_320067_thoughts.txt
     - llm_artifacts/20250726_105852_953736_thoughts.txt
@@ -1748,7 +1748,7 @@ File: 065_SMD_id_9_Facility_tr_737_1st_837.csv (Model: Dimensionality Reduction 
     - llm_artifacts/20250726_113710_537481_thoughts.txt
     - llm_artifacts/20250726_113800_254635_thoughts.txt
 ----------------------------------------
-File: 066_SMD_id_10_Facility_tr_2634_1st_2734.csv (Model: Dimensionality Reduction Ablated)
+File: 066_SMD_id_10_Facility_tr_2634_1st_2734.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_114304_145422_thoughts.txt
     - llm_artifacts/20250726_114355_967229_thoughts.txt
@@ -1789,7 +1789,7 @@ File: 066_SMD_id_10_Facility_tr_2634_1st_2734.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250726_122107_486948_thoughts.txt
     - llm_artifacts/20250726_122153_450052_thoughts.txt
 ----------------------------------------
-File: 067_SMD_id_11_Facility_tr_1980_1st_2080.csv (Model: Dimensionality Reduction Ablated)
+File: 067_SMD_id_11_Facility_tr_1980_1st_2080.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_122648_669045_thoughts.txt
     - llm_artifacts/20250726_122753_778434_thoughts.txt
@@ -1830,7 +1830,7 @@ File: 067_SMD_id_11_Facility_tr_1980_1st_2080.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250726_130447_138030_thoughts.txt
     - llm_artifacts/20250726_130532_291360_thoughts.txt
 ----------------------------------------
-File: 068_SMD_id_12_Facility_tr_1099_1st_1199.csv (Model: Dimensionality Reduction Ablated)
+File: 068_SMD_id_12_Facility_tr_1099_1st_1199.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_131146_363762_thoughts.txt
     - llm_artifacts/20250726_131250_283700_thoughts.txt
@@ -1871,7 +1871,7 @@ File: 068_SMD_id_12_Facility_tr_1099_1st_1199.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250726_134758_878493_thoughts.txt
     - llm_artifacts/20250726_134841_206306_thoughts.txt
 ----------------------------------------
-File: 069_SMD_id_13_Facility_tr_5925_1st_12760.csv (Model: Dimensionality Reduction Ablated)
+File: 069_SMD_id_13_Facility_tr_5925_1st_12760.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_135345_622557_thoughts.txt
     - llm_artifacts/20250726_135502_957289_thoughts.txt
@@ -1912,7 +1912,7 @@ File: 069_SMD_id_13_Facility_tr_5925_1st_12760.csv (Model: Dimensionality Reduct
     - llm_artifacts/20250726_143005_024661_thoughts.txt
     - llm_artifacts/20250726_143046_512668_thoughts.txt
 ----------------------------------------
-File: 070_SMD_id_14_Facility_tr_1070_1st_1170.csv (Model: Dimensionality Reduction Ablated)
+File: 070_SMD_id_14_Facility_tr_1070_1st_1170.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_143650_715800_thoughts.txt
     - llm_artifacts/20250726_143758_356752_thoughts.txt
@@ -1953,7 +1953,7 @@ File: 070_SMD_id_14_Facility_tr_1070_1st_1170.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250726_151210_605693_thoughts.txt
     - llm_artifacts/20250726_151257_692470_thoughts.txt
 ----------------------------------------
-File: 071_SMD_id_15_Facility_tr_1109_1st_1209.csv (Model: Dimensionality Reduction Ablated)
+File: 071_SMD_id_15_Facility_tr_1109_1st_1209.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_153056_524389_thoughts.txt
     - llm_artifacts/20250726_153204_423817_thoughts.txt
@@ -1994,7 +1994,7 @@ File: 071_SMD_id_15_Facility_tr_1109_1st_1209.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250726_160821_528326_thoughts.txt
     - llm_artifacts/20250726_160906_760293_thoughts.txt
 ----------------------------------------
-File: 073_SMD_id_17_Facility_tr_5926_1st_10620.csv (Model: Dimensionality Reduction Ablated)
+File: 073_SMD_id_17_Facility_tr_5926_1st_10620.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_165950_332303_thoughts.txt
     - llm_artifacts/20250726_170142_575438_thoughts.txt
@@ -2035,7 +2035,7 @@ File: 073_SMD_id_17_Facility_tr_5926_1st_10620.csv (Model: Dimensionality Reduct
     - llm_artifacts/20250726_174016_904220_thoughts.txt
     - llm_artifacts/20250726_174105_971979_thoughts.txt
 ----------------------------------------
-File: 074_SMD_id_18_Facility_tr_7174_1st_21230.csv (Model: Dimensionality Reduction Ablated)
+File: 074_SMD_id_18_Facility_tr_7174_1st_21230.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_174712_571814_thoughts.txt
     - llm_artifacts/20250726_174809_498924_thoughts.txt
@@ -2076,7 +2076,7 @@ File: 074_SMD_id_18_Facility_tr_7174_1st_21230.csv (Model: Dimensionality Reduct
     - llm_artifacts/20250726_182354_353089_thoughts.txt
     - llm_artifacts/20250726_182455_450691_thoughts.txt
 ----------------------------------------
-File: 075_SMD_id_19_Facility_tr_564_1st_664.csv (Model: Dimensionality Reduction Ablated)
+File: 075_SMD_id_19_Facility_tr_564_1st_664.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_183002_081609_thoughts.txt
     - llm_artifacts/20250726_183115_102613_thoughts.txt
@@ -2117,7 +2117,7 @@ File: 075_SMD_id_19_Facility_tr_564_1st_664.csv (Model: Dimensionality Reduction
     - llm_artifacts/20250726_190745_997748_thoughts.txt
     - llm_artifacts/20250726_190829_468702_thoughts.txt
 ----------------------------------------
-File: 076_SMD_id_20_Facility_tr_5925_1st_17580.csv (Model: Dimensionality Reduction Ablated)
+File: 076_SMD_id_20_Facility_tr_5925_1st_17580.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_191341_115748_thoughts.txt
     - llm_artifacts/20250726_191432_826652_thoughts.txt
@@ -2158,7 +2158,7 @@ File: 076_SMD_id_20_Facility_tr_5925_1st_17580.csv (Model: Dimensionality Reduct
     - llm_artifacts/20250726_195402_315280_thoughts.txt
     - llm_artifacts/20250726_195445_383339_thoughts.txt
 ----------------------------------------
-File: 077_SMD_id_21_Facility_tr_3026_1st_3126.csv (Model: Dimensionality Reduction Ablated)
+File: 077_SMD_id_21_Facility_tr_3026_1st_3126.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_195923_580105_thoughts.txt
     - llm_artifacts/20250726_200023_743875_thoughts.txt
@@ -2199,7 +2199,7 @@ File: 077_SMD_id_21_Facility_tr_3026_1st_3126.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250726_203653_049636_thoughts.txt
     - llm_artifacts/20250726_203739_541219_thoughts.txt
 ----------------------------------------
-File: 078_SMD_id_22_Facility_tr_500_1st_326.csv (Model: Dimensionality Reduction Ablated)
+File: 078_SMD_id_22_Facility_tr_500_1st_326.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_204253_033100_thoughts.txt
     - llm_artifacts/20250726_204357_486885_thoughts.txt
@@ -2240,168 +2240,168 @@ File: 078_SMD_id_22_Facility_tr_500_1st_326.csv (Model: Dimensionality Reduction
     - llm_artifacts/20250726_212240_640820_thoughts.txt
     - llm_artifacts/20250726_212324_454814_thoughts.txt
 ----------------------------------------
-File: 079_LTDB_id_1_Medical_tr_3618_1st_3718.csv (Model: Dimensionality Reduction Ablated)
+File: 079_LTDB_id_1_Medical_tr_3618_1st_3718.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_212524_153687_thoughts.txt
     - llm_artifacts/20250726_212628_404370_thoughts.txt
 ----------------------------------------
-File: 080_LTDB_id_2_Medical_tr_500_1st_266.csv (Model: Dimensionality Reduction Ablated)
+File: 080_LTDB_id_2_Medical_tr_500_1st_266.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_213002_513874_thoughts.txt
     - llm_artifacts/20250726_213057_423006_thoughts.txt
     - llm_artifacts/20250726_213223_066981_thoughts.txt
 ----------------------------------------
-File: 081_LTDB_id_3_Medical_tr_500_1st_26.csv (Model: Dimensionality Reduction Ablated)
+File: 081_LTDB_id_3_Medical_tr_500_1st_26.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_213520_380917_thoughts.txt
     - llm_artifacts/20250726_213617_407925_thoughts.txt
 ----------------------------------------
-File: 083_LTDB_id_5_Medical_tr_15502_1st_15602.csv (Model: Dimensionality Reduction Ablated)
+File: 083_LTDB_id_5_Medical_tr_15502_1st_15602.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_214347_368238_thoughts.txt
     - llm_artifacts/20250726_214443_431790_thoughts.txt
 ----------------------------------------
-File: 084_SVDB_id_1_Medical_tr_12973_1st_13073.csv (Model: Dimensionality Reduction Ablated)
+File: 084_SVDB_id_1_Medical_tr_12973_1st_13073.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_214844_701987_thoughts.txt
     - llm_artifacts/20250726_214948_861619_thoughts.txt
 ----------------------------------------
-File: 085_SVDB_id_2_Medical_tr_50000_1st_54982.csv (Model: Dimensionality Reduction Ablated)
+File: 085_SVDB_id_2_Medical_tr_50000_1st_54982.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_215418_590259_thoughts.txt
     - llm_artifacts/20250726_215527_468494_thoughts.txt
 ----------------------------------------
-File: 086_SVDB_id_3_Medical_tr_533_1st_633.csv (Model: Dimensionality Reduction Ablated)
+File: 086_SVDB_id_3_Medical_tr_533_1st_633.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_220013_201012_thoughts.txt
     - llm_artifacts/20250726_220126_543590_thoughts.txt
 ----------------------------------------
-File: 087_SVDB_id_4_Medical_tr_5421_1st_5521.csv (Model: Dimensionality Reduction Ablated)
+File: 087_SVDB_id_4_Medical_tr_5421_1st_5521.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_220650_163250_thoughts.txt
     - llm_artifacts/20250726_220755_668467_thoughts.txt
 ----------------------------------------
-File: 088_SVDB_id_5_Medical_tr_500_1st_168.csv (Model: Dimensionality Reduction Ablated)
+File: 088_SVDB_id_5_Medical_tr_500_1st_168.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_221256_234422_thoughts.txt
     - llm_artifacts/20250726_221401_548363_thoughts.txt
 ----------------------------------------
-File: 089_SVDB_id_6_Medical_tr_50000_1st_83083.csv (Model: Dimensionality Reduction Ablated)
+File: 089_SVDB_id_6_Medical_tr_50000_1st_83083.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_222017_956950_thoughts.txt
     - llm_artifacts/20250726_222124_596382_thoughts.txt
 ----------------------------------------
-File: 091_SVDB_id_8_Medical_tr_500_1st_126.csv (Model: Dimensionality Reduction Ablated)
+File: 091_SVDB_id_8_Medical_tr_500_1st_126.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_222917_196861_thoughts.txt
     - llm_artifacts/20250726_223022_668156_thoughts.txt
 ----------------------------------------
-File: 092_SVDB_id_9_Medical_tr_2674_1st_2774.csv (Model: Dimensionality Reduction Ablated)
+File: 092_SVDB_id_9_Medical_tr_2674_1st_2774.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_223510_121621_thoughts.txt
     - llm_artifacts/20250726_223617_770222_thoughts.txt
 ----------------------------------------
-File: 093_SVDB_id_10_Medical_tr_500_1st_37.csv (Model: Dimensionality Reduction Ablated)
+File: 093_SVDB_id_10_Medical_tr_500_1st_37.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_224114_386335_thoughts.txt
     - llm_artifacts/20250726_224334_287677_thoughts.txt
 ----------------------------------------
-File: 094_SVDB_id_11_Medical_tr_20100_1st_23611.csv (Model: Dimensionality Reduction Ablated)
+File: 094_SVDB_id_11_Medical_tr_20100_1st_23611.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_224726_248480_thoughts.txt
     - llm_artifacts/20250726_224827_702773_thoughts.txt
 ----------------------------------------
-File: 095_SVDB_id_12_Medical_tr_6264_1st_6364.csv (Model: Dimensionality Reduction Ablated)
+File: 095_SVDB_id_12_Medical_tr_6264_1st_6364.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_225241_503027_thoughts.txt
     - llm_artifacts/20250726_225339_966986_thoughts.txt
 ----------------------------------------
-File: 096_SVDB_id_13_Medical_tr_500_1st_444.csv (Model: Dimensionality Reduction Ablated)
+File: 096_SVDB_id_13_Medical_tr_500_1st_444.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_225823_283442_thoughts.txt
     - llm_artifacts/20250726_225927_437633_thoughts.txt
 ----------------------------------------
-File: 097_SVDB_id_14_Medical_tr_1031_1st_1131.csv (Model: Dimensionality Reduction Ablated)
+File: 097_SVDB_id_14_Medical_tr_1031_1st_1131.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_230400_868710_thoughts.txt
     - llm_artifacts/20250726_230502_662741_thoughts.txt
 ----------------------------------------
-File: 098_SVDB_id_15_Medical_tr_500_1st_303.csv (Model: Dimensionality Reduction Ablated)
+File: 098_SVDB_id_15_Medical_tr_500_1st_303.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_231047_088900_thoughts.txt
     - llm_artifacts/20250726_231146_342377_thoughts.txt
 ----------------------------------------
-File: 099_SVDB_id_16_Medical_tr_1115_1st_1215.csv (Model: Dimensionality Reduction Ablated)
+File: 099_SVDB_id_16_Medical_tr_1115_1st_1215.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_231626_539719_thoughts.txt
     - llm_artifacts/20250726_231734_615752_thoughts.txt
 ----------------------------------------
-File: 100_SVDB_id_17_Medical_tr_17803_1st_17903.csv (Model: Dimensionality Reduction Ablated)
+File: 100_SVDB_id_17_Medical_tr_17803_1st_17903.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_232058_118157_thoughts.txt
     - llm_artifacts/20250726_232203_651441_thoughts.txt
 ----------------------------------------
-File: 101_SVDB_id_18_Medical_tr_1851_1st_1951.csv (Model: Dimensionality Reduction Ablated)
+File: 101_SVDB_id_18_Medical_tr_1851_1st_1951.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_232640_792465_thoughts.txt
     - llm_artifacts/20250726_232743_800380_thoughts.txt
 ----------------------------------------
-File: 102_SVDB_id_19_Medical_tr_50000_1st_107354.csv (Model: Dimensionality Reduction Ablated)
+File: 102_SVDB_id_19_Medical_tr_50000_1st_107354.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_233234_504288_thoughts.txt
     - llm_artifacts/20250726_233355_460833_thoughts.txt
 ----------------------------------------
-File: 103_SVDB_id_20_Medical_tr_12167_1st_12267.csv (Model: Dimensionality Reduction Ablated)
+File: 103_SVDB_id_20_Medical_tr_12167_1st_12267.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_233905_557500_thoughts.txt
     - llm_artifacts/20250726_234009_716765_thoughts.txt
 ----------------------------------------
-File: 104_SVDB_id_21_Medical_tr_50000_1st_106634.csv (Model: Dimensionality Reduction Ablated)
+File: 104_SVDB_id_21_Medical_tr_50000_1st_106634.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_234458_953922_thoughts.txt
     - llm_artifacts/20250726_234605_610464_thoughts.txt
 ----------------------------------------
-File: 105_SVDB_id_22_Medical_tr_500_1st_417.csv (Model: Dimensionality Reduction Ablated)
+File: 105_SVDB_id_22_Medical_tr_500_1st_417.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_234922_270011_thoughts.txt
     - llm_artifacts/20250726_235027_389208_thoughts.txt
 ----------------------------------------
-File: 106_SVDB_id_23_Medical_tr_37500_1st_121963.csv (Model: Dimensionality Reduction Ablated)
+File: 106_SVDB_id_23_Medical_tr_37500_1st_121963.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250726_235351_276471_thoughts.txt
     - llm_artifacts/20250726_235506_296510_thoughts.txt
 ----------------------------------------
-File: 108_SVDB_id_25_Medical_tr_1238_1st_1338.csv (Model: Dimensionality Reduction Ablated)
+File: 108_SVDB_id_25_Medical_tr_1238_1st_1338.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_000534_305576_thoughts.txt
     - llm_artifacts/20250727_000636_717591_thoughts.txt
 ----------------------------------------
-File: 109_SVDB_id_26_Medical_tr_1038_1st_1138.csv (Model: Dimensionality Reduction Ablated)
+File: 109_SVDB_id_26_Medical_tr_1038_1st_1138.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_001102_151716_thoughts.txt
     - llm_artifacts/20250727_001203_676684_thoughts.txt
 ----------------------------------------
-File: 110_SVDB_id_27_Medical_tr_30824_1st_30924.csv (Model: Dimensionality Reduction Ablated)
+File: 110_SVDB_id_27_Medical_tr_30824_1st_30924.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_001738_546006_thoughts.txt
     - llm_artifacts/20250727_001846_728036_thoughts.txt
 ----------------------------------------
-File: 111_SVDB_id_28_Medical_tr_1791_1st_1891.csv (Model: Dimensionality Reduction Ablated)
+File: 111_SVDB_id_28_Medical_tr_1791_1st_1891.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_002342_486074_thoughts.txt
     - llm_artifacts/20250727_002453_342908_thoughts.txt
 ----------------------------------------
-File: 112_SVDB_id_29_Medical_tr_8226_1st_8326.csv (Model: Dimensionality Reduction Ablated)
+File: 112_SVDB_id_29_Medical_tr_8226_1st_8326.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_003025_830236_thoughts.txt
     - llm_artifacts/20250727_003204_344776_thoughts.txt
 ----------------------------------------
-File: 114_SVDB_id_31_Medical_tr_25000_1st_63090.csv (Model: Dimensionality Reduction Ablated)
+File: 114_SVDB_id_31_Medical_tr_25000_1st_63090.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_004051_041359_thoughts.txt
     - llm_artifacts/20250727_004152_489642_thoughts.txt
 ----------------------------------------
-File: 115_PSM_id_1_Facility_tr_50000_1st_129872.csv (Model: Dimensionality Reduction Ablated)
+File: 115_PSM_id_1_Facility_tr_50000_1st_129872.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_011009_279213_thoughts.txt
     - llm_artifacts/20250727_011108_058479_thoughts.txt
@@ -2429,73 +2429,73 @@ File: 115_PSM_id_1_Facility_tr_50000_1st_129872.csv (Model: Dimensionality Reduc
     - llm_artifacts/20250727_013542_619404_thoughts.txt
     - llm_artifacts/20250727_013717_077970_thoughts.txt
 ----------------------------------------
-File: 116_TAO_id_1_Environment_tr_500_1st_3.csv (Model: Dimensionality Reduction Ablated)
+File: 116_TAO_id_1_Environment_tr_500_1st_3.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_013903_004628_thoughts.txt
     - llm_artifacts/20250727_014049_125809_thoughts.txt
     - llm_artifacts/20250727_014140_582964_thoughts.txt
 ----------------------------------------
-File: 117_TAO_id_2_Environment_tr_500_1st_1.csv (Model: Dimensionality Reduction Ablated)
+File: 117_TAO_id_2_Environment_tr_500_1st_1.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_014319_010772_thoughts.txt
     - llm_artifacts/20250727_014427_955169_thoughts.txt
     - llm_artifacts/20250727_014545_184812_thoughts.txt
 ----------------------------------------
-File: 118_TAO_id_3_Environment_tr_500_1st_7.csv (Model: Dimensionality Reduction Ablated)
+File: 118_TAO_id_3_Environment_tr_500_1st_7.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_014845_419015_thoughts.txt
     - llm_artifacts/20250727_014949_839866_thoughts.txt
     - llm_artifacts/20250727_015046_640202_thoughts.txt
 ----------------------------------------
-File: 119_TAO_id_4_Environment_tr_500_1st_1.csv (Model: Dimensionality Reduction Ablated)
+File: 119_TAO_id_4_Environment_tr_500_1st_1.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_015223_334807_thoughts.txt
     - llm_artifacts/20250727_015322_043380_thoughts.txt
     - llm_artifacts/20250727_015420_254483_thoughts.txt
 ----------------------------------------
-File: 121_TAO_id_6_Environment_tr_500_1st_7.csv (Model: Dimensionality Reduction Ablated)
+File: 121_TAO_id_6_Environment_tr_500_1st_7.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_020148_891461_thoughts.txt
     - llm_artifacts/20250727_020248_366738_thoughts.txt
     - llm_artifacts/20250727_020355_034628_thoughts.txt
 ----------------------------------------
-File: 122_TAO_id_7_Environment_tr_500_1st_19.csv (Model: Dimensionality Reduction Ablated)
+File: 122_TAO_id_7_Environment_tr_500_1st_19.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_020713_091242_thoughts.txt
     - llm_artifacts/20250727_020858_433664_thoughts.txt
     - llm_artifacts/20250727_021001_373501_thoughts.txt
 ----------------------------------------
-File: 123_TAO_id_8_Environment_tr_500_1st_62.csv (Model: Dimensionality Reduction Ablated)
+File: 123_TAO_id_8_Environment_tr_500_1st_62.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_021250_406987_thoughts.txt
     - llm_artifacts/20250727_021346_261563_thoughts.txt
     - llm_artifacts/20250727_021442_994281_thoughts.txt
 ----------------------------------------
-File: 124_TAO_id_9_Environment_tr_500_1st_1.csv (Model: Dimensionality Reduction Ablated)
+File: 124_TAO_id_9_Environment_tr_500_1st_1.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_021614_820468_thoughts.txt
     - llm_artifacts/20250727_021715_163239_thoughts.txt
     - llm_artifacts/20250727_021817_386383_thoughts.txt
 ----------------------------------------
-File: 125_TAO_id_10_Environment_tr_500_1st_9.csv (Model: Dimensionality Reduction Ablated)
+File: 125_TAO_id_10_Environment_tr_500_1st_9.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_022019_685709_thoughts.txt
     - llm_artifacts/20250727_022122_700994_thoughts.txt
     - llm_artifacts/20250727_022243_339877_thoughts.txt
 ----------------------------------------
-File: 127_TAO_id_12_Environment_tr_500_1st_24.csv (Model: Dimensionality Reduction Ablated)
+File: 127_TAO_id_12_Environment_tr_500_1st_24.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_022904_023379_thoughts.txt
     - llm_artifacts/20250727_022957_963716_thoughts.txt
     - llm_artifacts/20250727_023114_795639_thoughts.txt
 ----------------------------------------
-File: 128_TAO_id_13_Environment_tr_500_1st_7.csv (Model: Dimensionality Reduction Ablated)
+File: 128_TAO_id_13_Environment_tr_500_1st_7.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_023243_627031_thoughts.txt
     - llm_artifacts/20250727_023338_318383_thoughts.txt
     - llm_artifacts/20250727_023435_663477_thoughts.txt
 ----------------------------------------
-File: 129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901.csv (Model: Dimensionality Reduction Ablated)
+File: 129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_025916_657502_thoughts.txt
     - llm_artifacts/20250727_030023_561312_thoughts.txt
@@ -2746,7 +2746,7 @@ File: 129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901.csv (Model: Dimensiona
     - llm_artifacts/20250727_072340_205635_thoughts.txt
     - llm_artifacts/20250727_072443_953138_thoughts.txt
 ----------------------------------------
-File: 130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145.csv (Model: Dimensionality Reduction Ablated)
+File: 130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_073013_316543_thoughts.txt
     - llm_artifacts/20250727_073132_701734_thoughts.txt
@@ -2997,7 +2997,7 @@ File: 130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145.csv (Model: Dimensiona
     - llm_artifacts/20250727_120130_713353_thoughts.txt
     - llm_artifacts/20250727_120239_763674_thoughts.txt
 ----------------------------------------
-File: 132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995.csv (Model: Dimensionality Reduction Ablated)
+File: 132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_171700_546301_thoughts.txt
     - llm_artifacts/20250727_171758_011201_thoughts.txt
@@ -3248,7 +3248,7 @@ File: 132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995.csv (Model: Dimensionali
     - llm_artifacts/20250727_214711_699154_thoughts.txt
     - llm_artifacts/20250727_214816_817856_thoughts.txt
 ----------------------------------------
-File: 133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500.csv (Model: Dimensionality Reduction Ablated)
+File: 133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250727_215508_434220_thoughts.txt
     - llm_artifacts/20250727_215601_243751_thoughts.txt
@@ -3499,7 +3499,7 @@ File: 133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500.csv (Model: Dimensiona
     - llm_artifacts/20250728_020642_518251_thoughts.txt
     - llm_artifacts/20250728_020727_933205_thoughts.txt
 ----------------------------------------
-File: 134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577.csv (Model: Dimensionality Reduction Ablated)
+File: 134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250728_022235_283783_thoughts.txt
     - llm_artifacts/20250728_022400_179946_thoughts.txt
@@ -3750,7 +3750,7 @@ File: 134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577.csv (Model: Dimensiona
     - llm_artifacts/20250728_064840_522825_thoughts.txt
     - llm_artifacts/20250728_064932_830893_thoughts.txt
 ----------------------------------------
-File: 135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185.csv (Model: Dimensionality Reduction Ablated)
+File: 135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250728_070958_834621_thoughts.txt
     - llm_artifacts/20250728_071110_846521_thoughts.txt
@@ -4001,7 +4001,7 @@ File: 135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185.csv (Model: Dimensiona
     - llm_artifacts/20250728_114055_249932_thoughts.txt
     - llm_artifacts/20250728_114158_571262_thoughts.txt
 ----------------------------------------
-File: 136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595.csv (Model: Dimensionality Reduction Ablated)
+File: 136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250728_120636_481245_thoughts.txt
     - llm_artifacts/20250728_120756_448989_thoughts.txt
@@ -4252,7 +4252,7 @@ File: 136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595.csv (Model: Dimensiona
     - llm_artifacts/20250728_164747_589600_thoughts.txt
     - llm_artifacts/20250728_164849_890961_thoughts.txt
 ----------------------------------------
-File: 137_CreditCard_id_1_Finance_tr_500_1st_541.csv (Model: Dimensionality Reduction Ablated)
+File: 137_CreditCard_id_1_Finance_tr_500_1st_541.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250728_173026_109348_thoughts.txt
     - llm_artifacts/20250728_173131_120056_thoughts.txt
@@ -4284,7 +4284,7 @@ File: 137_CreditCard_id_1_Finance_tr_500_1st_541.csv (Model: Dimensionality Redu
     - llm_artifacts/20250728_180136_024286_thoughts.txt
     - llm_artifacts/20250728_180245_401188_thoughts.txt
 ----------------------------------------
-File: 138_CATSv2_id_1_Sensor_tr_16568_1st_16668.csv (Model: Dimensionality Reduction Ablated)
+File: 138_CATSv2_id_1_Sensor_tr_16568_1st_16668.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250728_181305_422184_thoughts.txt
     - llm_artifacts/20250728_181415_522342_thoughts.txt
@@ -4304,7 +4304,7 @@ File: 138_CATSv2_id_1_Sensor_tr_16568_1st_16668.csv (Model: Dimensionality Reduc
     - llm_artifacts/20250728_182959_953771_thoughts.txt
     - llm_artifacts/20250728_183107_480023_thoughts.txt
 ----------------------------------------
-File: 139_CATSv2_id_2_Sensor_tr_5592_1st_5692.csv (Model: Dimensionality Reduction Ablated)
+File: 139_CATSv2_id_2_Sensor_tr_5592_1st_5692.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250728_184906_740699_thoughts.txt
     - llm_artifacts/20250728_185013_111247_thoughts.txt
@@ -4324,7 +4324,7 @@ File: 139_CATSv2_id_2_Sensor_tr_5592_1st_5692.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250728_190539_878491_thoughts.txt
     - llm_artifacts/20250728_190643_905739_thoughts.txt
 ----------------------------------------
-File: 141_CATSv2_id_4_Sensor_tr_41727_1st_41827.csv (Model: Dimensionality Reduction Ablated)
+File: 141_CATSv2_id_4_Sensor_tr_41727_1st_41827.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250728_202237_891019_thoughts.txt
     - llm_artifacts/20250728_202328_314604_thoughts.txt
@@ -4344,7 +4344,7 @@ File: 141_CATSv2_id_4_Sensor_tr_41727_1st_41827.csv (Model: Dimensionality Reduc
     - llm_artifacts/20250728_203924_102862_thoughts.txt
     - llm_artifacts/20250728_204035_554720_thoughts.txt
 ----------------------------------------
-File: 142_CATSv2_id_5_Sensor_tr_30704_1st_30804.csv (Model: Dimensionality Reduction Ablated)
+File: 142_CATSv2_id_5_Sensor_tr_30704_1st_30804.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250728_211135_707873_thoughts.txt
     - llm_artifacts/20250728_211230_817006_thoughts.txt
@@ -4364,7 +4364,7 @@ File: 142_CATSv2_id_5_Sensor_tr_30704_1st_30804.csv (Model: Dimensionality Reduc
     - llm_artifacts/20250728_212755_346443_thoughts.txt
     - llm_artifacts/20250728_212856_102822_thoughts.txt
 ----------------------------------------
-File: 143_CATSv2_id_6_Sensor_tr_50000_1st_60232.csv (Model: Dimensionality Reduction Ablated)
+File: 143_CATSv2_id_6_Sensor_tr_50000_1st_60232.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250728_214923_984475_thoughts.txt
     - llm_artifacts/20250728_215056_523418_thoughts.txt
@@ -4384,7 +4384,7 @@ File: 143_CATSv2_id_6_Sensor_tr_50000_1st_60232.csv (Model: Dimensionality Reduc
     - llm_artifacts/20250728_220651_674930_thoughts.txt
     - llm_artifacts/20250728_220902_754293_thoughts.txt
 ----------------------------------------
-File: 144_SMAP_id_1_Sensor_tr_2052_1st_5300.csv (Model: Dimensionality Reduction Ablated)
+File: 144_SMAP_id_1_Sensor_tr_2052_1st_5300.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250728_221149_634287_thoughts.txt
     - llm_artifacts/20250728_221355_231589_thoughts.txt
@@ -4412,7 +4412,7 @@ File: 144_SMAP_id_1_Sensor_tr_2052_1st_5300.csv (Model: Dimensionality Reduction
     - llm_artifacts/20250728_225950_130428_thoughts.txt
     - llm_artifacts/20250728_230123_811571_thoughts.txt
 ----------------------------------------
-File: 145_SMAP_id_2_Sensor_tr_2133_1st_5400.csv (Model: Dimensionality Reduction Ablated)
+File: 145_SMAP_id_2_Sensor_tr_2133_1st_5400.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250728_230331_666737_thoughts.txt
     - llm_artifacts/20250728_230450_135352_thoughts.txt
@@ -4440,7 +4440,7 @@ File: 145_SMAP_id_2_Sensor_tr_2133_1st_5400.csv (Model: Dimensionality Reduction
     - llm_artifacts/20250728_233545_156430_thoughts.txt
     - llm_artifacts/20250728_233814_688952_thoughts.txt
 ----------------------------------------
-File: 146_SMAP_id_3_Sensor_tr_2128_1st_5000.csv (Model: Dimensionality Reduction Ablated)
+File: 146_SMAP_id_3_Sensor_tr_2128_1st_5000.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250728_234007_855860_thoughts.txt
     - llm_artifacts/20250728_234115_540153_thoughts.txt
@@ -4468,7 +4468,7 @@ File: 146_SMAP_id_3_Sensor_tr_2128_1st_5000.csv (Model: Dimensionality Reduction
     - llm_artifacts/20250729_000804_653827_thoughts.txt
     - llm_artifacts/20250729_000930_030070_thoughts.txt
 ----------------------------------------
-File: 147_SMAP_id_4_Sensor_tr_2160_1st_6449.csv (Model: Dimensionality Reduction Ablated)
+File: 147_SMAP_id_4_Sensor_tr_2160_1st_6449.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_001122_291546_thoughts.txt
     - llm_artifacts/20250729_001221_624411_thoughts.txt
@@ -4496,7 +4496,7 @@ File: 147_SMAP_id_4_Sensor_tr_2160_1st_6449.csv (Model: Dimensionality Reduction
     - llm_artifacts/20250729_003857_622138_thoughts.txt
     - llm_artifacts/20250729_003958_204023_thoughts.txt
 ----------------------------------------
-File: 148_SMAP_id_5_Sensor_tr_2011_1st_5060.csv (Model: Dimensionality Reduction Ablated)
+File: 148_SMAP_id_5_Sensor_tr_2011_1st_5060.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_004152_029733_thoughts.txt
     - llm_artifacts/20250729_004247_808530_thoughts.txt
@@ -4524,7 +4524,7 @@ File: 148_SMAP_id_5_Sensor_tr_2011_1st_5060.csv (Model: Dimensionality Reduction
     - llm_artifacts/20250729_010349_079421_thoughts.txt
     - llm_artifacts/20250729_010437_194417_thoughts.txt
 ----------------------------------------
-File: 150_SMAP_id_7_Sensor_tr_2077_1st_5394.csv (Model: Dimensionality Reduction Ablated)
+File: 150_SMAP_id_7_Sensor_tr_2077_1st_5394.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_013752_789781_thoughts.txt
     - llm_artifacts/20250729_013926_753756_thoughts.txt
@@ -4552,7 +4552,7 @@ File: 150_SMAP_id_7_Sensor_tr_2077_1st_5394.csv (Model: Dimensionality Reduction
     - llm_artifacts/20250729_020702_969675_thoughts.txt
     - llm_artifacts/20250729_020816_006086_thoughts.txt
 ----------------------------------------
-File: 151_SMAP_id_8_Sensor_tr_1971_1st_4870.csv (Model: Dimensionality Reduction Ablated)
+File: 151_SMAP_id_8_Sensor_tr_1971_1st_4870.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_021009_369251_thoughts.txt
     - llm_artifacts/20250729_021114_571972_thoughts.txt
@@ -4580,7 +4580,7 @@ File: 151_SMAP_id_8_Sensor_tr_1971_1st_4870.csv (Model: Dimensionality Reduction
     - llm_artifacts/20250729_023929_673886_thoughts.txt
     - llm_artifacts/20250729_024020_426369_thoughts.txt
 ----------------------------------------
-File: 152_SMAP_id_9_Sensor_tr_2073_1st_5600.csv (Model: Dimensionality Reduction Ablated)
+File: 152_SMAP_id_9_Sensor_tr_2073_1st_5600.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_024210_675374_thoughts.txt
     - llm_artifacts/20250729_024316_785382_thoughts.txt
@@ -4608,7 +4608,7 @@ File: 152_SMAP_id_9_Sensor_tr_2073_1st_5600.csv (Model: Dimensionality Reduction
     - llm_artifacts/20250729_030946_856073_thoughts.txt
     - llm_artifacts/20250729_031056_511105_thoughts.txt
 ----------------------------------------
-File: 153_SMAP_id_10_Sensor_tr_1840_1st_4030.csv (Model: Dimensionality Reduction Ablated)
+File: 153_SMAP_id_10_Sensor_tr_1840_1st_4030.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_031334_731482_thoughts.txt
     - llm_artifacts/20250729_031442_045440_thoughts.txt
@@ -4636,7 +4636,7 @@ File: 153_SMAP_id_10_Sensor_tr_1840_1st_4030.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_033745_118242_thoughts.txt
     - llm_artifacts/20250729_033857_116802_thoughts.txt
 ----------------------------------------
-File: 154_SMAP_id_11_Sensor_tr_2117_1st_4770.csv (Model: Dimensionality Reduction Ablated)
+File: 154_SMAP_id_11_Sensor_tr_2117_1st_4770.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_034047_262248_thoughts.txt
     - llm_artifacts/20250729_034156_174898_thoughts.txt
@@ -4664,7 +4664,7 @@ File: 154_SMAP_id_11_Sensor_tr_2117_1st_4770.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_040507_686046_thoughts.txt
     - llm_artifacts/20250729_040555_578979_thoughts.txt
 ----------------------------------------
-File: 155_SMAP_id_12_Sensor_tr_1907_1st_4800.csv (Model: Dimensionality Reduction Ablated)
+File: 155_SMAP_id_12_Sensor_tr_1907_1st_4800.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_040740_850468_thoughts.txt
     - llm_artifacts/20250729_040838_252335_thoughts.txt
@@ -4692,7 +4692,7 @@ File: 155_SMAP_id_12_Sensor_tr_1907_1st_4800.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_043506_486754_thoughts.txt
     - llm_artifacts/20250729_043550_375413_thoughts.txt
 ----------------------------------------
-File: 156_SMAP_id_13_Sensor_tr_1173_1st_2750.csv (Model: Dimensionality Reduction Ablated)
+File: 156_SMAP_id_13_Sensor_tr_1173_1st_2750.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_044021_007138_thoughts.txt
     - llm_artifacts/20250729_044115_173304_thoughts.txt
@@ -4720,7 +4720,7 @@ File: 156_SMAP_id_13_Sensor_tr_1173_1st_2750.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_045946_542301_thoughts.txt
     - llm_artifacts/20250729_050035_986584_thoughts.txt
 ----------------------------------------
-File: 157_SMAP_id_14_Sensor_tr_2126_1st_5000.csv (Model: Dimensionality Reduction Ablated)
+File: 157_SMAP_id_14_Sensor_tr_2126_1st_5000.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_050225_552906_thoughts.txt
     - llm_artifacts/20250729_050346_894010_thoughts.txt
@@ -4748,7 +4748,7 @@ File: 157_SMAP_id_14_Sensor_tr_2126_1st_5000.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_053204_396854_thoughts.txt
     - llm_artifacts/20250729_053346_654221_thoughts.txt
 ----------------------------------------
-File: 158_SMAP_id_15_Sensor_tr_2075_1st_5610.csv (Model: Dimensionality Reduction Ablated)
+File: 158_SMAP_id_15_Sensor_tr_2075_1st_5610.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_053550_719491_thoughts.txt
     - llm_artifacts/20250729_053657_486778_thoughts.txt
@@ -4776,7 +4776,7 @@ File: 158_SMAP_id_15_Sensor_tr_2075_1st_5610.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_060433_267018_thoughts.txt
     - llm_artifacts/20250729_060612_298718_thoughts.txt
 ----------------------------------------
-File: 159_SMAP_id_16_Sensor_tr_1757_1st_2650.csv (Model: Dimensionality Reduction Ablated)
+File: 159_SMAP_id_16_Sensor_tr_1757_1st_2650.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_060912_879497_thoughts.txt
     - llm_artifacts/20250729_061024_818410_thoughts.txt
@@ -4804,7 +4804,7 @@ File: 159_SMAP_id_16_Sensor_tr_1757_1st_2650.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_062713_702565_thoughts.txt
     - llm_artifacts/20250729_062800_947866_thoughts.txt
 ----------------------------------------
-File: 160_SMAP_id_17_Sensor_tr_1832_1st_5300.csv (Model: Dimensionality Reduction Ablated)
+File: 160_SMAP_id_17_Sensor_tr_1832_1st_5300.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_062936_216368_thoughts.txt
     - llm_artifacts/20250729_063048_431517_thoughts.txt
@@ -4832,7 +4832,7 @@ File: 160_SMAP_id_17_Sensor_tr_1832_1st_5300.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_065643_761114_thoughts.txt
     - llm_artifacts/20250729_065733_735546_thoughts.txt
 ----------------------------------------
-File: 161_SMAP_id_18_Sensor_tr_2075_1st_5550.csv (Model: Dimensionality Reduction Ablated)
+File: 161_SMAP_id_18_Sensor_tr_2075_1st_5550.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_065917_917285_thoughts.txt
     - llm_artifacts/20250729_070013_244724_thoughts.txt
@@ -4860,7 +4860,7 @@ File: 161_SMAP_id_18_Sensor_tr_2075_1st_5550.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_072701_756765_thoughts.txt
     - llm_artifacts/20250729_072759_211902_thoughts.txt
 ----------------------------------------
-File: 162_SMAP_id_19_Sensor_tr_1908_1st_4690.csv (Model: Dimensionality Reduction Ablated)
+File: 162_SMAP_id_19_Sensor_tr_1908_1st_4690.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_073056_991041_thoughts.txt
     - llm_artifacts/20250729_073238_061624_thoughts.txt
@@ -4888,7 +4888,7 @@ File: 162_SMAP_id_19_Sensor_tr_1908_1st_4690.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_075055_137104_thoughts.txt
     - llm_artifacts/20250729_075141_690953_thoughts.txt
 ----------------------------------------
-File: 163_SMAP_id_20_Sensor_tr_2051_1st_4575.csv (Model: Dimensionality Reduction Ablated)
+File: 163_SMAP_id_20_Sensor_tr_2051_1st_4575.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_075322_825777_thoughts.txt
     - llm_artifacts/20250729_075420_627733_thoughts.txt
@@ -4916,7 +4916,7 @@ File: 163_SMAP_id_20_Sensor_tr_2051_1st_4575.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_081819_568320_thoughts.txt
     - llm_artifacts/20250729_081931_819724_thoughts.txt
 ----------------------------------------
-File: 165_SMAP_id_22_Sensor_tr_2129_1st_5000.csv (Model: Dimensionality Reduction Ablated)
+File: 165_SMAP_id_22_Sensor_tr_2129_1st_5000.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_084958_532839_thoughts.txt
     - llm_artifacts/20250729_085121_085995_thoughts.txt
@@ -4944,7 +4944,7 @@ File: 165_SMAP_id_22_Sensor_tr_2129_1st_5000.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_091913_583729_thoughts.txt
     - llm_artifacts/20250729_092032_808543_thoughts.txt
 ----------------------------------------
-File: 166_SMAP_id_23_Sensor_tr_1113_1st_1890.csv (Model: Dimensionality Reduction Ablated)
+File: 166_SMAP_id_23_Sensor_tr_1113_1st_1890.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_092210_427637_thoughts.txt
     - llm_artifacts/20250729_092310_950872_thoughts.txt
@@ -4972,7 +4972,7 @@ File: 166_SMAP_id_23_Sensor_tr_1113_1st_1890.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_094238_577820_thoughts.txt
     - llm_artifacts/20250729_094327_058839_thoughts.txt
 ----------------------------------------
-File: 167_SMAP_id_24_Sensor_tr_2094_1st_5600.csv (Model: Dimensionality Reduction Ablated)
+File: 167_SMAP_id_24_Sensor_tr_2094_1st_5600.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_094512_762546_thoughts.txt
     - llm_artifacts/20250729_094612_675067_thoughts.txt
@@ -5000,7 +5000,7 @@ File: 167_SMAP_id_24_Sensor_tr_2094_1st_5600.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_101206_340176_thoughts.txt
     - llm_artifacts/20250729_101327_474515_thoughts.txt
 ----------------------------------------
-File: 168_SMAP_id_25_Sensor_tr_1998_1st_2098.csv (Model: Dimensionality Reduction Ablated)
+File: 168_SMAP_id_25_Sensor_tr_1998_1st_2098.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_101544_411751_thoughts.txt
     - llm_artifacts/20250729_101640_058365_thoughts.txt
@@ -5028,7 +5028,7 @@ File: 168_SMAP_id_25_Sensor_tr_1998_1st_2098.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_103807_459312_thoughts.txt
     - llm_artifacts/20250729_103900_709234_thoughts.txt
 ----------------------------------------
-File: 169_SMAP_id_26_Sensor_tr_1811_1st_4510.csv (Model: Dimensionality Reduction Ablated)
+File: 169_SMAP_id_26_Sensor_tr_1811_1st_4510.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_104042_345615_thoughts.txt
     - llm_artifacts/20250729_104128_787369_thoughts.txt
@@ -5056,7 +5056,7 @@ File: 169_SMAP_id_26_Sensor_tr_1811_1st_4510.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_110240_627442_thoughts.txt
     - llm_artifacts/20250729_110337_939049_thoughts.txt
 ----------------------------------------
-File: 170_SMAP_id_27_Sensor_tr_2160_1st_4690.csv (Model: Dimensionality Reduction Ablated)
+File: 170_SMAP_id_27_Sensor_tr_2160_1st_4690.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_110531_742924_thoughts.txt
     - llm_artifacts/20250729_110630_054308_thoughts.txt
@@ -5084,7 +5084,7 @@ File: 170_SMAP_id_27_Sensor_tr_2160_1st_4690.csv (Model: Dimensionality Reductio
     - llm_artifacts/20250729_113238_553174_thoughts.txt
     - llm_artifacts/20250729_113330_497821_thoughts.txt
 ----------------------------------------
-File: 171_SWaT_id_1_Sensor_tr_3749_1st_9522.csv (Model: Dimensionality Reduction Ablated)
+File: 171_SWaT_id_1_Sensor_tr_3749_1st_9522.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_113757_799185_thoughts.txt
     - llm_artifacts/20250729_113910_466831_thoughts.txt
@@ -5153,7 +5153,7 @@ File: 171_SWaT_id_1_Sensor_tr_3749_1st_9522.csv (Model: Dimensionality Reduction
     - llm_artifacts/20250729_124711_920752_thoughts.txt
     - llm_artifacts/20250729_124759_888838_thoughts.txt
 ----------------------------------------
-File: 172_SWaT_id_2_Sensor_tr_23700_1st_23800.csv (Model: Dimensionality Reduction Ablated)
+File: 172_SWaT_id_2_Sensor_tr_23700_1st_23800.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_140343_886578_thoughts.txt
     - llm_artifacts/20250729_140443_656546_thoughts.txt
@@ -5207,7 +5207,7 @@ File: 172_SWaT_id_2_Sensor_tr_23700_1st_23800.csv (Model: Dimensionality Reducti
     - llm_artifacts/20250729_145811_191312_thoughts.txt
     - llm_artifacts/20250729_145934_501455_thoughts.txt
 ----------------------------------------
-File: 173_GECCO_id_1_Sensor_tr_16165_1st_16265.csv (Model: Dimensionality Reduction Ablated)
+File: 173_GECCO_id_1_Sensor_tr_16165_1st_16265.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_150758_222255_thoughts.txt
     - llm_artifacts/20250729_150945_980884_thoughts.txt
@@ -5219,7 +5219,7 @@ File: 173_GECCO_id_1_Sensor_tr_16165_1st_16265.csv (Model: Dimensionality Reduct
     - llm_artifacts/20250729_151746_637959_thoughts.txt
     - llm_artifacts/20250729_151856_587681_thoughts.txt
 ----------------------------------------
-File: 174_Exathlon_id_1_Facility_tr_10766_1st_12590.csv (Model: Dimensionality Reduction Ablated)
+File: 174_Exathlon_id_1_Facility_tr_10766_1st_12590.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_152356_709121_thoughts.txt
     - llm_artifacts/20250729_152509_043834_thoughts.txt
@@ -5240,7 +5240,7 @@ File: 174_Exathlon_id_1_Facility_tr_10766_1st_12590.csv (Model: Dimensionality R
     - llm_artifacts/20250729_154431_770777_thoughts.txt
     - llm_artifacts/20250729_154558_682042_thoughts.txt
 ----------------------------------------
-File: 175_Exathlon_id_2_Facility_tr_10684_1st_10784.csv (Model: Dimensionality Reduction Ablated)
+File: 175_Exathlon_id_2_Facility_tr_10684_1st_10784.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_154919_425428_thoughts.txt
     - llm_artifacts/20250729_155014_094930_thoughts.txt
@@ -5251,7 +5251,7 @@ File: 175_Exathlon_id_2_Facility_tr_10684_1st_10784.csv (Model: Dimensionality R
     - llm_artifacts/20250729_155611_484748_thoughts.txt
     - llm_artifacts/20250729_155712_512026_thoughts.txt
 ----------------------------------------
-File: 176_Exathlon_id_3_Facility_tr_10766_1st_12590.csv (Model: Dimensionality Reduction Ablated)
+File: 176_Exathlon_id_3_Facility_tr_10766_1st_12590.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_160511_192093_thoughts.txt
     - llm_artifacts/20250729_160615_449228_thoughts.txt
@@ -5285,7 +5285,7 @@ File: 176_Exathlon_id_3_Facility_tr_10766_1st_12590.csv (Model: Dimensionality R
     - llm_artifacts/20250729_164008_886636_thoughts.txt
     - llm_artifacts/20250729_164120_318842_thoughts.txt
 ----------------------------------------
-File: 177_Exathlon_id_4_Facility_tr_11665_1st_13484.csv (Model: Dimensionality Reduction Ablated)
+File: 177_Exathlon_id_4_Facility_tr_11665_1st_13484.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_164806_975788_thoughts.txt
     - llm_artifacts/20250729_164954_607487_thoughts.txt
@@ -5306,7 +5306,7 @@ File: 177_Exathlon_id_4_Facility_tr_11665_1st_13484.csv (Model: Dimensionality R
     - llm_artifacts/20250729_171010_546106_thoughts.txt
     - llm_artifacts/20250729_171122_019865_thoughts.txt
 ----------------------------------------
-File: 179_Exathlon_id_6_Facility_tr_11665_1st_13484.csv (Model: Dimensionality Reduction Ablated)
+File: 179_Exathlon_id_6_Facility_tr_11665_1st_13484.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_175749_406091_thoughts.txt
     - llm_artifacts/20250729_175847_995152_thoughts.txt
@@ -5340,7 +5340,7 @@ File: 179_Exathlon_id_6_Facility_tr_11665_1st_13484.csv (Model: Dimensionality R
     - llm_artifacts/20250729_183725_378860_thoughts.txt
     - llm_artifacts/20250729_183829_928517_thoughts.txt
 ----------------------------------------
-File: 180_Exathlon_id_7_Facility_tr_10766_1st_12590.csv (Model: Dimensionality Reduction Ablated)
+File: 180_Exathlon_id_7_Facility_tr_10766_1st_12590.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_184559_447418_thoughts.txt
     - llm_artifacts/20250729_184700_180974_thoughts.txt
@@ -5374,7 +5374,7 @@ File: 180_Exathlon_id_7_Facility_tr_10766_1st_12590.csv (Model: Dimensionality R
     - llm_artifacts/20250729_191749_367718_thoughts.txt
     - llm_artifacts/20250729_191859_073979_thoughts.txt
 ----------------------------------------
-File: 181_Exathlon_id_8_Facility_tr_11663_1st_13482.csv (Model: Dimensionality Reduction Ablated)
+File: 181_Exathlon_id_8_Facility_tr_11663_1st_13482.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_192250_189152_thoughts.txt
     - llm_artifacts/20250729_192357_046301_thoughts.txt
@@ -5389,7 +5389,7 @@ File: 181_Exathlon_id_8_Facility_tr_11663_1st_13482.csv (Model: Dimensionality R
     - llm_artifacts/20250729_193355_700140_thoughts.txt
     - llm_artifacts/20250729_193459_960269_thoughts.txt
 ----------------------------------------
-File: 182_Exathlon_id_9_Facility_tr_10766_1st_12590.csv (Model: Dimensionality Reduction Ablated)
+File: 182_Exathlon_id_9_Facility_tr_10766_1st_12590.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_194317_452704_thoughts.txt
     - llm_artifacts/20250729_194424_977199_thoughts.txt
@@ -5423,7 +5423,7 @@ File: 182_Exathlon_id_9_Facility_tr_10766_1st_12590.csv (Model: Dimensionality R
     - llm_artifacts/20250729_202033_139863_thoughts.txt
     - llm_artifacts/20250729_202136_607187_thoughts.txt
 ----------------------------------------
-File: 183_Exathlon_id_10_Facility_tr_11665_1st_13484.csv (Model: Dimensionality Reduction Ablated)
+File: 183_Exathlon_id_10_Facility_tr_11665_1st_13484.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_202645_288480_thoughts.txt
     - llm_artifacts/20250729_202739_707238_thoughts.txt
@@ -5444,7 +5444,7 @@ File: 183_Exathlon_id_10_Facility_tr_11665_1st_13484.csv (Model: Dimensionality 
     - llm_artifacts/20250729_204519_383925_thoughts.txt
     - llm_artifacts/20250729_204724_858858_thoughts.txt
 ----------------------------------------
-File: 184_Exathlon_id_11_Facility_tr_11665_1st_13484.csv (Model: Dimensionality Reduction Ablated)
+File: 184_Exathlon_id_11_Facility_tr_11665_1st_13484.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_205347_072385_thoughts.txt
     - llm_artifacts/20250729_205446_591387_thoughts.txt
@@ -5465,7 +5465,7 @@ File: 184_Exathlon_id_11_Facility_tr_11665_1st_13484.csv (Model: Dimensionality 
     - llm_artifacts/20250729_211452_051402_thoughts.txt
     - llm_artifacts/20250729_211601_470413_thoughts.txt
 ----------------------------------------
-File: 185_Exathlon_id_12_Facility_tr_11665_1st_13484.csv (Model: Dimensionality Reduction Ablated)
+File: 185_Exathlon_id_12_Facility_tr_11665_1st_13484.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_212137_978834_thoughts.txt
     - llm_artifacts/20250729_212233_644751_thoughts.txt
@@ -5486,7 +5486,7 @@ File: 185_Exathlon_id_12_Facility_tr_11665_1st_13484.csv (Model: Dimensionality 
     - llm_artifacts/20250729_214145_914741_thoughts.txt
     - llm_artifacts/20250729_214251_734161_thoughts.txt
 ----------------------------------------
-File: 186_Exathlon_id_13_Facility_tr_10766_1st_12590.csv (Model: Dimensionality Reduction Ablated)
+File: 186_Exathlon_id_13_Facility_tr_10766_1st_12590.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_215107_887261_thoughts.txt
     - llm_artifacts/20250729_215215_010954_thoughts.txt
@@ -5520,7 +5520,7 @@ File: 186_Exathlon_id_13_Facility_tr_10766_1st_12590.csv (Model: Dimensionality 
     - llm_artifacts/20250729_224356_928398_thoughts.txt
     - llm_artifacts/20250729_225343_137485_thoughts.txt
 ----------------------------------------
-File: 187_Exathlon_id_14_Facility_tr_6193_1st_6293.csv (Model: Dimensionality Reduction Ablated)
+File: 187_Exathlon_id_14_Facility_tr_6193_1st_6293.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_225954_622114_thoughts.txt
     - llm_artifacts/20250729_230103_055460_thoughts.txt
@@ -5539,7 +5539,7 @@ File: 187_Exathlon_id_14_Facility_tr_6193_1st_6293.csv (Model: Dimensionality Re
     - llm_artifacts/20250729_232035_168915_thoughts.txt
     - llm_artifacts/20250729_232209_562632_thoughts.txt
 ----------------------------------------
-File: 188_Exathlon_id_15_Facility_tr_12538_1st_12638.csv (Model: Dimensionality Reduction Ablated)
+File: 188_Exathlon_id_15_Facility_tr_12538_1st_12638.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250729_233524_369501_thoughts.txt
     - llm_artifacts/20250729_233611_519435_thoughts.txt
@@ -5561,7 +5561,7 @@ File: 188_Exathlon_id_15_Facility_tr_12538_1st_12638.csv (Model: Dimensionality 
     - llm_artifacts/20250729_235538_200944_thoughts.txt
     - llm_artifacts/20250729_235658_828668_thoughts.txt
 ----------------------------------------
-File: 189_Exathlon_id_16_Facility_tr_11663_1st_13482.csv (Model: Dimensionality Reduction Ablated)
+File: 189_Exathlon_id_16_Facility_tr_11663_1st_13482.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250730_000118_099245_thoughts.txt
     - llm_artifacts/20250730_000228_647810_thoughts.txt
@@ -5576,7 +5576,7 @@ File: 189_Exathlon_id_16_Facility_tr_11663_1st_13482.csv (Model: Dimensionality 
     - llm_artifacts/20250730_001402_890738_thoughts.txt
     - llm_artifacts/20250730_001508_287133_thoughts.txt
 ----------------------------------------
-File: 190_Exathlon_id_17_Facility_tr_12538_1st_12638.csv (Model: Dimensionality Reduction Ablated)
+File: 190_Exathlon_id_17_Facility_tr_12538_1st_12638.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250730_002823_675558_thoughts.txt
     - llm_artifacts/20250730_002921_630781_thoughts.txt
@@ -5598,7 +5598,7 @@ File: 190_Exathlon_id_17_Facility_tr_12538_1st_12638.csv (Model: Dimensionality 
     - llm_artifacts/20250730_004941_492551_thoughts.txt
     - llm_artifacts/20250730_005041_643382_thoughts.txt
 ----------------------------------------
-File: 191_Exathlon_id_18_Facility_tr_11665_1st_13484.csv (Model: Dimensionality Reduction Ablated)
+File: 191_Exathlon_id_18_Facility_tr_11665_1st_13484.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250730_005602_252065_thoughts.txt
     - llm_artifacts/20250730_005704_154863_thoughts.txt
@@ -5619,7 +5619,7 @@ File: 191_Exathlon_id_18_Facility_tr_11665_1st_13484.csv (Model: Dimensionality 
     - llm_artifacts/20250730_011614_445423_thoughts.txt
     - llm_artifacts/20250730_011735_477899_thoughts.txt
 ----------------------------------------
-File: 192_Exathlon_id_19_Facility_tr_11665_1st_13484.csv (Model: Dimensionality Reduction Ablated)
+File: 192_Exathlon_id_19_Facility_tr_11665_1st_13484.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250730_012320_418973_thoughts.txt
     - llm_artifacts/20250730_012513_210539_thoughts.txt
@@ -5640,7 +5640,7 @@ File: 192_Exathlon_id_19_Facility_tr_11665_1st_13484.csv (Model: Dimensionality 
     - llm_artifacts/20250730_014151_095603_thoughts.txt
     - llm_artifacts/20250730_014303_426372_thoughts.txt
 ----------------------------------------
-File: 193_Exathlon_id_20_Facility_tr_8898_1st_8998.csv (Model: Dimensionality Reduction Ablated)
+File: 193_Exathlon_id_20_Facility_tr_8898_1st_8998.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250730_014609_910782_thoughts.txt
     - llm_artifacts/20250730_014745_421811_thoughts.txt
@@ -5650,7 +5650,7 @@ File: 193_Exathlon_id_20_Facility_tr_8898_1st_8998.csv (Model: Dimensionality Re
     - llm_artifacts/20250730_015251_722251_thoughts.txt
     - llm_artifacts/20250730_015352_676236_thoughts.txt
 ----------------------------------------
-File: 194_Exathlon_id_21_Facility_tr_6985_1st_7085.csv (Model: Dimensionality Reduction Ablated)
+File: 194_Exathlon_id_21_Facility_tr_6985_1st_7085.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250730_015747_102076_thoughts.txt
     - llm_artifacts/20250730_015914_195399_thoughts.txt
@@ -5665,7 +5665,7 @@ File: 194_Exathlon_id_21_Facility_tr_6985_1st_7085.csv (Model: Dimensionality Re
     - llm_artifacts/20250730_020954_375313_thoughts.txt
     - llm_artifacts/20250730_021109_023678_thoughts.txt
 ----------------------------------------
-File: 196_Exathlon_id_23_Facility_tr_11665_1st_13484.csv (Model: Dimensionality Reduction Ablated)
+File: 196_Exathlon_id_23_Facility_tr_11665_1st_13484.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250730_030017_522798_thoughts.txt
     - llm_artifacts/20250730_030120_186262_thoughts.txt
@@ -5686,7 +5686,7 @@ File: 196_Exathlon_id_23_Facility_tr_11665_1st_13484.csv (Model: Dimensionality 
     - llm_artifacts/20250730_032033_667600_thoughts.txt
     - llm_artifacts/20250730_032205_937677_thoughts.txt
 ----------------------------------------
-File: 197_Exathlon_id_24_Facility_tr_10766_1st_12590.csv (Model: Dimensionality Reduction Ablated)
+File: 197_Exathlon_id_24_Facility_tr_10766_1st_12590.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250730_032941_032430_thoughts.txt
     - llm_artifacts/20250730_033049_310072_thoughts.txt
@@ -5720,7 +5720,7 @@ File: 197_Exathlon_id_24_Facility_tr_10766_1st_12590.csv (Model: Dimensionality 
     - llm_artifacts/20250730_040433_871581_thoughts.txt
     - llm_artifacts/20250730_040551_649559_thoughts.txt
 ----------------------------------------
-File: 198_Exathlon_id_25_Facility_tr_12538_1st_12638.csv (Model: Dimensionality Reduction Ablated)
+File: 198_Exathlon_id_25_Facility_tr_12538_1st_12638.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250730_041904_437890_thoughts.txt
     - llm_artifacts/20250730_041954_676180_thoughts.txt
@@ -5742,7 +5742,7 @@ File: 198_Exathlon_id_25_Facility_tr_12538_1st_12638.csv (Model: Dimensionality 
     - llm_artifacts/20250730_043719_257085_thoughts.txt
     - llm_artifacts/20250730_043820_720865_thoughts.txt
 ----------------------------------------
-File: 199_Exathlon_id_26_Facility_tr_12538_1st_12638.csv (Model: Dimensionality Reduction Ablated)
+File: 199_Exathlon_id_26_Facility_tr_12538_1st_12638.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250730_045151_538747_thoughts.txt
     - llm_artifacts/20250730_045250_060607_thoughts.txt
@@ -5764,7 +5764,7 @@ File: 199_Exathlon_id_26_Facility_tr_12538_1st_12638.csv (Model: Dimensionality 
     - llm_artifacts/20250730_051314_651593_thoughts.txt
     - llm_artifacts/20250730_051417_430848_thoughts.txt
 ----------------------------------------
-File: 200_Exathlon_id_27_Facility_tr_10766_1st_12590.csv (Model: Dimensionality Reduction Ablated)
+File: 200_Exathlon_id_27_Facility_tr_10766_1st_12590.csv (Model: Ablated)
   Thoughts Files:
     - llm_artifacts/20250730_052158_642515_thoughts.txt
     - llm_artifacts/20250730_052255_300580_thoughts.txt
@@ -5798,778 +5798,778 @@ File: 200_Exathlon_id_27_Facility_tr_10766_1st_12590.csv (Model: Dimensionality 
     - llm_artifacts/20250730_055333_129826_thoughts.txt
     - llm_artifacts/20250730_055440_216270_thoughts.txt
 ----------------------------------------
-File: 001_Genesis_id_1_Sensor_tr_4055_1st_15538.csv (Model: Full Model (with PCA/Selection))
+File: 001_Genesis_id_1_Sensor_tr_4055_1st_15538.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_171659_736144_thoughts.txt
     - llm_artifacts/20250724_171956_325437_thoughts.txt
     - llm_artifacts/20250724_172049_148036_thoughts.txt
 ----------------------------------------
-File: 002_MSL_id_1_Sensor_tr_500_1st_900-0.csv (Model: Full Model (with PCA/Selection))
+File: 002_MSL_id_1_Sensor_tr_500_1st_900-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_172145_511944_thoughts.txt
 ----------------------------------------
-File: 003_MSL_id_2_Sensor_tr_883_1st_1238-0.csv (Model: Full Model (with PCA/Selection))
+File: 003_MSL_id_2_Sensor_tr_883_1st_1238-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_172332_588054_thoughts.txt
 ----------------------------------------
-File: 005_MSL_id_4_Sensor_tr_855_1st_2700-0.csv (Model: Full Model (with PCA/Selection))
+File: 005_MSL_id_4_Sensor_tr_855_1st_2700-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_172902_237766_thoughts.txt
 ----------------------------------------
-File: 006_MSL_id_5_Sensor_tr_1150_1st_1250-0.csv (Model: Full Model (with PCA/Selection))
+File: 006_MSL_id_5_Sensor_tr_1150_1st_1250-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_173006_566335_thoughts.txt
 ----------------------------------------
-File: 007_MSL_id_6_Sensor_tr_980_1st_3550-0.csv (Model: Full Model (with PCA/Selection))
+File: 007_MSL_id_6_Sensor_tr_980_1st_3550-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_173106_173077_thoughts.txt
 ----------------------------------------
-File: 008_MSL_id_7_Sensor_tr_656_1st_1630-0.csv (Model: Full Model (with PCA/Selection))
+File: 008_MSL_id_7_Sensor_tr_656_1st_1630-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_173211_306577_thoughts.txt
 ----------------------------------------
-File: 009_MSL_id_8_Sensor_tr_714_1st_1390-0.csv (Model: Full Model (with PCA/Selection))
+File: 009_MSL_id_8_Sensor_tr_714_1st_1390-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_173315_039205_thoughts.txt
 ----------------------------------------
-File: 010_MSL_id_9_Sensor_tr_554_1st_1172-0.csv (Model: Full Model (with PCA/Selection))
+File: 010_MSL_id_9_Sensor_tr_554_1st_1172-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_173414_228061_thoughts.txt
 ----------------------------------------
-File: 012_MSL_id_11_Sensor_tr_539_1st_940-0.csv (Model: Full Model (with PCA/Selection))
+File: 012_MSL_id_11_Sensor_tr_539_1st_940-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_173620_792534_thoughts.txt
 ----------------------------------------
-File: 013_MSL_id_12_Sensor_tr_554_1st_1200-0.csv (Model: Full Model (with PCA/Selection))
+File: 013_MSL_id_12_Sensor_tr_554_1st_1200-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_173748_045344_thoughts.txt
 ----------------------------------------
-File: 014_MSL_id_13_Sensor_tr_1525_1st_4575-0.csv (Model: Full Model (with PCA/Selection))
+File: 014_MSL_id_13_Sensor_tr_1525_1st_4575-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_173844_523921_thoughts.txt
 ----------------------------------------
-File: 015_MSL_id_14_Sensor_tr_575_1st_1250-0.csv (Model: Full Model (with PCA/Selection))
+File: 015_MSL_id_14_Sensor_tr_575_1st_1250-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_173953_406660_thoughts.txt
 ----------------------------------------
-File: 016_MSL_id_15_Sensor_tr_500_1st_780-0.csv (Model: Full Model (with PCA/Selection))
+File: 016_MSL_id_15_Sensor_tr_500_1st_780-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_174147_631144_thoughts.txt
 ----------------------------------------
-File: 017_MSL_id_16_Sensor_tr_512_1st_1850-0.csv (Model: Full Model (with PCA/Selection))
+File: 017_MSL_id_16_Sensor_tr_512_1st_1850-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_174339_141886_thoughts.txt
 ----------------------------------------
-File: 018_Daphnet_id_1_HumanActivity_tr_9693_1st_20732.csv (Model: Full Model (with PCA/Selection))
+File: 018_Daphnet_id_1_HumanActivity_tr_9693_1st_20732.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_174511_825513_thoughts.txt
     - llm_artifacts/20250724_174615_997051_thoughts.txt
     - llm_artifacts/20250724_174716_762848_thoughts.txt
 ----------------------------------------
-File: 019_MITDB_id_1_Medical_tr_37500_1st_103211.csv (Model: Full Model (with PCA/Selection))
+File: 019_MITDB_id_1_Medical_tr_37500_1st_103211.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_175016_379862_thoughts.txt
     - llm_artifacts/20250724_175114_862088_thoughts.txt
 ----------------------------------------
-File: 020_MITDB_id_2_Medical_tr_50000_1st_52315-V1.csv (Model: Full Model (with PCA/Selection))
+File: 020_MITDB_id_2_Medical_tr_50000_1st_52315-V1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_175807_625246_thoughts.txt
 ----------------------------------------
-File: 021_MITDB_id_3_Medical_tr_50000_1st_57595.csv (Model: Full Model (with PCA/Selection))
+File: 021_MITDB_id_3_Medical_tr_50000_1st_57595.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_180611_820385_thoughts.txt
     - llm_artifacts/20250724_180719_803663_thoughts.txt
 ----------------------------------------
-File: 022_MITDB_id_4_Medical_tr_50000_1st_54253-V1.csv (Model: Full Model (with PCA/Selection))
+File: 022_MITDB_id_4_Medical_tr_50000_1st_54253-V1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_181158_037618_thoughts.txt
 ----------------------------------------
-File: 024_MITDB_id_6_Medical_tr_50000_1st_58118-V1.csv (Model: Full Model (with PCA/Selection))
+File: 024_MITDB_id_6_Medical_tr_50000_1st_58118-V1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_181716_811397_thoughts.txt
 ----------------------------------------
-File: 025_MITDB_id_7_Medical_tr_37500_1st_88864-V1.csv (Model: Full Model (with PCA/Selection))
+File: 025_MITDB_id_7_Medical_tr_37500_1st_88864-V1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_181939_471337_thoughts.txt
 ----------------------------------------
-File: 026_MITDB_id_8_Medical_tr_30495_1st_30595.csv (Model: Full Model (with PCA/Selection))
+File: 026_MITDB_id_8_Medical_tr_30495_1st_30595.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_182633_023712_thoughts.txt
     - llm_artifacts/20250724_182733_949942_thoughts.txt
 ----------------------------------------
-File: 027_MITDB_id_9_Medical_tr_25000_1st_52255.csv (Model: Full Model (with PCA/Selection))
+File: 027_MITDB_id_9_Medical_tr_25000_1st_52255.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_183059_355748_thoughts.txt
     - llm_artifacts/20250724_183154_165727_thoughts.txt
 ----------------------------------------
-File: 029_MITDB_id_11_Medical_tr_50000_1st_518037-V1.csv (Model: Full Model (with PCA/Selection))
+File: 029_MITDB_id_11_Medical_tr_50000_1st_518037-V1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_184032_785618_thoughts.txt
 ----------------------------------------
-File: 030_MITDB_id_12_Medical_tr_50000_1st_84572-V1.csv (Model: Full Model (with PCA/Selection))
+File: 030_MITDB_id_12_Medical_tr_50000_1st_84572-V1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_184703_242115_thoughts.txt
 ----------------------------------------
-File: 031_MITDB_id_13_Medical_tr_50000_1st_79433.csv (Model: Full Model (with PCA/Selection))
+File: 031_MITDB_id_13_Medical_tr_50000_1st_79433.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_185716_495534_thoughts.txt
     - llm_artifacts/20250724_185816_399425_thoughts.txt
 ----------------------------------------
-File: 032_GHL_id_1_Sensor_tr_50000_1st_65001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 032_GHL_id_1_Sensor_tr_50000_1st_65001-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_190200_302574_thoughts.txt
 ----------------------------------------
-File: 033_GHL_id_2_Sensor_tr_50000_1st_51001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 033_GHL_id_2_Sensor_tr_50000_1st_51001-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_190436_989311_thoughts.txt
 ----------------------------------------
-File: 034_GHL_id_3_Sensor_tr_50000_1st_122001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 034_GHL_id_3_Sensor_tr_50000_1st_122001-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_190724_407909_thoughts.txt
 ----------------------------------------
-File: 035_GHL_id_4_Sensor_tr_50000_1st_90001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 035_GHL_id_4_Sensor_tr_50000_1st_90001-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_191015_772581_thoughts.txt
 ----------------------------------------
-File: 036_GHL_id_5_Sensor_tr_50000_1st_67147-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 036_GHL_id_5_Sensor_tr_50000_1st_67147-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_191302_521497_thoughts.txt
 ----------------------------------------
-File: 037_GHL_id_6_Sensor_tr_50000_1st_80001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 037_GHL_id_6_Sensor_tr_50000_1st_80001-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_191549_691340_thoughts.txt
 ----------------------------------------
-File: 038_GHL_id_7_Sensor_tr_50000_1st_100001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 038_GHL_id_7_Sensor_tr_50000_1st_100001-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_192000_236178_thoughts.txt
 ----------------------------------------
-File: 039_GHL_id_8_Sensor_tr_50000_1st_63030-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 039_GHL_id_8_Sensor_tr_50000_1st_63030-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_192241_157528_thoughts.txt
 ----------------------------------------
-File: 041_GHL_id_10_Sensor_tr_50000_1st_57001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 041_GHL_id_10_Sensor_tr_50000_1st_57001-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_192814_124841_thoughts.txt
 ----------------------------------------
-File: 042_GHL_id_11_Sensor_tr_50000_1st_150001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 042_GHL_id_11_Sensor_tr_50000_1st_150001-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_193102_527443_thoughts.txt
 ----------------------------------------
-File: 043_GHL_id_12_Sensor_tr_39938_1st_40038-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 043_GHL_id_12_Sensor_tr_39938_1st_40038-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_193345_232224_thoughts.txt
 ----------------------------------------
-File: 044_GHL_id_13_Sensor_tr_50000_1st_145001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 044_GHL_id_13_Sensor_tr_50000_1st_145001-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_193700_110375_thoughts.txt
 ----------------------------------------
-File: 045_GHL_id_14_Sensor_tr_50000_1st_85076-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 045_GHL_id_14_Sensor_tr_50000_1st_85076-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_193943_184103_thoughts.txt
 ----------------------------------------
-File: 046_GHL_id_15_Sensor_tr_50000_1st_156462-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 046_GHL_id_15_Sensor_tr_50000_1st_156462-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_194239_950724_thoughts.txt
 ----------------------------------------
-File: 047_GHL_id_16_Sensor_tr_50000_1st_77001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 047_GHL_id_16_Sensor_tr_50000_1st_77001-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_194601_073501_thoughts.txt
 ----------------------------------------
-File: 048_GHL_id_17_Sensor_tr_50000_1st_154001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 048_GHL_id_17_Sensor_tr_50000_1st_154001-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_194845_228148_thoughts.txt
 ----------------------------------------
-File: 050_GHL_id_19_Sensor_tr_43750_1st_55001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 050_GHL_id_19_Sensor_tr_43750_1st_55001-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_195455_251074_thoughts.txt
 ----------------------------------------
-File: 051_GHL_id_20_Sensor_tr_50000_1st_75110-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 051_GHL_id_20_Sensor_tr_50000_1st_75110-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_195739_801169_thoughts.txt
 ----------------------------------------
-File: 052_GHL_id_21_Sensor_tr_50000_1st_98001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 052_GHL_id_21_Sensor_tr_50000_1st_98001-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_200018_730920_thoughts.txt
 ----------------------------------------
-File: 053_GHL_id_22_Sensor_tr_50000_1st_126448-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 053_GHL_id_22_Sensor_tr_50000_1st_126448-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_200338_528676_thoughts.txt
 ----------------------------------------
-File: 054_GHL_id_23_Sensor_tr_50000_1st_135001-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 054_GHL_id_23_Sensor_tr_50000_1st_135001-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_200628_477869_thoughts.txt
 ----------------------------------------
-File: 055_GHL_id_24_Sensor_tr_50000_1st_118124-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 055_GHL_id_24_Sensor_tr_50000_1st_118124-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_200908_072035_thoughts.txt
 ----------------------------------------
-File: 056_GHL_id_25_Sensor_tr_50000_1st_105568-dL-rand.csv (Model: Full Model (with PCA/Selection))
+File: 056_GHL_id_25_Sensor_tr_50000_1st_105568-dL-rand.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_201150_244182_thoughts.txt
 ----------------------------------------
-File: 057_SMD_id_1_Facility_tr_4529_1st_4629-11.csv (Model: Full Model (with PCA/Selection))
+File: 057_SMD_id_1_Facility_tr_4529_1st_4629-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_201333_484545_thoughts.txt
 ----------------------------------------
-File: 058_SMD_id_2_Facility_tr_1087_1st_1187-11.csv (Model: Full Model (with PCA/Selection))
+File: 058_SMD_id_2_Facility_tr_1087_1st_1187-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_201447_882429_thoughts.txt
 ----------------------------------------
-File: 059_SMD_id_3_Facility_tr_757_1st_857-11.csv (Model: Full Model (with PCA/Selection))
+File: 059_SMD_id_3_Facility_tr_757_1st_857-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_201636_741639_thoughts.txt
 ----------------------------------------
-File: 060_SMD_id_4_Facility_tr_7176_1st_10609-11.csv (Model: Full Model (with PCA/Selection))
+File: 060_SMD_id_4_Facility_tr_7176_1st_10609-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_201746_378345_thoughts.txt
 ----------------------------------------
-File: 061_SMD_id_5_Facility_tr_7176_1st_15144-11.csv (Model: Full Model (with PCA/Selection))
+File: 061_SMD_id_5_Facility_tr_7176_1st_15144-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_201857_734385_thoughts.txt
 ----------------------------------------
-File: 063_SMD_id_7_Facility_tr_5923_1st_6506-11.csv (Model: Full Model (with PCA/Selection))
+File: 063_SMD_id_7_Facility_tr_5923_1st_6506-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_202134_516442_thoughts.txt
 ----------------------------------------
-File: 064_SMD_id_8_Facility_tr_2272_1st_2372-11.csv (Model: Full Model (with PCA/Selection))
+File: 064_SMD_id_8_Facility_tr_2272_1st_2372-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_202300_147181_thoughts.txt
 ----------------------------------------
-File: 065_SMD_id_9_Facility_tr_737_1st_837-11.csv (Model: Full Model (with PCA/Selection))
+File: 065_SMD_id_9_Facility_tr_737_1st_837-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_202407_945212_thoughts.txt
 ----------------------------------------
-File: 066_SMD_id_10_Facility_tr_2634_1st_2734-11.csv (Model: Full Model (with PCA/Selection))
+File: 066_SMD_id_10_Facility_tr_2634_1st_2734-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_202546_424938_thoughts.txt
 ----------------------------------------
-File: 067_SMD_id_11_Facility_tr_1980_1st_2080-11.csv (Model: Full Model (with PCA/Selection))
+File: 067_SMD_id_11_Facility_tr_1980_1st_2080-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_202656_356484_thoughts.txt
 ----------------------------------------
-File: 068_SMD_id_12_Facility_tr_1099_1st_1199-11.csv (Model: Full Model (with PCA/Selection))
+File: 068_SMD_id_12_Facility_tr_1099_1st_1199-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_202855_151011_thoughts.txt
 ----------------------------------------
-File: 069_SMD_id_13_Facility_tr_5925_1st_12760-11.csv (Model: Full Model (with PCA/Selection))
+File: 069_SMD_id_13_Facility_tr_5925_1st_12760-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_203016_537869_thoughts.txt
 ----------------------------------------
-File: 070_SMD_id_14_Facility_tr_1070_1st_1170-11.csv (Model: Full Model (with PCA/Selection))
+File: 070_SMD_id_14_Facility_tr_1070_1st_1170-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_203216_891668_thoughts.txt
 ----------------------------------------
-File: 071_SMD_id_15_Facility_tr_1109_1st_1209-11.csv (Model: Full Model (with PCA/Selection))
+File: 071_SMD_id_15_Facility_tr_1109_1st_1209-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_203338_572497_thoughts.txt
 ----------------------------------------
-File: 073_SMD_id_17_Facility_tr_5926_1st_10620-11.csv (Model: Full Model (with PCA/Selection))
+File: 073_SMD_id_17_Facility_tr_5926_1st_10620-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_203627_898649_thoughts.txt
 ----------------------------------------
-File: 074_SMD_id_18_Facility_tr_7174_1st_21230-11.csv (Model: Full Model (with PCA/Selection))
+File: 074_SMD_id_18_Facility_tr_7174_1st_21230-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_203858_996724_thoughts.txt
 ----------------------------------------
-File: 075_SMD_id_19_Facility_tr_564_1st_664-11.csv (Model: Full Model (with PCA/Selection))
+File: 075_SMD_id_19_Facility_tr_564_1st_664-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_204051_236732_thoughts.txt
 ----------------------------------------
-File: 076_SMD_id_20_Facility_tr_5925_1st_17580-11.csv (Model: Full Model (with PCA/Selection))
+File: 076_SMD_id_20_Facility_tr_5925_1st_17580-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_204240_714215_thoughts.txt
 ----------------------------------------
-File: 077_SMD_id_21_Facility_tr_3026_1st_3126-11.csv (Model: Full Model (with PCA/Selection))
+File: 077_SMD_id_21_Facility_tr_3026_1st_3126-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_204353_340217_thoughts.txt
 ----------------------------------------
-File: 078_SMD_id_22_Facility_tr_500_1st_326-11.csv (Model: Full Model (with PCA/Selection))
+File: 078_SMD_id_22_Facility_tr_500_1st_326-11.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_204520_562018_thoughts.txt
 ----------------------------------------
-File: 079_LTDB_id_1_Medical_tr_3618_1st_3718-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 079_LTDB_id_1_Medical_tr_3618_1st_3718-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_204743_612463_thoughts.txt
 ----------------------------------------
-File: 080_LTDB_id_2_Medical_tr_500_1st_266-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 080_LTDB_id_2_Medical_tr_500_1st_266-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_205008_654454_thoughts.txt
 ----------------------------------------
-File: 081_LTDB_id_3_Medical_tr_500_1st_26-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 081_LTDB_id_3_Medical_tr_500_1st_26-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_205306_934086_thoughts.txt
 ----------------------------------------
-File: 083_LTDB_id_5_Medical_tr_15502_1st_15602-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 083_LTDB_id_5_Medical_tr_15502_1st_15602-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_205847_505996_thoughts.txt
 ----------------------------------------
-File: 084_SVDB_id_1_Medical_tr_12973_1st_13073-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 084_SVDB_id_1_Medical_tr_12973_1st_13073-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_210144_079517_thoughts.txt
 ----------------------------------------
-File: 085_SVDB_id_2_Medical_tr_50000_1st_54982-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 085_SVDB_id_2_Medical_tr_50000_1st_54982-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_210514_745715_thoughts.txt
 ----------------------------------------
-File: 086_SVDB_id_3_Medical_tr_533_1st_633-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 086_SVDB_id_3_Medical_tr_533_1st_633-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_210839_993696_thoughts.txt
 ----------------------------------------
-File: 087_SVDB_id_4_Medical_tr_5421_1st_5521-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 087_SVDB_id_4_Medical_tr_5421_1st_5521-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_211316_722089_thoughts.txt
 ----------------------------------------
-File: 088_SVDB_id_5_Medical_tr_500_1st_168-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 088_SVDB_id_5_Medical_tr_500_1st_168-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_211756_482434_thoughts.txt
 ----------------------------------------
-File: 089_SVDB_id_6_Medical_tr_50000_1st_83083-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 089_SVDB_id_6_Medical_tr_50000_1st_83083-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_212312_701121_thoughts.txt
 ----------------------------------------
-File: 091_SVDB_id_8_Medical_tr_500_1st_126-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 091_SVDB_id_8_Medical_tr_500_1st_126-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_212909_653265_thoughts.txt
 ----------------------------------------
-File: 092_SVDB_id_9_Medical_tr_2674_1st_2774-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 092_SVDB_id_9_Medical_tr_2674_1st_2774-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_213304_372221_thoughts.txt
 ----------------------------------------
-File: 093_SVDB_id_10_Medical_tr_500_1st_37-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 093_SVDB_id_10_Medical_tr_500_1st_37-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_213651_627037_thoughts.txt
 ----------------------------------------
-File: 094_SVDB_id_11_Medical_tr_20100_1st_23611-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 094_SVDB_id_11_Medical_tr_20100_1st_23611-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_213949_650213_thoughts.txt
 ----------------------------------------
-File: 095_SVDB_id_12_Medical_tr_6264_1st_6364-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 095_SVDB_id_12_Medical_tr_6264_1st_6364-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_214254_775029_thoughts.txt
 ----------------------------------------
-File: 096_SVDB_id_13_Medical_tr_500_1st_444-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 096_SVDB_id_13_Medical_tr_500_1st_444-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_214634_161772_thoughts.txt
 ----------------------------------------
-File: 097_SVDB_id_14_Medical_tr_1031_1st_1131-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 097_SVDB_id_14_Medical_tr_1031_1st_1131-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_215008_601355_thoughts.txt
 ----------------------------------------
-File: 098_SVDB_id_15_Medical_tr_500_1st_303-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 098_SVDB_id_15_Medical_tr_500_1st_303-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_215508_924562_thoughts.txt
 ----------------------------------------
-File: 099_SVDB_id_16_Medical_tr_1115_1st_1215-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 099_SVDB_id_16_Medical_tr_1115_1st_1215-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_215859_254742_thoughts.txt
 ----------------------------------------
-File: 100_SVDB_id_17_Medical_tr_17803_1st_17903-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 100_SVDB_id_17_Medical_tr_17803_1st_17903-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_220220_153997_thoughts.txt
 ----------------------------------------
-File: 101_SVDB_id_18_Medical_tr_1851_1st_1951-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 101_SVDB_id_18_Medical_tr_1851_1st_1951-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_220548_654174_thoughts.txt
 ----------------------------------------
-File: 102_SVDB_id_19_Medical_tr_50000_1st_107354-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 102_SVDB_id_19_Medical_tr_50000_1st_107354-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_220936_110726_thoughts.txt
 ----------------------------------------
-File: 103_SVDB_id_20_Medical_tr_12167_1st_12267-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 103_SVDB_id_20_Medical_tr_12167_1st_12267-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_221419_913614_thoughts.txt
 ----------------------------------------
-File: 104_SVDB_id_21_Medical_tr_50000_1st_106634-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 104_SVDB_id_21_Medical_tr_50000_1st_106634-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_221754_035824_thoughts.txt
 ----------------------------------------
-File: 105_SVDB_id_22_Medical_tr_500_1st_417-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 105_SVDB_id_22_Medical_tr_500_1st_417-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_222023_665032_thoughts.txt
 ----------------------------------------
-File: 106_SVDB_id_23_Medical_tr_37500_1st_121963-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 106_SVDB_id_23_Medical_tr_37500_1st_121963-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_222346_862856_thoughts.txt
 ----------------------------------------
-File: 108_SVDB_id_25_Medical_tr_1238_1st_1338-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 108_SVDB_id_25_Medical_tr_1238_1st_1338-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_223049_997868_thoughts.txt
 ----------------------------------------
-File: 109_SVDB_id_26_Medical_tr_1038_1st_1138-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 109_SVDB_id_26_Medical_tr_1038_1st_1138-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_223451_608624_thoughts.txt
 ----------------------------------------
-File: 110_SVDB_id_27_Medical_tr_30824_1st_30924-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 110_SVDB_id_27_Medical_tr_30824_1st_30924-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_224007_105999_thoughts.txt
 ----------------------------------------
-File: 111_SVDB_id_28_Medical_tr_1791_1st_1891-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 111_SVDB_id_28_Medical_tr_1791_1st_1891-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_224414_515265_thoughts.txt
 ----------------------------------------
-File: 112_SVDB_id_29_Medical_tr_8226_1st_8326-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 112_SVDB_id_29_Medical_tr_8226_1st_8326-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_224932_240872_thoughts.txt
 ----------------------------------------
-File: 114_SVDB_id_31_Medical_tr_25000_1st_63090-ECG1.csv (Model: Full Model (with PCA/Selection))
+File: 114_SVDB_id_31_Medical_tr_25000_1st_63090-ECG1.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_225657_361900_thoughts.txt
 ----------------------------------------
-File: 115_PSM_id_1_Facility_tr_50000_1st_129872.csv (Model: Full Model (with PCA/Selection))
+File: 115_PSM_id_1_Facility_tr_50000_1st_129872.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_230208_622196_thoughts.txt
     - llm_artifacts/20250724_230358_032801_thoughts.txt
     - llm_artifacts/20250724_230505_796435_thoughts.txt
 ----------------------------------------
-File: 116_TAO_id_1_Environment_tr_500_1st_3-col-0.csv (Model: Full Model (with PCA/Selection))
+File: 116_TAO_id_1_Environment_tr_500_1st_3-col-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_230625_708469_thoughts.txt
 ----------------------------------------
-File: 117_TAO_id_2_Environment_tr_500_1st_1-col-0.csv (Model: Full Model (with PCA/Selection))
+File: 117_TAO_id_2_Environment_tr_500_1st_1-col-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_230820_940236_thoughts.txt
 ----------------------------------------
-File: 118_TAO_id_3_Environment_tr_500_1st_7-col-0.csv (Model: Full Model (with PCA/Selection))
+File: 118_TAO_id_3_Environment_tr_500_1st_7-col-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_231147_184817_thoughts.txt
 ----------------------------------------
-File: 119_TAO_id_4_Environment_tr_500_1st_1-col-0.csv (Model: Full Model (with PCA/Selection))
+File: 119_TAO_id_4_Environment_tr_500_1st_1-col-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_231354_470108_thoughts.txt
 ----------------------------------------
-File: 121_TAO_id_6_Environment_tr_500_1st_7-col-0.csv (Model: Full Model (with PCA/Selection))
+File: 121_TAO_id_6_Environment_tr_500_1st_7-col-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_231852_218536_thoughts.txt
 ----------------------------------------
-File: 122_TAO_id_7_Environment_tr_500_1st_19-col-0.csv (Model: Full Model (with PCA/Selection))
+File: 122_TAO_id_7_Environment_tr_500_1st_19-col-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_232211_897923_thoughts.txt
 ----------------------------------------
-File: 123_TAO_id_8_Environment_tr_500_1st_62-col-0.csv (Model: Full Model (with PCA/Selection))
+File: 123_TAO_id_8_Environment_tr_500_1st_62-col-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_232428_574125_thoughts.txt
 ----------------------------------------
-File: 124_TAO_id_9_Environment_tr_500_1st_1-col-0.csv (Model: Full Model (with PCA/Selection))
+File: 124_TAO_id_9_Environment_tr_500_1st_1-col-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_232612_973547_thoughts.txt
 ----------------------------------------
-File: 125_TAO_id_10_Environment_tr_500_1st_9-col-0.csv (Model: Full Model (with PCA/Selection))
+File: 125_TAO_id_10_Environment_tr_500_1st_9-col-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_232751_941274_thoughts.txt
 ----------------------------------------
-File: 127_TAO_id_12_Environment_tr_500_1st_24-col-0.csv (Model: Full Model (with PCA/Selection))
+File: 127_TAO_id_12_Environment_tr_500_1st_24-col-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_233323_488428_thoughts.txt
 ----------------------------------------
-File: 128_TAO_id_13_Environment_tr_500_1st_7-col-0.csv (Model: Full Model (with PCA/Selection))
+File: 128_TAO_id_13_Environment_tr_500_1st_7-col-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_233455_137231_thoughts.txt
 ----------------------------------------
-File: 129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901-AccelerometerLAZYCHAIRaccY.csv (Model: Full Model (with PCA/Selection))
+File: 129_OPPORTUNITY_id_1_HumanActivity_tr_1801_1st_1901-AccelerometerLAZYCHAIRaccY.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_233810_321562_thoughts.txt
 ----------------------------------------
-File: 130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145-AccelerometerLAZYCHAIRaccY.csv (Model: Full Model (with PCA/Selection))
+File: 130_OPPORTUNITY_id_2_HumanActivity_tr_1045_1st_1145-AccelerometerLAZYCHAIRaccY.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_233912_282364_thoughts.txt
 ----------------------------------------
-File: 132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995-AccelerometerLAZYCHAIRaccY.csv (Model: Full Model (with PCA/Selection))
+File: 132_OPPORTUNITY_id_4_HumanActivity_tr_895_1st_995-AccelerometerLAZYCHAIRaccY.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_234116_282717_thoughts.txt
 ----------------------------------------
-File: 133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500-AccelerometerLAZYCHAIRaccY.csv (Model: Full Model (with PCA/Selection))
+File: 133_OPPORTUNITY_id_5_HumanActivity_tr_1745_1st_6500-AccelerometerLAZYCHAIRaccY.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_234235_952958_thoughts.txt
 ----------------------------------------
-File: 134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577-AccelerometerLAZYCHAIRaccY.csv (Model: Full Model (with PCA/Selection))
+File: 134_OPPORTUNITY_id_6_HumanActivity_tr_1477_1st_1577-AccelerometerLAZYCHAIRaccY.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_234345_157398_thoughts.txt
 ----------------------------------------
-File: 135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185-AccelerometerLAZYCHAIRaccY.csv (Model: Full Model (with PCA/Selection))
+File: 135_OPPORTUNITY_id_7_HumanActivity_tr_2085_1st_2185-AccelerometerLAZYCHAIRaccY.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_234503_438346_thoughts.txt
 ----------------------------------------
-File: 136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595-AccelerometerLAZYCHAIRaccY.csv (Model: Full Model (with PCA/Selection))
+File: 136_OPPORTUNITY_id_8_HumanActivity_tr_1495_1st_1595-AccelerometerLAZYCHAIRaccY.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_234616_916228_thoughts.txt
 ----------------------------------------
-File: 137_CreditCard_id_1_Finance_tr_500_1st_541.csv (Model: Full Model (with PCA/Selection))
+File: 137_CreditCard_id_1_Finance_tr_500_1st_541.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_235209_758064_thoughts.txt
     - llm_artifacts/20250724_235322_142726_thoughts.txt
     - llm_artifacts/20250724_235459_529718_thoughts.txt
 ----------------------------------------
-File: 138_CATSv2_id_1_Sensor_tr_16568_1st_16668-bso2.csv (Model: Full Model (with PCA/Selection))
+File: 138_CATSv2_id_1_Sensor_tr_16568_1st_16668-bso2.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250724_235710_714386_thoughts.txt
 ----------------------------------------
-File: 139_CATSv2_id_2_Sensor_tr_5592_1st_5692-bso2.csv (Model: Full Model (with PCA/Selection))
+File: 139_CATSv2_id_2_Sensor_tr_5592_1st_5692-bso2.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_000002_917907_thoughts.txt
 ----------------------------------------
-File: 141_CATSv2_id_4_Sensor_tr_41727_1st_41827-bso2.csv (Model: Full Model (with PCA/Selection))
+File: 141_CATSv2_id_4_Sensor_tr_41727_1st_41827-bso2.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_000748_427106_thoughts.txt
 ----------------------------------------
-File: 142_CATSv2_id_5_Sensor_tr_30704_1st_30804-bso2.csv (Model: Full Model (with PCA/Selection))
+File: 142_CATSv2_id_5_Sensor_tr_30704_1st_30804-bso2.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_001200_810635_thoughts.txt
 ----------------------------------------
-File: 143_CATSv2_id_6_Sensor_tr_50000_1st_60232-bso2.csv (Model: Full Model (with PCA/Selection))
+File: 143_CATSv2_id_6_Sensor_tr_50000_1st_60232-bso2.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_001505_306529_thoughts.txt
 ----------------------------------------
-File: 144_SMAP_id_1_Sensor_tr_2052_1st_5300-0.csv (Model: Full Model (with PCA/Selection))
+File: 144_SMAP_id_1_Sensor_tr_2052_1st_5300-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_001626_151393_thoughts.txt
 ----------------------------------------
-File: 145_SMAP_id_2_Sensor_tr_2133_1st_5400-0.csv (Model: Full Model (with PCA/Selection))
+File: 145_SMAP_id_2_Sensor_tr_2133_1st_5400-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_001824_355576_thoughts.txt
 ----------------------------------------
-File: 146_SMAP_id_3_Sensor_tr_2128_1st_5000-0.csv (Model: Full Model (with PCA/Selection))
+File: 146_SMAP_id_3_Sensor_tr_2128_1st_5000-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_001929_156631_thoughts.txt
 ----------------------------------------
-File: 147_SMAP_id_4_Sensor_tr_2160_1st_6449-0.csv (Model: Full Model (with PCA/Selection))
+File: 147_SMAP_id_4_Sensor_tr_2160_1st_6449-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_002040_094266_thoughts.txt
 ----------------------------------------
-File: 148_SMAP_id_5_Sensor_tr_2011_1st_5060-0.csv (Model: Full Model (with PCA/Selection))
+File: 148_SMAP_id_5_Sensor_tr_2011_1st_5060-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_002204_550771_thoughts.txt
 ----------------------------------------
-File: 150_SMAP_id_7_Sensor_tr_2077_1st_5394-0.csv (Model: Full Model (with PCA/Selection))
+File: 150_SMAP_id_7_Sensor_tr_2077_1st_5394-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_002435_308476_thoughts.txt
 ----------------------------------------
-File: 151_SMAP_id_8_Sensor_tr_1971_1st_4870-0.csv (Model: Full Model (with PCA/Selection))
+File: 151_SMAP_id_8_Sensor_tr_1971_1st_4870-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_002545_205215_thoughts.txt
 ----------------------------------------
-File: 152_SMAP_id_9_Sensor_tr_2073_1st_5600-0.csv (Model: Full Model (with PCA/Selection))
+File: 152_SMAP_id_9_Sensor_tr_2073_1st_5600-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_002643_639939_thoughts.txt
 ----------------------------------------
-File: 153_SMAP_id_10_Sensor_tr_1840_1st_4030-0.csv (Model: Full Model (with PCA/Selection))
+File: 153_SMAP_id_10_Sensor_tr_1840_1st_4030-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_002842_806948_thoughts.txt
 ----------------------------------------
-File: 154_SMAP_id_11_Sensor_tr_2117_1st_4770-0.csv (Model: Full Model (with PCA/Selection))
+File: 154_SMAP_id_11_Sensor_tr_2117_1st_4770-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_003102_192308_thoughts.txt
 ----------------------------------------
-File: 155_SMAP_id_12_Sensor_tr_1907_1st_4800-0.csv (Model: Full Model (with PCA/Selection))
+File: 155_SMAP_id_12_Sensor_tr_1907_1st_4800-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_003259_659414_thoughts.txt
 ----------------------------------------
-File: 156_SMAP_id_13_Sensor_tr_1173_1st_2750-0.csv (Model: Full Model (with PCA/Selection))
+File: 156_SMAP_id_13_Sensor_tr_1173_1st_2750-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_003438_146894_thoughts.txt
 ----------------------------------------
-File: 157_SMAP_id_14_Sensor_tr_2126_1st_5000-0.csv (Model: Full Model (with PCA/Selection))
+File: 157_SMAP_id_14_Sensor_tr_2126_1st_5000-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_003552_441989_thoughts.txt
 ----------------------------------------
-File: 158_SMAP_id_15_Sensor_tr_2075_1st_5610-0.csv (Model: Full Model (with PCA/Selection))
+File: 158_SMAP_id_15_Sensor_tr_2075_1st_5610-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_003733_829220_thoughts.txt
 ----------------------------------------
-File: 159_SMAP_id_16_Sensor_tr_1757_1st_2650-0.csv (Model: Full Model (with PCA/Selection))
+File: 159_SMAP_id_16_Sensor_tr_1757_1st_2650-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_003954_951937_thoughts.txt
 ----------------------------------------
-File: 160_SMAP_id_17_Sensor_tr_1832_1st_5300-0.csv (Model: Full Model (with PCA/Selection))
+File: 160_SMAP_id_17_Sensor_tr_1832_1st_5300-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_004125_798052_thoughts.txt
 ----------------------------------------
-File: 161_SMAP_id_18_Sensor_tr_2075_1st_5550-0.csv (Model: Full Model (with PCA/Selection))
+File: 161_SMAP_id_18_Sensor_tr_2075_1st_5550-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_004312_140581_thoughts.txt
 ----------------------------------------
-File: 162_SMAP_id_19_Sensor_tr_1908_1st_4690-0.csv (Model: Full Model (with PCA/Selection))
+File: 162_SMAP_id_19_Sensor_tr_1908_1st_4690-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_004421_605828_thoughts.txt
 ----------------------------------------
-File: 163_SMAP_id_20_Sensor_tr_2051_1st_4575-0.csv (Model: Full Model (with PCA/Selection))
+File: 163_SMAP_id_20_Sensor_tr_2051_1st_4575-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_004607_212401_thoughts.txt
 ----------------------------------------
-File: 165_SMAP_id_22_Sensor_tr_2129_1st_5000-0.csv (Model: Full Model (with PCA/Selection))
+File: 165_SMAP_id_22_Sensor_tr_2129_1st_5000-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_004820_859703_thoughts.txt
 ----------------------------------------
-File: 166_SMAP_id_23_Sensor_tr_1113_1st_1890-0.csv (Model: Full Model (with PCA/Selection))
+File: 166_SMAP_id_23_Sensor_tr_1113_1st_1890-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_005042_031576_thoughts.txt
 ----------------------------------------
-File: 167_SMAP_id_24_Sensor_tr_2094_1st_5600-0.csv (Model: Full Model (with PCA/Selection))
+File: 167_SMAP_id_24_Sensor_tr_2094_1st_5600-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_005154_199216_thoughts.txt
 ----------------------------------------
-File: 168_SMAP_id_25_Sensor_tr_1998_1st_2098-0.csv (Model: Full Model (with PCA/Selection))
+File: 168_SMAP_id_25_Sensor_tr_1998_1st_2098-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_005257_653363_thoughts.txt
 ----------------------------------------
-File: 169_SMAP_id_26_Sensor_tr_1811_1st_4510-0.csv (Model: Full Model (with PCA/Selection))
+File: 169_SMAP_id_26_Sensor_tr_1811_1st_4510-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_005426_977517_thoughts.txt
 ----------------------------------------
-File: 170_SMAP_id_27_Sensor_tr_2160_1st_4690-0.csv (Model: Full Model (with PCA/Selection))
+File: 170_SMAP_id_27_Sensor_tr_2160_1st_4690-0.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_005534_538107_thoughts.txt
 ----------------------------------------
-File: 171_SWaT_id_1_Sensor_tr_3749_1st_9522.csv (Model: Full Model (with PCA/Selection))
+File: 171_SWaT_id_1_Sensor_tr_3749_1st_9522.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_005652_341706_thoughts.txt
     - llm_artifacts/20250725_005810_415575_thoughts.txt
     - llm_artifacts/20250725_005935_786695_thoughts.txt
 ----------------------------------------
-File: 172_SWaT_id_2_Sensor_tr_23700_1st_23800.csv (Model: Full Model (with PCA/Selection))
+File: 172_SWaT_id_2_Sensor_tr_23700_1st_23800.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_010735_332667_thoughts.txt
     - llm_artifacts/20250725_010932_655313_thoughts.txt
     - llm_artifacts/20250725_011031_251854_thoughts.txt
 ----------------------------------------
-File: 173_GECCO_id_1_Sensor_tr_16165_1st_16265.csv (Model: Full Model (with PCA/Selection))
+File: 173_GECCO_id_1_Sensor_tr_16165_1st_16265.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_011442_039210_thoughts.txt
     - llm_artifacts/20250725_011545_546550_thoughts.txt
     - llm_artifacts/20250725_011725_117335_thoughts.txt
 ----------------------------------------
-File: 174_Exathlon_id_1_Facility_tr_10766_1st_12590.csv (Model: Full Model (with PCA/Selection))
+File: 174_Exathlon_id_1_Facility_tr_10766_1st_12590.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_011919_312583_thoughts.txt
     - llm_artifacts/20250725_012046_341915_thoughts.txt
     - llm_artifacts/20250725_012146_742026_thoughts.txt
 ----------------------------------------
-File: 175_Exathlon_id_2_Facility_tr_10684_1st_10784.csv (Model: Full Model (with PCA/Selection))
+File: 175_Exathlon_id_2_Facility_tr_10684_1st_10784.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_012348_820903_thoughts.txt
     - llm_artifacts/20250725_012451_662152_thoughts.txt
     - llm_artifacts/20250725_012559_037543_thoughts.txt
 ----------------------------------------
-File: 176_Exathlon_id_3_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full Model (with PCA/Selection))
+File: 176_Exathlon_id_3_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_012723_078191_thoughts.txt
 ----------------------------------------
-File: 177_Exathlon_id_4_Facility_tr_11665_1st_13484.csv (Model: Full Model (with PCA/Selection))
+File: 177_Exathlon_id_4_Facility_tr_11665_1st_13484.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_012932_714106_thoughts.txt
     - llm_artifacts/20250725_013040_423657_thoughts.txt
     - llm_artifacts/20250725_013152_761018_thoughts.txt
 ----------------------------------------
-File: 179_Exathlon_id_6_Facility_tr_11665_1st_13484-1-executor-threadpool-activeTasks-value.csv (Model: Full Model (with PCA/Selection))
+File: 179_Exathlon_id_6_Facility_tr_11665_1st_13484-1-executor-threadpool-activeTasks-value.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_013948_909096_thoughts.txt
 ----------------------------------------
-File: 180_Exathlon_id_7_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full Model (with PCA/Selection))
+File: 180_Exathlon_id_7_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_014201_406990_thoughts.txt
 ----------------------------------------
-File: 181_Exathlon_id_8_Facility_tr_11663_1st_13482.csv (Model: Full Model (with PCA/Selection))
+File: 181_Exathlon_id_8_Facility_tr_11663_1st_13482.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_014420_304824_thoughts.txt
     - llm_artifacts/20250725_014515_071080_thoughts.txt
     - llm_artifacts/20250725_014609_013467_thoughts.txt
 ----------------------------------------
-File: 182_Exathlon_id_9_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full Model (with PCA/Selection))
+File: 182_Exathlon_id_9_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_014832_988391_thoughts.txt
 ----------------------------------------
-File: 183_Exathlon_id_10_Facility_tr_11665_1st_13484.csv (Model: Full Model (with PCA/Selection))
+File: 183_Exathlon_id_10_Facility_tr_11665_1st_13484.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_015043_269788_thoughts.txt
     - llm_artifacts/20250725_015208_160224_thoughts.txt
     - llm_artifacts/20250725_015324_326734_thoughts.txt
 ----------------------------------------
-File: 184_Exathlon_id_11_Facility_tr_11665_1st_13484.csv (Model: Full Model (with PCA/Selection))
+File: 184_Exathlon_id_11_Facility_tr_11665_1st_13484.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_015546_404891_thoughts.txt
     - llm_artifacts/20250725_015709_666068_thoughts.txt
     - llm_artifacts/20250725_015821_884356_thoughts.txt
 ----------------------------------------
-File: 185_Exathlon_id_12_Facility_tr_11665_1st_13484.csv (Model: Full Model (with PCA/Selection))
+File: 185_Exathlon_id_12_Facility_tr_11665_1st_13484.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_020042_359720_thoughts.txt
     - llm_artifacts/20250725_020143_314628_thoughts.txt
     - llm_artifacts/20250725_020323_533867_thoughts.txt
 ----------------------------------------
-File: 186_Exathlon_id_13_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full Model (with PCA/Selection))
+File: 186_Exathlon_id_13_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_020516_204439_thoughts.txt
 ----------------------------------------
-File: 187_Exathlon_id_14_Facility_tr_6193_1st_6293.csv (Model: Full Model (with PCA/Selection))
+File: 187_Exathlon_id_14_Facility_tr_6193_1st_6293.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_020655_337623_thoughts.txt
     - llm_artifacts/20250725_020753_565455_thoughts.txt
     - llm_artifacts/20250725_020903_744596_thoughts.txt
 ----------------------------------------
-File: 188_Exathlon_id_15_Facility_tr_12538_1st_12638.csv (Model: Full Model (with PCA/Selection))
+File: 188_Exathlon_id_15_Facility_tr_12538_1st_12638.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_021311_513429_thoughts.txt
     - llm_artifacts/20250725_021406_583855_thoughts.txt
     - llm_artifacts/20250725_021510_260087_thoughts.txt
 ----------------------------------------
-File: 189_Exathlon_id_16_Facility_tr_11663_1st_13482.csv (Model: Full Model (with PCA/Selection))
+File: 189_Exathlon_id_16_Facility_tr_11663_1st_13482.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_021747_772116_thoughts.txt
     - llm_artifacts/20250725_021849_928523_thoughts.txt
     - llm_artifacts/20250725_022006_838013_thoughts.txt
 ----------------------------------------
-File: 190_Exathlon_id_17_Facility_tr_12538_1st_12638.csv (Model: Full Model (with PCA/Selection))
+File: 190_Exathlon_id_17_Facility_tr_12538_1st_12638.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_022421_362340_thoughts.txt
     - llm_artifacts/20250725_022519_580429_thoughts.txt
     - llm_artifacts/20250725_022637_793383_thoughts.txt
 ----------------------------------------
-File: 191_Exathlon_id_18_Facility_tr_11665_1st_13484.csv (Model: Full Model (with PCA/Selection))
+File: 191_Exathlon_id_18_Facility_tr_11665_1st_13484.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_022852_414437_thoughts.txt
     - llm_artifacts/20250725_022956_007772_thoughts.txt
     - llm_artifacts/20250725_023110_370991_thoughts.txt
 ----------------------------------------
-File: 192_Exathlon_id_19_Facility_tr_11665_1st_13484.csv (Model: Full Model (with PCA/Selection))
+File: 192_Exathlon_id_19_Facility_tr_11665_1st_13484.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_023325_211468_thoughts.txt
     - llm_artifacts/20250725_023447_188851_thoughts.txt
     - llm_artifacts/20250725_023627_174250_thoughts.txt
 ----------------------------------------
-File: 193_Exathlon_id_20_Facility_tr_8898_1st_8998.csv (Model: Full Model (with PCA/Selection))
+File: 193_Exathlon_id_20_Facility_tr_8898_1st_8998.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_023818_229251_thoughts.txt
     - llm_artifacts/20250725_024032_010297_thoughts.txt
     - llm_artifacts/20250725_024125_311893_thoughts.txt
 ----------------------------------------
-File: 194_Exathlon_id_21_Facility_tr_6985_1st_7085.csv (Model: Full Model (with PCA/Selection))
+File: 194_Exathlon_id_21_Facility_tr_6985_1st_7085.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_024322_180361_thoughts.txt
     - llm_artifacts/20250725_024426_466422_thoughts.txt
     - llm_artifacts/20250725_024511_148702_thoughts.txt
 ----------------------------------------
-File: 196_Exathlon_id_23_Facility_tr_11665_1st_13484.csv (Model: Full Model (with PCA/Selection))
+File: 196_Exathlon_id_23_Facility_tr_11665_1st_13484.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_024851_081623_thoughts.txt
     - llm_artifacts/20250725_024953_640553_thoughts.txt
     - llm_artifacts/20250725_025105_290227_thoughts.txt
 ----------------------------------------
-File: 197_Exathlon_id_24_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full Model (with PCA/Selection))
+File: 197_Exathlon_id_24_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_025251_114636_thoughts.txt
 ----------------------------------------
-File: 198_Exathlon_id_25_Facility_tr_12538_1st_12638.csv (Model: Full Model (with PCA/Selection))
+File: 198_Exathlon_id_25_Facility_tr_12538_1st_12638.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_025634_649208_thoughts.txt
     - llm_artifacts/20250725_025733_889628_thoughts.txt
     - llm_artifacts/20250725_025848_569753_thoughts.txt
 ----------------------------------------
-File: 199_Exathlon_id_26_Facility_tr_12538_1st_12638.csv (Model: Full Model (with PCA/Selection))
+File: 199_Exathlon_id_26_Facility_tr_12538_1st_12638.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_030205_766420_thoughts.txt
     - llm_artifacts/20250725_030313_312334_thoughts.txt
     - llm_artifacts/20250725_030411_845756_thoughts.txt
 ----------------------------------------
-File: 200_Exathlon_id_27_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full Model (with PCA/Selection))
+File: 200_Exathlon_id_27_Facility_tr_10766_1st_12590-1-executor-threadpool-activeTasks-value.csv (Model: Full)
   Thoughts Files:
     - llm_artifacts/20250725_030546_306689_thoughts.txt
 ----------------------------------------

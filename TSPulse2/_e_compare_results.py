@@ -1219,8 +1219,8 @@ def main():
         mean_scores_df["Algorithm"].isin(tspulse3_variants)
     ].copy()
     new_labels = {
-        "TSPulse3_non_forecast_biased": "MAD (Full)",
-        "TSPulse3_non_forecast_biased_dim_redux_ablated": "MAD (Ablated)",
+        "TSPulse3_non_forecast_biased": "Full",
+        "TSPulse3_non_forecast_biased_dim_redux_ablated": "Ablated",
     }
     specific_df["Algorithm"] = specific_df["Algorithm"].map(new_labels)
     specific_df.rename(columns={"Algorithm": "Model Variant"}, inplace=True)
