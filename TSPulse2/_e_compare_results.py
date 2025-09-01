@@ -5,8 +5,61 @@ from typing import Dict, Optional, Set, cast
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from scipy.stats import wilcoxon
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
+
+
+def calculate_bootstrap_ci(data: pd.Series, n_bootstrap=1000, ci_level=0.95):
+    """Calculates the bootstrap confidence interval for a given data series."""
+    if data.empty or data.isnull().all():
+        return (np.nan, np.nan)
+
+    data = data.dropna()
+    if len(data) < 2:
+        return (np.nan, np.nan)
+        
+    bootstrap_means = np.empty(n_bootstrap)
+    for i in range(n_bootstrap):
+        bootstrap_sample = data.sample(n=len(data), replace=True)
+        bootstrap_means[i] = bootstrap_sample.mean()
+
+    lower_bound = np.percentile(
+        bootstrap_means, (1 - ci_level) / 2 * 100
+    )
+    upper_bound = np.percentile(
+        bootstrap_means, (1 + ci_level) / 2 * 100
+    )
+    return lower_bound, upper_bound
+
+
+def run_wilcoxon_tests(scores_df: pd.DataFrame, baseline_col: str):
+    """Performs Wilcoxon signed-rank tests against a baseline algorithm."""
+    results = {}
+    if baseline_col not in scores_df.columns:
+        print(f"Warning: Baseline '{baseline_col}' not in scores. Skipping Wilcoxon.")
+        return {}
+
+    baseline_scores = scores_df[baseline_col]
+    for col in scores_df.columns:
+        if col == baseline_col:
+            continue
+        
+        challenger_scores = scores_df[col]
+        # Drop NaNs pairwise
+        valid_scores = pd.concat([baseline_scores, challenger_scores], axis=1).dropna()
+        if len(valid_scores) < 2:
+            p_value = np.nan
+        else:
+            try:
+                # Use the difference for the test
+                diff = valid_scores[challenger_scores.name] - valid_scores[baseline_scores.name]
+                # Test if the median of the differences is zero
+                _, p_value = wilcoxon(diff, alternative='two-sided')
+            except ValueError:
+                p_value = np.nan # Handles cases with all-zero differences
+        results[col] = p_value
+    return results
 
 
 def clean_filenames(s: pd.Series) -> pd.Series:
@@ -21,6 +74,7 @@ def plot_bar_on_ax(
     title: str,
     x_col: str,
     y_col: str,
+    y_err: Optional[list] = None,
     y_label: Optional[str] = None,
     colors: Optional[list] = None,
     hatches: Optional[list] = None,
@@ -49,8 +103,8 @@ def plot_bar_on_ax(
         if hatches is not None
         else [''] * len(df[x_col])
     )
-
-    bars = ax.bar(df[x_col], df[y_col], color=bar_colors, hatch=bar_hatches, edgecolor='black')
+    
+    bars = ax.bar(df[x_col], df[y_col], yerr=y_err, capsize=5, color=bar_colors, hatch=bar_hatches, edgecolor='black')
 
     if y_label:
         ax.set_ylabel(y_label, fontsize=40)
@@ -370,15 +424,18 @@ def load_benchmark_results() -> pd.DataFrame:
         df.index = df.index.str.replace(r"\.csv$", "", regex=True)
         df.index.name = "file"
 
-        if "CNN" in df.columns:
+        algorithms_to_load = ["CNN", "TranAD"]
+        found_algorithms = [algo for algo in algorithms_to_load if algo in df.columns]
+
+        if found_algorithms:
             print(
-                "Successfully loaded CNN benchmark algorithm from "
+                f"Successfully loaded {', '.join(found_algorithms)} benchmark algorithm(s) from "
                 f"{os.path.basename(benchmark_path)}."
             )
-            return df[["CNN"]].copy()
+            return df[found_algorithms].copy()
 
         print(
-            f"Warning: 'CNN' column not found in {os.path.basename(benchmark_path)}. "
+            f"Warning: None of {', '.join(algorithms_to_load)} columns found in {os.path.basename(benchmark_path)}. "
             "Skipping benchmark results."
         )
         return pd.DataFrame()
@@ -815,6 +872,7 @@ def generate_and_save_reports(
         "TSPulseZS_Best_Actual_Head",
         "TSPulseFT",
         "CNN",
+        "TranAD",
     ]
 
     # Add all triangulation head columns
@@ -866,15 +924,23 @@ def generate_and_save_reports(
     # --- 3. Create and Save Overall Mean Score Summary ---
     numeric_scores = scores_df.select_dtypes(include=np.number)
     if isinstance(numeric_scores, pd.DataFrame):
-        mean_scores = cast(pd.Series, numeric_scores[score_cols].mean())
+        score_stats = []
+        for col in score_cols:
+            mean_val = numeric_scores[col].mean()
+            ci_lower, ci_upper = calculate_bootstrap_ci(numeric_scores[col])
+            score_stats.append({
+                "Algorithm": col,
+                f"Mean_{metric}": mean_val,
+                "95%_CI_Lower": ci_lower,
+                "95%_CI_Upper": ci_upper,
+            })
+        mean_scores_df = pd.DataFrame(score_stats)
     else:
-        # Handle case where numeric_scores might be a Series
-        mean_scores = cast(
-            pd.Series, numeric_scores.drop(labels=metadata_cols, errors="ignore")
-        )
+        # Handle case where numeric_scores might be a Series (less likely with CI)
+        mean_scores = cast(pd.Series, numeric_scores.drop(labels=metadata_cols, errors="ignore")).mean()
+        mean_scores_df = mean_scores.reset_index()
+        mean_scores_df.columns = ["Algorithm", f"Mean_{metric}"]
 
-    mean_scores_df = mean_scores.reset_index()
-    mean_scores_df.columns = ["Algorithm", f"Mean_{metric}"]
 
     # Sort the mean scores table in descending order
     mean_scores_df = mean_scores_df.sort_values(by=f"Mean_{metric}", ascending=False)
@@ -900,6 +966,16 @@ def generate_and_save_reports(
 
     print(f"\n--- Overall Mean Scores ({name.upper()}) ---")
     print(mean_scores_df.to_string(index=False, float_format="{:.16f}".format))  # type: ignore
+
+    # --- 5. Perform and print statistical tests ---
+    print(f"\n--- Wilcoxon Signed-Rank Test vs. 'TSPulse3_non_forecast_biased' ({name.upper()}) ---")
+    wilcoxon_results = run_wilcoxon_tests(scores_df[score_cols], 'TSPulse3_non_forecast_biased')
+    if wilcoxon_results:
+        wilcoxon_df = pd.DataFrame.from_dict(wilcoxon_results, orient='index', columns=['p-value'])
+        wilcoxon_df['Significant (p<0.05)'] = wilcoxon_df['p-value'] < 0.05
+        print(wilcoxon_df.to_string(float_format="{:.4f}".format))
+
+
     return mean_scores_df, score_cols, summary_df
 
 
@@ -942,10 +1018,11 @@ def generate_strategy_comparison_plot(
     ].copy()
     plot_df["Strategy"] = plot_df["Algorithm"].map(algorithms_to_plot)
     plot_df = plot_df.sort_values(by=f"Mean_{metric}", ascending=False)
-
-    if plot_df.empty:
-        print("Warning: No data available for the strategy comparison plot. Skipping.")
-        return
+    
+    # Add error bar values to the plot_df
+    lower_error = plot_df[f'Mean_{metric}'] - plot_df['95%_CI_Lower']
+    upper_error = plot_df['95%_CI_Upper'] - plot_df[f'Mean_{metric}']
+    y_err_values = [lower_error.values, upper_error.values]
 
     # 4. Create and save the plot
     def get_color(strategy: str) -> str:
@@ -967,6 +1044,7 @@ def generate_strategy_comparison_plot(
         title="",  # No main title for this plot
         x_col="Strategy",
         y_col=f"Mean_{metric}",
+        y_err=y_err_values,
         y_label=f"Mean {metric}",
         colors=bar_colors,
         hatches=bar_hatches,
@@ -1098,27 +1176,29 @@ def analyze_dimensionality_reduction(
 
         # Overall Average (Micro-Average across all common files)
         print(f"\n--- Overall Average {metric_name} ---")
-        overall_scores_series = comparison_df[valid_methods].mean()
-        if isinstance(overall_scores_series, pd.Series):
-            overall_scores = overall_scores_series.sort_values(
-                ascending=False
-            ).reset_index()
-            overall_scores.columns = ["Method", f"Average_{metric_name}"]
+        
+        stats = []
+        for method in valid_methods:
+            mean_val = comparison_df[method].mean()
+            ci_lower, ci_upper = calculate_bootstrap_ci(comparison_df[method])
+            stats.append({
+                "Method": method,
+                f"Average_{metric_name}": mean_val,
+                "95%_CI_Lower": ci_lower,
+                "95%_CI_Upper": ci_upper
+            })
+        
+        if not stats:
+            overall_scores = pd.DataFrame()
+        else:
+            overall_scores = pd.DataFrame(stats).sort_values(
+                by=f"Average_{metric_name}", ascending=False
+            )
+
+        if not overall_scores.empty:
             print(overall_scores.to_string(index=False, float_format="{:.4f}".format))
 
-            # --- Plot on the provided axis ---
-            # plot_bar_on_ax(
-            #     ax=ax,
-            #     df=overall_scores,
-            #     title=title,
-            #     xlabel="Method",
-            #     ylabel=f"Average_{metric_name}",
-            # )
-        else:
-            print(
-                f"Could not compute overall scores. Mean result: {overall_scores_series}"
-            )
-        return overall_scores if isinstance(overall_scores_series, pd.Series) else pd.DataFrame()
+        return overall_scores
 
     comparison1_df = _run_and_print_comparison(
         "Ablated vs. Channel Selection (on their common series)",
@@ -1224,29 +1304,52 @@ def main():
     }
     specific_df["Algorithm"] = specific_df["Algorithm"].map(new_labels)
     specific_df.rename(columns={"Algorithm": "Model Variant"}, inplace=True)
+
+    lower_error = specific_df[f'Mean_{METRIC_TO_COMPARE}'] - specific_df['95%_CI_Lower']
+    upper_error = specific_df['95%_CI_Upper'] - specific_df[f'Mean_{METRIC_TO_COMPARE}']
+    y_err_values = [lower_error.values, upper_error.values]
+
     plot_bar_on_ax(
         axes[0],
         specific_df,
         "",
         "Model Variant",
         f"Mean_{METRIC_TO_COMPARE}",
+        y_err=y_err_values,
         y_label=f"Mean_{METRIC_TO_COMPARE}",
     )
 
     # Plot 2 & 3: Dimensionality Reduction Comparisons
+    if not comp1_df.empty:
+        lower_error1 = comp1_df[f'Average_{METRIC_TO_COMPARE}'] - comp1_df['95%_CI_Lower']
+        upper_error1 = comp1_df['95%_CI_Upper'] - comp1_df[f'Average_{METRIC_TO_COMPARE}']
+        y_err_values1 = [lower_error1.values, upper_error1.values]
+    else:
+        y_err_values1 = None
+        
     plot_bar_on_ax(
         axes[1],
         comp1_df,
         "",
         "Method",
         f"Average_{METRIC_TO_COMPARE}",
+        y_err=y_err_values1,
     )
+
+    if not comp2_df.empty:
+        lower_error2 = comp2_df[f'Average_{METRIC_TO_COMPARE}'] - comp2_df['95%_CI_Lower']
+        upper_error2 = comp2_df['95%_CI_Upper'] - comp2_df[f'Average_{METRIC_TO_COMPARE}']
+        y_err_values2 = [lower_error2.values, upper_error2.values]
+    else:
+        y_err_values2 = None
+
     plot_bar_on_ax(
         axes[2],
         comp2_df,
         "",
         "Method",
         f"Average_{METRIC_TO_COMPARE}",
+        y_err=y_err_values2,
     )
 
     # Print triangulation analysis from in-memory data (no CSV reads)

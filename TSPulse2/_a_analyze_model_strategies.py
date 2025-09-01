@@ -1123,98 +1123,98 @@ if __name__ == "__main__":
                 base_data_path=args.data_directory,
                 heads_to_load=zs_heads_only,
             )
-            (
-                final_scores_max,
-                details_max,
-                tuning_details_max,
-                map_max,
-            ) = compute_best_channel_by_max_head_performance(
-                root_directory=args.root_directory,
-                metric=args.metric,
-                split_files=split_files,
-                base_data_path=args.data_directory,
-                heads_to_load=zs_heads_only,
-            )
+            # (
+            #     final_scores_max,
+            #     details_max,
+            #     tuning_details_max,
+            #     map_max,
+            # ) = compute_best_channel_by_max_head_performance(
+            #     root_directory=args.root_directory,
+            #     metric=args.metric,
+            #     split_files=split_files,
+            #     base_data_path=args.data_directory,
+            #     heads_to_load=zs_heads_only,
+            # )
 
             print("=" * 80)
             print(
-                "SCENARIO 2 & 2B: Best Channel by Group (Avg vs Max Head Performance)"
+                "SCENARIO 2: Best Channel by Group (Avg Head Performance)"
             )
             print("=" * 80)
 
             # --- 1. Print learned strategies ---
-            if map_avg or map_max:
+            if map_avg:
                 s2_map_df = pd.Series(map_avg, name="S2_Avg_Perf_Channel").to_frame()
-                s2b_map_df = pd.Series(map_max, name="S2B_Max_Perf_Channel").to_frame()
-                combined_maps = s2_map_df.join(s2b_map_df, how="outer").sort_index()
+                # s2b_map_df = pd.Series(map_max, name="S2B_Max_Perf_Channel").to_frame()
+                # combined_maps = s2_map_df.join(s2b_map_df, how="outer").sort_index()
                 print("Learned Best Channel per Group (Side-by-Side):")
-                print(combined_maps.to_string(float_format="{:.16f}".format))
+                print(s2_map_df.sort_index().to_string(float_format="{:.16f}".format))
 
             # --- 2. Print detailed results ---
             if (
                 details_avg is not None
                 and not details_avg.empty
-                and details_max is not None
-                and not details_max.empty
+                # and details_max is not None
+                # and not details_max.empty
             ):
                 s2_details = details_avg.rename(
                     columns=lambda c: f"S2_{c}" if c not in ["parent", "group"] else c
                 )
-                s2b_details = details_max.rename(
-                    columns=lambda c: f"S2B_{c}" if c not in ["parent", "group"] else c
-                )
+                # s2b_details = details_max.rename(
+                #     columns=lambda c: f"S2B_{c}" if c not in ["parent", "group"] else c
+                # )
 
-                combined_details = pd.merge(
-                    s2_details, s2b_details, on=["parent", "group"], how="outer"
-                )
-                combined_details.to_csv(s2_csv_path, index=False)
-                print(f"--> Scenario 2/2B detailed results saved to {s2_csv_path}")
+                # combined_details = pd.merge(
+                #     s2_details, s2b_details, on=["parent", "group"], how="outer"
+                # )
+                s2_details.to_csv(s2_csv_path, index=False)
+                print(f"--> Scenario 2 detailed results saved to {s2_csv_path}")
 
-                print("\n--- Detailed Per-Series Results (Scenario 2/2B) ---")
+                print("\n--- Detailed Per-Series Results (Scenario 2) ---")
                 with pd.option_context("display.max_rows", None, "display.max_columns", None, "display.width", 200):
-                    print(combined_details.to_string())
+                    print(s2_details.to_string())
 
             if (
                 tuning_details_avg is not None
                 and not tuning_details_avg.empty
-                and tuning_details_max is not None
-                and not tuning_details_max.empty
+                # and tuning_details_max is not None
+                # and not tuning_details_max.empty
             ):
                 s2_tuning_details = tuning_details_avg.rename(
                     columns=lambda c: f"S2_{c}" if c not in ["parent", "group"] else c
                 )
-                s2b_tuning_details = tuning_details_max.rename(
-                    columns=lambda c: f"S2B_{c}" if c not in ["parent", "group"] else c
-                )
-                combined_tuning_details = pd.merge(
-                    s2_tuning_details,
-                    s2b_tuning_details,
-                    on=["parent", "group"],
-                    how="outer",
-                )
-                combined_tuning_details.to_csv(s2_tuning_csv_path, index=False)
+                # s2b_tuning_details = tuning_details_max.rename(
+                #     columns=lambda c: f"S2B_{c}" if c not in ["parent", "group"] else c
+                # )
+                # combined_tuning_details = pd.merge(
+                #     s2_tuning_details,
+                #     s2b_tuning_details,
+                #     on=["parent", "group"],
+                #     how="outer",
+                # )
+                s2_tuning_details.to_csv(s2_tuning_csv_path, index=False)
                 print(
-                    f"--> Scenario 2/2B detailed TUNING results saved to {s2_tuning_csv_path}"
+                    f"--> Scenario 2 detailed TUNING results saved to {s2_tuning_csv_path}"
                 )
 
             # --- 3. Print final scores ---
             if (
                 final_scores_avg is not None
                 and not final_scores_avg.empty
-                and final_scores_max is not None
-                and not final_scores_max.empty
+                # and final_scores_max is not None
+                # and not final_scores_max.empty
             ):
                 summary_scores = pd.DataFrame(
-                    {"S2_Avg_Perf": final_scores_avg, "S2B_Max_Perf": final_scores_max}
+                    {"S2_Avg_Perf": final_scores_avg}
                 )
-                print("\n--- Final Scores by Head (Side-by-Side) ---")
+                print("\n--- Final Scores by Head ---")
                 print(summary_scores.to_string(float_format="{:.16f}".format))
 
                 s1_score = result_s1["metric"]
                 s2_score = final_scores_avg.get(args.metric, 0)
-                s2b_score = final_scores_max.get(args.metric, 0)
+                # s2b_score = final_scores_max.get(args.metric, 0)
                 print(f"\nS2 vs S1:  {s2_score} - {s1_score} = {s2_score - s1_score}")
-                print(f"S2B vs S1: {s2b_score} - {s1_score} = {s2b_score - s1_score}")
+                # print(f"S2B vs S1: {s2b_score} - {s1_score} = {s2b_score - s1_score}")
 
         # SCENARIO 3: Best Head/Channel with Fallback Experiments for Unknown Groups
         print("\n" + "=" * 80)
