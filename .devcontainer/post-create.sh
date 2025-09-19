@@ -20,11 +20,6 @@ echo ">>> Environment setup complete. Activating 'tsb-ad-env'..."
 # For scripts, you'd activate it like this:
 # conda activate tsb-ad-env
 
-# --- System-level Dependencies ---
-echo ">>> Updating package list and installing system prerequisites..."
-sudo apt-get update
-sudo apt-get install -y wget unzip zstd
-
 # --- Download and Unzip Datasets ---
 echo ">>> Ensuring Datasets directory exists..."
 mkdir -p Datasets

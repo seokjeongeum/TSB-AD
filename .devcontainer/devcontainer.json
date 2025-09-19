@@ -25,7 +25,15 @@
         // Install Git
         "ghcr.io/devcontainers/features/git:1": {},
         // Use Conda to manage Python environments
-        "ghcr.io/devcontainers/features/conda:1": {}
+        "ghcr.io/devcontainers/features/conda:1": {},
+        // Install system packages
+        "ghcr.io/devcontainers/features/apt:1": {
+            "packages": [
+                "wget",
+                "unzip",
+                "zstd"
+            ]
+        }
     },
     // Commands to run after the container is created.
     // Use this to install project dependencies or other tools.
@@ -54,8 +62,9 @@
                 "nvidia.nsight-vscode-edition", // NVIDIA Nsight (CUDA debugger, profiler)
                 "njpwerner.autodocstring", // Example: Useful Python extension
                 "ms-python.isort", // VS Code Isort extension (integrates better)
-                "ms-python.black-formatter" // Example: Black Formatter extension
+                "ms-python.black-formatter", // Example: Black Formatter extension
                 // Add other extensions your project uses
+                "redhat.vscode-yaml"
             ]
         }
     },

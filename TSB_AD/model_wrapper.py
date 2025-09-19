@@ -1,18 +1,15 @@
+import math
 import os
 import sys
-import numpy as np
-import math
-import shutil
-import tempfile
-import pandas as pd
-import logging
 
+import numpy as np
+import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
-from transformers import Trainer, TrainingArguments, EarlyStoppingCallback
 from statsmodels.tsa.seasonal import STL
 
-from .utils.slidingWindows import find_length_rank
 from TSPulse2.TSPulse2Detector import TSPulse2Detector
+
+from .utils.slidingWindows import find_length_rank
 
 sys.path.insert(
     0,
@@ -21,9 +18,12 @@ sys.path.insert(
         "granite-tsfm",
     ),
 )
-from notebooks.hfdemo.tspulse.anomaly_detection.utility.model import TSAD_Pipeline
+from notebooks.hfdemo.tspulse.anomaly_detection.utility.model import \
+    TSAD_Pipeline
+
 Unsupervise_AD_Pool = ['FFT', 'SR', 'NORMA', 'Series2Graph', 'Sub_IForest', 'IForest', 'LOF', 'Sub_LOF', 'POLY', 'MatrixProfile', 'Sub_PCA', 'PCA', 'HBOS', 
-                        'Sub_HBOS', 'KNN', 'Sub_KNN','KMeansAD', 'KMeansAD_U', 'KShapeAD', 'COPOD', 'CBLOF', 'COF', 'EIF', 'RobustPCA', 'Lag_Llama', 'TimesFM', 'Chronos', 'MOMENT_ZS',
+                        'Sub_HBOS', 'KNN', 'Sub_KNN','KMeansAD', 'KMeansAD_U', 'KShapeAD', 'COPOD', 'CBLOF', 'COF', 'EIF', 'RobustPCA', 'Lag_Llama', 'TimesFM', 'Chronos', 'MOMENT_ZS']
+Unsupervise_AD_Pool+= [
     "TSPulse_ZS_ensemble",
     "TSPulse_ZS_time",
     "TSPulse_ZS_fft",
@@ -42,8 +42,9 @@ Unsupervise_AD_Pool = ['FFT', 'SR', 'NORMA', 'Series2Graph', 'Sub_IForest', 'IFo
     "TSPulse3_non_forecast_biased_dim_redux_ablated",
     "STL_AD",
 ]
-Semisupervise_AD_Pool = ['Left_STAMPi', 'SAND', 'MCD', 'Sub_MCD', 'OCSVM', 'Sub_OCSVM', 'AutoEncoder', 'CNN', 'LSTMAD', 'TranAD', 'USAD', 'OmniAnomaly', 
-                        'AnomalyTransformer', 'TimesNet', 'FITS', 'Donut', 'OFA', 'MOMENT_FT', 'M2N2',
+Semisupervise_AD_Pool = ['Left_STAMPi', 'SAND', 'MCD', 'Sub_MCD', 'OCSVM', 'Sub_OCSVM', 'AutoEncoder', 'CNN', 'LSTMAD', 'TranAD', 'USAD', 'OmniAnomaly',
+                        'AnomalyTransformer', 'TimesNet', 'FITS', 'Donut', 'OFA', 'MOMENT_FT', 'M2N2']
+Semisupervise_AD_Pool+= [
     "TSPulse_FT_ensemble",
     "TSPulse_FT_time",
     "TSPulse_FT_fft",
