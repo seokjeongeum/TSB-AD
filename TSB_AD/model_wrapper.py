@@ -461,60 +461,55 @@ def run_M2N2(
     return score.ravel()
 
 
+def _run_tspulse_pipeline(prediction_mode, data, data_train=None, finetune=False, **kwargs):
+    """Helper function to run the TSPulse pipeline with configurable parameters."""
+    if data.ndim == 1:
+        num_input_channels = 1
+    else:
+        num_input_channels = data.shape[1]
+
+    return run_tsad_pipeline(
+        data,
+        data_train=data_train,
+        finetune=finetune,
+        prediction_mode=prediction_mode,
+        num_input_channels=num_input_channels,
+        **kwargs,
+    )
+
+
 def run_TSPulse_ZS_ensemble(data, **kwargs):
-    return run_tsad_pipeline(data, prediction_mode="forecast+time+fft", **kwargs)
+    return _run_tspulse_pipeline("forecast+time+fft", data, **kwargs)
 
 
 def run_TSPulse_ZS_fft(data, **kwargs):
-    return run_tsad_pipeline(data, prediction_mode="fft", **kwargs)
+    return _run_tspulse_pipeline("fft", data, **kwargs)
 
 
 def run_TSPulse_ZS_forecast(data, **kwargs):
-    return run_tsad_pipeline(data, prediction_mode="forecast", **kwargs)
+    return _run_tspulse_pipeline("forecast", data, **kwargs)
 
 
 def run_TSPulse_ZS_time(data, **kwargs):
-    return run_tsad_pipeline(data, prediction_mode="time", **kwargs)
+    return _run_tspulse_pipeline("time", data, **kwargs)
 
 
 def run_TSPulse_FT_ensemble(data_train, data_test, **kwargs):
-    return run_tsad_pipeline(
-        data_test,
-        data_train=data_train,
-        finetune=True,
-        prediction_mode="forecast+time+fft",
-        **kwargs,
+    return _run_tspulse_pipeline(
+        "forecast+time+fft", data=data_test, data_train=data_train, finetune=True, **kwargs
     )
 
 
 def run_TSPulse_FT_fft(data_train, data_test, **kwargs):
-    return run_tsad_pipeline(
-        data_test,
-        data_train=data_train,
-        finetune=True,
-        prediction_mode="fft",
-        **kwargs,
-    )
+    return _run_tspulse_pipeline("fft", data=data_test, data_train=data_train, finetune=True, **kwargs)
 
 
 def run_TSPulse_FT_forecast(data_train, data_test, **kwargs):
-    return run_tsad_pipeline(
-        data_test,
-        data_train=data_train,
-        finetune=True,
-        prediction_mode="forecast",
-        **kwargs,
-    )
+    return _run_tspulse_pipeline("forecast", data=data_test, data_train=data_train, finetune=True, **kwargs)
 
 
 def run_TSPulse_FT_time(data_train, data_test, **kwargs):
-    return run_tsad_pipeline(
-        data_test,
-        data_train=data_train,
-        finetune=True,
-        prediction_mode="time",
-        **kwargs,
-    )
+    return _run_tspulse_pipeline("time", data=data_test, data_train=data_train, finetune=True, **kwargs)
 
 
 def run_TSPulse2(data, **kwargs):
