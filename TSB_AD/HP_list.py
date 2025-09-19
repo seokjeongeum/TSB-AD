@@ -120,6 +120,10 @@ Optimal_Multi_algo_HP_dict = {
     'TSPulse_ZS_fft': {},
     'TSPulse_ZS_forecast': {},
     'TSPulse_ZS_time': {},
+    'TSPulse_FT_ensemble': {},
+    'TSPulse_FT_fft': {},
+    'TSPulse_FT_forecast': {},
+    'TSPulse_FT_time': {},
     'TSPulse2': {
         'use_llm_selection': True,
         'use_dimensionality_reduction': True,
