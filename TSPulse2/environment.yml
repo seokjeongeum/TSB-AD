@@ -1,48 +1,58 @@
-name: tsb-ad-env
+name: tsb-ad-env-granite
 channels:
   - pytorch
   - nvidia
-  - conda-forge # Prioritizing conda-forge for broader package availability
+  - conda-forge # Prioritize conda-forge for broader package availability
   - defaults
 dependencies:
   # --- Core Environment ---
   - python=3.11
   - pip
 
-  # --- Data Science & ML Stack (from both files) ---
-  - numpy>=1.24.3,<2.0
-  - pandas>=2.0.3
+  # --- Core Dependencies from pyproject.toml ---
+  - pandas>=2.2.0            # Using the stricter requirement from pyproject.toml
+  - numpy>=1.24.3,<2.0       # Keeping your stricter upper bound
   - scikit-learn>=1.3.2
+  - transformers>=4.38.0
+  - datasets
+  - deprecated
+  - urllib3>=1.26.19
+
+  # --- Other Dependencies from original requirements ---
   - cython>=3.0.10
   - matplotlib>=3.7.5
   - h5py
-  - datasets
-  - xgboost
-  - catboost
-  - tslearn>=0.6.3
-  - stumpy>=1.12.0
-  
-  # --- ML/DL Utility Libraries ---
+  - einops
   - tqdm
   - torchinfo
-  - einops
-  - networkx>=3.1
-  - transformers>=4.38.0
-  - accelerate>=0.26.0
-
-  # --- Niche & Statistical Libraries ---
   - arch>=5.3.1
   - hurst>=0.0.5
-  
-  # --- Developer Experience ---
+  - tslearn>=0.6.3
+  - stumpy>=1.12.0
+  - networkx>=3.1
+  - accelerate>=0.26.0
+
+  # --- Development & Notebook Dependencies from pyproject.toml [dev, notebooks] ---
   - black
+  - ruff==0.5.7             # Pinning to the version specified in pyproject.toml
+  - pytest
+  - pytest-coverage
+  - parameterized
+  - pre-commit
+  - jupyter
   - ipython
+  - ipywidgets
+  - plotly
+  - kaleido
+  - tensorboard
   - rich
   - joblib
   - python-dotenv
+  - xgboost                  # From original environment.yml
+  - catboost                 # From original environment.yml
 
   # --- Pip-managed dependencies ---
-  # PyTorch stack is handled by pip to ensure the specific cu126 build is used.
+  # PyTorch stack is handled by pip to ensure the specific cu126 build is used, as intended.
   - pip:
     - --index-url https://download.pytorch.org/whl/cu126
     - torch==2.8.0
