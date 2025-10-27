@@ -16,6 +16,15 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 # Navigate up one level to get the project root
 project_root = os.path.abspath(os.path.join(script_dir, ".."))
 
+# --- Plot Configuration ---
+# These parameters are optimized for LLM vision model input:
+# - Width (40 inches): Large width to display long time series with good temporal resolution
+# - Heights (6 * num_plots inches): Scales with number of subplots for readability
+# - Font sizes (96/84/72 pt): Large fonts for better OCR/vision model recognition
+# - DPI (150): Balances quality with file size for vision model processing
+# Note: These values were empirically chosen to work well with vision-language models
+# for anomaly score interpretation.
+
 # Style map for consistent plotting - ALL LINES ARE NOW SOLID
 STYLE_MAP = {
     "TSPulse_ZS_ensemble": {
@@ -145,7 +154,7 @@ def plot_anomaly_scores(file_basename, dataset_dir, score_dir, plot_dir, variant
             # Plot raw data
             ax1.plot(
                 time_series,
-                color="gray",
+                color="steelblue",
                 linewidth=1.5,
                 label="Time Series Data",
                 zorder=1,
@@ -233,7 +242,7 @@ if __name__ == "__main__":
             )
             score_dir = os.path.join(project_root, "eval", "score", "uni")
         elif variant == "multi":
-            dataset_dir = os.path.join(project_root, "Datasets", "TSB-AD-M-univariate")
+            dataset_dir = os.path.join(project_root, "Datasets", "TSB-AD-M")
             file_list_path = os.path.join(
                 project_root, "Datasets", "File_List", "TSB-AD-M-univariate.csv"
             )

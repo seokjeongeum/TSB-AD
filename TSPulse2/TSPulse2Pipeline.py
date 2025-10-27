@@ -62,6 +62,10 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
             aggregation_length=aggregation_length,
             **kwargs,
         )
+        # Plot configuration for LLM vision input:
+        # - width (160): Very large width for detailed temporal visualization
+        # - fontsize (48): Large font for vision model text recognition
+        # Note: These are empirically optimized for Gemini vision models.
         self.width = 160
         self.fontsize = 48
 
