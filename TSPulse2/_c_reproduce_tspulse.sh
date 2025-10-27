@@ -19,7 +19,7 @@
 #SBATCH --gres=gpu:1
 
 # --- Job Array Configuration ---
-#SBATCH --array=1-12
+#SBATCH --array=1-24
 
 #=========================================================================================
 # HYPERPARAMETER & LOGIC BLOCK
@@ -35,6 +35,12 @@ STANDARD_ALGOS=(
     "TSPulse_ZS_forecast"
     "TSPulse_ZS_time"
 )
+FT_ALGOS=(
+    "TSPulse_FT_ensemble"
+    "TSPulse_FT_fft"
+    "TSPulse_FT_forecast"
+    "TSPulse_FT_time"
+)
 STANDARD_RUN_TYPES=("U" "M")
 
 # 2. Define the Parameter Grid
@@ -45,8 +51,16 @@ for run_type in "${STANDARD_RUN_TYPES[@]}"; do
         PARAMS+=("$run_type $algo")
     done
 done
+for run_type in "${STANDARD_RUN_TYPES[@]}"; do
+    for algo in "${FT_ALGOS[@]}"; do
+        PARAMS+=("$run_type $algo")
+    done
+done
 # Add multi-as-uni runs
 for algo in "${STANDARD_ALGOS[@]}"; do
+    PARAMS+=("MU $algo") # MU for Multi-as-Uni
+done
+for algo in "${FT_ALGOS[@]}"; do
     PARAMS+=("MU $algo") # MU for Multi-as-Uni
 done
 

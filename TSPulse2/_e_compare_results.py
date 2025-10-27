@@ -424,7 +424,7 @@ def load_benchmark_results() -> pd.DataFrame:
         df.index = df.index.str.replace(r"\.csv$", "", regex=True)
         df.index.name = "file"
 
-        algorithms_to_load = ["CNN", "TranAD"]
+        algorithms_to_load = ["CNN", "TranAD", "TimesNet", "AnomalyTransformer"]
         found_algorithms = [algo for algo in algorithms_to_load if algo in df.columns]
 
         if found_algorithms:
@@ -873,6 +873,8 @@ def generate_and_save_reports(
         "TSPulseFT",
         "CNN",
         "TranAD",
+        "TimesNet",
+        "AnomalyTransformer",
     ]
 
     # Add all triangulation head columns

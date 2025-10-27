@@ -59,7 +59,7 @@ Semisupervise_AD_Pool+= [
     "TSPulse_FT_ensemble",
     "TSPulse_FT_time",
     "TSPulse_FT_fft",
-    "TSPulse_FT_future",
+    "TSPulse_FT_forecast",
 ]
 
 def run_Unsupervise_AD(model_name, data, **kwargs):
