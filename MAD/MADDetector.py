@@ -5,7 +5,7 @@ import logging
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
-from TSPulse2.TSPulse2Pipeline import TSPulse2Pipeline
+from MAD.MADPipeline import MADPipeline
 
 sys.path.insert(
     0,
@@ -18,7 +18,7 @@ from notebooks.hfdemo.tspulse.anomaly_detection.utility.model import \
     TSAD_Pipeline
 
 
-class TSPulse2Detector(TSAD_Pipeline):
+class MADDetector(TSAD_Pipeline):
     def __init__(
         self,
         batch_size: int,
@@ -37,7 +37,7 @@ class TSPulse2Detector(TSAD_Pipeline):
             **kwargs,
         )
         prediction_mode_array = [s_.strip() for s_ in str(prediction_mode).split("+")]
-        self._scorer = TSPulse2Pipeline(
+        self._scorer = MADPipeline(
             self._model,
             timestamp_column="timestamp",
             target_columns=self._headers,
@@ -78,7 +78,7 @@ class TSPulse2Detector(TSAD_Pipeline):
             prediction_mode_array = [
                 s_.strip() for s_ in str(self.prediction_mode).split("+")
             ]
-            self._scorer = TSPulse2Pipeline(
+            self._scorer = MADPipeline(
                 self._model,
                 timestamp_column="timestamp",
                 target_columns=self._headers,

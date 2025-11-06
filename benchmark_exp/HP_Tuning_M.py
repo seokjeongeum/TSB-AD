@@ -35,7 +35,7 @@ if __name__ == '__main__':
     # parser.add_argument('--file_lsit', type=str, default='../Datasets/File_List/TSB-AD-M-Tuning.csv')
     parser.add_argument('--file_lsit', type=str, default='Datasets/File_List/TSB-AD-M-Tuning.csv')
     parser.add_argument('--save_dir', type=str, default='eval/HP_tuning/multi/')
-    parser.add_argument('--AD_Name', type=str, default='TSPulse2')
+    parser.add_argument('--AD_Name', type=str, default='MAD')
     args = parser.parse_args()
 
     os.makedirs(args.save_dir, exist_ok=True)

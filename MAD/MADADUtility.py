@@ -14,7 +14,7 @@ from tsfm_public.models.tspulse.modeling_tspulse import \
 from tsfm_public.models.tspulse.utils.ad_helpers import TSPulseADUtility
 
 
-class TSPulse2ADUtility(TSPulseADUtility):
+class MADADUtility(TSPulseADUtility):
     def __init__(
         self,
         model: TSPulseForReconstruction,

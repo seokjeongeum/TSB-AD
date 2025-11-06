@@ -1,28 +1,13 @@
 #!/bin/bash
 #=========================================================================================
-# Slurm SBATCH Directives for TSAD Benchmarking
+# TSAD Benchmarking Script
 #
 # This script runs a specific set of TSPulse ZS algorithms for standard benchmarks
-# and for a multi-as-uni evaluation. It uses a Slurm job array to execute
-# a job for each algorithm-dataset-type combination.
-#=========================================================================================
+# and for a multi-as-uni evaluation.
 #
-#SBATCH --job-name=TSAD_TSPULSE_COMBO
-#SBATCH --output=slurm_logs/%A_%x_%a.out      # Unique log for each task
-#SBATCH --error=slurm_logs/%A_%x_%a.err       # Unique error log for each task
-
-# --- Resource Allocation ---
-# Adjust partition, QoS, and time as needed for your environment.
-#SBATCH --partition=A100-80GB
-#SBATCH --qos=hpgpu
-#SBATCH --time=3-00:00:00
-#SBATCH --gres=gpu:1
-
-# --- Job Array Configuration ---
-#SBATCH --array=1-24
-
-#=========================================================================================
-# HYPERPARAMETER & LOGIC BLOCK
+# Usage:
+#   export TASK_ID=1  # Optional: specify task ID (1-24), defaults to 1
+#   bash _c_reproduce_tspulse.sh
 #=========================================================================================
 
 # Exit immediately if a command exits with a non-zero status.
@@ -66,12 +51,23 @@ done
 
 
 # 3. Task-Specific Setup
-# Define Project Root from the submission directory first.
-# This script assumes you run `sbatch` from the top-level project directory.
-PROJECT_ROOT="$SLURM_SUBMIT_DIR"
+# Define Project Root - use current directory or parent if in MAD subdirectory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ "$(basename "$SCRIPT_DIR")" == "MAD" ]; then
+    PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+else
+    PROJECT_ROOT="$SCRIPT_DIR"
+fi
 
-# Each task in the array will select a unique parameter set.
-TASK_INDEX=$((SLURM_ARRAY_TASK_ID - 1))
+# Get task ID from environment variable or argument, default to 1
+TASK_ID="${TASK_ID:-${1:-1}}"
+if [ "$TASK_ID" -lt 1 ] || [ "$TASK_ID" -gt 24 ]; then
+    echo "ERROR: TASK_ID must be between 1 and 24 (got: $TASK_ID)"
+    exit 1
+fi
+
+# Each task will select a unique parameter set.
+TASK_INDEX=$((TASK_ID - 1))
 read -r -a CURRENT_PARAMS <<< "${PARAMS[$TASK_INDEX]}"
 
 CURRENT_RUN_TYPE=${CURRENT_PARAMS[0]}
@@ -101,30 +97,29 @@ elif [ "$CURRENT_RUN_TYPE" == "MU" ]; then
 fi
 
 # 4. Environment Setup
-echo "--- SLURM JOB ARRAY TASK START ---"
-echo "Job Name: $SLURM_JOB_NAME"
-echo "Array Job ID: $SLURM_ARRAY_JOB_ID"
-echo "Array Task ID: $SLURM_ARRAY_TASK_ID / $SLURM_ARRAY_TASK_COUNT"
+echo "--- JOB TASK START ---"
+echo "Task ID: $TASK_ID / 24"
 echo "Host: $(hostname)"
+echo "Project Root: $PROJECT_ROOT"
 echo "----------------------------------"
 
 # Add the project's root and granite-tsfm to Python's path.
 export PYTHONPATH="${PROJECT_ROOT}:${PROJECT_ROOT}/granite-tsfm:${PROJECT_ROOT}/granite-tsfm/notebooks/hfdemo/tspulse/anomaly_detection:${PYTHONPATH}"
 
-# Create slurm_logs in the project root.
-mkdir -p "${PROJECT_ROOT}/slurm_logs"
+# Create log directory in the project root.
+mkdir -p "${PROJECT_ROOT}/logs"
 
 # Change to the project root directory to run the script.
 cd "${PROJECT_ROOT}"
 
-# Activate your python environment.
-# Make sure the 'tsb-ad-env' conda environment is properly set up.
-module load cuda/11.8 conda-py39
-conda activate tsb-ad-env
+# Activate conda environment if available (optional)
+# Uncomment and modify if you need to use a specific conda environment:
+# conda activate tsb-ad-env
+# Or use system python if no conda environment is needed
 
 # 5. Execution
 echo "=========================================================="
-echo "Running Task ${SLURM_ARRAY_TASK_ID} with parameters:"
+echo "Running Task ${TASK_ID} with parameters:"
 echo "  Run Type: $CURRENT_RUN_TYPE"
 echo "  Algorithm: $CURRENT_AD_NAME"
 echo "  Script: $RUN_SCRIPT"
@@ -133,7 +128,7 @@ echo "  Score Dir: $SCORE_DIR"
 echo "  Save Dir: $SAVE_DIR"
 echo "=========================================================="
 # Command with explicit paths for all run types
-COMMAND="python -u \"${RUN_SCRIPT}\" \
+COMMAND="python3 -u \"${RUN_SCRIPT}\" \
   --AD_Name=\"${CURRENT_AD_NAME}\" \
   --dataset_dir=\"${DATA_DIR}\" \
   --file_lsit=\"${EVAL_FILE}\" \
@@ -146,10 +141,10 @@ eval "$COMMAND"
 
 # Check the exit code of the script
 if [ $? -ne 0 ]; then
-    echo "!!! Command failed for task $SLURM_ARRAY_TASK_ID. !!!"
+    echo "!!! Command failed for task $TASK_ID. !!!"
     exit 1
 fi
 
 echo "=========================================================="
-echo "Job Task $SLURM_ARRAY_TASK_ID finished successfully at: $(date)"
-echo "--- SLURM JOB ARRAY TASK END ---" 
+echo "Task $TASK_ID finished successfully at: $(date)"
+echo "--- JOB TASK END ---" 

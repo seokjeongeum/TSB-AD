@@ -22,7 +22,7 @@ TAO         0.4713193017342029 0.1136031942219324 0.9513356086104217 0.113601528
 Final Score (MULTI) [S1 - Best Head]: 0.36099730562284754
 
 
---> Scenario 1 detailed results saved to /home/seokjeongeum/TSB-AD/TSPulse2/analysis_multi_s1_details.csv
+--> Scenario 1 detailed results saved to /workspaces/MAD/MAD/analysis_multi_s1_details.csv
 DEBUG: Found parents for 5851 of 5851 files.
 DEBUG: Found groups for 5851 of 5851 files.
 DEBUG: Dropped 0 rows due to missing parent/group/channel info.
@@ -500,7 +500,7 @@ SMAP                                               0
 SMD                                               11
 SVDB                                            ECG1
 TAO                                            col-0
---> Scenario 2 detailed results saved to /home/seokjeongeum/TSB-AD/TSPulse2/analysis_multi_s2_details.csv
+--> Scenario 2 detailed results saved to /workspaces/MAD/MAD/analysis_multi_s2_details.csv
 
 --- Detailed Per-Series Results (Scenario 2) ---
                                                       parent        group                                  S2_strategy_or_channel  S2_VUS-PR  S2_ensemble    S2_fft  S2_forecast   S2_time
@@ -684,7 +684,7 @@ TAO                                            col-0
 177       198_Exathlon_id_25_Facility_tr_12538_1st_12638.csv     Exathlon                             Fallback-Multivariate (avg)   0.924584     0.950434  0.961339     0.827748  0.958813
 178       199_Exathlon_id_26_Facility_tr_12538_1st_12638.csv     Exathlon                             Fallback-Multivariate (avg)   0.924584     0.950434  0.961339     0.827748  0.958813
 179       200_Exathlon_id_27_Facility_tr_10766_1st_12590.csv     Exathlon  Best Channel (1-executor-threadpool-activeTasks-value)   0.994298     0.999337  0.999408     0.979061  0.999388
---> Scenario 2 detailed TUNING results saved to /home/seokjeongeum/TSB-AD/TSPulse2/analysis_multi_s2_tuning_details.csv
+--> Scenario 2 detailed TUNING results saved to /workspaces/MAD/MAD/analysis_multi_s2_tuning_details.csv
 
 --- Final Scores by Head ---
                 S2_Avg_Perf
@@ -713,7 +713,7 @@ SVDB                                 fft / ECG2
 TAO                            forecast / col-0
 Name: best_strategy, dtype: object
 --------------------------------------------------------------------------------
---> Scenario 3 detailed results saved to /home/seokjeongeum/TSB-AD/TSPulse2/analysis_multi_s3_details.csv
+--> Scenario 3 detailed results saved to /workspaces/MAD/MAD/analysis_multi_s3_details.csv
 
 Summary of Scenario 3: Final Scores by Fallback Head
                            score         diff_vs_s1

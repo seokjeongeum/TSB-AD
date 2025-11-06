@@ -154,8 +154,8 @@ def plot_anomaly_scores(file_basename, dataset_dir, score_dir, plot_dir, variant
             # Plot raw data
             ax1.plot(
                 time_series,
-                color="steelblue",
-                linewidth=1.5,
+                color="darkslategray",
+                linewidth=2.0,
                 label="Time Series Data",
                 zorder=1,
             )

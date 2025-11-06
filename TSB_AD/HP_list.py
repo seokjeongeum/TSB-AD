@@ -85,7 +85,7 @@ Multi_algo_HP_dict = {
     'OFA': {
         'win_size': [50, 100, 150]
     },
-    'TSPulse2': {
+    'MAD_ZS': {
         'n_components': [1,2,3,4],
     },
 }
@@ -124,75 +124,75 @@ Optimal_Multi_algo_HP_dict = {
     'TSPulse_FT_fft': {},
     'TSPulse_FT_forecast': {},
     'TSPulse_FT_time': {},
-    'TSPulse2': {
+    'MAD_ZS': {
         'use_llm_selection': True,
         'use_dimensionality_reduction': True,
         'n_components': 3,
         'prediction_mode': 'fft+forecast+time',
     },
-    'TSPulse2_dimensionality_reduction_ablated': {
+    'MAD_ZS_dim_redux_ablated': {
         'use_llm_selection': True,
         'use_dimensionality_reduction': False,
         'prediction_mode': 'fft+forecast+time',
     },
-    'TSPulse2_llm_selection_ablated_ensemble': {
+    'MAD_ZS_llm_selection_ablated_ensemble': {
         'use_llm_selection': False,
         'use_dimensionality_reduction': True,
         'n_components': 3,
         'prediction_mode': 'fft+forecast+time',
     },
-    'TSPulse2_llm_selection_ablated_fft': {
+    'MAD_ZS_llm_selection_ablated_fft': {
         'use_llm_selection': False,
         'use_dimensionality_reduction': True,
         'n_components': 3,
         'prediction_mode': 'fft',
     },
-    'TSPulse2_llm_selection_ablated_forecast': {
+    'MAD_ZS_llm_selection_ablated_forecast': {
         'use_llm_selection': False,
         'use_dimensionality_reduction': True,
         'n_components': 3,
         'prediction_mode': 'forecast',
     },
-    'TSPulse2_llm_selection_ablated_time': {
+    'MAD_ZS_llm_selection_ablated_time': {
         'use_llm_selection': False,
         'use_dimensionality_reduction': True,
         'n_components': 3,
         'prediction_mode': 'time',
     },
-    'TSPulse3': {
+    'MAD_all_heads_prompt': {
         'use_llm_selection': True,
         'use_dimensionality_reduction': True,
         'n_components': 3,
         'prediction_mode': 'fft+forecast+time',
     },
-    'TSPulse3_forecast_biased': {
+    'MAD_forecast_biased_prompt': {
         'use_llm_selection': True,
         'use_dimensionality_reduction': True,
         'n_components': 3,
         'prediction_mode': 'fft+forecast+time',
         'llm_few_shot_config': 'forecast_biased',
     },
-    'TSPulse3_non_forecast_biased': {
+    'MAD_non_forecast_biased_prompt': {
         'use_llm_selection': True,
         'use_dimensionality_reduction': True,
         'n_components': 3,
         'prediction_mode': 'fft+forecast+time',
         'llm_few_shot_config': 'non_forecast_biased',
     },
-    'TSPulse3_dim_redux_ablated': {
+    'MAD_all_heads_prompt_no_dim_redux': {
         'use_llm_selection': True,
         'use_dimensionality_reduction': False,
         'n_components': 3,
         'prediction_mode': 'fft+forecast+time',
     },
-    'TSPulse3_forecast_biased_dim_redux_ablated': {
+    'MAD_forecast_biased_prompt_no_dim_redux': {
         'use_llm_selection': True,
         'use_dimensionality_reduction': False,
         'n_components': 3,
         'prediction_mode': 'fft+forecast+time',
         'llm_few_shot_config': 'forecast_biased',
     },
-    'TSPulse3_non_forecast_biased_dim_redux_ablated': {
+    'MAD_non_forecast_biased_prompt_no_dim_redux': {
         'use_llm_selection': True,
         'use_dimensionality_reduction': False,
         'n_components': 3,
@@ -367,7 +367,7 @@ Optimal_Uni_algo_HP_dict = {
     'TSPulse_FT_fft': {},
     'TSPulse_FT_forecast': {},
     'TSPulse_FT_time': {},
-    'TSPulse2': {
+    'MAD_ZS': {
         'use_llm_selection': True,
         'prediction_mode': 'fft+forecast+time',
     },

@@ -7,7 +7,7 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from statsmodels.tsa.seasonal import STL
 
-from TSPulse2.TSPulse2Detector import TSPulse2Detector
+from MAD.MADDetector import MADDetector
 
 from .utils.slidingWindows import find_length_rank
 
@@ -41,18 +41,18 @@ Unsupervise_AD_Pool+= [
     "TSPulse_ZS_time",
     "TSPulse_ZS_fft",
     "TSPulse_ZS_forecast",
-    "TSPulse2",
-    "TSPulse2_dimensionality_reduction_ablated",
-    "TSPulse2_llm_selection_ablated_ensemble",
-    "TSPulse2_llm_selection_ablated_fft",
-    "TSPulse2_llm_selection_ablated_forecast",
-    "TSPulse2_llm_selection_ablated_time",
-    "TSPulse3",
-    "TSPulse3_forecast_biased",
-    "TSPulse3_non_forecast_biased",
-    "TSPulse3_dim_redux_ablated",
-    "TSPulse3_forecast_biased_dim_redux_ablated",
-    "TSPulse3_non_forecast_biased_dim_redux_ablated",
+    "MAD_ZS",
+    "MAD_ZS_dim_redux_ablated",
+    "MAD_ZS_llm_selection_ablated_ensemble",
+    "MAD_ZS_llm_selection_ablated_fft",
+    "MAD_ZS_llm_selection_ablated_forecast",
+    "MAD_ZS_llm_selection_ablated_time",
+    "MAD_all_heads_prompt",
+    "MAD_forecast_biased_prompt",
+    "MAD_non_forecast_biased_prompt",
+    "MAD_all_heads_prompt_no_dim_redux",
+    "MAD_forecast_biased_prompt_no_dim_redux",
+    "MAD_non_forecast_biased_prompt_no_dim_redux",
     "STL_AD",
 ]
 Semisupervise_AD_Pool+= [
@@ -512,13 +512,13 @@ def run_TSPulse_FT_time(data_train, data_test, **kwargs):
     return _run_tspulse_pipeline("time", data=data_test, data_train=data_train, finetune=True, **kwargs)
 
 
-def run_TSPulse2(data, **kwargs):
+def run_MAD_ZS(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
     prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
-    clf = TSPulse2Detector(
+    clf = MADDetector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
         num_input_channels=num_input_channels,
@@ -535,13 +535,13 @@ def run_TSPulse2(data, **kwargs):
     )
 
 
-def run_TSPulse2_dimensionality_reduction_ablated(data, **kwargs):
+def run_MAD_ZS_dim_redux_ablated(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
     prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
-    clf = TSPulse2Detector(
+    clf = MADDetector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
         num_input_channels=num_input_channels,
@@ -558,13 +558,13 @@ def run_TSPulse2_dimensionality_reduction_ablated(data, **kwargs):
     )
 
 
-def run_TSPulse2_llm_selection_ablated_ensemble(data, **kwargs):
+def run_MAD_ZS_llm_selection_ablated_ensemble(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
     prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
-    clf = TSPulse2Detector(
+    clf = MADDetector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
         num_input_channels=num_input_channels,
@@ -581,13 +581,13 @@ def run_TSPulse2_llm_selection_ablated_ensemble(data, **kwargs):
     )
 
 
-def run_TSPulse2_llm_selection_ablated_fft(data, **kwargs):
+def run_MAD_ZS_llm_selection_ablated_fft(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
     prediction_mode=kwargs.pop("prediction_mode", "fft")
-    clf = TSPulse2Detector(
+    clf = MADDetector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
         num_input_channels=num_input_channels,
@@ -604,13 +604,13 @@ def run_TSPulse2_llm_selection_ablated_fft(data, **kwargs):
     )
 
 
-def run_TSPulse2_llm_selection_ablated_forecast(data, **kwargs):
+def run_MAD_ZS_llm_selection_ablated_forecast(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
     prediction_mode=kwargs.pop("prediction_mode", "forecast")
-    clf = TSPulse2Detector(
+    clf = MADDetector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
         num_input_channels=num_input_channels,
@@ -628,13 +628,13 @@ def run_TSPulse2_llm_selection_ablated_forecast(data, **kwargs):
 
 
 
-def run_TSPulse2_llm_selection_ablated_time(data, **kwargs):
+def run_MAD_ZS_llm_selection_ablated_time(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
     prediction_mode=kwargs.pop("prediction_mode", "time")
-    clf = TSPulse2Detector(
+    clf = MADDetector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
         num_input_channels=num_input_channels,
@@ -650,13 +650,13 @@ def run_TSPulse2_llm_selection_ablated_time(data, **kwargs):
         .ravel()
     )
     
-def run_TSPulse3(data, **kwargs):
+def run_MAD_all_heads_prompt(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
     prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
-    clf = TSPulse2Detector(
+    clf = MADDetector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
         num_input_channels=num_input_channels,
@@ -673,13 +673,13 @@ def run_TSPulse3(data, **kwargs):
     )
 
 
-def run_TSPulse3_forecast_biased(data, **kwargs):
+def run_MAD_forecast_biased_prompt(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
     prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
-    clf = TSPulse2Detector(
+    clf = MADDetector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
         num_input_channels=num_input_channels,
@@ -696,13 +696,13 @@ def run_TSPulse3_forecast_biased(data, **kwargs):
     )
 
 
-def run_TSPulse3_non_forecast_biased(data, **kwargs):
+def run_MAD_non_forecast_biased_prompt(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
     prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
-    clf = TSPulse2Detector(
+    clf = MADDetector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
         num_input_channels=num_input_channels,
@@ -719,13 +719,13 @@ def run_TSPulse3_non_forecast_biased(data, **kwargs):
     )
 
 
-def run_TSPulse3_dim_redux_ablated(data, **kwargs):
+def run_MAD_all_heads_prompt_no_dim_redux(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
     prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
-    clf = TSPulse2Detector(
+    clf = MADDetector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
         num_input_channels=num_input_channels,
@@ -742,13 +742,13 @@ def run_TSPulse3_dim_redux_ablated(data, **kwargs):
     )
 
 
-def run_TSPulse3_forecast_biased_dim_redux_ablated(data, **kwargs):
+def run_MAD_forecast_biased_prompt_no_dim_redux(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
     prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
-    clf = TSPulse2Detector(
+    clf = MADDetector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
         num_input_channels=num_input_channels,
@@ -765,13 +765,13 @@ def run_TSPulse3_forecast_biased_dim_redux_ablated(data, **kwargs):
     )
 
 
-def run_TSPulse3_non_forecast_biased_dim_redux_ablated(data, **kwargs):
+def run_MAD_non_forecast_biased_prompt_no_dim_redux(data, **kwargs):
     if data.ndim == 1:
         num_input_channels = 1
     else:
         num_input_channels = data.shape[1]
     prediction_mode=kwargs.pop("prediction_mode", "forecast+time+fft")
-    clf = TSPulse2Detector(
+    clf = MADDetector(
         batch_size=kwargs.get("batch_size", 128),
         aggr_win_size=kwargs.get("aggr_win_size", 96),
         num_input_channels=num_input_channels,

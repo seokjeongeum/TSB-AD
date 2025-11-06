@@ -1,3 +1,13 @@
+"""
+Usage: Generates comparison plots/tables from consolidated CSVs under `MAD/comparison_results/`.
+
+Quick run (no long benchmarks):
+    python MAD/_e_compare_results.py
+
+Notes:
+- Default MAD corresponds to the few-shot variant with Mean VUS-PR ≈ 0.437.
+"""
+
 import glob
 import os
 from typing import Dict, Optional, Set, cast
@@ -361,7 +371,8 @@ def load_split_files(base_data_path: str, dataset_type: str) -> Dict[str, Set[st
 
 # --- Configuration ---
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-OUTPUT_DIR = os.path.join(PROJECT_ROOT, "comparison_results")
+# Save outputs under MAD/comparison_results (script-local), not project root
+OUTPUT_DIR = os.path.join(script_dir, "comparison_results")
 METRIC_TO_COMPARE = "VUS-PR"
 # Directories needed by analyze_model_strategies functions
 METRICS_ROOT_DIR = os.path.join(PROJECT_ROOT, "eval", "metrics")
@@ -553,7 +564,7 @@ def load_model_variant_results(
     model_name_prefix: str, metrics_dir: str, metric: str, split_files: dict
 ) -> pd.DataFrame:
     """
-    Loads all variant results for a given model prefix (e.g., TSPulse2),
+    Loads all variant results for a given model prefix (e.g., MAD),
     filtered to include only evaluation files.
     """
     print(f"\n--- Loading {model_name_prefix} Variant Results ---")
@@ -616,28 +627,28 @@ def load_model_variant_results(
     return merged_df
 
 
-def load_tspulse2_head_triangulation(
+def load_head_triangulation(
     metrics_dir: str, data_dir: str, metric: str, split_files: dict
 ) -> pd.DataFrame:
     """
-    Loads TSPulse2 variants and applies the 'best head' strategy for all 4 fallback heads.
+    Loads MAD variants and applies the 'best head' strategy for all 4 fallback heads.
     """
-    print("\n--- Loading TSPulse2 Head Triangulation Results ---")
+    print("\n--- Loading MAD Head Triangulation Results ---")
 
     triangulation_heads = [
-        "TSPulse2_llm_selection_ablated_fft",
-        "TSPulse2_llm_selection_ablated_time",
-        "TSPulse2_llm_selection_ablated_ensemble",
-        "TSPulse2_llm_selection_ablated_forecast",
+        "MAD_fixed_head_fft",
+        "MAD_fixed_head_time",
+        "MAD_fixed_head_ensemble",
+        "MAD_fixed_head_forecast",
     ]
     heads_to_load = {head: f"{head}.csv" for head in triangulation_heads}
 
     # Define fallback heads and their corresponding column names
     fallback_heads = {
-        "TSPulse2_llm_selection_ablated_ensemble": "TSPulse2Triangulation_ensemble",
-        "TSPulse2_llm_selection_ablated_fft": "TSPulse2Triangulation_fft",
-        "TSPulse2_llm_selection_ablated_forecast": "TSPulse2Triangulation_forecast",
-        "TSPulse2_llm_selection_ablated_time": "TSPulse2Triangulation_time",
+        "MAD_fixed_head_ensemble": "MADTriangulation_ensemble",
+        "MAD_fixed_head_fft": "MADTriangulation_fft",
+        "MAD_fixed_head_forecast": "MADTriangulation_forecast",
+        "MAD_fixed_head_time": "MADTriangulation_time",
     }
 
     all_results = []
@@ -645,7 +656,7 @@ def load_tspulse2_head_triangulation(
 
     # Run triangulation for each fallback head
     for fallback_head, column_name in fallback_heads.items():
-        print(f"Running TSPulse2 Head Triangulation with fallback '{fallback_head}'...")
+        print(f"Running MAD Head Triangulation with fallback '{fallback_head}'...")
         try:
             result = evaluate_best_head_strategy(
                 root_directory=metrics_dir,
@@ -653,7 +664,7 @@ def load_tspulse2_head_triangulation(
                 split_files=split_files,
                 dataset_type=ds_type,
                 heads_to_load=heads_to_load,
-                clean_filenames_flag=True,  # Enable cleaning for TSPulse2 files
+                clean_filenames_flag=True,  # Enable cleaning for MAD files
                 fallback_head=fallback_head,
             )
             if (
@@ -676,20 +687,20 @@ def load_tspulse2_head_triangulation(
                 all_results.append(detailed_df)
         except Exception as e:
             print(
-                f"Could not run TSPulse2 Head Triangulation with fallback '{fallback_head}': {e}"
+                f"Could not run MAD Head Triangulation with fallback '{fallback_head}': {e}"
             )
             continue
 
     if not all_results:
         print(
-            "Warning: Failed to get any TSPulse2 Head Triangulation results. Skipping."
+            "Warning: Failed to get any MAD Head Triangulation results. Skipping."
         )
         return pd.DataFrame()
 
     # Combine all results into a single DataFrame
     combined_df = pd.concat(all_results, axis=1, join="outer")
     print(
-        f"Successfully loaded TSPulse2 Head Triangulation results for {len(fallback_heads)} fallback heads."
+        f"Successfully loaded MAD Head Triangulation results for {len(fallback_heads)} fallback heads."
     )
     return combined_df
 
@@ -822,10 +833,10 @@ def generate_and_save_reports(
 
     # Add Series-Level Optimal score, which is the best score from a specific subset of algorithms
     oracle_heads = [
-        "TSPulse2_llm_selection_ablated_fft",
-        "TSPulse2_llm_selection_ablated_time",
-        "TSPulse2_llm_selection_ablated_ensemble",
-        "TSPulse2_llm_selection_ablated_forecast",
+        "MAD_fixed_head_fft",
+        "MAD_fixed_head_time",
+        "MAD_fixed_head_ensemble",
+        "MAD_fixed_head_forecast",
     ]
     valid_oracle_heads = [h for h in oracle_heads if h in scores_df.columns]
     if valid_oracle_heads:
@@ -858,11 +869,11 @@ def generate_and_save_reports(
 
     # Define columns that should come early in the preferred order
     base_preferred_order = [
-        "TSPulse3_non_forecast_biased",
-        "TSPulse2Triangulation_ensemble",
-        "TSPulse2Triangulation_fft",
-        "TSPulse2Triangulation_forecast",
-        "TSPulse2Triangulation_time",
+        "MAD",
+        "MADTriangulation_ensemble",
+        "MADTriangulation_fft",
+        "MADTriangulation_forecast",
+        "MADTriangulation_time",
         "Series-Level Optimal",
         "Best_Algo",
         "Best_Score",
@@ -881,7 +892,7 @@ def generate_and_save_reports(
     triangulation_head_cols = [
         col
         for col in summary_df.columns
-        if col.startswith("TSPulse2Triangulation_") and col.endswith("_Head")
+        if col.startswith("MADTriangulation_") and col.endswith("_Head")
     ]
 
     # Add all difference columns
@@ -970,8 +981,8 @@ def generate_and_save_reports(
     print(mean_scores_df.to_string(index=False, float_format="{:.16f}".format))  # type: ignore
 
     # --- 5. Perform and print statistical tests ---
-    print(f"\n--- Wilcoxon Signed-Rank Test vs. 'TSPulse3_non_forecast_biased' ({name.upper()}) ---")
-    wilcoxon_results = run_wilcoxon_tests(scores_df[score_cols], 'TSPulse3_non_forecast_biased')
+    print(f"\n--- Wilcoxon Signed-Rank Test vs. 'MAD' ({name.upper()}) ---")
+    wilcoxon_results = run_wilcoxon_tests(scores_df[score_cols], 'MAD')
     if wilcoxon_results:
         wilcoxon_df = pd.DataFrame.from_dict(wilcoxon_results, orient='index', columns=['p-value'])
         wilcoxon_df['Significant (p<0.05)'] = wilcoxon_df['p-value'] < 0.05
@@ -989,7 +1000,7 @@ def generate_strategy_comparison_plot(
 
     # 1. Determine the best triangulation algorithm from the results
     triangulation_cols = [
-        c for c in mean_scores_df["Algorithm"] if c.startswith("TSPulse2Triangulation_")
+        c for c in mean_scores_df["Algorithm"] if c.startswith("MADTriangulation_")
     ]
     best_triangulation_algo = None
     if triangulation_cols:
@@ -1003,12 +1014,13 @@ def generate_strategy_comparison_plot(
 
     # 2. Define the algorithms and their labels for the plot
     algorithms_to_plot = {
-        "TSPulse2_llm_selection_ablated_ensemble": "Static: Ensemble",
-        "TSPulse2_llm_selection_ablated_fft": "Static: FFT",
-        "TSPulse2_llm_selection_ablated_forecast": "Static: Forecast",
-        "TSPulse2_llm_selection_ablated_time": "Static: Time",
-        "TSPulse3_non_forecast_biased": "Ours (Few-Shot)",
-        "TSPulse2": "Ours (Zero-Shot)",
+        "MAD_llm_selection_ablated_ensemble": "Static: Ensemble",
+        "MAD_llm_selection_ablated_fft": "Static: FFT",
+        "MAD_llm_selection_ablated_forecast": "Static: Forecast",
+        "MAD_llm_selection_ablated_time": "Static: Time",
+        "MAD_ZS": "Ours (Zero-Shot)",
+        "MAD_all_heads_prompt": "all_heads_prompt",
+        "MAD": "Ours (Few-Shot)",
         "Series-Level Optimal": "Series-Level Optimal",
     }
     if best_triangulation_algo:
@@ -1087,16 +1099,19 @@ def analyze_dimensionality_reduction(
         print(
             "Warning: Evaluation file list is empty for dim-redux analysis. Skipping."
         )
-        return
+        return pd.DataFrame(), pd.DataFrame()
 
     # 2. Load and process results from the specific files for this analysis.
     all_dfs = []
-    main_results_file = os.path.join(
-        metrics_dir, "multi", "TSPulse3_non_forecast_biased.csv"
-    )
-    ablated_file_path = os.path.join(
-        metrics_dir, "multi", "TSPulse3_non_forecast_biased_dim_redux_ablated.csv"
-    )
+    # Prefer base MAD pair; do not fallback
+    base_main = os.path.join(metrics_dir, "multi", "MAD.csv")
+    base_abl = os.path.join(metrics_dir, "multi", "MAD_no_dim_redux.csv")
+
+    if os.path.exists(base_main) and os.path.exists(base_abl):
+        main_results_file, ablated_file_path = base_main, base_abl
+    else:
+        print("Warning: Base MAD dim-reduction files not found. Skipping analysis (no fallback).")
+        return pd.DataFrame(), pd.DataFrame()
 
     for file_path in [main_results_file, ablated_file_path]:
         if not os.path.exists(file_path):
@@ -1130,8 +1145,8 @@ def analyze_dimensionality_reduction(
             print(f"Error processing file {file_path}: {e}")
 
     if not all_dfs:
-        print("Warning: No valid TSPulse2 dataframes to merge for this analysis.")
-        return
+        print("Warning: No valid MAD dataframes to merge for this analysis.")
+        return pd.DataFrame(), pd.DataFrame()
 
     # 3. Combine, normalize, and create the per-file score dataframe.
     combined_df = pd.concat(all_dfs, ignore_index=True)
@@ -1235,12 +1250,9 @@ def main():
     )
     stl_scores = load_stl_ad_results(METRICS_ROOT_DIR, METRIC_TO_COMPARE, split_files)
     ts2_scores = load_model_variant_results(
-        "TSPulse2", METRICS_ROOT_DIR, METRIC_TO_COMPARE, split_files
+        "MAD", METRICS_ROOT_DIR, METRIC_TO_COMPARE, split_files
     )
-    ts3_scores = load_model_variant_results(
-        "TSPulse3", METRICS_ROOT_DIR, METRIC_TO_COMPARE, split_files
-    )
-    ts2_triangulation_scores = load_tspulse2_head_triangulation(
+    ts2_triangulation_scores = load_head_triangulation(
         METRICS_ROOT_DIR, DATA_ROOT_DIR, METRIC_TO_COMPARE, split_files
     )
 
@@ -1251,7 +1263,6 @@ def main():
         zs_scores,
         stl_scores,
         ts2_scores,
-        ts3_scores,
         ts2_triangulation_scores,
         zs_raw_scores,
     ]:
@@ -1293,16 +1304,16 @@ def main():
     fig, axes = plt.subplots(1, 3, figsize=(33, 8))
 
     # Plot 1: MAD Variant Comparison
-    tspulse3_variants = [
-        "TSPulse3_non_forecast_biased",
-        "TSPulse3_non_forecast_biased_dim_redux_ablated",
+    mad_variants = [
+        "MAD",
+        "MAD_no_dim_redux",
     ]
     specific_df = mean_scores_df[
-        mean_scores_df["Algorithm"].isin(tspulse3_variants)
+        mean_scores_df["Algorithm"].isin(mad_variants)
     ].copy()
     new_labels = {
-        "TSPulse3_non_forecast_biased": "Full",
-        "TSPulse3_non_forecast_biased_dim_redux_ablated": "Ablated",
+        "MAD": "Full",
+        "MAD_no_dim_redux": "Ablated",
     }
     specific_df["Algorithm"] = specific_df["Algorithm"].map(new_labels)
     specific_df.rename(columns={"Algorithm": "Model Variant"}, inplace=True)

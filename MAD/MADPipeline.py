@@ -18,7 +18,7 @@ from google import genai
 from google.genai import types
 from sklearn.preprocessing import MinMaxScaler
 
-from TSPulse2.TSPulse2ADUtility import TSPulse2ADUtility
+from MAD.MADADUtility import MADADUtility
 
 sys.path.insert(
     0,
@@ -35,7 +35,7 @@ from tsfm_public.toolkit.time_series_anomaly_detection_pipeline import (
     AggregationFunction, TimeSeriesAnomalyDetectionPipeline, score_smoothing)
 
 
-class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
+class MADPipeline(TimeSeriesAnomalyDetectionPipeline):
     def __init__(
         self,
         model: TSPulseForReconstruction,
@@ -56,7 +56,7 @@ class TSPulse2Pipeline(TimeSeriesAnomalyDetectionPipeline):
             probabilistic_processor=probabilistic_processor,
             **kwargs,
         )
-        self._model_processor = TSPulse2ADUtility(
+        self._model_processor = MADADUtility(
             model,
             mode=prediction_mode,
             aggregation_length=aggregation_length,
@@ -263,7 +263,7 @@ Otherwise, select 'forecast'.
 The available score methods are: {', '.join(scores_dict.keys())}.
 Which anomaly score is the best for channel '{target_channel_name}'?
 """
-        else:  # Default behavior for TSPulse2
+        else:  # Default behavior for MAD (all heads prompt)
             example_csvs = {
                 "forecast": [
                     "120_TAO_id_5_Environment_tr_500_1st_3-col-0.csv",
@@ -467,10 +467,10 @@ Which anomaly score is the best for channel '{target_channel_name}'?
         ):
             return {}
         load_dotenv()
-        # Use a separate API key for this pipeline, with a fallback to the general key
-        api_key = os.getenv("TSPulse_GEMINI_API_KEY", os.getenv("GEMINI_API_KEY"))
+        # Use Gemini API key for LMM-based head selection
+        api_key = os.getenv("GEMINI_API_KEY")
         logging.info(
-            f"Attempting to use separate Gemini API key for TSPulse... {api_key}"
+            f"Using Gemini API key for MAD... {api_key}"
         )
         client = genai.Client(
             api_key=api_key,

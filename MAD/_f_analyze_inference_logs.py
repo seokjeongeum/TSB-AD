@@ -11,8 +11,8 @@ from matplotlib.ticker import FuncFormatter
 
 # Define the log files to be analyzed with user-friendly names
 LOG_FILES_TO_ANALYZE = {
-    "Ablated": "eval/score/multi/TSPulse3_non_forecast_biased_dim_redux_ablated/000_run_TSPulse3_non_forecast_biased_dim_redux_ablated.log",
-    "Full": "eval/score/multi/TSPulse3_non_forecast_biased/000_run_TSPulse3_non_forecast_biased.log",
+    "Ablated": "eval/score/multi/MAD_no_dim_redux/000_run_MAD_no_dim_redux.log",
+    "Full": "eval/score/multi/MAD/000_run_MAD.log",
 }
 
 # Pricing for Gemini 2.5 Pro, per 1 million tokens, from the provided pricing page.
@@ -29,7 +29,7 @@ GEMINI_2_5_PRO_PRICING = {
     },
 }
 
-VALID_FILENAMES_PATH_PRIMARY = "Datasets/File_List/TSPulse2-M.csv"
+VALID_FILENAMES_PATH_PRIMARY = "Datasets/File_List/MAD-M.csv"
 VALID_FILENAMES_PATH_SECONDARY = "Datasets/File_List/TSB-AD-M-Eva.csv"
 
 # --- Core Logic ---

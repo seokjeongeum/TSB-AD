@@ -38,5 +38,5 @@ def find_best_hp(csv_path):
 
 
 if __name__ == "__main__":
-    csv_file = 'eval/HP_tuning/multi/TSPulse2.csv'
+    csv_file = 'eval/HP_tuning/multi/MAD.csv'
     find_best_hp(csv_file) 

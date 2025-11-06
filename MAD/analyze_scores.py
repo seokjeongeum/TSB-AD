@@ -173,7 +173,7 @@ def analyze_vus_pr_scores():
         print(f"An unexpected error occurred during best channel filtering: {e}")
 
     # Define the output path and save the consolidated dataframe to a CSV file
-    output_path = os.path.join("TSPulse2", "consolidated_vus_pr_scores.csv")
+    output_path = os.path.join("MAD", "consolidated_vus_pr_scores.csv")
     # Save the filtered dataframe for inspection
     consolidated_df.to_csv(output_path)
 

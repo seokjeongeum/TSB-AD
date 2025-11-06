@@ -687,14 +687,20 @@ def compute_best_head_and_channel_strategy(
             else:
                 # Fallback 1: Chan not present. Use best head from Scenario 1.
                 fallback_head = s1_best_head_map.get(group, "time")
-                score = all_multi_metrics.get(fallback_head, {}).get(parent_file, 0)
+                if fallback_head in all_multi_metrics:
+                    score = all_multi_metrics[fallback_head].get(parent_file, 0)
+                else:
+                    score = 0
                 strat = f"Fallback-S1 Best Head ({fallback_head})"
 
         else:
             # Fallback 2: Group is unknown. Use the specified fallback head.
-            score = all_multi_metrics.get(unknown_group_fallback_head, {}).get(
-                parent_file, 0
-            )
+            if unknown_group_fallback_head in all_multi_metrics:
+                score = all_multi_metrics[unknown_group_fallback_head].get(
+                    parent_file, 0
+                )
+            else:
+                score = 0
             strat = f"Fallback-Unknown Group ({unknown_group_fallback_head})"
 
         detailed_results.append(
@@ -1071,7 +1077,7 @@ if __name__ == "__main__":
                 metric=args.metric,
                 base_data_path=args.data_directory,
                 heads_to_load=zs_heads_only,
-                output_filename="TSPulse2-M.csv",
+                output_filename="MAD-M.csv",
             )
             exit()
 
